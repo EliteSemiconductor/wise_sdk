@@ -1,0 +1,482 @@
+/* Version : csr_table_pcrmu_20240118.xlsx (C1_sphynx_SOC_tc03)*/
+/* ================================================================================
+ */
+/* ================                     PCRMU_T ================ */
+/* ================================================================================
+ */
+#ifndef __PCRMU_REG_ER8130_H__
+#define __PCRMU_REG_ER8130_H__
+
+#include "cmsis/include/er8xxx.h"
+/**
+ * @brief PCRMU (PCRMU_T)
+ */
+
+typedef struct {                                           /*!< PCRMU_T Structure                                                          */
+  __IO uint32_t MCU_CLK_FAC_REG;                            /*!< MCU_CLK_FAC_REG Register (0x000)                                           */
+  __IO uint32_t PCLKG_DYN_GATED_REG;                        /*!< PCLKG_DYN_GATED_REG Register (0x004)                                       */
+  __IO uint32_t DYN_GATED_REG;                              /*!< DYN_GATED_REG Register (0x008)                                             */
+  __IO uint32_t XIP_CLK_FAC_REG;                            /*!< XIP_CLK_FAC_REG Register (0x00C)                                           */
+  __I  uint32_t RESERVED0[4];
+  __IO uint32_t CLK_SRC_32K_REG;                            /*!< CLK_SRC_32K_REG Register (0x020)                                           */
+  __I  uint32_t RESERVED1[7];
+  __IO uint32_t MODULE_CLK_GATE_REG;                        /*!< MODULE_CLK_GATE_REG Register (0x040)                                       */
+  __I  uint32_t RESERVED2[3];
+  __IO uint32_t BBP_CLK_REG;                                /*!< BBP_CLK_REG Register (0x050)                                               */
+  __I  uint32_t RESERVED3;
+  __IO uint32_t BBP_OP_REG;                                 /*!< BBP_OP_REG Register (0x058)                                                */
+  __I  uint32_t RESERVED4[9];
+  __IO uint32_t WARM_RESET_INFO;                            /*!< WARM_RESET_INFO Register (0x080)                                           */
+  __IO uint32_t LOCKUP_CTRL_REG;                            /*!< LOCKUP_CTRL_REG Register (0x084)                                           */
+  __O  uint32_t CHIP_SWRST_REG;                             /*!< CHIP_SWRST_REG Register (0x088)                                            */
+  __IO uint32_t BOD_CTRL_REG;                               /*!< BOD_CTRL_REG Register (0x08C)                                              */
+  __IO uint32_t WDOG_CTRL_REG;                              /*!< WDOG_CTRL_REG Register (0x090)                                             */
+  __IO uint32_t EXTRST_CTRL_REG;                            /*!< EXTRST_CTRL_REG Register (0x094)                                           */
+  __IO uint32_t SYSRST_CTRL_REG;                            /*!< SYSRST_CTRL_REG Register (0x098)                                           */
+  __I  uint32_t RESERVED5[9];
+  __IO uint32_t MODULE_SWRST_REG;                           /*!< MODULE_SWRST_REG Register (0x0C0)                                          */
+  __IO uint32_t MODULE_CORE_SWRST_REG;                      /*!< MODULE_CORE_SWRST_REG Register (0x0C4)                                     */
+  __I  uint32_t RESERVED6[14];
+  __IO uint32_t PMU_EN_REG;                                 /*!< PMU_EN_REG Register (0x100)                                                */
+  __IO uint32_t PMU_PD_REG;                                 /*!< PMU_PD_REG Register (0x104)                                                */
+  __I  uint32_t PMU_STS_REG;                                /*!< PMU_STS_REG Register (0x108)                                               */
+  __IO uint32_t PMU_TIM_REG;                                /*!< PMU_TIM_REG Register (0x10C)                                               */
+  __I  uint32_t RESERVED7;
+  __IO uint32_t MEM_MODE;                                   /*!< MEM_MODE Register (0x114)                                                  */
+  __IO uint32_t PMU_EN2_REG;                                /*!< PMU_EN2_REG Register (0x118)                                               */
+  __IO uint32_t PMU_CTL1_REG;                               /*!< PMU_CTL1_REG Register (0x11C)                                              */
+  __IO uint32_t PMU_ECO_REG;                                /*!< PMU_ECO_REG Register (0x120)                                               */
+  __I  uint32_t RESERVED8[55];
+  __IO uint32_t INT_ST;                                     /*!< INT_ST Register (0x200)                                                    */
+  __IO uint32_t INT_EN;                                     /*!< INT_EN Register (0x204)                                                    */
+  __I  uint32_t INT;                                        /*!< INT Register (0x208)                                                       */
+  __I  uint32_t RESERVED9[881];
+  __IO uint32_t LOCK;                                      /*!< LOCK Register (0xFD0)                                                      */
+  __I  uint32_t RESERVED10[3];
+  __I  uint32_t PERIPH_ID_LEN_REG;                          /*!< PERIPH_ID_LEN_REG Register (0xFE0)                                         */
+  __I  uint32_t RESERVED11[3];
+  __IO uint32_t PERIPH_ID_0_REG;                           /*!< PERIPH_ID_0_REG Register (0xFF0)                                           */
+  __IO uint32_t PERIPH_ID_1_REG;                           /*!< PERIPH_ID_1_REG Register (0xFF4)                                           */
+} PCRMU_T;
+
+#define PCRMU_MCU_CLK_FAC_REG_ADDR                         (uint32_t)&(PCRMU_BASE->MCU_CLK_FAC_REG)
+#define PCRMU_MCU_CLK_FAC_ADDR                             (uint32_t)&(PCRMU_BASE->MCU_CLK_FAC_REG)
+#define PCRMU_MCU_CLK_FAC_POS                              (0)      /*< bit[1:0]    */
+#define PCRMU_MCU_CLK_FAC_MASK                             (0x3ul << PCRMU_MCU_CLK_FAC_POS)
+
+#define PCRMU_PCLKG_DYN_GATED_REG_ADDR                     (uint32_t)&(PCRMU_BASE->PCLKG_DYN_GATED_REG)
+#define PCRMU_PCLKG_DYN_GATED_EN_ADDR                      (uint32_t)&(PCRMU_BASE->PCLKG_DYN_GATED_REG)
+#define PCRMU_PCLKG_DYN_GATED_EN_POS                       (0)      /*< bit[0]      */
+#define PCRMU_PCLKG_DYN_GATED_EN_MASK                      (0x1ul << PCRMU_PCLKG_DYN_GATED_EN_POS)
+
+#define PCRMU_DYN_GATED_REG_ADDR                           (uint32_t)&(PCRMU_BASE->DYN_GATED_REG)
+#define PCRMU_MODEM_DYN_GATED_EN_ADDR                      (uint32_t)&(PCRMU_BASE->DYN_GATED_REG)
+#define PCRMU_MODEM_DYN_GATED_EN_POS                       (0)      /*< bit[0]      */
+#define PCRMU_MODEM_DYN_GATED_EN_MASK                      (0x1ul << PCRMU_MODEM_DYN_GATED_EN_POS)
+#define PCRMU_ANCTL_DYN_GATED_EN_ADDR                      (uint32_t)&(PCRMU_BASE->DYN_GATED_REG)
+#define PCRMU_ANCTL_DYN_GATED_EN_POS                       (1)      /*< bit[1]      */
+#define PCRMU_ANCTL_DYN_GATED_EN_MASK                      (0x1ul << PCRMU_ANCTL_DYN_GATED_EN_POS)
+#define PCRMU_FLCTL_DYN_GATED_EN_ADDR                      (uint32_t)&(PCRMU_BASE->DYN_GATED_REG)
+#define PCRMU_FLCTL_DYN_GATED_EN_POS                       (2)      /*< bit[2]      */
+#define PCRMU_FLCTL_DYN_GATED_EN_MASK                      (0x1ul << PCRMU_FLCTL_DYN_GATED_EN_POS)
+
+#define PCRMU_XIP_CLK_FAC_REG_ADDR                         (uint32_t)&(PCRMU_BASE->XIP_CLK_FAC_REG)
+#define PCRMU_XIP_CLK_FAC_ADDR                             (uint32_t)&(PCRMU_BASE->XIP_CLK_FAC_REG)
+#define PCRMU_XIP_CLK_FAC_POS                              (0)      /*< bit[2:0]    */
+#define PCRMU_XIP_CLK_FAC_MASK                             (0x7ul << PCRMU_XIP_CLK_FAC_POS)
+
+#define PCRMU_CLK_SRC_32K_REG_ADDR                         (uint32_t)&(PCRMU_BASE->CLK_SRC_32K_REG)
+#define PCRMU_CLK_SRC_32K16K_ADDR                          (uint32_t)&(PCRMU_BASE->CLK_SRC_32K_REG)
+#define PCRMU_CLK_SRC_32K16K_POS                           (1)      /*< bit[1]      */
+#define PCRMU_CLK_SRC_32K16K_MASK                          (0x1ul << PCRMU_CLK_SRC_32K16K_POS)
+
+#define PCRMU_MODULE_CLK_GATE_REG_ADDR                     (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_DMA_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_DMA_CLK_EN_POS                               (0)      /*< bit[0]      */
+#define PCRMU_DMA_CLK_EN_MASK                              (0x1ul << PCRMU_DMA_CLK_EN_POS)
+#define PCRMU_AES_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_AES_CLK_EN_POS                               (1)      /*< bit[1]      */
+#define PCRMU_AES_CLK_EN_MASK                              (0x1ul << PCRMU_AES_CLK_EN_POS)
+#define PCRMU_SHA_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_SHA_CLK_EN_POS                               (2)      /*< bit[2]      */
+#define PCRMU_SHA_CLK_EN_MASK                              (0x1ul << PCRMU_SHA_CLK_EN_POS)
+#define PCRMU_TRNG_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_TRNG_CLK_EN_POS                              (3)      /*< bit[3]      */
+#define PCRMU_TRNG_CLK_EN_MASK                             (0x1ul << PCRMU_TRNG_CLK_EN_POS)
+#define PCRMU_UART0_CLK_EN_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_UART0_CLK_EN_POS                             (4)      /*< bit[4]      */
+#define PCRMU_UART0_CLK_EN_MASK                            (0x1ul << PCRMU_UART0_CLK_EN_POS)
+#define PCRMU_UART1_CLK_EN_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_UART1_CLK_EN_POS                             (5)      /*< bit[5]      */
+#define PCRMU_UART1_CLK_EN_MASK                            (0x1ul << PCRMU_UART1_CLK_EN_POS)
+#define PCRMU_UART2_CLK_EN_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_UART2_CLK_EN_POS                             (6)      /*< bit[6]      */
+#define PCRMU_UART2_CLK_EN_MASK                            (0x1ul << PCRMU_UART2_CLK_EN_POS)
+#define PCRMU_SPI0_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_SPI0_CLK_EN_POS                              (7)      /*< bit[7]      */
+#define PCRMU_SPI0_CLK_EN_MASK                             (0x1ul << PCRMU_SPI0_CLK_EN_POS)
+#define PCRMU_SPI1_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_SPI1_CLK_EN_POS                              (8)      /*< bit[8]      */
+#define PCRMU_SPI1_CLK_EN_MASK                             (0x1ul << PCRMU_SPI1_CLK_EN_POS)
+#define PCRMU_I2C0_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_I2C0_CLK_EN_POS                              (9)      /*< bit[9]      */
+#define PCRMU_I2C0_CLK_EN_MASK                             (0x1ul << PCRMU_I2C0_CLK_EN_POS)
+#define PCRMU_I2C1_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_I2C1_CLK_EN_POS                              (10)     /*< bit[10]     */
+#define PCRMU_I2C1_CLK_EN_MASK                             (0x1ul << PCRMU_I2C1_CLK_EN_POS)
+#define PCRMU_PWM_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_PWM_CLK_EN_POS                               (11)     /*< bit[11]     */
+#define PCRMU_PWM_CLK_EN_MASK                              (0x1ul << PCRMU_PWM_CLK_EN_POS)
+#define PCRMU_PWM_SLOW_CLK_EN_ADDR                         (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_PWM_SLOW_CLK_EN_POS                          (12)     /*< bit[12]     */
+#define PCRMU_PWM_SLOW_CLK_EN_MASK                         (0x1ul << PCRMU_PWM_SLOW_CLK_EN_POS)
+#define PCRMU_GPTMR0_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR0_CLK_EN_POS                            (13)     /*< bit[13]     */
+#define PCRMU_GPTMR0_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR0_CLK_EN_POS)
+#define PCRMU_GPTMR1_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR1_CLK_EN_POS                            (14)     /*< bit[14]     */
+#define PCRMU_GPTMR1_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR1_CLK_EN_POS)
+#define PCRMU_GPTMR2_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR2_CLK_EN_POS                            (15)     /*< bit[15]     */
+#define PCRMU_GPTMR2_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR2_CLK_EN_POS)
+#define PCRMU_GPTMR3_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR3_CLK_EN_POS                            (16)     /*< bit[16]     */
+#define PCRMU_GPTMR3_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR3_CLK_EN_POS)
+#define PCRMU_GPTMR4_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR4_CLK_EN_POS                            (17)     /*< bit[17]     */
+#define PCRMU_GPTMR4_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR4_CLK_EN_POS)
+#define PCRMU_GPTMR5_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_GPTMR5_CLK_EN_POS                            (18)     /*< bit[18]     */
+#define PCRMU_GPTMR5_CLK_EN_MASK                           (0x1ul << PCRMU_GPTMR5_CLK_EN_POS)
+#define PCRMU_IO_CTRL_CLK_EN_ADDR                          (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_IO_CTRL_CLK_EN_POS                           (19)     /*< bit[19]     */
+#define PCRMU_IO_CTRL_CLK_EN_MASK                          (0x1ul << PCRMU_IO_CTRL_CLK_EN_POS)
+#define PCRMU_WUTMR_CLK_EN_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_WUTMR_CLK_EN_POS                             (20)     /*< bit[20]     */
+#define PCRMU_WUTMR_CLK_EN_MASK                            (0x1ul << PCRMU_WUTMR_CLK_EN_POS)
+#define PCRMU_RTC_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_RTC_CLK_EN_POS                               (21)     /*< bit[21]     */
+#define PCRMU_RTC_CLK_EN_MASK                              (0x1ul << PCRMU_RTC_CLK_EN_POS)
+#define PCRMU_MAC_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_MAC_CLK_EN_POS                               (22)     /*< bit[22]     */
+#define PCRMU_MAC_CLK_EN_MASK                              (0x1ul << PCRMU_MAC_CLK_EN_POS)
+#define PCRMU_BBP_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_BBP_CLK_EN_POS                               (23)     /*< bit[23]     */
+#define PCRMU_BBP_CLK_EN_MASK                              (0x1ul << PCRMU_BBP_CLK_EN_POS)
+#define PCRMU_WDOG_CLK_EN_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_WDOG_CLK_EN_POS                              (25)     /*< bit[25]     */
+#define PCRMU_WDOG_CLK_EN_MASK                             (0x1ul << PCRMU_WDOG_CLK_EN_POS)
+#define PCRMU_NFC_CLK_EN_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_NFC_CLK_EN_POS                               (26)     /*< bit[26]     */
+#define PCRMU_NFC_CLK_EN_MASK                              (0x1ul << PCRMU_NFC_CLK_EN_POS)
+#define PCRMU_EFUCTL_CLK_EN_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_EFUCTL_CLK_EN_POS                            (27)     /*< bit[27]     */
+#define PCRMU_EFUCTL_CLK_EN_MASK                           (0x1ul << PCRMU_EFUCTL_CLK_EN_POS)
+#define PCRMU_ANCTL_CLK_EN_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_CLK_GATE_REG)
+#define PCRMU_ANCTL_CLK_EN_POS                             (28)     /*< bit[28]     */
+#define PCRMU_ANCTL_CLK_EN_MASK                            (0x1ul << PCRMU_ANCTL_CLK_EN_POS)
+
+#define PCRMU_BBP_CLK_REG_ADDR                             (uint32_t)&(PCRMU_BASE->BBP_CLK_REG)
+#define PCRMU_BBP_RATE_R1_ADDR                             (uint32_t)&(PCRMU_BASE->BBP_CLK_REG)
+#define PCRMU_BBP_RATE_R1_POS                              (0)      /*< bit[4:0]    */
+#define PCRMU_BBP_RATE_R1_MASK                             (0x1Ful << PCRMU_BBP_RATE_R1_POS)
+#define PCRMU_BBP_RATE_R2_ADDR                             (uint32_t)&(PCRMU_BASE->BBP_CLK_REG)
+#define PCRMU_BBP_RATE_R2_POS                              (8)      /*< bit[12:8]   */
+#define PCRMU_BBP_RATE_R2_MASK                             (0x1Ful << PCRMU_BBP_RATE_R2_POS)
+#define PCRMU_BBP_RATE_R3_ADDR                             (uint32_t)&(PCRMU_BASE->BBP_CLK_REG)
+#define PCRMU_BBP_RATE_R3_POS                              (16)     /*< bit[20:16]  */
+#define PCRMU_BBP_RATE_R3_MASK                             (0x1Ful << PCRMU_BBP_RATE_R3_POS)
+#define PCRMU_BBP_RATE_RM_ADDR                             (uint32_t)&(PCRMU_BASE->BBP_CLK_REG)
+#define PCRMU_BBP_RATE_RM_POS                              (24)     /*< bit[29:24]  */
+#define PCRMU_BBP_RATE_RM_MASK                             (0x3Ful << PCRMU_BBP_RATE_RM_POS)
+
+#define PCRMU_BBP_OP_REG_ADDR                              (uint32_t)&(PCRMU_BASE->BBP_OP_REG)
+#define PCRMU_BBP_PATH_F_ADDR                              (uint32_t)&(PCRMU_BASE->BBP_OP_REG)
+#define PCRMU_BBP_PATH_F_POS                               (0)      /*< bit[0]      */
+#define PCRMU_BBP_PATH_F_MASK                              (0x1ul << PCRMU_BBP_PATH_F_POS)
+#define PCRMU_BBP_AGC_CLK_SRC_ADDR                         (uint32_t)&(PCRMU_BASE->BBP_OP_REG)
+#define PCRMU_BBP_AGC_CLK_SRC_POS                          (1)      /*< bit[1]      */
+#define PCRMU_BBP_AGC_CLK_SRC_MASK                         (0x1ul << PCRMU_BBP_AGC_CLK_SRC_POS)
+
+#define PCRMU_WARM_RESET_INFO_ADDR                         (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_SYSRESETREQ_FLAG_ADDR                        (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_SYSRESETREQ_FLAG_POS                         (0)      /*< bit[0]      */
+#define PCRMU_SYSRESETREQ_FLAG_MASK                        (0x1ul << PCRMU_SYSRESETREQ_FLAG_POS)
+#define PCRMU_WDOG_RESET_FLAG_ADDR                         (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_WDOG_RESET_FLAG_POS                          (1)      /*< bit[1]      */
+#define PCRMU_WDOG_RESET_FLAG_MASK                         (0x1ul << PCRMU_WDOG_RESET_FLAG_POS)
+#define PCRMU_LOCKUP_RESET_FLAG_ADDR                       (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_LOCKUP_RESET_FLAG_POS                        (2)      /*< bit[2]      */
+#define PCRMU_LOCKUP_RESET_FLAG_MASK                       (0x1ul << PCRMU_LOCKUP_RESET_FLAG_POS)
+#define PCRMU_BOD_RESET_FLAG_ADDR                          (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_BOD_RESET_FLAG_POS                           (3)      /*< bit[3]      */
+#define PCRMU_BOD_RESET_FLAG_MASK                          (0x1ul << PCRMU_BOD_RESET_FLAG_POS)
+#define PCRMU_POR_RESET_FLAG_ADDR                          (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_POR_RESET_FLAG_POS                           (4)      /*< bit[4]      */
+#define PCRMU_POR_RESET_FLAG_MASK                          (0x1ul << PCRMU_POR_RESET_FLAG_POS)
+#define PCRMU_CHIP_RESET_FLAG_ADDR                         (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_CHIP_RESET_FLAG_POS                          (6)      /*< bit[6]      */
+#define PCRMU_CHIP_RESET_FLAG_MASK                         (0x1ul << PCRMU_CHIP_RESET_FLAG_POS)
+#define PCRMU_EXT_PMU_RESET_FLAG_ADDR                      (uint32_t)&(PCRMU_BASE->WARM_RESET_INFO)
+#define PCRMU_EXT_PMU_RESET_FLAG_POS                       (7)      /*< bit[7]      */
+#define PCRMU_EXT_PMU_RESET_FLAG_MASK                      (0x1ul << PCRMU_EXT_PMU_RESET_FLAG_POS)
+
+#define PCRMU_LOCKUP_CTRL_REG_ADDR                         (uint32_t)&(PCRMU_BASE->LOCKUP_CTRL_REG)
+#define PCRMU_LOCKUP_RESET_EN_ADDR                         (uint32_t)&(PCRMU_BASE->LOCKUP_CTRL_REG)
+#define PCRMU_LOCKUP_RESET_EN_POS                          (0)      /*< bit[0]      */
+#define PCRMU_LOCKUP_RESET_EN_MASK                         (0x1ul << PCRMU_LOCKUP_RESET_EN_POS)
+
+#define PCRMU_CHIP_SWRST_REG_ADDR                          (uint32_t)&(PCRMU_BASE->CHIP_SWRST_REG)
+#define PCRMU_W1T_CHIP_SWRST_ADDR                          (uint32_t)&(PCRMU_BASE->CHIP_SWRST_REG)
+#define PCRMU_W1T_CHIP_SWRST_POS                           (0)      /*< bit[0]      */
+#define PCRMU_W1T_CHIP_SWRST_MASK                          (0x1ul << PCRMU_W1T_CHIP_SWRST_POS)
+
+#define PCRMU_BOD_CTRL_REG_ADDR                            (uint32_t)&(PCRMU_BASE->BOD_CTRL_REG)
+#define PCRMU_BOD_RESET_EN_ADDR                            (uint32_t)&(PCRMU_BASE->BOD_CTRL_REG)
+#define PCRMU_BOD_RESET_EN_POS                             (0)      /*< bit[0]      */
+#define PCRMU_BOD_RESET_EN_MASK                            (0x1ul << PCRMU_BOD_RESET_EN_POS)
+#define PCRMU_BOD_DG_PERD_ADDR                             (uint32_t)&(PCRMU_BASE->BOD_CTRL_REG)
+#define PCRMU_BOD_DG_PERD_POS                              (8)      /*< bit[10:8]   */
+#define PCRMU_BOD_DG_PERD_MASK                             (0x7ul << PCRMU_BOD_DG_PERD_POS)
+#define PCRMU_BOD_DG_DIS_ADDR                              (uint32_t)&(PCRMU_BASE->BOD_CTRL_REG)
+#define PCRMU_BOD_DG_DIS_POS                               (15)     /*< bit[15]     */
+#define PCRMU_BOD_DG_DIS_MASK                              (0x1ul << PCRMU_BOD_DG_DIS_POS)
+#define PCRMU_BOD_RST_ST_ADDR                              (uint32_t)&(PCRMU_BASE->BOD_CTRL_REG)
+#define PCRMU_BOD_RST_ST_POS                               (16)     /*< bit[16]     */
+#define PCRMU_BOD_RST_ST_MASK                              (0x1ul << PCRMU_BOD_RST_ST_POS)
+
+#define PCRMU_WDOG_CTRL_REG_ADDR                           (uint32_t)&(PCRMU_BASE->WDOG_CTRL_REG)
+#define PCRMU_WDOG_RESET_CHIP_EN_ADDR                      (uint32_t)&(PCRMU_BASE->WDOG_CTRL_REG)
+#define PCRMU_WDOG_RESET_CHIP_EN_POS                       (0)      /*< bit[0]      */
+#define PCRMU_WDOG_RESET_CHIP_EN_MASK                      (0x1ul << PCRMU_WDOG_RESET_CHIP_EN_POS)
+
+#define PCRMU_EXTRST_CTRL_REG_ADDR                         (uint32_t)&(PCRMU_BASE->EXTRST_CTRL_REG)
+#define PCRMU_EXTRST_DG_PERD_ADDR                          (uint32_t)&(PCRMU_BASE->EXTRST_CTRL_REG)
+#define PCRMU_EXTRST_DG_PERD_POS                           (8)      /*< bit[10:8]   */
+#define PCRMU_EXTRST_DG_PERD_MASK                          (0x7ul << PCRMU_EXTRST_DG_PERD_POS)
+#define PCRMU_EXTRST_DG_DIS_ADDR                           (uint32_t)&(PCRMU_BASE->EXTRST_CTRL_REG)
+#define PCRMU_EXTRST_DG_DIS_POS                            (15)     /*< bit[15]     */
+#define PCRMU_EXTRST_DG_DIS_MASK                           (0x1ul << PCRMU_EXTRST_DG_DIS_POS)
+
+#define PCRMU_SYSRST_CTRL_REG_ADDR                         (uint32_t)&(PCRMU_BASE->SYSRST_CTRL_REG)
+#define PCRMU_SYSRST_IP_EN_ADDR                            (uint32_t)&(PCRMU_BASE->SYSRST_CTRL_REG)
+#define PCRMU_SYSRST_IP_EN_POS                             (0)      /*< bit[0]      */
+#define PCRMU_SYSRST_IP_EN_MASK                            (0x1ul << PCRMU_SYSRST_IP_EN_POS)
+
+#define PCRMU_MODULE_SWRST_REG_ADDR                        (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_DMA_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_DMA_SWRST_POS                                (0)      /*< bit[0]      */
+#define PCRMU_DMA_SWRST_MASK                               (0x1ul << PCRMU_DMA_SWRST_POS)
+#define PCRMU_AES_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_AES_SWRST_POS                                (1)      /*< bit[1]      */
+#define PCRMU_AES_SWRST_MASK                               (0x1ul << PCRMU_AES_SWRST_POS)
+#define PCRMU_SHA_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_SHA_SWRST_POS                                (2)      /*< bit[2]      */
+#define PCRMU_SHA_SWRST_MASK                               (0x1ul << PCRMU_SHA_SWRST_POS)
+#define PCRMU_TRNG_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_TRNG_SWRST_POS                               (3)      /*< bit[3]      */
+#define PCRMU_TRNG_SWRST_MASK                              (0x1ul << PCRMU_TRNG_SWRST_POS)
+#define PCRMU_UART0_SWRST_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_UART0_SWRST_POS                              (4)      /*< bit[4]      */
+#define PCRMU_UART0_SWRST_MASK                             (0x1ul << PCRMU_UART0_SWRST_POS)
+#define PCRMU_UART1_SWRST_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_UART1_SWRST_POS                              (5)      /*< bit[5]      */
+#define PCRMU_UART1_SWRST_MASK                             (0x1ul << PCRMU_UART1_SWRST_POS)
+#define PCRMU_UART2_SWRST_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_UART2_SWRST_POS                              (6)      /*< bit[6]      */
+#define PCRMU_UART2_SWRST_MASK                             (0x1ul << PCRMU_UART2_SWRST_POS)
+#define PCRMU_SPI0_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_SPI0_SWRST_POS                               (7)      /*< bit[7]      */
+#define PCRMU_SPI0_SWRST_MASK                              (0x1ul << PCRMU_SPI0_SWRST_POS)
+#define PCRMU_SPI1_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_SPI1_SWRST_POS                               (8)      /*< bit[8]      */
+#define PCRMU_SPI1_SWRST_MASK                              (0x1ul << PCRMU_SPI1_SWRST_POS)
+#define PCRMU_I2C0_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_I2C0_SWRST_POS                               (9)      /*< bit[9]      */
+#define PCRMU_I2C0_SWRST_MASK                              (0x1ul << PCRMU_I2C0_SWRST_POS)
+#define PCRMU_I2C1_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_I2C1_SWRST_POS                               (10)     /*< bit[10]     */
+#define PCRMU_I2C1_SWRST_MASK                              (0x1ul << PCRMU_I2C1_SWRST_POS)
+#define PCRMU_PWM_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_PWM_SWRST_POS                                (11)     /*< bit[11]     */
+#define PCRMU_PWM_SWRST_MASK                               (0x1ul << PCRMU_PWM_SWRST_POS)
+#define PCRMU_PWM_SLOW_SWRST_ADDR                          (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_PWM_SLOW_SWRST_POS                           (12)     /*< bit[12]     */
+#define PCRMU_PWM_SLOW_SWRST_MASK                          (0x1ul << PCRMU_PWM_SLOW_SWRST_POS)
+#define PCRMU_GPTMR0_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR0_SWRST_POS                             (13)     /*< bit[13]     */
+#define PCRMU_GPTMR0_SWRST_MASK                            (0x1ul << PCRMU_GPTMR0_SWRST_POS)
+#define PCRMU_GPTMR1_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR1_SWRST_POS                             (14)     /*< bit[14]     */
+#define PCRMU_GPTMR1_SWRST_MASK                            (0x1ul << PCRMU_GPTMR1_SWRST_POS)
+#define PCRMU_GPTMR2_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR2_SWRST_POS                             (15)     /*< bit[15]     */
+#define PCRMU_GPTMR2_SWRST_MASK                            (0x1ul << PCRMU_GPTMR2_SWRST_POS)
+#define PCRMU_GPTMR3_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR3_SWRST_POS                             (16)     /*< bit[16]     */
+#define PCRMU_GPTMR3_SWRST_MASK                            (0x1ul << PCRMU_GPTMR3_SWRST_POS)
+#define PCRMU_GPTMR4_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR4_SWRST_POS                             (17)     /*< bit[17]     */
+#define PCRMU_GPTMR4_SWRST_MASK                            (0x1ul << PCRMU_GPTMR4_SWRST_POS)
+#define PCRMU_GPTMR5_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_GPTMR5_SWRST_POS                             (18)     /*< bit[18]     */
+#define PCRMU_GPTMR5_SWRST_MASK                            (0x1ul << PCRMU_GPTMR5_SWRST_POS)
+#define PCRMU_IO_CTRL_SWRST_ADDR                           (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_IO_CTRL_SWRST_POS                            (19)     /*< bit[19]     */
+#define PCRMU_IO_CTRL_SWRST_MASK                           (0x1ul << PCRMU_IO_CTRL_SWRST_POS)
+#define PCRMU_WUTMR_SWRST_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_WUTMR_SWRST_POS                              (20)     /*< bit[20]     */
+#define PCRMU_WUTMR_SWRST_MASK                             (0x1ul << PCRMU_WUTMR_SWRST_POS)
+#define PCRMU_RTC_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_RTC_SWRST_POS                                (21)     /*< bit[21]     */
+#define PCRMU_RTC_SWRST_MASK                               (0x1ul << PCRMU_RTC_SWRST_POS)
+#define PCRMU_MAC_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_MAC_SWRST_POS                                (22)     /*< bit[22]     */
+#define PCRMU_MAC_SWRST_MASK                               (0x1ul << PCRMU_MAC_SWRST_POS)
+#define PCRMU_BBP_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_BBP_SWRST_POS                                (23)     /*< bit[23]     */
+#define PCRMU_BBP_SWRST_MASK                               (0x1ul << PCRMU_BBP_SWRST_POS)
+#define PCRMU_WDOG_SWRST_ADDR                              (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_WDOG_SWRST_POS                               (25)     /*< bit[25]     */
+#define PCRMU_WDOG_SWRST_MASK                              (0x1ul << PCRMU_WDOG_SWRST_POS)
+#define PCRMU_NFC_SWRST_ADDR                               (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_NFC_SWRST_POS                                (26)     /*< bit[26]     */
+#define PCRMU_NFC_SWRST_MASK                               (0x1ul << PCRMU_NFC_SWRST_POS)
+#define PCRMU_EFUCTL_SWRST_ADDR                            (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_EFUCTL_SWRST_POS                             (27)     /*< bit[27]     */
+#define PCRMU_EFUCTL_SWRST_MASK                            (0x1ul << PCRMU_EFUCTL_SWRST_POS)
+#define PCRMU_ANCTL_SWRST_ADDR                             (uint32_t)&(PCRMU_BASE->MODULE_SWRST_REG)
+#define PCRMU_ANCTL_SWRST_POS                              (28)     /*< bit[28]     */
+#define PCRMU_ANCTL_SWRST_MASK                             (0x1ul << PCRMU_ANCTL_SWRST_POS)
+
+#define PCRMU_MODULE_CORE_SWRST_REG_ADDR                   (uint32_t)&(PCRMU_BASE->MODULE_CORE_SWRST_REG)
+#define PCRMU_MAC_CORE_SWRST_ADDR                          (uint32_t)&(PCRMU_BASE->MODULE_CORE_SWRST_REG)
+#define PCRMU_MAC_CORE_SWRST_POS                           (22)     /*< bit[22]     */
+#define PCRMU_MAC_CORE_SWRST_MASK                          (0x1ul << PCRMU_MAC_CORE_SWRST_POS)
+#define PCRMU_BBP_CORE_SWRST_ADDR                          (uint32_t)&(PCRMU_BASE->MODULE_CORE_SWRST_REG)
+#define PCRMU_BBP_CORE_SWRST_POS                           (23)     /*< bit[23]     */
+#define PCRMU_BBP_CORE_SWRST_MASK                          (0x1ul << PCRMU_BBP_CORE_SWRST_POS)
+#define PCRMU_ANCTL_CORE_SWRST_ADDR                        (uint32_t)&(PCRMU_BASE->MODULE_CORE_SWRST_REG)
+#define PCRMU_ANCTL_CORE_SWRST_POS                         (28)     /*< bit[28]     */
+#define PCRMU_ANCTL_CORE_SWRST_MASK                        (0x1ul << PCRMU_ANCTL_CORE_SWRST_POS)
+
+#define PCRMU_PMU_EN_REG_ADDR                              (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_PMU_MCU_PD_EN_ADDR                           (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_PMU_MCU_PD_EN_POS                            (0)      /*< bit[0]      */
+#define PCRMU_PMU_MCU_PD_EN_MASK                           (0x1ul << PCRMU_PMU_MCU_PD_EN_POS)
+#define PCRMU_PMU_MEM_PD_EN_ADDR                           (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_PMU_MEM_PD_EN_POS                            (1)      /*< bit[1]      */
+#define PCRMU_PMU_MEM_PD_EN_MASK                           (0x1ul << PCRMU_PMU_MEM_PD_EN_POS)
+#define PCRMU_PMU_ANA_PD_EN_ADDR                           (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_PMU_ANA_PD_EN_POS                            (2)      /*< bit[2]      */
+#define PCRMU_PMU_ANA_PD_EN_MASK                           (0x1ul << PCRMU_PMU_ANA_PD_EN_POS)
+#define PCRMU_CACHE_RET1N_EN_ADDR                          (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_CACHE_RET1N_EN_POS                           (6)      /*< bit[6]      */
+#define PCRMU_CACHE_RET1N_EN_MASK                          (0x1ul << PCRMU_CACHE_RET1N_EN_POS)
+#define PCRMU_WUTMR_WU_MODEM_EN_ADDR                       (uint32_t)&(PCRMU_BASE->PMU_EN_REG)
+#define PCRMU_WUTMR_WU_MODEM_EN_POS                        (17)     /*< bit[17]     */
+#define PCRMU_WUTMR_WU_MODEM_EN_MASK                       (0x1ul << PCRMU_WUTMR_WU_MODEM_EN_POS)
+
+#define PCRMU_PMU_PD_REG_ADDR                              (uint32_t)&(PCRMU_BASE->PMU_PD_REG)
+#define PCRMU_PMU_MODEM_PD_ADDR                            (uint32_t)&(PCRMU_BASE->PMU_PD_REG)
+#define PCRMU_PMU_MODEM_PD_POS                             (0)      /*< bit[0]      */
+#define PCRMU_PMU_MODEM_PD_MASK                            (0x1ul << PCRMU_PMU_MODEM_PD_POS)
+
+#define PCRMU_PMU_STS_REG_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_STS_REG)
+#define PCRMU_PMU_MODEM_STS_ADDR                           (uint32_t)&(PCRMU_BASE->PMU_STS_REG)
+#define PCRMU_PMU_MODEM_STS_POS                            (0)      /*< bit[3:0]    */
+#define PCRMU_PMU_MODEM_STS_MASK                           (0xFul << PCRMU_PMU_MODEM_STS_POS)
+#define PCRMU_PMU_ANA_STS_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_STS_REG)
+#define PCRMU_PMU_ANA_STS_POS                              (16)     /*< bit[17:16]  */
+#define PCRMU_PMU_ANA_STS_MASK                             (0x3ul << PCRMU_PMU_ANA_STS_POS)
+#define PCRMU_PMU_MEM_STS_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_STS_REG)
+#define PCRMU_PMU_MEM_STS_POS                              (20)     /*< bit[21:20]  */
+#define PCRMU_PMU_MEM_STS_MASK                             (0x3ul << PCRMU_PMU_MEM_STS_POS)
+#define PCRMU_PMU_DIG_STS_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_STS_REG)
+#define PCRMU_PMU_DIG_STS_POS                              (24)     /*< bit[30:24]  */
+#define PCRMU_PMU_DIG_STS_MASK                             (0x7Ful << PCRMU_PMU_DIG_STS_POS)
+
+#define PCRMU_PMU_TIM_REG_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_TIM_REG)
+#define PCRMU_PMU_TIM_WPSW_ADDR                            (uint32_t)&(PCRMU_BASE->PMU_TIM_REG)
+#define PCRMU_PMU_TIM_WPSW_POS                             (8)      /*< bit[9:8]    */
+#define PCRMU_PMU_TIM_WPSW_MASK                            (0x3ul << PCRMU_PMU_TIM_WPSW_POS)
+
+#define PCRMU_MEM_MODE_ADDR                                (uint32_t)&(PCRMU_BASE->MEM_MODE)
+#define PCRMU_MEM_PD_MODE_ADDR                             (uint32_t)&(PCRMU_BASE->MEM_MODE)
+#define PCRMU_MEM_PD_MODE_POS                              (0)      /*< bit[1:0]    */
+#define PCRMU_MEM_PD_MODE_MASK                             (0x3ul << PCRMU_MEM_PD_MODE_POS)
+#define PCRMU_MEM2_PD_MODE_ADDR                            (uint32_t)&(PCRMU_BASE->MEM_MODE)
+#define PCRMU_MEM2_PD_MODE_POS                             (8)      /*< bit[9:8]    */
+#define PCRMU_MEM2_PD_MODE_MASK                            (0x3ul << PCRMU_MEM2_PD_MODE_POS)
+
+#define PCRMU_PMU_EN2_REG_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_EN2_REG)
+#define PCRMU_MODEM_PD_WI_CPU_ADDR                         (uint32_t)&(PCRMU_BASE->PMU_EN2_REG)
+#define PCRMU_MODEM_PD_WI_CPU_POS                          (9)      /*< bit[9]      */
+#define PCRMU_MODEM_PD_WI_CPU_MASK                         (0x1ul << PCRMU_MODEM_PD_WI_CPU_POS)
+#define PCRMU_MODEM_WU_WI_CPU_ADDR                         (uint32_t)&(PCRMU_BASE->PMU_EN2_REG)
+#define PCRMU_MODEM_WU_WI_CPU_POS                          (13)     /*< bit[13]     */
+#define PCRMU_MODEM_WU_WI_CPU_MASK                         (0x1ul << PCRMU_MODEM_WU_WI_CPU_POS)
+#define PCRMU_PMU_WUBY_NFC_ADDR                            (uint32_t)&(PCRMU_BASE->PMU_EN2_REG)
+#define PCRMU_PMU_WUBY_NFC_POS                             (24)     /*< bit[24]     */
+#define PCRMU_PMU_WUBY_NFC_MASK                            (0x1ul << PCRMU_PMU_WUBY_NFC_POS)
+
+#define PCRMU_PMU_CTL1_REG_ADDR                            (uint32_t)&(PCRMU_BASE->PMU_CTL1_REG)
+#define PCRMU_FCLK_40M_GATE_ADDR                           (uint32_t)&(PCRMU_BASE->PMU_CTL1_REG)
+#define PCRMU_FCLK_40M_GATE_POS                            (1)      /*< bit[1]      */
+#define PCRMU_FCLK_40M_GATE_MASK                           (0x1ul << PCRMU_FCLK_40M_GATE_POS)
+#define PCRMU_PMU_MODEM_BKUP_EN_ADDR                       (uint32_t)&(PCRMU_BASE->PMU_CTL1_REG)
+#define PCRMU_PMU_MODEM_BKUP_EN_POS                        (2)      /*< bit[2]      */
+#define PCRMU_PMU_MODEM_BKUP_EN_MASK                       (0x1ul << PCRMU_PMU_MODEM_BKUP_EN_POS)
+#define PCRMU_PMU_MODEM_BKUP_TIM_ADDR                      (uint32_t)&(PCRMU_BASE->PMU_CTL1_REG)
+#define PCRMU_PMU_MODEM_BKUP_TIM_POS                       (4)      /*< bit[10:4]   */
+#define PCRMU_PMU_MODEM_BKUP_TIM_MASK                      (0x7Ful << PCRMU_PMU_MODEM_BKUP_TIM_POS)
+#define PCRMU_PMU_MODEM_SPDUP_EN_ADDR                      (uint32_t)&(PCRMU_BASE->PMU_CTL1_REG)
+#define PCRMU_PMU_MODEM_SPDUP_EN_POS                       (16)     /*< bit[16]     */
+#define PCRMU_PMU_MODEM_SPDUP_EN_MASK                      (0x1ul << PCRMU_PMU_MODEM_SPDUP_EN_POS)
+
+#define PCRMU_PMU_ECO_REG_ADDR                             (uint32_t)&(PCRMU_BASE->PMU_ECO_REG)
+#define PCRMU_PMU_ECO_D0_ADDR                              (uint32_t)&(PCRMU_BASE->PMU_ECO_REG)
+#define PCRMU_PMU_ECO_D0_POS                               (0)      /*< bit[3:0]    */
+#define PCRMU_PMU_ECO_D0_MASK                              (0xFul << PCRMU_PMU_ECO_D0_POS)
+#define PCRMU_PMU_ECO_D1_ADDR                              (uint32_t)&(PCRMU_BASE->PMU_ECO_REG)
+#define PCRMU_PMU_ECO_D1_POS                               (4)      /*< bit[7:4]    */
+#define PCRMU_PMU_ECO_D1_MASK                              (0xFul << PCRMU_PMU_ECO_D1_POS)
+
+#define PCRMU_INT_ST_ADDR                                  (uint32_t)&(PCRMU_BASE->INT_ST)
+#define PCRMU_INT_ST_RMU_BOD_ADDR                          (uint32_t)&(PCRMU_BASE->INT_ST)
+#define PCRMU_INT_ST_RMU_BOD_POS                           (0)      /*< bit[0]      */
+#define PCRMU_INT_ST_RMU_BOD_MASK                          (0x1ul << PCRMU_INT_ST_RMU_BOD_POS)
+#define PCRMU_INT_ST_PMU_WUBY_NFC_ADDR                     (uint32_t)&(PCRMU_BASE->INT_ST)
+#define PCRMU_INT_ST_PMU_WUBY_NFC_POS                      (8)      /*< bit[8]      */
+#define PCRMU_INT_ST_PMU_WUBY_NFC_MASK                     (0x1ul << PCRMU_INT_ST_PMU_WUBY_NFC_POS)
+
+#define PCRMU_INT_EN_ADDR                                  (uint32_t)&(PCRMU_BASE->INT_EN)
+#define PCRMU_INT_EN_RMU_BOD_ADDR                          (uint32_t)&(PCRMU_BASE->INT_EN)
+#define PCRMU_INT_EN_RMU_BOD_POS                           (0)      /*< bit[0]      */
+#define PCRMU_INT_EN_RMU_BOD_MASK                          (0x1ul << PCRMU_INT_EN_RMU_BOD_POS)
+#define PCRMU_INT_EN_PMU_WUBY_NFC_ADDR                     (uint32_t)&(PCRMU_BASE->INT_EN)
+#define PCRMU_INT_EN_PMU_WUBY_NFC_POS                      (8)      /*< bit[8]      */
+#define PCRMU_INT_EN_PMU_WUBY_NFC_MASK                     (0x1ul << PCRMU_INT_EN_PMU_WUBY_NFC_POS)
+
+#define PCRMU_INT_ADDR                                     (uint32_t)&(PCRMU_BASE->INT)
+#define PCRMU_INT_RMU_BOD_ADDR                             (uint32_t)&(PCRMU_BASE->INT)
+#define PCRMU_INT_RMU_BOD_POS                              (0)      /*< bit[0]      */
+#define PCRMU_INT_RMU_BOD_MASK                             (0x1ul << PCRMU_INT_RMU_BOD_POS)
+#define PCRMU_INT_PMU_WUBY_NFC_ADDR                        (uint32_t)&(PCRMU_BASE->INT)
+#define PCRMU_INT_PMU_WUBY_NFC_POS                         (8)      /*< bit[8]      */
+#define PCRMU_INT_PMU_WUBY_NFC_MASK                        (0x1ul << PCRMU_INT_PMU_WUBY_NFC_POS)
+
+#define PCRMU_LOCK_ADDR                                    (uint32_t)&(PCRMU_BASE->LOCK)
+#define PCRMU_PERIPH_ID_LEN_REG_ADDR                       (uint32_t)&(PCRMU_BASE->PERIPH_ID_LEN_REG)
+#define PCRMU_PERIPH_ID_LEN_ADDR                           (uint32_t)&(PCRMU_BASE->PERIPH_ID_LEN_REG)
+#define PCRMU_PERIPH_ID_LEN_POS                            (0)      /*< bit[3:0]    */
+#define PCRMU_PERIPH_ID_LEN_MASK                           (0xFul << PCRMU_PERIPH_ID_LEN_POS)
+
+#define PCRMU_PERIPH_ID_0_REG_ADDR                         (uint32_t)&(PCRMU_BASE->PERIPH_ID_0_REG)
+#define PCRMU_PERIPH_ID_1_REG_ADDR                         (uint32_t)&(PCRMU_BASE->PERIPH_ID_1_REG)
+
+#define PCRMU_BASE ((PCRMU_T *)0x40009000UL)
+
+#define PCRMU ((PCRMU_T *)PCRMU_BASE)
+
+#endif

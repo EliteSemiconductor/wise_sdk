@@ -1,0 +1,26 @@
+var group___w_i_s_e___c_o_r_e___a_p_i =
+[
+    [ "WISE Utility APIs", "group___w_i_s_e___u_t_i_l.html", "group___w_i_s_e___u_t_i_l" ],
+    [ "WISE Core APIs", "group___w_i_s_e___c_o_r_e.html", "group___w_i_s_e___c_o_r_e" ],
+    [ "WISE Crypto APIs", "group___w_i_s_e___c_r_y_p_t_o.html", "group___w_i_s_e___c_r_y_p_t_o" ],
+    [ "EFUSE", "group___w_i_s_e___e_f_u_s_e.html", "group___w_i_s_e___e_f_u_s_e" ],
+    [ "WISE FIFO APIs", "group___w_i_s_e___f_i_f_o.html", "group___w_i_s_e___f_i_f_o" ],
+    [ "WISE Flash &amp; OTP APIs", "group___w_i_s_e___f_l_a_s_h.html", "group___w_i_s_e___f_l_a_s_h" ],
+    [ "WISE GPIO APIs", "group___w_i_s_e___g_p_i_o.html", "group___w_i_s_e___g_p_i_o" ],
+    [ "WISE GPTMR APIs", "group___w_i_s_e___g_p_t_m_r.html", "group___w_i_s_e___g_p_t_m_r" ],
+    [ "WISE I2C APIs", "group___w_i_s_e___i2_c.html", "group___w_i_s_e___i2_c" ],
+    [ "WISE NFC APIs", "group___w_i_s_e___n_f_c.html", "group___w_i_s_e___n_f_c" ],
+    [ "WISE PMU APIs", "group___w_i_s_e___p_m_u.html", "group___w_i_s_e___p_m_u" ],
+    [ "WISE PWM APIs", "group___w_i_s_e___p_w_m.html", "group___w_i_s_e___p_w_m" ],
+    [ "WISE Slow PWM APIs", "group___w_i_s_e___p_w_m_s_l_o_w.html", "group___w_i_s_e___p_w_m_s_l_o_w" ],
+    [ "WISE Radio APIs", "group___w_i_s_e___radio___a_p_is.html", "group___w_i_s_e___radio___a_p_is" ],
+    [ "WISE Radio WMbus APIs", "group___w_i_s_e___r_a_d_i_o___w_m_b_u_s___a_p_is.html", "group___w_i_s_e___r_a_d_i_o___w_m_b_u_s___a_p_is" ],
+    [ "WISE RTC APIs", "group___w_i_s_e___r_t_c.html", "group___w_i_s_e___r_t_c" ],
+    [ "WISE SPI APIs", "group___w_i_s_e___s_p_i.html", "group___w_i_s_e___s_p_i" ],
+    [ "WISE System APIs", "group___w_i_s_e___s_y_s.html", "group___w_i_s_e___s_y_s" ],
+    [ "WISE Tick APIs", "group___w_i_s_e___t_i_c_k.html", "group___w_i_s_e___t_i_c_k" ],
+    [ "WISE TRNG APIs", "group___w_i_s_e___t_r_n_g.html", "group___w_i_s_e___t_r_n_g" ],
+    [ "WISE UART APIs", "group___w_i_s_e___u_a_r_t.html", "group___w_i_s_e___u_a_r_t" ],
+    [ "WISE Watchdog Timer APIs", "group___w_i_s_e___w_d_t.html", "group___w_i_s_e___w_d_t" ],
+    [ "WISE Wake-Up Timer APIs", "group___w_i_s_e___w_u_t_m_r.html", "group___w_i_s_e___w_u_t_m_r" ]
+];

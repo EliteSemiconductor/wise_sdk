@@ -1,0 +1,28 @@
+setmulticastname 'DEVICE_1'
+
+sprintf2 cmd 'spi init 0'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sprintf2 cmd 'spi master open 0'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sprintf2 cmd 'spi conf 0'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sendln  'spi init 0'
+mpause 500
+
+sendln 'spi slave open 0'
+mpause 500
+
+sprintf2 cmd 'spi m2s_usercmd 0 0xA0'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sprintf2 cmd 'spi m2s_read 0 0x20'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+; End of script

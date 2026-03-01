@@ -1,0 +1,37 @@
+var group___w_i_s_e___p_m_u =
+[
+    [ "wise_pmu_api.h", "wise__pmu__api_8h.html", null ],
+    [ "WISE_MODULE_T", "group___w_i_s_e___p_m_u.html#gaaf4ccbbe8143a801060d4ba87c8efe7e", [
+      [ "E_WISE_MOD_DMA", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eab68aa2bbb5073c7f620daac269980259", null ],
+      [ "E_WISE_MOD_AES", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea452680473fad792c9037263f8b1e27fd", null ],
+      [ "E_WISE_MOD_SHA", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eadbea5712c72575d37123aca2c43aec3e", null ],
+      [ "E_WISE_MOD_TRNG", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eac7228d9501821e837f2ad562e674df6e", null ],
+      [ "E_WISE_MOD_UART0", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eab4b1516d5d9af2891d40ffb97ac8379f", null ],
+      [ "E_WISE_MOD_UART1", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea5cc181ed3c87a43974adad59265469b2", null ],
+      [ "E_WISE_MOD_UART2", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eafb036e5de625497dcc55ec2251266367", null ],
+      [ "E_WISE_MOD_SPI0", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea1e92a1bbbd69f466eab28ade1688360a", null ],
+      [ "E_WISE_MOD_SPI1", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea25ac7091dea80abcefa117ad13b78ad2", null ],
+      [ "E_WISE_MOD_I2C0", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea0120b1f7cbe0aa761728609123871f5f", null ],
+      [ "E_WISE_MOD_I2C1", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea5971ed4cfc8690e9015ac9fda0516834", null ],
+      [ "E_WISE_MOD_PWM", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eaaafdb72b7ab5fa327a7ee666ea6eeec8", null ],
+      [ "E_WISE_MOD_PWM_SLOW", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea7250d5b996c59be21574c65a74093358", null ],
+      [ "E_WISE_MOD_GPTMR0", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea3f9bf97e1c2593c618cbba7d073a63a0", null ],
+      [ "E_WISE_MOD_GPTMR1", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea3edcfa1b44cf808ed1d180b66d22b21b", null ],
+      [ "E_WISE_MOD_GPTMR2", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea0c0c5b90cf398802503801feeddb36f8", null ],
+      [ "E_WISE_MOD_GPTMR3", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea41280d4a57e4052df4b7d715fb6e423a", null ],
+      [ "E_WISE_MOD_GPTMR4", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea78c0277b0b44a68d3eed373ba3dede1c", null ],
+      [ "E_WISE_MOD_GPTMR5", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eac2e97a1d317b3b13d7edb3677e36e5d2", null ],
+      [ "E_WISE_MOD_GPIO", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eaa6a01ec78093e0282bb3b077ac2035ec", null ],
+      [ "E_WISE_MOD_WUTMR", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eab8dfd764ba27c684a275e956bf99f80c", null ],
+      [ "E_WISE_MOD_RTC", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea7e84a251dfc9eca4a83e246ba52fd36d", null ],
+      [ "E_WISE_MOD_MAC", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea99a7454245e019160c4beb928622892e", null ],
+      [ "E_WISE_MOD_BBP", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea8da8bc7b9d78f26a9699aac89ac05021", null ],
+      [ "E_WISE_MOD_WDT", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eabb15eac2f36189e89daa25be73094ff8", null ],
+      [ "E_WISE_MOD_NFC", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7eab787bfc69f38139e0dce22fd7f11af80", null ],
+      [ "E_WISE_MOD_EFUSE", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea47258f536281baafd522119515e209be", null ],
+      [ "E_WISE_MOD_ANA", "group___w_i_s_e___p_m_u.html#ggaaf4ccbbe8143a801060d4ba87c8efe7ea314ed2dc31fa458c622b5b98899e48e0", null ]
+    ] ],
+    [ "wise_pmu_module_clk_disable", "group___w_i_s_e___p_m_u.html#ga3c771476a97e9233c8f18ca6b218b007", null ],
+    [ "wise_pmu_module_clk_enable", "group___w_i_s_e___p_m_u.html#ga40f575e0c9a52369a5ff2e6b987f18fe", null ],
+    [ "wise_pmu_module_clk_is_enabled", "group___w_i_s_e___p_m_u.html#ga24f861936de2cfa2a31702288aa69e25", null ]
+];

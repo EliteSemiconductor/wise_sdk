@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['xip_5fcache_5f1w_0',['XIP_CACHE_1W',['../group___w_i_s_e___f_l_a_s_h.html#gga28e2a261a1ee147765f569ad3883c2d9a30d5a45320fda2e47735e9675c7094ad',1,'wise_flash_api.h']]],
+  ['xip_5fcache_5f2w_1',['XIP_CACHE_2W',['../group___w_i_s_e___f_l_a_s_h.html#gga28e2a261a1ee147765f569ad3883c2d9adf285b889f96a1d96813fdcea0434440',1,'wise_flash_api.h']]],
+  ['xip_5fcache_5ft_2',['XIP_CACHE_T',['../group___w_i_s_e___f_l_a_s_h.html#ga28e2a261a1ee147765f569ad3883c2d9',1,'wise_flash_api.h']]],
+  ['xip_5fclk_5f1t_3',['XIP_CLK_1T',['../group___w_i_s_e___f_l_a_s_h.html#ggaf895c4d744d77ec51fa1c72e9b60be26a8f92c68f56ebb3b2c494cbd1e71d1835',1,'wise_flash_api.h']]],
+  ['xip_5fclk_5fhalf_5ft_4',['XIP_CLK_HALF_T',['../group___w_i_s_e___f_l_a_s_h.html#ggaf895c4d744d77ec51fa1c72e9b60be26a94b75590eb840ca2205db6cfb42d6400',1,'wise_flash_api.h']]],
+  ['xip_5fclock_5ft_5',['XIP_CLOCK_T',['../group___w_i_s_e___f_l_a_s_h.html#gaf895c4d744d77ec51fa1c72e9b60be26',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5f20m_6',['XIP_SPI_20M',['../group___w_i_s_e___f_l_a_s_h.html#ggabdff2c0db66a27a36091c81d9d03a31da7203376dcef232068f5e8e5fd2fad6f3',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5f40m_7',['XIP_SPI_40M',['../group___w_i_s_e___f_l_a_s_h.html#ggabdff2c0db66a27a36091c81d9d03a31da2a3d9d35c2d369d5ca5d28a3f608dde3',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fdual_8',['XIP_SPI_DUAL',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a4173b838aedea0832918281ab7fcd7e9',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fmode_5ft_9',['XIP_SPI_MODE_T',['../group___w_i_s_e___f_l_a_s_h.html#ga4ba90f61d6d819987f0611cdecdd9328',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fquad_10',['XIP_SPI_QUAD',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a5584eecf60b323e2e7d6e86b7dab35d8',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fsingle_11',['XIP_SPI_SINGLE',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a7d55198951b8fa440406b4bf9af83e52',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fspeed_5ft_12',['XIP_SPI_SPEED_T',['../group___w_i_s_e___f_l_a_s_h.html#gabdff2c0db66a27a36091c81d9d03a31d',1,'wise_flash_api.h']]],
+  ['xipcache_13',['xipCache',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a4a07cc1e12a58d19ba3e1a04194c1d36',1,'WISE_MSBI_INFO_T']]],
+  ['xipclock_14',['xipClock',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a3446b21cfea70ee6efb0c36d292a5a66',1,'WISE_MSBI_INFO_T']]],
+  ['xipspimode_15',['xipSpiMode',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#afb847541f2b5866bcdbba8475a9e2a5f',1,'WISE_MSBI_INFO_T']]],
+  ['xipspispeed_16',['xipSpiSpeed',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a371b81b0d16a6dbf731e20046c5daf06',1,'WISE_MSBI_INFO_T']]],
+  ['xshellqueue_17',['xShellQueue',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___f_r_e_e_r_t_o_s___c_l_i.html#ga084320a7b781cb02b65a1b20fa24f1fd',1,'demo_freeRTOS_main.c']]]
+];

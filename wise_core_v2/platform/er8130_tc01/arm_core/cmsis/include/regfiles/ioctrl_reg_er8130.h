@@ -1,0 +1,1497 @@
+/*
+ * Copyright (C) 2025 Elite Semiconductor Microelectronics Technology Inc
+ * All rights reserved.
+ *
+ */
+
+/* Version : csr_table_io_ctrl_xs_d1_20241101.xlsx */
+/* ================================================================================
+ */
+/* ================                    IOCTRL_T ================ */
+/* ================================================================================
+ */
+#ifndef __IOCTRL_REG_ER8130_H__
+#define __IOCTRL_REG_ER8130_H__
+
+#include "cmsis/include/er8xxx.h"
+/**
+ * @brief IOCTRL (IOCTRL_T)
+ */
+
+typedef struct {                   /*!< IOCTRL_T Structure                    */
+    __IO uint32_t GPIO_0_MODE_REG; /*!< GPIO_0_MODE_REG Register (0x000)  */
+    __IO uint32_t GPIO_1_MODE_REG; /*!< GPIO_1_MODE_REG Register (0x004)  */
+    __IO uint32_t GPIO_2_MODE_REG; /*!< GPIO_2_MODE_REG Register (0x008)  */
+    __IO uint32_t GPIO_3_MODE_REG; /*!< GPIO_3_MODE_REG Register (0x00C)  */
+    __IO uint32_t GPIO_4_MODE_REG; /*!< GPIO_4_MODE_REG Register (0x010)  */
+    __IO uint32_t GPIO_5_MODE_REG; /*!< GPIO_5_MODE_REG Register (0x014)  */
+    __IO uint32_t GPIO_6_MODE_REG; /*!< GPIO_6_MODE_REG Register (0x018)  */
+    __IO uint32_t GPIO_7_MODE_REG; /*!< GPIO_7_MODE_REG Register (0x01C)  */
+    __IO uint32_t GPIO_8_MODE_REG; /*!< GPIO_8_MODE_REG Register (0x020)  */
+    __IO uint32_t GPIO_9_MODE_REG; /*!< GPIO_9_MODE_REG Register (0x024)  */
+    __IO uint32_t GPIO_10_MODE_REG; /*!< GPIO_10_MODE_REG Register (0x028) */
+    __IO uint32_t GPIO_11_MODE_REG; /*!< GPIO_11_MODE_REG Register (0x02C) */
+    __IO uint32_t GPIO_12_MODE_REG; /*!< GPIO_12_MODE_REG Register (0x030) */
+    __IO uint32_t GPIO_13_MODE_REG; /*!< GPIO_13_MODE_REG Register (0x034) */
+    __IO uint32_t GPIO_14_MODE_REG; /*!< GPIO_14_MODE_REG Register (0x038) */
+    __IO uint32_t GPIO_15_MODE_REG; /*!< GPIO_15_MODE_REG Register (0x03C) */
+    __I uint32_t RESERVED0[16];
+    __IO uint32_t GPIO_OE_REG;       /*!< GPIO_OE_REG Register (0x080)       */
+    __IO uint32_t GPIO_DO_REG;       /*!< GPIO_DO_REG Register (0x084)       */
+    __IO uint32_t GPIO_DO_WMASK_REG; /*!< GPIO_DO_WMASK_REG Register (0x088) */
+    __I uint32_t GPIO_DI_REG;        /*!< GPIO_DI_REG Register (0x08C)        */
+    __IO uint32_t GPIO_IE_REG;       /*!< GPIO_IE_REG Register (0x090)       */
+    __I uint32_t RESERVED1[2];
+    __IO uint32_t GPIO_DEBS_REG; /*!< GPIO_DEBS_REG Register (0x09C) */
+    __IO uint32_t GPIO_DS_REG0;  /*!< GPIO_DS_REG0 Register (0x0A0)  */
+    __I uint32_t RESERVED2;
+    __IO uint32_t GPIO_SMT_REG;    /*!< GPIO_SMT_REG Register (0x0A8)    */
+    __IO uint32_t GPIO_PUSEL_REG0; /*!< GPIO_PUSEL_REG0 Register (0x0AC) */
+    __I uint32_t RESERVED3;
+    __IO uint32_t
+        GPIO_TRIG_TYPE_REG; /*!< GPIO_TRIG_TYPE_REG Register (0x0B4)       */
+    __IO uint32_t GPIO_RHIEN_REG; /*!< GPIO_RHIEN_REG Register (0x0B8) */
+    __IO uint32_t GPIO_FLIEN_REG; /*!< GPIO_FLIEN_REG Register (0x0BC) */
+    __IO uint32_t
+        GPIO_INT_ENABLE_REG; /*!< GPIO_INT_ENABLE_REG Register (0x0C0) */
+    __IO uint32_t
+        GPIO_RAW_INT_STATUS_REG; /*!< GPIO_RAW_INT_STATUS_REG Register
+                                              (0x0C4) */
+    __I uint32_t GPIO_MASKED_INT_STATUS_REG; /*!< GPIO_MASKED_INT_STATUS_REG
+                                                Register (0x0C8) */
+    __I uint32_t RESERVED4[77];
+    __IO uint32_t PWM_SLOW_SEL_REG; /*!< PWM_SLOW_SEL_REG Register (0x200) */
+    __I uint32_t RESERVED5[3];
+    __IO uint32_t PWM_0_SEL_REG; /*!< PWM_0_SEL_REG Register (0x210) */
+    __IO uint32_t PWM_1_SEL_REG; /*!< PWM_1_SEL_REG Register (0x214) */
+    __IO uint32_t PWM_2_SEL_REG; /*!< PWM_2_SEL_REG Register (0x218) */
+    __IO uint32_t PWM_3_SEL_REG; /*!< PWM_3_SEL_REG Register (0x21C) */
+    __IO uint32_t PWM_4_SEL_REG; /*!< PWM_4_SEL_REG Register (0x220) */
+    __IO uint32_t PWM_5_SEL_REG; /*!< PWM_5_SEL_REG Register (0x224) */
+    __I uint32_t RESERVED6[54];
+    __IO uint32_t
+        GPTMR_0_EXT_IN_SEL_REG; /*!< GPTMR_0_EXT_IN_SEL_REG Register (0x300) */
+    __IO uint32_t
+        GPTMR_1_EXT_IN_SEL_REG; /*!< GPTMR_1_EXT_IN_SEL_REG Register (0x304) */
+    __IO uint32_t
+        GPTMR_2_EXT_IN_SEL_REG; /*!< GPTMR_2_EXT_IN_SEL_REG Register (0x308) */
+    __IO uint32_t
+        GPTMR_3_EXT_IN_SEL_REG; /*!< GPTMR_3_EXT_IN_SEL_REG Register (0x30C) */
+    __IO uint32_t
+        GPTMR_4_EXT_IN_SEL_REG; /*!< GPTMR_4_EXT_IN_SEL_REG Register (0x310) */
+    __IO uint32_t
+        GPTMR_5_EXT_IN_SEL_REG; /*!< GPTMR_5_EXT_IN_SEL_REG Register (0x314) */
+    __I uint32_t RESERVED7[58];
+    __IO uint32_t GPIO_DEBS_CFG_REG; /*!< GPIO_DEBS_CFG_REG Register (0x400) */
+    __I uint32_t RESERVED8[383];
+    __IO uint32_t DIO_0_DBG_NUM_REG; /*!< DIO_0_DBG_NUM_REG Register (0xA00) */
+    __IO uint32_t DIO_1_DBG_NUM_REG; /*!< DIO_1_DBG_NUM_REG Register (0xA04) */
+    __IO uint32_t DIO_2_DBG_NUM_REG; /*!< DIO_2_DBG_NUM_REG Register (0xA08) */
+    __IO uint32_t DIO_3_DBG_NUM_REG; /*!< DIO_3_DBG_NUM_REG Register (0xA0C) */
+    __IO uint32_t DIO_4_DBG_NUM_REG; /*!< DIO_4_DBG_NUM_REG Register (0xA10) */
+    __IO uint32_t DIO_5_DBG_NUM_REG; /*!< DIO_5_DBG_NUM_REG Register (0xA14) */
+    __IO uint32_t DIO_6_DBG_NUM_REG; /*!< DIO_6_DBG_NUM_REG Register (0xA18) */
+    __IO uint32_t DIO_7_DBG_NUM_REG; /*!< DIO_7_DBG_NUM_REG Register (0xA1C) */
+    __IO uint32_t DIO_8_DBG_NUM_REG; /*!< DIO_8_DBG_NUM_REG Register (0xA20) */
+    __IO uint32_t DIO_9_DBG_NUM_REG; /*!< DIO_9_DBG_NUM_REG Register (0xA24) */
+    __IO uint32_t
+        DIO_10_DBG_NUM_REG; /*!< DIO_10_DBG_NUM_REG Register (0xA28) */
+    __IO uint32_t
+        DIO_11_DBG_NUM_REG; /*!< DIO_11_DBG_NUM_REG Register (0xA2C) */
+    __IO uint32_t
+        DIO_12_DBG_NUM_REG; /*!< DIO_12_DBG_NUM_REG Register (0xA30) */
+    __IO uint32_t
+        DIO_13_DBG_NUM_REG; /*!< DIO_13_DBG_NUM_REG Register (0xA34) */
+    __IO uint32_t
+        DIO_14_DBG_NUM_REG; /*!< DIO_14_DBG_NUM_REG Register (0xA38) */
+    __IO uint32_t
+        DIO_15_DBG_NUM_REG;     /*!< DIO_15_DBG_NUM_REG Register (0xA3C)     */
+    __IO uint32_t ADC_CONV_REG; /*!< ADC_CONV_REG Register (0xA40) */
+    __I uint32_t RESERVED9[15];
+    __IO uint32_t GIO_CTL_REG; /*!< GIO_CTL_REG Register (0xA80) */
+    __I uint32_t RESERVED10[343];
+    __I uint32_t PERIPH_ID_LEN_REG; /*!< PERIPH_ID_LEN_REG Register (0xFE0) */
+    __I uint32_t RESERVED11[3];
+    __IO uint32_t PERIPH_ID_0_REG; /*!< PERIPH_ID_0_REG Register (0xFF0) */
+    __IO uint32_t PERIPH_ID_1_REG; /*!< PERIPH_ID_1_REG Register (0xFF4) */
+} IOCTRL_T;
+
+#define IOCTRL_GPIO_0_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_0_MODE_REG)
+#define IOCTRL_GPIO_0_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_0_MODE_REG)
+#define IOCTRL_GPIO_0_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_0_MODE_MASK (0x7ul << IOCTRL_GPIO_0_MODE_POS)
+
+#define IOCTRL_GPIO_1_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_1_MODE_REG)
+#define IOCTRL_GPIO_1_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_1_MODE_REG)
+#define IOCTRL_GPIO_1_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_1_MODE_MASK (0x7ul << IOCTRL_GPIO_1_MODE_POS)
+
+#define IOCTRL_GPIO_2_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_2_MODE_REG)
+#define IOCTRL_GPIO_2_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_2_MODE_REG)
+#define IOCTRL_GPIO_2_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_2_MODE_MASK (0x7ul << IOCTRL_GPIO_2_MODE_POS)
+
+#define IOCTRL_GPIO_3_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_3_MODE_REG)
+#define IOCTRL_GPIO_3_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_3_MODE_REG)
+#define IOCTRL_GPIO_3_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_3_MODE_MASK (0x7ul << IOCTRL_GPIO_3_MODE_POS)
+
+#define IOCTRL_GPIO_4_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_4_MODE_REG)
+#define IOCTRL_GPIO_4_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_4_MODE_REG)
+#define IOCTRL_GPIO_4_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_4_MODE_MASK (0x7ul << IOCTRL_GPIO_4_MODE_POS)
+
+#define IOCTRL_GPIO_5_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_5_MODE_REG)
+#define IOCTRL_GPIO_5_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_5_MODE_REG)
+#define IOCTRL_GPIO_5_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_5_MODE_MASK (0x7ul << IOCTRL_GPIO_5_MODE_POS)
+
+#define IOCTRL_GPIO_6_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_6_MODE_REG)
+#define IOCTRL_GPIO_6_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_6_MODE_REG)
+#define IOCTRL_GPIO_6_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_6_MODE_MASK (0x7ul << IOCTRL_GPIO_6_MODE_POS)
+
+#define IOCTRL_GPIO_7_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_7_MODE_REG)
+#define IOCTRL_GPIO_7_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_7_MODE_REG)
+#define IOCTRL_GPIO_7_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_7_MODE_MASK (0x7ul << IOCTRL_GPIO_7_MODE_POS)
+
+#define IOCTRL_GPIO_8_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_8_MODE_REG)
+#define IOCTRL_GPIO_8_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_8_MODE_REG)
+#define IOCTRL_GPIO_8_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_8_MODE_MASK (0x7ul << IOCTRL_GPIO_8_MODE_POS)
+
+#define IOCTRL_GPIO_9_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_9_MODE_REG)
+#define IOCTRL_GPIO_9_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_9_MODE_REG)
+#define IOCTRL_GPIO_9_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_9_MODE_MASK (0x7ul << IOCTRL_GPIO_9_MODE_POS)
+
+#define IOCTRL_GPIO_10_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_10_MODE_REG)
+#define IOCTRL_GPIO_10_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_10_MODE_REG)
+#define IOCTRL_GPIO_10_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_10_MODE_MASK (0x7ul << IOCTRL_GPIO_10_MODE_POS)
+
+#define IOCTRL_GPIO_11_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_11_MODE_REG)
+#define IOCTRL_GPIO_11_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_11_MODE_REG)
+#define IOCTRL_GPIO_11_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_11_MODE_MASK (0x7ul << IOCTRL_GPIO_11_MODE_POS)
+
+#define IOCTRL_GPIO_12_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_12_MODE_REG)
+#define IOCTRL_GPIO_12_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_12_MODE_REG)
+#define IOCTRL_GPIO_12_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_12_MODE_MASK (0x7ul << IOCTRL_GPIO_12_MODE_POS)
+
+#define IOCTRL_GPIO_13_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_13_MODE_REG)
+#define IOCTRL_GPIO_13_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_13_MODE_REG)
+#define IOCTRL_GPIO_13_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_13_MODE_MASK (0x7ul << IOCTRL_GPIO_13_MODE_POS)
+
+#define IOCTRL_GPIO_14_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_14_MODE_REG)
+#define IOCTRL_GPIO_14_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_14_MODE_REG)
+#define IOCTRL_GPIO_14_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_14_MODE_MASK (0x7ul << IOCTRL_GPIO_14_MODE_POS)
+
+#define IOCTRL_GPIO_15_MODE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_15_MODE_REG)
+#define IOCTRL_GPIO_15_MODE_ADDR (uint32_t)&(IOCTRL->GPIO_15_MODE_REG)
+#define IOCTRL_GPIO_15_MODE_POS (0) /*< bit[2:0]    */
+#define IOCTRL_GPIO_15_MODE_MASK (0x7ul << IOCTRL_GPIO_15_MODE_POS)
+
+#define IOCTRL_GPIO_OE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_0_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_0_OE_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_OE_MASK (0x1ul << IOCTRL_GPIO_0_OE_POS)
+#define IOCTRL_GPIO_1_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_1_OE_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_OE_MASK (0x1ul << IOCTRL_GPIO_1_OE_POS)
+#define IOCTRL_GPIO_2_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_2_OE_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_OE_MASK (0x1ul << IOCTRL_GPIO_2_OE_POS)
+#define IOCTRL_GPIO_3_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_3_OE_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_OE_MASK (0x1ul << IOCTRL_GPIO_3_OE_POS)
+#define IOCTRL_GPIO_4_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_4_OE_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_OE_MASK (0x1ul << IOCTRL_GPIO_4_OE_POS)
+#define IOCTRL_GPIO_5_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_5_OE_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_OE_MASK (0x1ul << IOCTRL_GPIO_5_OE_POS)
+#define IOCTRL_GPIO_6_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_6_OE_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_OE_MASK (0x1ul << IOCTRL_GPIO_6_OE_POS)
+#define IOCTRL_GPIO_7_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_7_OE_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_OE_MASK (0x1ul << IOCTRL_GPIO_7_OE_POS)
+#define IOCTRL_GPIO_8_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_8_OE_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_OE_MASK (0x1ul << IOCTRL_GPIO_8_OE_POS)
+#define IOCTRL_GPIO_9_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_9_OE_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_OE_MASK (0x1ul << IOCTRL_GPIO_9_OE_POS)
+#define IOCTRL_GPIO_10_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_10_OE_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_OE_MASK (0x1ul << IOCTRL_GPIO_10_OE_POS)
+#define IOCTRL_GPIO_11_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_11_OE_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_OE_MASK (0x1ul << IOCTRL_GPIO_11_OE_POS)
+#define IOCTRL_GPIO_12_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_12_OE_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_OE_MASK (0x1ul << IOCTRL_GPIO_12_OE_POS)
+#define IOCTRL_GPIO_13_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_13_OE_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_OE_MASK (0x1ul << IOCTRL_GPIO_13_OE_POS)
+#define IOCTRL_GPIO_14_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_14_OE_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_OE_MASK (0x1ul << IOCTRL_GPIO_14_OE_POS)
+#define IOCTRL_GPIO_15_OE_ADDR (uint32_t)&(IOCTRL->GPIO_OE_REG)
+#define IOCTRL_GPIO_15_OE_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_OE_MASK (0x1ul << IOCTRL_GPIO_15_OE_POS)
+
+#define IOCTRL_GPIO_DO_REG_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_0_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_0_DO_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_DO_MASK (0x1ul << IOCTRL_GPIO_0_DO_POS)
+#define IOCTRL_GPIO_1_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_1_DO_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_DO_MASK (0x1ul << IOCTRL_GPIO_1_DO_POS)
+#define IOCTRL_GPIO_2_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_2_DO_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_DO_MASK (0x1ul << IOCTRL_GPIO_2_DO_POS)
+#define IOCTRL_GPIO_3_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_3_DO_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_DO_MASK (0x1ul << IOCTRL_GPIO_3_DO_POS)
+#define IOCTRL_GPIO_4_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_4_DO_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_DO_MASK (0x1ul << IOCTRL_GPIO_4_DO_POS)
+#define IOCTRL_GPIO_5_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_5_DO_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_DO_MASK (0x1ul << IOCTRL_GPIO_5_DO_POS)
+#define IOCTRL_GPIO_6_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_6_DO_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_DO_MASK (0x1ul << IOCTRL_GPIO_6_DO_POS)
+#define IOCTRL_GPIO_7_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_7_DO_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_DO_MASK (0x1ul << IOCTRL_GPIO_7_DO_POS)
+#define IOCTRL_GPIO_8_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_8_DO_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_DO_MASK (0x1ul << IOCTRL_GPIO_8_DO_POS)
+#define IOCTRL_GPIO_9_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_9_DO_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_DO_MASK (0x1ul << IOCTRL_GPIO_9_DO_POS)
+#define IOCTRL_GPIO_10_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_10_DO_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_DO_MASK (0x1ul << IOCTRL_GPIO_10_DO_POS)
+#define IOCTRL_GPIO_11_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_11_DO_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_DO_MASK (0x1ul << IOCTRL_GPIO_11_DO_POS)
+#define IOCTRL_GPIO_12_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_12_DO_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_DO_MASK (0x1ul << IOCTRL_GPIO_12_DO_POS)
+#define IOCTRL_GPIO_13_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_13_DO_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_DO_MASK (0x1ul << IOCTRL_GPIO_13_DO_POS)
+#define IOCTRL_GPIO_14_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_14_DO_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_DO_MASK (0x1ul << IOCTRL_GPIO_14_DO_POS)
+#define IOCTRL_GPIO_15_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_REG)
+#define IOCTRL_GPIO_15_DO_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_DO_MASK (0x1ul << IOCTRL_GPIO_15_DO_POS)
+
+#define IOCTRL_GPIO_DO_WMASK_REG_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_0_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_0_DO_POS (0) /*< bit[0]      */
+#define IOCTRL_WMASK_GPIO_0_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_0_DO_POS)
+#define IOCTRL_WMASK_GPIO_1_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_1_DO_POS (1) /*< bit[1]      */
+#define IOCTRL_WMASK_GPIO_1_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_1_DO_POS)
+#define IOCTRL_WMASK_GPIO_2_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_2_DO_POS (2) /*< bit[2]      */
+#define IOCTRL_WMASK_GPIO_2_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_2_DO_POS)
+#define IOCTRL_WMASK_GPIO_3_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_3_DO_POS (3) /*< bit[3]      */
+#define IOCTRL_WMASK_GPIO_3_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_3_DO_POS)
+#define IOCTRL_WMASK_GPIO_4_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_4_DO_POS (4) /*< bit[4]      */
+#define IOCTRL_WMASK_GPIO_4_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_4_DO_POS)
+#define IOCTRL_WMASK_GPIO_5_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_5_DO_POS (5) /*< bit[5]      */
+#define IOCTRL_WMASK_GPIO_5_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_5_DO_POS)
+#define IOCTRL_WMASK_GPIO_6_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_6_DO_POS (6) /*< bit[6]      */
+#define IOCTRL_WMASK_GPIO_6_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_6_DO_POS)
+#define IOCTRL_WMASK_GPIO_7_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_7_DO_POS (7) /*< bit[7]      */
+#define IOCTRL_WMASK_GPIO_7_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_7_DO_POS)
+#define IOCTRL_WMASK_GPIO_8_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_8_DO_POS (8) /*< bit[8]      */
+#define IOCTRL_WMASK_GPIO_8_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_8_DO_POS)
+#define IOCTRL_WMASK_GPIO_9_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_9_DO_POS (9) /*< bit[9]      */
+#define IOCTRL_WMASK_GPIO_9_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_9_DO_POS)
+#define IOCTRL_WMASK_GPIO_10_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_10_DO_POS (10) /*< bit[10]     */
+#define IOCTRL_WMASK_GPIO_10_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_10_DO_POS)
+#define IOCTRL_WMASK_GPIO_11_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_11_DO_POS (11) /*< bit[11]     */
+#define IOCTRL_WMASK_GPIO_11_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_11_DO_POS)
+#define IOCTRL_WMASK_GPIO_12_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_12_DO_POS (12) /*< bit[12]     */
+#define IOCTRL_WMASK_GPIO_12_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_12_DO_POS)
+#define IOCTRL_WMASK_GPIO_13_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_13_DO_POS (13) /*< bit[13]     */
+#define IOCTRL_WMASK_GPIO_13_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_13_DO_POS)
+#define IOCTRL_WMASK_GPIO_14_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_14_DO_POS (14) /*< bit[14]     */
+#define IOCTRL_WMASK_GPIO_14_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_14_DO_POS)
+#define IOCTRL_WMASK_GPIO_15_DO_ADDR (uint32_t)&(IOCTRL->GPIO_DO_WMASK_REG)
+#define IOCTRL_WMASK_GPIO_15_DO_POS (15) /*< bit[15]     */
+#define IOCTRL_WMASK_GPIO_15_DO_MASK (0x1ul << IOCTRL_WMASK_GPIO_15_DO_POS)
+
+#define IOCTRL_GPIO_DI_REG_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_0_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_0_DI_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_DI_MASK (0x1ul << IOCTRL_GPIO_0_DI_POS)
+#define IOCTRL_GPIO_1_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_1_DI_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_DI_MASK (0x1ul << IOCTRL_GPIO_1_DI_POS)
+#define IOCTRL_GPIO_2_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_2_DI_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_DI_MASK (0x1ul << IOCTRL_GPIO_2_DI_POS)
+#define IOCTRL_GPIO_3_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_3_DI_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_DI_MASK (0x1ul << IOCTRL_GPIO_3_DI_POS)
+#define IOCTRL_GPIO_4_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_4_DI_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_DI_MASK (0x1ul << IOCTRL_GPIO_4_DI_POS)
+#define IOCTRL_GPIO_5_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_5_DI_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_DI_MASK (0x1ul << IOCTRL_GPIO_5_DI_POS)
+#define IOCTRL_GPIO_6_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_6_DI_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_DI_MASK (0x1ul << IOCTRL_GPIO_6_DI_POS)
+#define IOCTRL_GPIO_7_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_7_DI_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_DI_MASK (0x1ul << IOCTRL_GPIO_7_DI_POS)
+#define IOCTRL_GPIO_8_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_8_DI_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_DI_MASK (0x1ul << IOCTRL_GPIO_8_DI_POS)
+#define IOCTRL_GPIO_9_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_9_DI_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_DI_MASK (0x1ul << IOCTRL_GPIO_9_DI_POS)
+#define IOCTRL_GPIO_10_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_10_DI_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_DI_MASK (0x1ul << IOCTRL_GPIO_10_DI_POS)
+#define IOCTRL_GPIO_11_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_11_DI_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_DI_MASK (0x1ul << IOCTRL_GPIO_11_DI_POS)
+#define IOCTRL_GPIO_12_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_12_DI_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_DI_MASK (0x1ul << IOCTRL_GPIO_12_DI_POS)
+#define IOCTRL_GPIO_13_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_13_DI_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_DI_MASK (0x1ul << IOCTRL_GPIO_13_DI_POS)
+#define IOCTRL_GPIO_14_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_14_DI_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_DI_MASK (0x1ul << IOCTRL_GPIO_14_DI_POS)
+#define IOCTRL_GPIO_15_DI_ADDR (uint32_t)&(IOCTRL->GPIO_DI_REG)
+#define IOCTRL_GPIO_15_DI_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_DI_MASK (0x1ul << IOCTRL_GPIO_15_DI_POS)
+
+#define IOCTRL_GPIO_IE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_0_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_0_IE_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_IE_MASK (0x1ul << IOCTRL_GPIO_0_IE_POS)
+#define IOCTRL_GPIO_1_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_1_IE_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_IE_MASK (0x1ul << IOCTRL_GPIO_1_IE_POS)
+#define IOCTRL_GPIO_2_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_2_IE_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_IE_MASK (0x1ul << IOCTRL_GPIO_2_IE_POS)
+#define IOCTRL_GPIO_3_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_3_IE_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_IE_MASK (0x1ul << IOCTRL_GPIO_3_IE_POS)
+#define IOCTRL_GPIO_4_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_4_IE_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_IE_MASK (0x1ul << IOCTRL_GPIO_4_IE_POS)
+#define IOCTRL_GPIO_5_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_5_IE_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_IE_MASK (0x1ul << IOCTRL_GPIO_5_IE_POS)
+#define IOCTRL_GPIO_6_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_6_IE_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_IE_MASK (0x1ul << IOCTRL_GPIO_6_IE_POS)
+#define IOCTRL_GPIO_7_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_7_IE_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_IE_MASK (0x1ul << IOCTRL_GPIO_7_IE_POS)
+#define IOCTRL_GPIO_8_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_8_IE_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_IE_MASK (0x1ul << IOCTRL_GPIO_8_IE_POS)
+#define IOCTRL_GPIO_9_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_9_IE_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_IE_MASK (0x1ul << IOCTRL_GPIO_9_IE_POS)
+#define IOCTRL_GPIO_10_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_10_IE_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_IE_MASK (0x1ul << IOCTRL_GPIO_10_IE_POS)
+#define IOCTRL_GPIO_11_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_11_IE_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_IE_MASK (0x1ul << IOCTRL_GPIO_11_IE_POS)
+#define IOCTRL_GPIO_12_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_12_IE_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_IE_MASK (0x1ul << IOCTRL_GPIO_12_IE_POS)
+#define IOCTRL_GPIO_13_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_13_IE_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_IE_MASK (0x1ul << IOCTRL_GPIO_13_IE_POS)
+#define IOCTRL_GPIO_14_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_14_IE_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_IE_MASK (0x1ul << IOCTRL_GPIO_14_IE_POS)
+#define IOCTRL_GPIO_15_IE_ADDR (uint32_t)&(IOCTRL->GPIO_IE_REG)
+#define IOCTRL_GPIO_15_IE_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_IE_MASK (0x1ul << IOCTRL_GPIO_15_IE_POS)
+
+#define IOCTRL_GPIO_DEBS_REG_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_0_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_0_DEBS_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_DEBS_MASK (0x1ul << IOCTRL_GPIO_0_DEBS_POS)
+#define IOCTRL_GPIO_1_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_1_DEBS_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_DEBS_MASK (0x1ul << IOCTRL_GPIO_1_DEBS_POS)
+#define IOCTRL_GPIO_2_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_2_DEBS_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_DEBS_MASK (0x1ul << IOCTRL_GPIO_2_DEBS_POS)
+#define IOCTRL_GPIO_3_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_3_DEBS_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_DEBS_MASK (0x1ul << IOCTRL_GPIO_3_DEBS_POS)
+#define IOCTRL_GPIO_4_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_4_DEBS_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_DEBS_MASK (0x1ul << IOCTRL_GPIO_4_DEBS_POS)
+#define IOCTRL_GPIO_5_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_5_DEBS_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_DEBS_MASK (0x1ul << IOCTRL_GPIO_5_DEBS_POS)
+#define IOCTRL_GPIO_6_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_6_DEBS_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_DEBS_MASK (0x1ul << IOCTRL_GPIO_6_DEBS_POS)
+#define IOCTRL_GPIO_7_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_7_DEBS_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_DEBS_MASK (0x1ul << IOCTRL_GPIO_7_DEBS_POS)
+#define IOCTRL_GPIO_8_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_8_DEBS_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_DEBS_MASK (0x1ul << IOCTRL_GPIO_8_DEBS_POS)
+#define IOCTRL_GPIO_9_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_9_DEBS_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_DEBS_MASK (0x1ul << IOCTRL_GPIO_9_DEBS_POS)
+#define IOCTRL_GPIO_10_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_10_DEBS_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_DEBS_MASK (0x1ul << IOCTRL_GPIO_10_DEBS_POS)
+#define IOCTRL_GPIO_11_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_11_DEBS_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_DEBS_MASK (0x1ul << IOCTRL_GPIO_11_DEBS_POS)
+#define IOCTRL_GPIO_12_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_12_DEBS_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_DEBS_MASK (0x1ul << IOCTRL_GPIO_12_DEBS_POS)
+#define IOCTRL_GPIO_13_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_13_DEBS_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_DEBS_MASK (0x1ul << IOCTRL_GPIO_13_DEBS_POS)
+#define IOCTRL_GPIO_14_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_14_DEBS_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_DEBS_MASK (0x1ul << IOCTRL_GPIO_14_DEBS_POS)
+#define IOCTRL_GPIO_15_DEBS_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_REG)
+#define IOCTRL_GPIO_15_DEBS_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_DEBS_MASK (0x1ul << IOCTRL_GPIO_15_DEBS_POS)
+
+#define IOCTRL_GPIO_DS_REG0_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_0_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_0_DS_POS (0) /*< bit[1:0]    */
+#define IOCTRL_GPIO_0_DS_MASK (0x3ul << IOCTRL_GPIO_0_DS_POS)
+#define IOCTRL_GPIO_1_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_1_DS_POS (2) /*< bit[3:2]    */
+#define IOCTRL_GPIO_1_DS_MASK (0x3ul << IOCTRL_GPIO_1_DS_POS)
+#define IOCTRL_GPIO_2_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_2_DS_POS (4) /*< bit[5:4]    */
+#define IOCTRL_GPIO_2_DS_MASK (0x3ul << IOCTRL_GPIO_2_DS_POS)
+#define IOCTRL_GPIO_3_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_3_DS_POS (6) /*< bit[7:6]    */
+#define IOCTRL_GPIO_3_DS_MASK (0x3ul << IOCTRL_GPIO_3_DS_POS)
+#define IOCTRL_GPIO_4_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_4_DS_POS (8) /*< bit[9:8]    */
+#define IOCTRL_GPIO_4_DS_MASK (0x3ul << IOCTRL_GPIO_4_DS_POS)
+#define IOCTRL_GPIO_5_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_5_DS_POS (10) /*< bit[11:10]  */
+#define IOCTRL_GPIO_5_DS_MASK (0x3ul << IOCTRL_GPIO_5_DS_POS)
+#define IOCTRL_GPIO_6_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_6_DS_POS (12) /*< bit[13:12]  */
+#define IOCTRL_GPIO_6_DS_MASK (0x3ul << IOCTRL_GPIO_6_DS_POS)
+#define IOCTRL_GPIO_7_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_7_DS_POS (14) /*< bit[15:14]  */
+#define IOCTRL_GPIO_7_DS_MASK (0x3ul << IOCTRL_GPIO_7_DS_POS)
+#define IOCTRL_GPIO_8_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_8_DS_POS (16) /*< bit[17:16]  */
+#define IOCTRL_GPIO_8_DS_MASK (0x3ul << IOCTRL_GPIO_8_DS_POS)
+#define IOCTRL_GPIO_9_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_9_DS_POS (18) /*< bit[19:18]  */
+#define IOCTRL_GPIO_9_DS_MASK (0x3ul << IOCTRL_GPIO_9_DS_POS)
+#define IOCTRL_GPIO_10_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_10_DS_POS (20) /*< bit[21:20]  */
+#define IOCTRL_GPIO_10_DS_MASK (0x3ul << IOCTRL_GPIO_10_DS_POS)
+#define IOCTRL_GPIO_11_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_11_DS_POS (22) /*< bit[23:22]  */
+#define IOCTRL_GPIO_11_DS_MASK (0x3ul << IOCTRL_GPIO_11_DS_POS)
+#define IOCTRL_GPIO_12_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_12_DS_POS (24) /*< bit[25:24]  */
+#define IOCTRL_GPIO_12_DS_MASK (0x3ul << IOCTRL_GPIO_12_DS_POS)
+#define IOCTRL_GPIO_13_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_13_DS_POS (26) /*< bit[27:26]  */
+#define IOCTRL_GPIO_13_DS_MASK (0x3ul << IOCTRL_GPIO_13_DS_POS)
+#define IOCTRL_GPIO_14_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_14_DS_POS (28) /*< bit[29:28]  */
+#define IOCTRL_GPIO_14_DS_MASK (0x3ul << IOCTRL_GPIO_14_DS_POS)
+#define IOCTRL_GPIO_15_DS_ADDR (uint32_t)&(IOCTRL->GPIO_DS_REG0)
+#define IOCTRL_GPIO_15_DS_POS (30) /*< bit[31:30]  */
+#define IOCTRL_GPIO_15_DS_MASK (0x3ul << IOCTRL_GPIO_15_DS_POS)
+
+#define IOCTRL_GPIO_SMT_REG_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_0_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_0_SMT_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SMT_MASK (0x1ul << IOCTRL_GPIO_0_SMT_POS)
+#define IOCTRL_GPIO_1_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_1_SMT_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SMT_MASK (0x1ul << IOCTRL_GPIO_1_SMT_POS)
+#define IOCTRL_GPIO_2_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_2_SMT_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SMT_MASK (0x1ul << IOCTRL_GPIO_2_SMT_POS)
+#define IOCTRL_GPIO_3_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_3_SMT_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SMT_MASK (0x1ul << IOCTRL_GPIO_3_SMT_POS)
+#define IOCTRL_GPIO_4_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_4_SMT_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SMT_MASK (0x1ul << IOCTRL_GPIO_4_SMT_POS)
+#define IOCTRL_GPIO_5_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_5_SMT_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SMT_MASK (0x1ul << IOCTRL_GPIO_5_SMT_POS)
+#define IOCTRL_GPIO_6_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_6_SMT_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SMT_MASK (0x1ul << IOCTRL_GPIO_6_SMT_POS)
+#define IOCTRL_GPIO_7_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_7_SMT_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SMT_MASK (0x1ul << IOCTRL_GPIO_7_SMT_POS)
+#define IOCTRL_GPIO_8_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_8_SMT_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SMT_MASK (0x1ul << IOCTRL_GPIO_8_SMT_POS)
+#define IOCTRL_GPIO_9_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_9_SMT_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SMT_MASK (0x1ul << IOCTRL_GPIO_9_SMT_POS)
+#define IOCTRL_GPIO_10_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_10_SMT_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SMT_MASK (0x1ul << IOCTRL_GPIO_10_SMT_POS)
+#define IOCTRL_GPIO_11_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_11_SMT_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SMT_MASK (0x1ul << IOCTRL_GPIO_11_SMT_POS)
+#define IOCTRL_GPIO_12_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_12_SMT_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SMT_MASK (0x1ul << IOCTRL_GPIO_12_SMT_POS)
+#define IOCTRL_GPIO_13_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_13_SMT_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SMT_MASK (0x1ul << IOCTRL_GPIO_13_SMT_POS)
+#define IOCTRL_GPIO_14_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_14_SMT_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SMT_MASK (0x1ul << IOCTRL_GPIO_14_SMT_POS)
+#define IOCTRL_GPIO_15_SMT_ADDR (uint32_t)&(IOCTRL->GPIO_SMT_REG)
+#define IOCTRL_GPIO_15_SMT_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SMT_MASK (0x1ul << IOCTRL_GPIO_15_SMT_POS)
+
+#define IOCTRL_GPIO_PUSEL_REG0_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_0_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_0_PUSEL_POS (0) /*< bit[1:0]    */
+#define IOCTRL_GPIO_0_PUSEL_MASK (0x3ul << IOCTRL_GPIO_0_PUSEL_POS)
+#define IOCTRL_GPIO_1_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_1_PUSEL_POS (2) /*< bit[3:2]    */
+#define IOCTRL_GPIO_1_PUSEL_MASK (0x3ul << IOCTRL_GPIO_1_PUSEL_POS)
+#define IOCTRL_GPIO_2_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_2_PUSEL_POS (4) /*< bit[5:4]    */
+#define IOCTRL_GPIO_2_PUSEL_MASK (0x3ul << IOCTRL_GPIO_2_PUSEL_POS)
+#define IOCTRL_GPIO_3_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_3_PUSEL_POS (6) /*< bit[7:6]    */
+#define IOCTRL_GPIO_3_PUSEL_MASK (0x3ul << IOCTRL_GPIO_3_PUSEL_POS)
+#define IOCTRL_GPIO_4_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_4_PUSEL_POS (8) /*< bit[9:8]    */
+#define IOCTRL_GPIO_4_PUSEL_MASK (0x3ul << IOCTRL_GPIO_4_PUSEL_POS)
+#define IOCTRL_GPIO_5_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_5_PUSEL_POS (10) /*< bit[11:10]  */
+#define IOCTRL_GPIO_5_PUSEL_MASK (0x3ul << IOCTRL_GPIO_5_PUSEL_POS)
+#define IOCTRL_GPIO_6_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_6_PUSEL_POS (12) /*< bit[13:12]  */
+#define IOCTRL_GPIO_6_PUSEL_MASK (0x3ul << IOCTRL_GPIO_6_PUSEL_POS)
+#define IOCTRL_GPIO_7_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_7_PUSEL_POS (14) /*< bit[15:14]  */
+#define IOCTRL_GPIO_7_PUSEL_MASK (0x3ul << IOCTRL_GPIO_7_PUSEL_POS)
+#define IOCTRL_GPIO_8_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_8_PUSEL_POS (16) /*< bit[17:16]  */
+#define IOCTRL_GPIO_8_PUSEL_MASK (0x3ul << IOCTRL_GPIO_8_PUSEL_POS)
+#define IOCTRL_GPIO_9_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_9_PUSEL_POS (18) /*< bit[19:18]  */
+#define IOCTRL_GPIO_9_PUSEL_MASK (0x3ul << IOCTRL_GPIO_9_PUSEL_POS)
+#define IOCTRL_GPIO_10_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_10_PUSEL_POS (20) /*< bit[21:20]  */
+#define IOCTRL_GPIO_10_PUSEL_MASK (0x3ul << IOCTRL_GPIO_10_PUSEL_POS)
+#define IOCTRL_GPIO_11_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_11_PUSEL_POS (22) /*< bit[23:22]  */
+#define IOCTRL_GPIO_11_PUSEL_MASK (0x3ul << IOCTRL_GPIO_11_PUSEL_POS)
+#define IOCTRL_GPIO_12_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_12_PUSEL_POS (24) /*< bit[25:24]  */
+#define IOCTRL_GPIO_12_PUSEL_MASK (0x3ul << IOCTRL_GPIO_12_PUSEL_POS)
+#define IOCTRL_GPIO_13_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_13_PUSEL_POS (26) /*< bit[27:26]  */
+#define IOCTRL_GPIO_13_PUSEL_MASK (0x3ul << IOCTRL_GPIO_13_PUSEL_POS)
+#define IOCTRL_GPIO_14_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_14_PUSEL_POS (28) /*< bit[29:28]  */
+#define IOCTRL_GPIO_14_PUSEL_MASK (0x3ul << IOCTRL_GPIO_14_PUSEL_POS)
+#define IOCTRL_GPIO_15_PUSEL_ADDR (uint32_t)&(IOCTRL->GPIO_PUSEL_REG0)
+#define IOCTRL_GPIO_15_PUSEL_POS (30) /*< bit[31:30]  */
+#define IOCTRL_GPIO_15_PUSEL_MASK (0x3ul << IOCTRL_GPIO_15_PUSEL_POS)
+
+#define IOCTRL_GPIO_TRIG_TYPE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_0_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_0_TRIG_TYPE_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_0_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_1_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_1_TRIG_TYPE_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_1_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_2_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_2_TRIG_TYPE_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_2_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_3_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_3_TRIG_TYPE_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_3_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_4_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_4_TRIG_TYPE_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_4_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_5_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_5_TRIG_TYPE_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_5_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_6_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_6_TRIG_TYPE_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_6_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_7_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_7_TRIG_TYPE_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_7_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_8_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_8_TRIG_TYPE_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_8_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_9_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_9_TRIG_TYPE_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_9_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_10_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_10_TRIG_TYPE_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_10_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_11_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_11_TRIG_TYPE_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_11_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_12_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_12_TRIG_TYPE_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_12_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_13_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_13_TRIG_TYPE_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_13_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_14_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_14_TRIG_TYPE_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_14_TRIG_TYPE_POS)
+#define IOCTRL_GPIO_15_TRIG_TYPE_ADDR (uint32_t)&(IOCTRL->GPIO_TRIG_TYPE_REG)
+#define IOCTRL_GPIO_15_TRIG_TYPE_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_TRIG_TYPE_MASK (0x1ul << IOCTRL_GPIO_15_TRIG_TYPE_POS)
+
+#define IOCTRL_GPIO_RHIEN_REG_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_0_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_0_RHIEN_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_RHIEN_MASK (0x1ul << IOCTRL_GPIO_0_RHIEN_POS)
+#define IOCTRL_GPIO_1_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_1_RHIEN_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_RHIEN_MASK (0x1ul << IOCTRL_GPIO_1_RHIEN_POS)
+#define IOCTRL_GPIO_2_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_2_RHIEN_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_RHIEN_MASK (0x1ul << IOCTRL_GPIO_2_RHIEN_POS)
+#define IOCTRL_GPIO_3_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_3_RHIEN_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_RHIEN_MASK (0x1ul << IOCTRL_GPIO_3_RHIEN_POS)
+#define IOCTRL_GPIO_4_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_4_RHIEN_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_RHIEN_MASK (0x1ul << IOCTRL_GPIO_4_RHIEN_POS)
+#define IOCTRL_GPIO_5_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_5_RHIEN_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_RHIEN_MASK (0x1ul << IOCTRL_GPIO_5_RHIEN_POS)
+#define IOCTRL_GPIO_6_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_6_RHIEN_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_RHIEN_MASK (0x1ul << IOCTRL_GPIO_6_RHIEN_POS)
+#define IOCTRL_GPIO_7_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_7_RHIEN_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_RHIEN_MASK (0x1ul << IOCTRL_GPIO_7_RHIEN_POS)
+#define IOCTRL_GPIO_8_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_8_RHIEN_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_RHIEN_MASK (0x1ul << IOCTRL_GPIO_8_RHIEN_POS)
+#define IOCTRL_GPIO_9_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_9_RHIEN_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_RHIEN_MASK (0x1ul << IOCTRL_GPIO_9_RHIEN_POS)
+#define IOCTRL_GPIO_10_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_10_RHIEN_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_RHIEN_MASK (0x1ul << IOCTRL_GPIO_10_RHIEN_POS)
+#define IOCTRL_GPIO_11_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_11_RHIEN_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_RHIEN_MASK (0x1ul << IOCTRL_GPIO_11_RHIEN_POS)
+#define IOCTRL_GPIO_12_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_12_RHIEN_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_RHIEN_MASK (0x1ul << IOCTRL_GPIO_12_RHIEN_POS)
+#define IOCTRL_GPIO_13_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_13_RHIEN_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_RHIEN_MASK (0x1ul << IOCTRL_GPIO_13_RHIEN_POS)
+#define IOCTRL_GPIO_14_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_14_RHIEN_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_RHIEN_MASK (0x1ul << IOCTRL_GPIO_14_RHIEN_POS)
+#define IOCTRL_GPIO_15_RHIEN_ADDR (uint32_t)&(IOCTRL->GPIO_RHIEN_REG)
+#define IOCTRL_GPIO_15_RHIEN_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_RHIEN_MASK (0x1ul << IOCTRL_GPIO_15_RHIEN_POS)
+
+#define IOCTRL_GPIO_FLIEN_REG_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_0_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_0_FLIEN_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_FLIEN_MASK (0x1ul << IOCTRL_GPIO_0_FLIEN_POS)
+#define IOCTRL_GPIO_1_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_1_FLIEN_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_FLIEN_MASK (0x1ul << IOCTRL_GPIO_1_FLIEN_POS)
+#define IOCTRL_GPIO_2_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_2_FLIEN_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_FLIEN_MASK (0x1ul << IOCTRL_GPIO_2_FLIEN_POS)
+#define IOCTRL_GPIO_3_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_3_FLIEN_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_FLIEN_MASK (0x1ul << IOCTRL_GPIO_3_FLIEN_POS)
+#define IOCTRL_GPIO_4_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_4_FLIEN_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_FLIEN_MASK (0x1ul << IOCTRL_GPIO_4_FLIEN_POS)
+#define IOCTRL_GPIO_5_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_5_FLIEN_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_FLIEN_MASK (0x1ul << IOCTRL_GPIO_5_FLIEN_POS)
+#define IOCTRL_GPIO_6_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_6_FLIEN_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_FLIEN_MASK (0x1ul << IOCTRL_GPIO_6_FLIEN_POS)
+#define IOCTRL_GPIO_7_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_7_FLIEN_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_FLIEN_MASK (0x1ul << IOCTRL_GPIO_7_FLIEN_POS)
+#define IOCTRL_GPIO_8_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_8_FLIEN_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_FLIEN_MASK (0x1ul << IOCTRL_GPIO_8_FLIEN_POS)
+#define IOCTRL_GPIO_9_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_9_FLIEN_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_FLIEN_MASK (0x1ul << IOCTRL_GPIO_9_FLIEN_POS)
+#define IOCTRL_GPIO_10_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_10_FLIEN_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_FLIEN_MASK (0x1ul << IOCTRL_GPIO_10_FLIEN_POS)
+#define IOCTRL_GPIO_11_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_11_FLIEN_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_FLIEN_MASK (0x1ul << IOCTRL_GPIO_11_FLIEN_POS)
+#define IOCTRL_GPIO_12_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_12_FLIEN_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_FLIEN_MASK (0x1ul << IOCTRL_GPIO_12_FLIEN_POS)
+#define IOCTRL_GPIO_13_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_13_FLIEN_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_FLIEN_MASK (0x1ul << IOCTRL_GPIO_13_FLIEN_POS)
+#define IOCTRL_GPIO_14_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_14_FLIEN_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_FLIEN_MASK (0x1ul << IOCTRL_GPIO_14_FLIEN_POS)
+#define IOCTRL_GPIO_15_FLIEN_ADDR (uint32_t)&(IOCTRL->GPIO_FLIEN_REG)
+#define IOCTRL_GPIO_15_FLIEN_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_FLIEN_MASK (0x1ul << IOCTRL_GPIO_15_FLIEN_POS)
+
+#define IOCTRL_GPIO_INT_ENABLE_REG_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_0_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_0_POS (0) /*< bit[0]      */
+#define IOCTRL_INT_EN_GPIO_0_MASK (0x1ul << IOCTRL_INT_EN_GPIO_0_POS)
+#define IOCTRL_INT_EN_GPIO_1_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_1_POS (1) /*< bit[1]      */
+#define IOCTRL_INT_EN_GPIO_1_MASK (0x1ul << IOCTRL_INT_EN_GPIO_1_POS)
+#define IOCTRL_INT_EN_GPIO_2_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_2_POS (2) /*< bit[2]      */
+#define IOCTRL_INT_EN_GPIO_2_MASK (0x1ul << IOCTRL_INT_EN_GPIO_2_POS)
+#define IOCTRL_INT_EN_GPIO_3_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_3_POS (3) /*< bit[3]      */
+#define IOCTRL_INT_EN_GPIO_3_MASK (0x1ul << IOCTRL_INT_EN_GPIO_3_POS)
+#define IOCTRL_INT_EN_GPIO_4_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_4_POS (4) /*< bit[4]      */
+#define IOCTRL_INT_EN_GPIO_4_MASK (0x1ul << IOCTRL_INT_EN_GPIO_4_POS)
+#define IOCTRL_INT_EN_GPIO_5_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_5_POS (5) /*< bit[5]      */
+#define IOCTRL_INT_EN_GPIO_5_MASK (0x1ul << IOCTRL_INT_EN_GPIO_5_POS)
+#define IOCTRL_INT_EN_GPIO_6_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_6_POS (6) /*< bit[6]      */
+#define IOCTRL_INT_EN_GPIO_6_MASK (0x1ul << IOCTRL_INT_EN_GPIO_6_POS)
+#define IOCTRL_INT_EN_GPIO_7_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_7_POS (7) /*< bit[7]      */
+#define IOCTRL_INT_EN_GPIO_7_MASK (0x1ul << IOCTRL_INT_EN_GPIO_7_POS)
+#define IOCTRL_INT_EN_GPIO_8_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_8_POS (8) /*< bit[8]      */
+#define IOCTRL_INT_EN_GPIO_8_MASK (0x1ul << IOCTRL_INT_EN_GPIO_8_POS)
+#define IOCTRL_INT_EN_GPIO_9_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_9_POS (9) /*< bit[9]      */
+#define IOCTRL_INT_EN_GPIO_9_MASK (0x1ul << IOCTRL_INT_EN_GPIO_9_POS)
+#define IOCTRL_INT_EN_GPIO_10_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_10_POS (10) /*< bit[10]     */
+#define IOCTRL_INT_EN_GPIO_10_MASK (0x1ul << IOCTRL_INT_EN_GPIO_10_POS)
+#define IOCTRL_INT_EN_GPIO_11_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_11_POS (11) /*< bit[11]     */
+#define IOCTRL_INT_EN_GPIO_11_MASK (0x1ul << IOCTRL_INT_EN_GPIO_11_POS)
+#define IOCTRL_INT_EN_GPIO_12_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_12_POS (12) /*< bit[12]     */
+#define IOCTRL_INT_EN_GPIO_12_MASK (0x1ul << IOCTRL_INT_EN_GPIO_12_POS)
+#define IOCTRL_INT_EN_GPIO_13_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_13_POS (13) /*< bit[13]     */
+#define IOCTRL_INT_EN_GPIO_13_MASK (0x1ul << IOCTRL_INT_EN_GPIO_13_POS)
+#define IOCTRL_INT_EN_GPIO_14_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_14_POS (14) /*< bit[14]     */
+#define IOCTRL_INT_EN_GPIO_14_MASK (0x1ul << IOCTRL_INT_EN_GPIO_14_POS)
+#define IOCTRL_INT_EN_GPIO_15_ADDR (uint32_t)&(IOCTRL->GPIO_INT_ENABLE_REG)
+#define IOCTRL_INT_EN_GPIO_15_POS (15) /*< bit[15]     */
+#define IOCTRL_INT_EN_GPIO_15_MASK (0x1ul << IOCTRL_INT_EN_GPIO_15_POS)
+
+#define IOCTRL_GPIO_RAW_INT_STATUS_REG_ADDR                                    \
+    (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_0_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_0_POS (0) /*< bit[0]      */
+#define IOCTRL_INT_ST_GPIO_0_MASK (0x1ul << IOCTRL_INT_ST_GPIO_0_POS)
+#define IOCTRL_INT_ST_GPIO_1_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_1_POS (1) /*< bit[1]      */
+#define IOCTRL_INT_ST_GPIO_1_MASK (0x1ul << IOCTRL_INT_ST_GPIO_1_POS)
+#define IOCTRL_INT_ST_GPIO_2_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_2_POS (2) /*< bit[2]      */
+#define IOCTRL_INT_ST_GPIO_2_MASK (0x1ul << IOCTRL_INT_ST_GPIO_2_POS)
+#define IOCTRL_INT_ST_GPIO_3_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_3_POS (3) /*< bit[3]      */
+#define IOCTRL_INT_ST_GPIO_3_MASK (0x1ul << IOCTRL_INT_ST_GPIO_3_POS)
+#define IOCTRL_INT_ST_GPIO_4_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_4_POS (4) /*< bit[4]      */
+#define IOCTRL_INT_ST_GPIO_4_MASK (0x1ul << IOCTRL_INT_ST_GPIO_4_POS)
+#define IOCTRL_INT_ST_GPIO_5_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_5_POS (5) /*< bit[5]      */
+#define IOCTRL_INT_ST_GPIO_5_MASK (0x1ul << IOCTRL_INT_ST_GPIO_5_POS)
+#define IOCTRL_INT_ST_GPIO_6_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_6_POS (6) /*< bit[6]      */
+#define IOCTRL_INT_ST_GPIO_6_MASK (0x1ul << IOCTRL_INT_ST_GPIO_6_POS)
+#define IOCTRL_INT_ST_GPIO_7_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_7_POS (7) /*< bit[7]      */
+#define IOCTRL_INT_ST_GPIO_7_MASK (0x1ul << IOCTRL_INT_ST_GPIO_7_POS)
+#define IOCTRL_INT_ST_GPIO_8_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_8_POS (8) /*< bit[8]      */
+#define IOCTRL_INT_ST_GPIO_8_MASK (0x1ul << IOCTRL_INT_ST_GPIO_8_POS)
+#define IOCTRL_INT_ST_GPIO_9_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_9_POS (9) /*< bit[9]      */
+#define IOCTRL_INT_ST_GPIO_9_MASK (0x1ul << IOCTRL_INT_ST_GPIO_9_POS)
+#define IOCTRL_INT_ST_GPIO_10_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_10_POS (10) /*< bit[10]     */
+#define IOCTRL_INT_ST_GPIO_10_MASK (0x1ul << IOCTRL_INT_ST_GPIO_10_POS)
+#define IOCTRL_INT_ST_GPIO_11_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_11_POS (11) /*< bit[11]     */
+#define IOCTRL_INT_ST_GPIO_11_MASK (0x1ul << IOCTRL_INT_ST_GPIO_11_POS)
+#define IOCTRL_INT_ST_GPIO_12_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_12_POS (12) /*< bit[12]     */
+#define IOCTRL_INT_ST_GPIO_12_MASK (0x1ul << IOCTRL_INT_ST_GPIO_12_POS)
+#define IOCTRL_INT_ST_GPIO_13_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_13_POS (13) /*< bit[13]     */
+#define IOCTRL_INT_ST_GPIO_13_MASK (0x1ul << IOCTRL_INT_ST_GPIO_13_POS)
+#define IOCTRL_INT_ST_GPIO_14_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_14_POS (14) /*< bit[14]     */
+#define IOCTRL_INT_ST_GPIO_14_MASK (0x1ul << IOCTRL_INT_ST_GPIO_14_POS)
+#define IOCTRL_INT_ST_GPIO_15_ADDR (uint32_t)&(IOCTRL->GPIO_RAW_INT_STATUS_REG)
+#define IOCTRL_INT_ST_GPIO_15_POS (15) /*< bit[15]     */
+#define IOCTRL_INT_ST_GPIO_15_MASK (0x1ul << IOCTRL_INT_ST_GPIO_15_POS)
+
+#define IOCTRL_GPIO_MASKED_INT_STATUS_REG_ADDR                                 \
+    (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_0_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_0_POS (0) /*< bit[0]      */
+#define IOCTRL_INT_GPIO_0_MASK (0x1ul << IOCTRL_INT_GPIO_0_POS)
+#define IOCTRL_INT_GPIO_1_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_1_POS (1) /*< bit[1]      */
+#define IOCTRL_INT_GPIO_1_MASK (0x1ul << IOCTRL_INT_GPIO_1_POS)
+#define IOCTRL_INT_GPIO_2_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_2_POS (2) /*< bit[2]      */
+#define IOCTRL_INT_GPIO_2_MASK (0x1ul << IOCTRL_INT_GPIO_2_POS)
+#define IOCTRL_INT_GPIO_3_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_3_POS (3) /*< bit[3]      */
+#define IOCTRL_INT_GPIO_3_MASK (0x1ul << IOCTRL_INT_GPIO_3_POS)
+#define IOCTRL_INT_GPIO_4_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_4_POS (4) /*< bit[4]      */
+#define IOCTRL_INT_GPIO_4_MASK (0x1ul << IOCTRL_INT_GPIO_4_POS)
+#define IOCTRL_INT_GPIO_5_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_5_POS (5) /*< bit[5]      */
+#define IOCTRL_INT_GPIO_5_MASK (0x1ul << IOCTRL_INT_GPIO_5_POS)
+#define IOCTRL_INT_GPIO_6_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_6_POS (6) /*< bit[6]      */
+#define IOCTRL_INT_GPIO_6_MASK (0x1ul << IOCTRL_INT_GPIO_6_POS)
+#define IOCTRL_INT_GPIO_7_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_7_POS (7) /*< bit[7]      */
+#define IOCTRL_INT_GPIO_7_MASK (0x1ul << IOCTRL_INT_GPIO_7_POS)
+#define IOCTRL_INT_GPIO_8_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_8_POS (8) /*< bit[8]      */
+#define IOCTRL_INT_GPIO_8_MASK (0x1ul << IOCTRL_INT_GPIO_8_POS)
+#define IOCTRL_INT_GPIO_9_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_9_POS (9) /*< bit[9]      */
+#define IOCTRL_INT_GPIO_9_MASK (0x1ul << IOCTRL_INT_GPIO_9_POS)
+#define IOCTRL_INT_GPIO_10_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_10_POS (10) /*< bit[10]     */
+#define IOCTRL_INT_GPIO_10_MASK (0x1ul << IOCTRL_INT_GPIO_10_POS)
+#define IOCTRL_INT_GPIO_11_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_11_POS (11) /*< bit[11]     */
+#define IOCTRL_INT_GPIO_11_MASK (0x1ul << IOCTRL_INT_GPIO_11_POS)
+#define IOCTRL_INT_GPIO_12_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_12_POS (12) /*< bit[12]     */
+#define IOCTRL_INT_GPIO_12_MASK (0x1ul << IOCTRL_INT_GPIO_12_POS)
+#define IOCTRL_INT_GPIO_13_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_13_POS (13) /*< bit[13]     */
+#define IOCTRL_INT_GPIO_13_MASK (0x1ul << IOCTRL_INT_GPIO_13_POS)
+#define IOCTRL_INT_GPIO_14_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_14_POS (14) /*< bit[14]     */
+#define IOCTRL_INT_GPIO_14_MASK (0x1ul << IOCTRL_INT_GPIO_14_POS)
+#define IOCTRL_INT_GPIO_15_ADDR (uint32_t)&(IOCTRL->GPIO_MASKED_INT_STATUS_REG)
+#define IOCTRL_INT_GPIO_15_POS (15) /*< bit[15]     */
+#define IOCTRL_INT_GPIO_15_MASK (0x1ul << IOCTRL_INT_GPIO_15_POS)
+
+#define IOCTRL_PWM_SLOW_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_SLOW_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_0_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_SLOW_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_1_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_SLOW_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_2_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_SLOW_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_3_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_SLOW_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_4_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_SLOW_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_5_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_SLOW_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_6_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_SLOW_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_7_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_SLOW_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_8_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_SLOW_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_SLOW_MASK                                        \
+    (0x1ul << IOCTRL_GPIO_9_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_SLOW_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_10_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_SLOW_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_11_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_SLOW_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_12_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_SLOW_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_13_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_SLOW_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_14_SEL_PWM_SLOW_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_SLOW_ADDR (uint32_t)&(IOCTRL->PWM_SLOW_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_SLOW_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_SLOW_MASK                                       \
+    (0x1ul << IOCTRL_GPIO_15_SEL_PWM_SLOW_POS)
+
+#define IOCTRL_PWM_0_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_0_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_0_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_0_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_0_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_0_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_0_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_0_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_0_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_0_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_0_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_0_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_0_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_0_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_0_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_0_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_0_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_0_ADDR (uint32_t)&(IOCTRL->PWM_0_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_0_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_0_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_0_POS)
+
+#define IOCTRL_PWM_1_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_1_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_1_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_1_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_1_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_1_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_1_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_1_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_1_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_1_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_1_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_1_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_1_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_1_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_1_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_1_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_1_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_1_ADDR (uint32_t)&(IOCTRL->PWM_1_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_1_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_1_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_1_POS)
+
+#define IOCTRL_PWM_2_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_2_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_2_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_2_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_2_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_2_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_2_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_2_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_2_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_2_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_2_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_2_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_2_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_2_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_2_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_2_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_2_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_2_ADDR (uint32_t)&(IOCTRL->PWM_2_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_2_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_2_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_2_POS)
+
+#define IOCTRL_PWM_3_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_3_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_3_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_3_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_3_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_3_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_3_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_3_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_3_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_3_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_3_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_3_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_3_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_3_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_3_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_3_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_3_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_3_ADDR (uint32_t)&(IOCTRL->PWM_3_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_3_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_3_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_3_POS)
+
+#define IOCTRL_PWM_4_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_4_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_4_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_4_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_4_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_4_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_4_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_4_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_4_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_4_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_4_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_4_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_4_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_4_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_4_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_4_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_4_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_4_ADDR (uint32_t)&(IOCTRL->PWM_4_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_4_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_4_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_4_POS)
+
+#define IOCTRL_PWM_5_SEL_REG_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_0_SEL_PWM_5_POS (0) /*< bit[0]      */
+#define IOCTRL_GPIO_0_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_0_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_1_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_1_SEL_PWM_5_POS (1) /*< bit[1]      */
+#define IOCTRL_GPIO_1_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_1_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_2_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_2_SEL_PWM_5_POS (2) /*< bit[2]      */
+#define IOCTRL_GPIO_2_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_2_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_3_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_3_SEL_PWM_5_POS (3) /*< bit[3]      */
+#define IOCTRL_GPIO_3_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_3_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_4_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_4_SEL_PWM_5_POS (4) /*< bit[4]      */
+#define IOCTRL_GPIO_4_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_4_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_5_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_5_SEL_PWM_5_POS (5) /*< bit[5]      */
+#define IOCTRL_GPIO_5_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_5_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_6_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_6_SEL_PWM_5_POS (6) /*< bit[6]      */
+#define IOCTRL_GPIO_6_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_6_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_7_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_7_SEL_PWM_5_POS (7) /*< bit[7]      */
+#define IOCTRL_GPIO_7_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_7_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_8_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_8_SEL_PWM_5_POS (8) /*< bit[8]      */
+#define IOCTRL_GPIO_8_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_8_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_9_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_9_SEL_PWM_5_POS (9) /*< bit[9]      */
+#define IOCTRL_GPIO_9_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_9_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_10_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_10_SEL_PWM_5_POS (10) /*< bit[10]     */
+#define IOCTRL_GPIO_10_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_10_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_11_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_11_SEL_PWM_5_POS (11) /*< bit[11]     */
+#define IOCTRL_GPIO_11_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_11_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_12_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_12_SEL_PWM_5_POS (12) /*< bit[12]     */
+#define IOCTRL_GPIO_12_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_12_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_13_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_13_SEL_PWM_5_POS (13) /*< bit[13]     */
+#define IOCTRL_GPIO_13_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_13_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_14_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_14_SEL_PWM_5_POS (14) /*< bit[14]     */
+#define IOCTRL_GPIO_14_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_14_SEL_PWM_5_POS)
+#define IOCTRL_GPIO_15_SEL_PWM_5_ADDR (uint32_t)&(IOCTRL->PWM_5_SEL_REG)
+#define IOCTRL_GPIO_15_SEL_PWM_5_POS (15) /*< bit[15]     */
+#define IOCTRL_GPIO_15_SEL_PWM_5_MASK (0x1ul << IOCTRL_GPIO_15_SEL_PWM_5_POS)
+
+#define IOCTRL_GPTMR_0_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_0_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_0_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_0_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_0_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_0_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_0_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPTMR_1_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_1_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_1_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_1_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_1_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_1_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_1_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPTMR_2_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_2_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_2_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_2_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_2_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_2_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_2_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPTMR_3_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_3_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_3_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_3_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_3_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_3_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_3_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPTMR_4_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_4_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_4_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_4_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_4_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_4_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_4_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPTMR_5_EXT_IN_SEL_REG_ADDR                                     \
+    (uint32_t)&(IOCTRL->GPTMR_5_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_5_EXT_IN_SEL_ADDR                                         \
+    (uint32_t)&(IOCTRL->GPTMR_5_EXT_IN_SEL_REG)
+#define IOCTRL_GPTMR_5_EXT_IN_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GPTMR_5_EXT_IN_SEL_MASK (0x1Ful << IOCTRL_GPTMR_5_EXT_IN_SEL_POS)
+
+#define IOCTRL_GPIO_DEBS_CFG_REG_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_CFG_REG)
+#define IOCTRL_GPIO_DEBS_TIM_ADDR (uint32_t)&(IOCTRL->GPIO_DEBS_CFG_REG)
+#define IOCTRL_GPIO_DEBS_TIM_POS (0) /*< bit[1:0]    */
+#define IOCTRL_GPIO_DEBS_TIM_MASK (0x3ul << IOCTRL_GPIO_DEBS_TIM_POS)
+
+#define IOCTRL_DIO_0_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_0_DBG_NUM_REG)
+#define IOCTRL_DIO_0_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_0_DBG_NUM_REG)
+#define IOCTRL_DIO_0_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_0_DBG_NUM_MASK (0xFul << IOCTRL_DIO_0_DBG_NUM_POS)
+
+#define IOCTRL_DIO_1_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_1_DBG_NUM_REG)
+#define IOCTRL_DIO_1_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_1_DBG_NUM_REG)
+#define IOCTRL_DIO_1_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_1_DBG_NUM_MASK (0xFul << IOCTRL_DIO_1_DBG_NUM_POS)
+
+#define IOCTRL_DIO_2_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_2_DBG_NUM_REG)
+#define IOCTRL_DIO_2_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_2_DBG_NUM_REG)
+#define IOCTRL_DIO_2_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_2_DBG_NUM_MASK (0xFul << IOCTRL_DIO_2_DBG_NUM_POS)
+
+#define IOCTRL_DIO_3_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_3_DBG_NUM_REG)
+#define IOCTRL_DIO_3_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_3_DBG_NUM_REG)
+#define IOCTRL_DIO_3_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_3_DBG_NUM_MASK (0xFul << IOCTRL_DIO_3_DBG_NUM_POS)
+
+#define IOCTRL_DIO_4_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_4_DBG_NUM_REG)
+#define IOCTRL_DIO_4_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_4_DBG_NUM_REG)
+#define IOCTRL_DIO_4_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_4_DBG_NUM_MASK (0xFul << IOCTRL_DIO_4_DBG_NUM_POS)
+
+#define IOCTRL_DIO_5_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_5_DBG_NUM_REG)
+#define IOCTRL_DIO_5_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_5_DBG_NUM_REG)
+#define IOCTRL_DIO_5_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_5_DBG_NUM_MASK (0xFul << IOCTRL_DIO_5_DBG_NUM_POS)
+
+#define IOCTRL_DIO_6_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_6_DBG_NUM_REG)
+#define IOCTRL_DIO_6_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_6_DBG_NUM_REG)
+#define IOCTRL_DIO_6_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_6_DBG_NUM_MASK (0xFul << IOCTRL_DIO_6_DBG_NUM_POS)
+
+#define IOCTRL_DIO_7_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_7_DBG_NUM_REG)
+#define IOCTRL_DIO_7_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_7_DBG_NUM_REG)
+#define IOCTRL_DIO_7_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_7_DBG_NUM_MASK (0xFul << IOCTRL_DIO_7_DBG_NUM_POS)
+
+#define IOCTRL_DIO_8_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_8_DBG_NUM_REG)
+#define IOCTRL_DIO_8_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_8_DBG_NUM_REG)
+#define IOCTRL_DIO_8_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_8_DBG_NUM_MASK (0xFul << IOCTRL_DIO_8_DBG_NUM_POS)
+
+#define IOCTRL_DIO_9_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_9_DBG_NUM_REG)
+#define IOCTRL_DIO_9_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_9_DBG_NUM_REG)
+#define IOCTRL_DIO_9_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_9_DBG_NUM_MASK (0xFul << IOCTRL_DIO_9_DBG_NUM_POS)
+
+#define IOCTRL_DIO_10_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_10_DBG_NUM_REG)
+#define IOCTRL_DIO_10_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_10_DBG_NUM_REG)
+#define IOCTRL_DIO_10_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_10_DBG_NUM_MASK (0xFul << IOCTRL_DIO_10_DBG_NUM_POS)
+
+#define IOCTRL_DIO_11_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_11_DBG_NUM_REG)
+#define IOCTRL_DIO_11_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_11_DBG_NUM_REG)
+#define IOCTRL_DIO_11_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_11_DBG_NUM_MASK (0xFul << IOCTRL_DIO_11_DBG_NUM_POS)
+
+#define IOCTRL_DIO_12_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_12_DBG_NUM_REG)
+#define IOCTRL_DIO_12_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_12_DBG_NUM_REG)
+#define IOCTRL_DIO_12_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_12_DBG_NUM_MASK (0xFul << IOCTRL_DIO_12_DBG_NUM_POS)
+
+#define IOCTRL_DIO_13_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_13_DBG_NUM_REG)
+#define IOCTRL_DIO_13_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_13_DBG_NUM_REG)
+#define IOCTRL_DIO_13_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_13_DBG_NUM_MASK (0xFul << IOCTRL_DIO_13_DBG_NUM_POS)
+
+#define IOCTRL_DIO_14_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_14_DBG_NUM_REG)
+#define IOCTRL_DIO_14_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_14_DBG_NUM_REG)
+#define IOCTRL_DIO_14_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_14_DBG_NUM_MASK (0xFul << IOCTRL_DIO_14_DBG_NUM_POS)
+
+#define IOCTRL_DIO_15_DBG_NUM_REG_ADDR (uint32_t)&(IOCTRL->DIO_15_DBG_NUM_REG)
+#define IOCTRL_DIO_15_DBG_NUM_ADDR (uint32_t)&(IOCTRL->DIO_15_DBG_NUM_REG)
+#define IOCTRL_DIO_15_DBG_NUM_POS (0) /*< bit[3:0]    */
+#define IOCTRL_DIO_15_DBG_NUM_MASK (0xFul << IOCTRL_DIO_15_DBG_NUM_POS)
+
+#define IOCTRL_ADC_CONV_REG_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_CK_EN_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_CK_EN_POS (0) /*< bit[0]      */
+#define IOCTRL_ADC_CONV_CK_EN_MASK (0x1ul << IOCTRL_ADC_CONV_CK_EN_POS)
+#define IOCTRL_ADC_CONV_MSB_FIRST_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_MSB_FIRST_POS (1) /*< bit[1]      */
+#define IOCTRL_ADC_CONV_MSB_FIRST_MASK (0x1ul << IOCTRL_ADC_CONV_MSB_FIRST_POS)
+#define IOCTRL_ADC_CONV_PATCH_OUT_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_PATCH_OUT_POS (2) /*< bit[2]      */
+#define IOCTRL_ADC_CONV_PATCH_OUT_MASK (0x1ul << IOCTRL_ADC_CONV_PATCH_OUT_POS)
+#define IOCTRL_ADC_CONV_NEGEDGE_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_NEGEDGE_POS (3) /*< bit[3]      */
+#define IOCTRL_ADC_CONV_NEGEDGE_MASK (0x1ul << IOCTRL_ADC_CONV_NEGEDGE_POS)
+#define IOCTRL_ADC_CONV_INPUT_BIT_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_INPUT_BIT_POS (4) /*< bit[7:4]    */
+#define IOCTRL_ADC_CONV_INPUT_BIT_MASK (0xFul << IOCTRL_ADC_CONV_INPUT_BIT_POS)
+#define IOCTRL_ADC_CONV_S2BIT_EN_ADDR (uint32_t)&(IOCTRL->ADC_CONV_REG)
+#define IOCTRL_ADC_CONV_S2BIT_EN_POS (8) /*< bit[8]      */
+#define IOCTRL_ADC_CONV_S2BIT_EN_MASK (0x1ul << IOCTRL_ADC_CONV_S2BIT_EN_POS)
+
+#define IOCTRL_GIO_CTL_REG_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_0_SEL_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_0_SEL_POS (0) /*< bit[4:0]    */
+#define IOCTRL_GIO_0_SEL_MASK (0x1Ful << IOCTRL_GIO_0_SEL_POS)
+#define IOCTRL_GIO_0_INV_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_0_INV_POS (7) /*< bit[7]      */
+#define IOCTRL_GIO_0_INV_MASK (0x1ul << IOCTRL_GIO_0_INV_POS)
+#define IOCTRL_GIO_1_SEL_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_1_SEL_POS (8) /*< bit[12:8]   */
+#define IOCTRL_GIO_1_SEL_MASK (0x1Ful << IOCTRL_GIO_1_SEL_POS)
+#define IOCTRL_GIO_1_INV_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_1_INV_POS (15) /*< bit[15]     */
+#define IOCTRL_GIO_1_INV_MASK (0x1ul << IOCTRL_GIO_1_INV_POS)
+#define IOCTRL_GIO_2_SEL_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_2_SEL_POS (16) /*< bit[20:16]  */
+#define IOCTRL_GIO_2_SEL_MASK (0x1Ful << IOCTRL_GIO_2_SEL_POS)
+#define IOCTRL_GIO_2_INV_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_2_INV_POS (23) /*< bit[23]     */
+#define IOCTRL_GIO_2_INV_MASK (0x1ul << IOCTRL_GIO_2_INV_POS)
+#define IOCTRL_GIO_TR_FSH_NOERR_ADDR (uint32_t)&(IOCTRL->GIO_CTL_REG)
+#define IOCTRL_GIO_TR_FSH_NOERR_POS (24) /*< bit[24]     */
+#define IOCTRL_GIO_TR_FSH_NOERR_MASK (0x1ul << IOCTRL_GIO_TR_FSH_NOERR_POS)
+
+#define IOCTRL_PERIPH_ID_LEN_REG_ADDR (uint32_t)&(IOCTRL->PERIPH_ID_LEN_REG)
+#define IOCTRL_PERIPH_ID_LEN_ADDR (uint32_t)&(IOCTRL->PERIPH_ID_LEN_REG)
+#define IOCTRL_PERIPH_ID_LEN_POS (0) /*< bit[3:0]    */
+#define IOCTRL_PERIPH_ID_LEN_MASK (0xFul << IOCTRL_PERIPH_ID_LEN_POS)
+
+#define IOCTRL_PERIPH_ID_0_REG_ADDR (uint32_t)&(IOCTRL->PERIPH_ID_0_REG)
+#define IOCTRL_PERIPH_ID_1_REG_ADDR (uint32_t)&(IOCTRL->PERIPH_ID_1_REG)
+#define IOCTRL_BASE 0x40014000UL
+#define IOCTRL ((IOCTRL_T *)IOCTRL_BASE)
+
+#endif

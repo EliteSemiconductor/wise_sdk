@@ -1,0 +1,15 @@
+setmulticastname 'DEVICE_1'
+
+sendln  'sys asaradc init'
+mpause 500
+
+sendln  'sys asaradc config 0 0 3 3 0 0 0'
+mpause 500
+
+sendln  'sys asaradc calset 0 20 460 198 2850 1096 4095 1596'
+mpause 500
+
+while 1
+sendln 'sys asaradc once 0'
+mpause 500
+endwhile

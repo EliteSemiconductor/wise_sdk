@@ -1,0 +1,763 @@
+menu "Platform Configuration"
+    choice
+        prompt "MCU Selection"
+        default CONFIG_ER8130
+        help
+            Please select one of the following MCU.
+
+        config CONFIG_ER8130
+            bool "ER8130"
+
+        config CONFIG_ER81XX
+            bool "ER81XX"
+
+        config CONFIG_ER83XX
+            bool "ER83XX"
+    endchoice
+
+    choice
+        prompt "Target Selection"
+        default TARGET_APP
+        help
+            Please select one of the following Selection.
+
+        config TARGET_ROM
+            bool "ROM"
+
+        config TARGET_SBL
+            bool "Second Bootloader"
+
+        config TARGET_APP
+            bool "Application"
+    endchoice
+endmenu # Platform Configuration
+
+menu "Platform Components Configuration"
+    config ES_DEVICE_PMU
+        bool "Enable PMU"
+        default y
+
+    config ES_DEVICE_UART
+        bool "Enable UART"
+        default y
+
+        menu "UART Configuration"
+            depends on ES_DEVICE_UART
+
+            config ES_COMP_ENABLE_UART_0
+                bool "Enable UART 0"
+                default y
+
+            config ES_UART0_BAUDRATE
+                int "UART0 Baudrate"
+                default 115200
+
+            config ES_UART0_TX_PIN
+                int "UART0 TX Pin"
+                default 0
+
+            config ES_UART0_RX_PIN
+                int "UART0 RX Pin"
+                default 1
+
+            config ES_UART0_RX_BUF_SIZE
+                int "UART0 RX Buffer Size"
+                default 256
+            config ES_UART0_TX_BUF_SIZE
+                int "UART0 RX Buffer Size"
+                default 256
+        endmenu
+
+    config ES_DEVICE_RADIO
+        bool "Enable Radio"
+        default y
+
+        menu "Radio Configuration"
+            depends on ES_DEVICE_RADIO
+
+            config ES_DEVICE_RADIO_INTF_NUM
+                int "Number of Radio Interfaces"
+                default 1
+                help
+                    Set to 2 if using external radio module.
+
+            config WORKAROUND_TX
+                bool "Enable TX Workaround (SOC04 only)"
+                default y
+
+            choice
+                prompt "Select ER81XX Matching Frequency"
+                default ER81XX_MATCHING_FREQ_915MHZ
+                help
+                    Please select one of the following matching frequencies.
+
+                config ER81XX_MATCHING_FREQ_915MHZ
+                    bool "915MHz"
+
+                config ER81XX_MATCHING_FREQ_868MHZ
+                    bool "868MHz"
+
+                config ER81XX_MATCHING_FREQ_470MHZ
+                    bool "470MHz"
+
+                config ER81XX_MATCHING_FREQ_433MHZ
+                    bool "433MHz"
+
+                config ER81XX_MATCHING_FREQ_315MHZ
+                    bool "315MHz"
+            endchoice
+
+            config CONFIG_RADIO_DEBUG_PATTERN
+                bool "Enable Radio Debug Pattern"
+                default n
+
+            config ES_DEVICE_ENABLE_EXT_RADIO
+                bool "Enable External Radio"
+                default n
+        endmenu
+
+    config ES_DEVICE_TIMER
+        bool "Enable Timer"
+        default n
+
+    config ES_DEVICE_SPI
+        bool "Enable SPI"
+        default n
+
+    config ES_DEVICE_RTC
+        bool "Enable RTC"
+        default n
+
+    config ES_DEVICE_I2C
+        bool "Enable I2C"
+        default n
+
+    config ES_DEVICE_PWM
+        bool "Enable PWM"
+        default n
+
+    config ES_DEVICE_PWMSLOW
+        bool "Enable PWMSLOW"
+        default n
+
+    config ES_DEVICE_PIO
+        bool "Enable PIO"
+        default n
+endmenu # Platform Components Configuration
+
+menu "DMA Channel Configuration"
+
+# ---------- DMA Channel 0 ----------
+choice
+    prompt "DMA Channel 0 Function"
+    default DMA_CH0_UNUSED
+config DMA_CH0_UNUSED
+    bool "Unused"
+config DMA_CH0_AES_IN
+    bool "AES Input"
+config DMA_CH0_AES_OUT
+    bool "AES Output"
+config DMA_CH0_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH0_SHA
+    bool "SHA"
+config DMA_CH0_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH0_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH0_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH0_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH0_UART0_TX
+    bool "UART0 TX"
+config DMA_CH0_UART0_RX
+    bool "UART0 RX"
+config DMA_CH0_UART1_TX
+    bool "UART1 TX"
+config DMA_CH0_UART1_RX
+    bool "UART1 RX"
+config DMA_CH0_UART2_TX
+    bool "UART2 TX"
+config DMA_CH0_UART2_RX
+    bool "UART2 RX"
+config DMA_CH0_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH0_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH0_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH0_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH0_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH0_FUNC
+    int
+    default 0  if DMA_CH0_UNUSED
+    default 3  if DMA_CH0_AES_IN
+    default 4  if DMA_CH0_AES_OUT
+    default 5  if DMA_CH0_AES_AUTH_IN
+    default 6  if DMA_CH0_SHA
+    default 7  if DMA_CH0_SPI0_TX
+    default 8  if DMA_CH0_SPI0_RX
+    default 9  if DMA_CH0_SPI1_TX
+    default 10 if DMA_CH0_SPI1_RX
+    default 11 if DMA_CH0_UART0_TX
+    default 12 if DMA_CH0_UART0_RX
+    default 13 if DMA_CH0_UART1_TX
+    default 14 if DMA_CH0_UART1_RX
+    default 15 if DMA_CH0_UART2_TX
+    default 16 if DMA_CH0_UART2_RX
+    default 17 if DMA_CH0_I2C0_TX
+    default 18 if DMA_CH0_I2C0_RX
+    default 19 if DMA_CH0_I2C1_TX
+    default 20 if DMA_CH0_I2C1_RX
+    default 21 if DMA_CH0_USER
+
+# ---------- DMA Channel 1 ----------
+choice
+    prompt "DMA Channel 1 Function"
+    default DMA_CH1_UNUSED
+config DMA_CH1_UNUSED
+    bool "Unused"
+config DMA_CH1_AES_IN
+    bool "AES Input"
+config DMA_CH1_AES_OUT
+    bool "AES Output"
+config DMA_CH1_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH1_SHA
+    bool "SHA"
+config DMA_CH1_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH1_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH1_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH1_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH1_UART0_TX
+    bool "UART0 TX"
+config DMA_CH1_UART0_RX
+    bool "UART0 RX"
+config DMA_CH1_UART1_TX
+    bool "UART1 TX"
+config DMA_CH1_UART1_RX
+    bool "UART1 RX"
+config DMA_CH1_UART2_TX
+    bool "UART2 TX"
+config DMA_CH1_UART2_RX
+    bool "UART2 RX"
+config DMA_CH1_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH1_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH1_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH1_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH1_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH1_FUNC
+    int
+    default 0  if DMA_CH1_UNUSED
+    default 3  if DMA_CH1_AES_IN
+    default 4  if DMA_CH1_AES_OUT
+    default 5  if DMA_CH1_AES_AUTH_IN
+    default 6  if DMA_CH1_SHA
+    default 7  if DMA_CH1_SPI0_TX
+    default 8  if DMA_CH1_SPI0_RX
+    default 9  if DMA_CH1_SPI1_TX
+    default 10 if DMA_CH1_SPI1_RX
+    default 11 if DMA_CH1_UART0_TX
+    default 12 if DMA_CH1_UART0_RX
+    default 13 if DMA_CH1_UART1_TX
+    default 14 if DMA_CH1_UART1_RX
+    default 15 if DMA_CH1_UART2_TX
+    default 16 if DMA_CH1_UART2_RX
+    default 17 if DMA_CH1_I2C0_TX
+    default 18 if DMA_CH1_I2C0_RX
+    default 19 if DMA_CH1_I2C1_TX
+    default 20 if DMA_CH1_I2C1_RX
+    default 21 if DMA_CH1_USER
+
+# ---------- DMA Channel 2 ----------
+choice
+    prompt "DMA Channel 2 Function"
+    default DMA_CH2_UNUSED
+config DMA_CH2_UNUSED
+    bool "Unused"
+config DMA_CH2_AES_IN
+    bool "AES Input"
+config DMA_CH2_AES_OUT
+    bool "AES Output"
+config DMA_CH2_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH2_SHA
+    bool "SHA"
+config DMA_CH2_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH2_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH2_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH2_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH2_UART0_TX
+    bool "UART0 TX"
+config DMA_CH2_UART0_RX
+    bool "UART0 RX"
+config DMA_CH2_UART1_TX
+    bool "UART1 TX"
+config DMA_CH2_UART1_RX
+    bool "UART1 RX"
+config DMA_CH2_UART2_TX
+    bool "UART2 TX"
+config DMA_CH2_UART2_RX
+    bool "UART2 RX"
+config DMA_CH2_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH2_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH2_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH2_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH2_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH2_FUNC
+    int
+    default 0  if DMA_CH2_UNUSED
+    default 3  if DMA_CH2_AES_IN
+    default 4  if DMA_CH2_AES_OUT
+    default 5  if DMA_CH2_AES_AUTH_IN
+    default 6  if DMA_CH2_SHA
+    default 7  if DMA_CH2_SPI0_TX
+    default 8  if DMA_CH2_SPI0_RX
+    default 9  if DMA_CH2_SPI1_TX
+    default 10 if DMA_CH2_SPI1_RX
+    default 11 if DMA_CH2_UART0_TX
+    default 12 if DMA_CH2_UART0_RX
+    default 13 if DMA_CH2_UART1_TX
+    default 14 if DMA_CH2_UART1_RX
+    default 15 if DMA_CH2_UART2_TX
+    default 16 if DMA_CH2_UART2_RX
+    default 17 if DMA_CH2_I2C0_TX
+    default 18 if DMA_CH2_I2C0_RX
+    default 19 if DMA_CH2_I2C1_TX
+    default 20 if DMA_CH2_I2C1_RX
+    default 21 if DMA_CH2_USER
+
+# ---------- DMA Channel 3 ----------
+choice
+    prompt "DMA Channel 3 Function"
+    default DMA_CH3_UNUSED
+config DMA_CH3_UNUSED
+    bool "Unused"
+config DMA_CH3_AES_IN
+    bool "AES Input"
+config DMA_CH3_AES_OUT
+    bool "AES Output"
+config DMA_CH3_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH3_SHA
+    bool "SHA"
+config DMA_CH3_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH3_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH3_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH3_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH3_UART0_TX
+    bool "UART0 TX"
+config DMA_CH3_UART0_RX
+    bool "UART0 RX"
+config DMA_CH3_UART1_TX
+    bool "UART1 TX"
+config DMA_CH3_UART1_RX
+    bool "UART1 RX"
+config DMA_CH3_UART2_TX
+    bool "UART2 TX"
+config DMA_CH3_UART2_RX
+    bool "UART2 RX"
+config DMA_CH3_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH3_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH3_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH3_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH3_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH3_FUNC
+    int
+    default 0  if DMA_CH3_UNUSED
+    default 3  if DMA_CH3_AES_IN
+    default 4  if DMA_CH3_AES_OUT
+    default 5  if DMA_CH3_AES_AUTH_IN
+    default 6  if DMA_CH3_SHA
+    default 7  if DMA_CH3_SPI0_TX
+    default 8  if DMA_CH3_SPI0_RX
+    default 9  if DMA_CH3_SPI1_TX
+    default 10 if DMA_CH3_SPI1_RX
+    default 11 if DMA_CH3_UART0_TX
+    default 12 if DMA_CH3_UART0_RX
+    default 13 if DMA_CH3_UART1_TX
+    default 14 if DMA_CH3_UART1_RX
+    default 15 if DMA_CH3_UART2_TX
+    default 16 if DMA_CH3_UART2_RX
+    default 17 if DMA_CH3_I2C0_TX
+    default 18 if DMA_CH3_I2C0_RX
+    default 19 if DMA_CH3_I2C1_TX
+    default 20 if DMA_CH3_I2C1_RX
+    default 21 if DMA_CH3_USER
+
+# ---------- DMA Channel 4 ----------
+choice
+    prompt "DMA Channel 4 Function"
+    default DMA_CH4_UNUSED
+config DMA_CH4_UNUSED
+    bool "Unused"
+config DMA_CH4_AES_IN
+    bool "AES Input"
+config DMA_CH4_AES_OUT
+    bool "AES Output"
+config DMA_CH4_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH4_SHA
+    bool "SHA"
+config DMA_CH4_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH4_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH4_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH4_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH4_UART0_TX
+    bool "UART0 TX"
+config DMA_CH4_UART0_RX
+    bool "UART0 RX"
+config DMA_CH4_UART1_TX
+    bool "UART1 TX"
+config DMA_CH4_UART1_RX
+    bool "UART1 RX"
+config DMA_CH4_UART2_TX
+    bool "UART2 TX"
+config DMA_CH4_UART2_RX
+    bool "UART2 RX"
+config DMA_CH4_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH4_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH4_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH4_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH4_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH4_FUNC
+    int
+    default 0  if DMA_CH4_UNUSED
+    default 3  if DMA_CH4_AES_IN
+    default 4  if DMA_CH4_AES_OUT
+    default 5  if DMA_CH4_AES_AUTH_IN
+    default 6  if DMA_CH4_SHA
+    default 7  if DMA_CH4_SPI0_TX
+    default 8  if DMA_CH4_SPI0_RX
+    default 9  if DMA_CH4_SPI1_TX
+    default 10 if DMA_CH4_SPI1_RX
+    default 11 if DMA_CH4_UART0_TX
+    default 12 if DMA_CH4_UART0_RX
+    default 13 if DMA_CH4_UART1_TX
+    default 14 if DMA_CH4_UART1_RX
+    default 15 if DMA_CH4_UART2_TX
+    default 16 if DMA_CH4_UART2_RX
+    default 17 if DMA_CH4_I2C0_TX
+    default 18 if DMA_CH4_I2C0_RX
+    default 19 if DMA_CH4_I2C1_TX
+    default 20 if DMA_CH4_I2C1_RX
+    default 21 if DMA_CH4_USER
+
+# ---------- DMA Channel 5 ----------
+choice
+    prompt "DMA Channel 5 Function"
+    default DMA_CH5_UNUSED
+config DMA_CH5_UNUSED
+    bool "Unused"
+config DMA_CH5_AES_IN
+    bool "AES Input"
+config DMA_CH5_AES_OUT
+    bool "AES Output"
+config DMA_CH5_AES_AUTH_IN
+    bool "AES Auth Input"
+config DMA_CH5_SHA
+    bool "SHA"
+config DMA_CH5_SPI0_TX
+    bool "SPI0 TX"
+config DMA_CH5_SPI0_RX
+    bool "SPI0 RX"
+config DMA_CH5_SPI1_TX
+    bool "SPI1 TX"
+config DMA_CH5_SPI1_RX
+    bool "SPI1 RX"
+config DMA_CH5_UART0_TX
+    bool "UART0 TX"
+config DMA_CH5_UART0_RX
+    bool "UART0 RX"
+config DMA_CH5_UART1_TX
+    bool "UART1 TX"
+config DMA_CH5_UART1_RX
+    bool "UART1 RX"
+config DMA_CH5_UART2_TX
+    bool "UART2 TX"
+config DMA_CH5_UART2_RX
+    bool "UART2 RX"
+config DMA_CH5_I2C0_TX
+    bool "I2C0_TX"
+config DMA_CH5_I2C0_RX
+    bool "I2C0_RX"
+config DMA_CH5_I2C1_TX
+    bool "I2C1_TX"
+config DMA_CH5_I2C1_RX
+    bool "I2C1_RX"
+config DMA_CH5_USER
+    bool "User-defined"
+endchoice
+
+config DMA_CH5_FUNC
+    int
+    default 0  if DMA_CH5_UNUSED
+    default 3  if DMA_CH5_AES_IN
+    default 4  if DMA_CH5_AES_OUT
+    default 5  if DMA_CH5_AES_AUTH_IN
+    default 6  if DMA_CH5_SHA
+    default 7  if DMA_CH5_SPI0_TX
+    default 8  if DMA_CH5_SPI0_RX
+    default 9  if DMA_CH5_SPI1_TX
+    default 10 if DMA_CH5_SPI1_RX
+    default 11 if DMA_CH5_UART0_TX
+    default 12 if DMA_CH5_UART0_RX
+    default 13 if DMA_CH5_UART1_TX
+    default 14 if DMA_CH5_UART1_RX
+    default 15 if DMA_CH5_UART2_TX
+    default 16 if DMA_CH5_UART2_RX
+    default 17 if DMA_CH5_I2C0_TX
+    default 18 if DMA_CH5_I2C0_RX
+    default 19 if DMA_CH5_I2C1_TX
+    default 20 if DMA_CH5_I2C1_RX
+    default 21 if DMA_CH5_USER
+
+endmenu # DMA Channel Configuration
+
+
+menu "Middleware Components Configuration"
+    config MIDDLEWARE_RETARGET_STDIO
+        bool "Enable Retargeting of STDIO"
+        depends on ES_DEVICE_UART
+        default y
+        # Parameters Setting
+        menu "STDIO UART PORT"
+            depends on MIDDLEWARE_RETARGET_STDIO
+
+            config STDIO_UART_PORT
+                int "STDIO UART PORT"
+                default 0
+
+            config STDIO_DEBUG_PRINT
+                bool "STDIO Debug Print"
+                default y
+
+        endmenu # STDIO UART PORT
+
+    config MIDDLEWARE_WISE_CLI
+        bool "Enable WISE CLI"
+        default n
+        menu "CLI Features"
+            depends on MIDDLEWARE_WISE_CLI
+
+            config DISABLE_INTERNAL_CLI
+                bool "DISABLE INTERNAL CLI"
+                default n
+
+            config DISABLE_WISE_CTRL_CMD
+                bool "DISABLE WISE CTRL CMD"
+                default n
+        endmenu # CLI Features
+
+    config MIDDLEWARE_WISE_SHELL
+        bool "Enable WISE Shell"
+        default y
+        depends on MIDDLEWARE_RETARGET_STDIO
+        menu "WISE Shell Features"
+            depends on MIDDLEWARE_WISE_SHELL
+
+            config SHELL_FILESYSTEM
+                bool "Enable Filesystem Support in Shell"
+                depends on MIDDLEWARE_WISE_FLASH_FILESYSTEM
+                default n
+
+            config SHELL_RADIO
+                bool "Enable Radio Support in Shell"
+                depends on ES_DEVICE_RADIO
+                default y
+
+            config SHELL_TIMER
+                bool "Enable Timer Support in Shell"
+                depends on ES_DEVICE_TIMER
+                default y
+
+            config SHELL_RTC
+                bool "Enable RTC Support in Shell"
+                depends on ES_DEVICE_RTC
+                default y
+
+            config SHELL_SPI
+                bool "Enable SPI Support in Shell"
+                depends on ES_DEVICE_SPI
+                default y
+
+            config SHELL_I2C
+                bool "Enable I2C Support in Shell"
+                depends on ES_DEVICE_I2C
+                default y
+
+            config SHELL_PWM
+                bool "Enable PWM Support in Shell"
+                depends on ES_DEVICE_PWM
+                default n
+
+            config SHELL_PWMSLOW
+                bool "Enable PWMSLOW Support in Shell"
+                depends on ES_DEVICE_PWMSLOW
+                default n
+
+            config SHELL_TRNG
+                bool "Enable True Random Number Generator (TRNG) in Shell"
+                default n
+
+            config SHELL_XT
+                bool "Enable XT Support in Shell"
+                default n
+                depends on MIDDLEWARE_WISE_CLI
+
+            config SHELL_USER
+                bool "Enable User-defined Commands in Shell"
+                default n
+
+            config SHELL_WDT
+                bool "Enable Watchdog Timer Support in Shell"
+                default y
+
+            config SHELL_GPIO
+                bool "Enable GPIO Support in Shell"
+                default n
+
+            config SHELL_PIO
+                bool "Enable PIO Support in Shell"
+                depends on ES_DEVICE_PIO
+                default n
+
+            config SHELL_WMBUS
+                bool "Enable WMBUS Support in Shell"
+                default n
+
+            config SHELL_CRYPTO
+                bool "Enable CRYPTO Support in Shell"
+                default y
+
+            config SHELL_SYS
+                bool "Enable SYS Support in Shell"
+                default y
+        endmenu # WISE Shell Features
+
+    config MIDDLEWARE_WISE_CTRL_CMD
+        bool "Enable WISE Control Command"
+        depends on MIDDLEWARE_WISE_FLASH_FILESYSTEM
+        default y
+        menu "Control Command Configuration"
+            depends on MIDDLEWARE_WISE_CTRL_CMD
+
+            config CTRL_CMD_UART_PORT
+                int "Control Command UART Port"
+                default 0
+
+            config DISABLE_WISE_FILESYSTEM
+                bool "DISABLE WISE File System"
+                default n
+
+            config DISABLE_IAP_CMD
+                bool "DISABLE IAP CMD"
+                default n
+
+            config TARGET_HAL_CTRL
+                bool "TARGET HAL CTRL"
+                default n
+
+            config PKT_NO_ERR
+                bool "PACKET NO ERROR"
+                default n
+
+            config PKT_MAX_PAYLOAD_LEN
+                int "Packet MAX payload Length"
+                default 256
+        endmenu # Control Command Configuration
+
+    config MIDDLEWARE_WISE_FLASH_FILESYSTEM
+        bool "Enable WISE flash filesystem"
+        default n
+        menu "Control Flash File System Configuration"
+            depends on MIDDLEWARE_WISE_FLASH_FILESYSTEM
+
+            config SUPPORT_CRC16_CCITT
+                bool "Support CRC16-CCITT Format"
+                default n
+        endmenu # Control Flash File System Configuration
+
+    config MIDDLEWARE_WISE_SYSTEM
+        bool "Enable WISE System"
+        default y
+        menu "Control WISE System Configuration"
+            depends on MIDDLEWARE_WISE_SYSTEM
+
+            config TASK_PROFILING
+                bool "ENABLE TASK PROFILING"
+                default n
+
+            config WISE_PM_CTRL
+                bool "ENABLE Power Saving Mode Control"
+                default n
+
+            config EXTERNAL_SPI_CTRL
+                bool "ENABLE External SPI Control"
+                default n
+        endmenu # Control WISE System Configuration
+
+    config MIDDLEWARE_WISE_KERMIT
+        bool "Enable WISE Kermit"
+        default n
+        menu "Control WISE Kermit Configuration"
+            depends on MIDDLEWARE_WISE_KERMIT
+
+            config ENABLE_DEBUG
+                bool "ENABLE DEBUG PRINTF"
+                default n
+        endmenu # Control WISE Kermit Configuration
+
+    config MIDDLEWARE_WISE_RADIO_PRECFG
+        bool "Enable WISE Radio Preconfiguration"
+        default n
+endmenu # Middleware Components Configuration

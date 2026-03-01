@@ -1,0 +1,3 @@
+; Setup multicast or device name
+setmulticastname 'DEVICE_2'
+; End of script

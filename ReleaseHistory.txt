@@ -1,0 +1,361 @@
+ESMT WISE SDK Release History
+
+================================================================================
+Version: 4.0003
+Git revision: 0x6b7e45de
+Radio library: 
+        libWISERadioLib_subg_soc_9005 v1.10
+        libWISERadioLib_subg_soc_9006 v1.04
+Release Date: February 5, 2026
+
+1. Overview
+    WISE SDK is a software package which supports to application development on
+    ESMT ER8xxx family SoC.
+
+2. Supported Platforms
+    - ER8130 TC01
+    - ER8130A/ER8131A
+
+3. Major Changes
+	- Optimized radio rx configuration execution time
+	- Fixed WMBUS rx MAC packet format hardware configuration
+	- Fix system woke-up failure during NFC proximity
+	- Added XIP clock divider and SPI mode configuration
+	- Default switch to XIP high speed in wise_core_init
+	- Fixed issue: System hangs during initialization when the system is set to 1.8V
+	- Conditionally support CRC hardware configuration and TX/RX path handling
+	- Support BOD functionality
+	- Removed GPIO_INT_TYPE_LEVEL_BOTH support
+	- Fixed issue: handle WUTMR counter overflow and add reset delay
+	- Add API to enable and disable EXTPMU wake-up source
+	- Upgrade shell function to wise_shell_v2
+	- New APIs to access eFuse
+	- Fixed issue: TPM calibration failed at data rates below 100K
+================================================================================
+
+================================================================================
+Version: 4.0002
+Git revision: 0x80ce1b69
+Radio library: 
+        libWISERadioLib_subg_soc_9005 v1.09
+        libWISERadioLib_subg_soc_9006 v1.03
+Release Date: January 6, 2026
+
+1. Overview
+    This is an internal release of the WISE SDK for ER8130A chip verification.
+
+2. Supported Platforms
+    - ER8130 TC01
+    - ER8130A/ER8131A
+
+3. Major Changes
+    - Removed WFI() operation in radio single tone mode.
+    - Supported separated configurations of gain_ctrl_40m value for working mode and sleep mode.
+================================================================================
+
+================================================================================
+Version: 4.0001
+Git revision: 0x8b7d762c
+Radio library: 
+        libWISERadioLib_subg_soc_9005 v1.09
+        libWISERadioLib_subg_soc_9006 v1.02
+Release Date: December 31, 2025
+
+1. Overview
+    This is an internal release of the WISE SDK for ER8130A chip verification.
+
+2. Supported Platforms
+    - ER8130 TC01
+    - ER8130A/ER8131A
+
+3. Major Changes
+    - Revised the WISEDemoApp demo project.
+    - Implemented radio IQ calibration functionality.
+    - Improved radio performance.
+    - Optimized current consumption.
+    
+4. Bugs Fixes
+    - Fixed a single-tone malfunction when building the project with optimization level -O0.
+    - Fixed a DMA operation failure during crypto-related functions.
+    - Fixed an issue where GPIO wake-up did not work in shutdown mode.
+================================================================================
+
+================================================================================
+Version: 4.0000
+Git revision: 0x00000000
+Radio library: 
+        libWISERadioLib_subg_soc_9005 v1.05
+        libWISERadioLib_subg_soc_9006 v1.00
+Release Date: December 7, 2025
+
+1. Overview
+    This is an internal release of the WISE SDK for ER8130A chip verification.
+
+2. Supported platforms
+    - ER8130 TC01
+    - ER8130A
+
+3. Major change
+    - Phased out SoC TC04
+    - Added support for new platform drivers for ER8130A (CHIP_ID 0x9006).
+    - Updated API documentation. Refer to: documents/WISE API/html/index.html.
+================================================================================
+
+================================================================================
+Version: 3.0005
+Git revision: 0x00000000
+Radio library:  
+        libWISERadioLib_subg_soc_9003 v1.02
+        libWISERadioLib_subg_soc_9005 v1.05
+Release Date: October 16, 2025
+
+1. Overview
+    Internal released version of WISE SDK for ER8130 TC01 design verification
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+
+3. Major change
+    - Radio
+    	- Fine tuned internal radio tx/rx control flow
+================================================================================
+
+================================================================================
+Version: 3.0004
+Git revision: 0x00000000
+Radio library: 
+        libWISERadioLib_subg_soc_9003 v1.02
+        libWISERadioLib_subg_soc_9005 v1.04
+Release Date: September 18, 2025
+
+1. Overview
+    Internal released version of WISE SDK for ER8130 TC01 design verification
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+
+3. Major change
+    - Radio
+    	- Added interface function to control RX auto-restart feature
+		- Support CRC and PHR control driver
+		- Added AGC Gain Index auto-adjustment to enhance RX calibration
+		- optimized performance for close-proximity antennas at a data rate of 500 kbps
+		- fixed MAC FSM stuck issue caused by early RXEN termination
+		- support configurable xtal setting in board config file
+	- SARADC
+		- Added new SARADC API
+		- Added demo code in shell command
+	- DMA
+		- Internal control flow improving
+    	- Reserved 2 dedicated channels for audio functions. Not configurable by user.
+    	- Limited user configurable channels at CH0-CH5
+    - Crypto
+    	- Supported IV configuration on each crypto execution
+   	- UART
+   		- New API to reset interal UART FIFO
+   	- I2C
+   		- Refactored I2C API
+   		- Added combined transfer support
+    - SPI
+    	- Refactored I2C API
+   	
+4. Bug fixing
+  	- [235] add tpm calibration api for upper-layer control
+	- [246] WOR sleep time accuracy with 25% tolerance
+	- [257] always do tpm cal even if system is run data rate below 125K
+	- [261] wmbus RX mode cannot received data which is send by TX mode
+	- [266] [low temperature] modified 40m gain control for -40 degree temperature testing
+	- [275] reduce current at start phase and init phase
+	- [280] Over the air PER issue
+	- [281] RX noise with high data rate and syncword
+	- [282] RX cannot receive any packet in MBUS C-M2O mode
+================================================================================
+
+================================================================================
+Version: 3.0003
+Git revision: 0x00000000
+Radio library: 
+        libWISERadioLib_subg_soc_9003 v1.02
+        libWISERadioLib_subg_soc_9005 v1.03
+Release Data: August 1, 2025
+
+1. Overview
+    Internal released version of WISE SDK for ER8130 TC01 design verification
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+
+3. Major change
+    - Radio
+    	- update 868 matching 14dBm PA + DCDC setting
+		- Modify syncword setting to 4 bytes
+		- Modify preamble setting to 1 byte pattern with max 4 bytes length
+		- support manchester encoding/decoding
+    - LFOSC
+    	- Default enabling LFOSC 16KHz as low rate clock source
+    	- New APIs for LFOSC clock change and calibration
+    	- New APIs for system idle/sleep/shutdown mode
+    	- New APIs for configuration WUTMR to wakeup from sleep modes
+    	- Demo codes for waking up by GPIO interrupt from sleep modes
+================================================================================
+
+================================================================================
+Version: 3.0002.005E
+Radio library: 
+        libWISERadioLib_subg_soc_9003 v1.02.29
+        libWISERadioLib_subg_soc_9005 v1.02.15
+Release Data: July 2, 2025
+
+1. Overview
+    Internal released version of WISE SDK for ER8130 TC01 design verification
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+
+3. Major change
+    - Fine tuned GFSK data rate 1M in radio function
+    - Supported GFSK data rate 12.5K h=1,2,4
+    - Supported SHA and AES
+    - Imporved EVM of tx data rate 100K
+    - Modified GPIO pin mux funcion
+================================================================================
+
+================================================================================
+Version: 3.0001.0046
+Radio library: 
+        libWISERadioLib_subg_soc_9003 v1.02.29
+        libWISERadioLib_subg_soc_9005 v1.01.34
+Release Data: June 25, 2025
+
+1. Overview
+    Internal released version of WISE SDK for ER8130 TC01 design verification
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+
+3. Major change
+    - Supported GFSK data rate 1M in radio function
+    - Fixed Mantis issue 
+        - [ER8130 0000196] Enabling DCDC random switching frequency causes 
+            degraded FSK Error performance
+        - [ER8130 0000198] SHA & AES API request
+            - API draft implemented
+            - Function not working due to DMA driver issue
+    - New UART API for setting buffer to driver when using FIFO mode
+    - Implemented Wireless MBus API
+        - Integrated with third party library mbedTLS
+        - For testing frame format encoding/decoding only
+        - Low data rate is not supported yet
+    - Fixed invalid RAM size configuration in default linker script
+    - Minor bug fixing and improvement
+================================================================================
+
+================================================================================
+Version: 3.0000.0001
+Radio library: 
+        libWISERadioLib_ER8130_TC04 v1.02.29
+        libWISERadioLib_ER8130_TC01 v1.00.00
+Release Data: June 6, 2025
+
+1. Overview
+    Pre-release version of WISE SDK for ER8130 TC01
+
+2. Supported platforms
+    - SubG SoC TC04
+    - ER8130 TC01
+    
+3. Major change
+    - First release of core drivers for ER8130 TC01. Supported modules:
+        - Watch dog
+        - UART (CPU mode)
+        - SPI (CPU mode)
+        - I2C (CPU mode)
+        - PWM
+        - PWM slow
+        - GPTimer
+        - RTC
+        - PIO
+        - GPIO
+        - SWD/TCXO mode control
+        - Radio transparent mode
+        - Radio IEEE802.15.4 mode
+        - Radio software packet format
+    - Minor bugs fixing for platform SoC TC04
+
+4. Known issues
+    - DMA mode is not supported in peripheral drivers yet
+    - Radio shell command support fixed patter for tx/rx test
+    - System power mode is not supported yet
+================================================================================
+
+================================================================================
+Version: 2.0002.0142
+Radio library: libWISERadioLib_ER8130_TC04 v1.02.22
+Release Data: April 29, 2025
+
+1. Overview
+    SDK architecture fine tuning.
+
+2. Supported platforms
+    - ER8130 TC04
+
+3. Major change
+    - wise_gptmr_api
+    - wise_spi_api
+    - wise_i2c_api
+    - more CRC polynomials are supported in radio function
+    - minor bug fixing.
+================================================================================
+
+================================================================================
+Version: 2.0001.0000
+Radio library: libWISERadioLib_ER8130_TC04 v1.00.00
+Release Data: February 14, 2025
+
+1. Overview
+    ESMT WISE SDK inlcudes software development kits, Eclipse IDE with GNU 
+    toolchain for ARM, and several tools developed by ESMT. WISE SDK is primary 
+    used for developing IoT products on ESMT radio platforms.
+    
+2. Supported platforms
+    - ER8130 TC04
+    
+3. Features
+    - Integrated APIs over HAL driver for simplifiation of firmware development.
+    - Porvided variety of middleware utilities for application development.
+    - Well designed comman APIs for easily migration over ESMT SoC platforms.
+    - Full sets of demo application with shell commands for function evaluation 
+        and verification.
+
+4. Known issues
+    - Radio performance is not relieable on ER8130 TC04
+    - Sleep mode is only for API flow demonstartion
+    - Sleep mode can only be waken up by internal sleep timer.
+    - Wakeup timer is not fine-tuned yet.
+    - SPI API supports only master mode with single mode in this version
+    - I2C API supports only master mode in this version
+
+5. Packages and documents
+    - software developemnt kits with prebuilt radio library
+    - Development tool package
+      - Eclipse IDE portable version
+      - ARM GNU toolchain 12.3
+      - xpack build tools 2.12
+      - xpack open ocd 0.12.0
+    - ESMT Flash programmer 1.0.0
+    - ESMT WISE IAP 1.1.0
+    - Documents
+      - Developing with Eclipse v1.01.pptx
+      - ESMT ER8130 EVK_20250214.pptx
+      - ESMT ER8130_TC04 demo boards.xlsx
+      - ESMT WISE SDK Intro_20250214.pptx
+      - README.MD for quick start
+      
+6. Download
+    - SDK and documents: https://github.com/KWYangESMT/sdk_release_m2c.git
+    - Tool package: https://drive.google.com/drive/folders/10TrONhtmc-1zZ06gRBtqe9OSHuvCvaQQ?usp=drive_link

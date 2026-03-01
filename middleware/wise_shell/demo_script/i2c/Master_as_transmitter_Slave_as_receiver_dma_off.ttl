@@ -1,0 +1,23 @@
+; Setup multicast or device name
+setmulticastname 'DEVICE_1'
+
+sendln 'reset'
+sprintf2 cmd 'reset'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 4000
+
+sprintf2 cmd 'i2c slave init 0 0 0 0 0x25 0'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sprintf2 cmd 'i2c recv 0 8'
+sendmulticast 'DEVICE_2' cmd 13 10
+mpause 500
+
+sendln  'i2c master init 0 1 0 0 0x25 0'
+mpause 500
+
+sendln 'i2c send 0 8'
+
+
+; End of script

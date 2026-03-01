@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['radio_20apis_0',['WISE Radio APIs',['../group___w_i_s_e___radio___a_p_is.html',1,'']]],
+  ['radio_20shell_20example_20app_1',['Radio Shell Example App',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___r_a_d_i_o.html',1,'']]],
+  ['radio_20wmbus_20apis_2',['WISE Radio WMbus APIs',['../group___w_i_s_e___r_a_d_i_o___w_m_b_u_s___a_p_is.html',1,'']]],
+  ['radio_5fbuf_5flen_3',['RADIO_BUF_LEN',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___r_a_d_i_o.html#ga98b8dc4d2587e2f2e4ddce1c61fe0ba9',1,'demo_radio_trx_main.c']]],
+  ['radio_5frx_5fcontinuous_4',['RADIO_RX_CONTINUOUS',['../group___w_i_s_e___radio___a_p_is.html#ggab0e6861d03934a951d5edb42ea244530a051c5daf31c8de1ec9757bb4975e631e',1,'wise_radio_api.h']]],
+  ['radio_5frx_5fone_5fshot_5',['RADIO_RX_ONE_SHOT',['../group___w_i_s_e___radio___a_p_is.html#ggab0e6861d03934a951d5edb42ea244530a8d433d4849a496a4144d1a118c50a1da',1,'wise_radio_api.h']]],
+  ['rand_5fcmwc_6',['rand_cmwc',['../group___w_i_s_e___u_t_i_l.html#ga6bf6623b88309dc6ab3c9d7c84db0dbb',1,'util.h']]],
+  ['read_5fdata_5fdual_5fio_7',['READ_DATA_DUAL_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655af507cf4af962f143b4130f9585051d32',1,'wise_spi_api.h']]],
+  ['read_5fdata_5fquad_5fio_8',['READ_DATA_QUAD_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655a85a7782d4975790f4a6d4d6d4ef9ced4',1,'wise_spi_api.h']]],
+  ['read_5fdata_5fsingle_5fio_9',['READ_DATA_SINGLE_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655ab328b4babc6d57e0dd585c197da00742',1,'wise_spi_api.h']]],
+  ['read_5fstatus_5fdual_5fio_10',['READ_STATUS_DUAL_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655af45a0eb038da5f8d3a8905bb2faa0cec',1,'wise_spi_api.h']]],
+  ['read_5fstatus_5fquad_5fio_11',['READ_STATUS_QUAD_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655ada88c67f957a6e6113dc6b89494a119c',1,'wise_spi_api.h']]],
+  ['read_5fstatus_5fsingle_5fio_12',['READ_STATUS_SINGLE_IO',['../group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655a26f6646f4406742723d96fcea19d7ed7',1,'wise_spi_api.h']]],
+  ['reserved_13',['reserved',['../struct_w_i_s_e___r_x___m_e_t_a___t.html#a72aca6ea6d8153b28ea8f139b932ec3e',1,'WISE_RX_META_T']]],
+  ['retry_14',['retry',['../struct_w_i_s_e___r_a_d_i_o___c_c_a___t.html#a49b0be536e22f4160eb843de6b46bbd5',1,'WISE_RADIO_CCA_T']]],
+  ['role_15',['role',['../group___w_i_s_e___i2_c.html#ga5b9aeb2bb7989ef331f452dd9626f139',1,'WISE_I2C_CONF_T::role'],['../struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a5b9aeb2bb7989ef331f452dd9626f139',1,'WISE_SPI_CONF_T::role']]],
+  ['rssi_16',['rssi',['../struct_w_i_s_e___r_x___m_e_t_a___t.html#a3b962e67ba74725bd60ca3c29f785abe',1,'WISE_RX_META_T']]],
+  ['rtc_20apis_17',['WISE RTC APIs',['../group___w_i_s_e___r_t_c.html',1,'']]],
+  ['rtc_20example_20app_18',['RTC Example App',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___r_t_c.html',1,'']]],
+  ['rtc_5ftime_5ft_19',['RTC_TIME_T',['../struct_r_t_c___t_i_m_e___t.html',1,'']]],
+  ['rx_5fdata_5fbuff_20',['rx_data_buff',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aeadaa3f25a20921af22c6b4bc60c513e',1,'WISE_SPI_XFER_MSG_T']]],
+  ['rx_5fframe_5finvalid_21',['RX_FRAME_INVALID',['../group___w_i_s_e___radio___a_p_is.html#gga5fda4711eb4d862c599d511541d951deac57d72e40705577edef58f5d7f9cb594',1,'wise_radio_api.h']]],
+  ['rx_5fframe_5fvalid_22',['RX_FRAME_VALID',['../group___w_i_s_e___radio___a_p_is.html#gga5fda4711eb4d862c599d511541d951dea2e2892bba52b67c3808b77bbb9e4a4f9',1,'wise_radio_api.h']]],
+  ['rx_5funit_5fcount_23',['rx_unit_count',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ade96074d531d2bdab18235ef1de927cc',1,'WISE_SPI_XFER_MSG_T']]]
+];
