@@ -58,66 +58,10 @@
  * @{
  */
 
-#define SHELL_UART_CH  0 /**< UART channel used as shell I/O interface. */
+#define DEMO_APP_PROMPT             "FLASH> "
 
 /** Cached flash information retrieved from ::wise_flash_get_info(). */
 static WISE_FLASH_INFO_T flashInfo = {0};
-
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read a single character from UART for shell input.
- *
- * This function is registered as the shell read callback and fetches
- * characters from the configured UART channel.
- *
- * @param[out] ch Pointer to the variable that receives the character.
- *
- * @retval true  A character was successfully read.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a string to UART for shell output.
- *
- * This function is registered as the shell write callback and transmits
- * a null-terminated string via the configured UART channel.
- *
- * @param[in] s Pointer to the null-terminated string to send.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize the shell module with UART backend.
- *
- * Configures shell I/O callbacks and sets the shell prompt to "FLASH> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "FLASH> ",
-    };
-
-    shell_init(&cfg);
-}
 
 /* ========================================================================== */
 /* read Command                                                               */
@@ -372,7 +316,7 @@ void main(void)
     int i;
 
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     wise_flash_get_info(&flashInfo);
     wise_flash_get_uid(flashUID, &flashUIDLen);

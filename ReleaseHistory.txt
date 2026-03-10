@@ -1,6 +1,30 @@
 ESMT WISE SDK Release History
 
 ================================================================================
+Version: 4.0004
+Git revision: 0xcf425bad
+Radio library: 
+        libWISERadioLib_subg_soc_9005 v1.10
+        libWISERadioLib_subg_soc_9006 v1.05
+Release Date: February 27, 2026
+
+1. Overview
+    WISE SDK is a software package which supports to application development on
+    ESMT ER8xxx family SoC.
+
+2. Supported Platforms
+    - ER8130 TC01
+    - ER8130A/ER8131A
+
+3. Major Changes
+	- Revised eFUSE control APIs
+	- Implemented demo function for WMBus PHY control in WISEDemoAPP.
+	- Included FreeRTOS into SDK and example project in WISEDemoAPP is also created.
+	- API documents are updated.
+	- Fixed issue: poor EVM on PRBS9.
+================================================================================
+
+================================================================================
 Version: 4.0003
 Git revision: 0x6b7e45de
 Radio library: 
@@ -332,7 +356,7 @@ Release Data: February 14, 2025
     - Full sets of demo application with shell commands for function evaluation 
         and verification.
 
-4. Known issues
+4. Ky wn ?не ues
     - Radio performance is not relieable on ER8130 TC04
     - Sleep mode is only for API flow demonstartion
     - Sleep mode can only be waken up by internal sleep timer.

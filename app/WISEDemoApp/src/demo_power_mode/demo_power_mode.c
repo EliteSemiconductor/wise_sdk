@@ -60,10 +60,10 @@
  * @{
  */
 
-#define SHELL_UART_CH       0      /**< UART channel used by shell backend. */
-#define SLEEP_TIME          20000  /**< Default wakeup timer duration in milliseconds. */
-#define WAKEUP_GPIO_PIN     5      /**< GPIO pin index used as wakeup trigger. */
-#define SHUTDOWN_TIME       60000  /**< Shutdown duration in milliseconds before auto wake/reboot. */
+#define SLEEP_TIME                  20000  /**< Default wakeup timer duration in milliseconds. */
+#define WAKEUP_GPIO_PIN             5      /**< GPIO pin index used as wakeup trigger. */
+#define SHUTDOWN_TIME               60000  /**< Shutdown duration in milliseconds before auto wake/reboot. */
+#define DEMO_APP_PROMPT             "PM> "
 
 static void _setup_wakeup_trigger(void);
 static void _wakeup_io_int_callback(void *context, uint8_t idx);
@@ -71,55 +71,6 @@ static void _wakeup_io_int_callback(void *context, uint8_t idx);
 /** @brief Runtime-configurable sleep duration used by WUTMR start, in milliseconds. */
 static uint32_t sleepMs = SLEEP_TIME;
 
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read one character from UART for shell input.
- *
- * @param[out] ch Pointer to the variable that receives the character.
- *
- * @retval true  A character was read successfully.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a null-terminated string to UART for shell output.
- *
- * @param[in] s Null-terminated string to transmit.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize shell configuration and bind UART backend callbacks.
- *
- * Sets the shell prompt to "PM> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "PM> ",
-    };
-
-    shell_init(&cfg);
-}
 
 /* ========================================================================== */
 /* idle Command                                                               */
@@ -300,7 +251,7 @@ static void _setup_wakeup_trigger(void)
 void main(void)
 {
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     while (1) {
         wise_main_proc();

@@ -58,8 +58,8 @@
  * @{
  */
 
-#define SHELL_UART_CH       0   /**< UART channel used by shell backend. */
-#define RADIO_BUF_LEN       512 /**< RX buffer pool size in bytes. */
+#define DEMO_APP_PROMPT             "RADIO> "
+#define RADIO_BUF_LEN               512 /**< RX buffer pool size in bytes. */
 
 static void rfEventHandler(WISE_RADIO_EVT_T evt);
 
@@ -124,56 +124,6 @@ static const uint8_t TEST_PACKET[16] =
     0x0F, 0x16, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66,
     0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE,
 };
-
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read one character from UART for shell input.
- *
- * @param[out] ch Pointer to the variable that receives the character.
- *
- * @retval true  A character was read successfully.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a null-terminated string to UART for shell output.
- *
- * @param[in] s Null-terminated string to transmit.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize shell configuration and bind UART backend callbacks.
- *
- * Sets the shell prompt to "RADIO> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "RADIO> ",
-    };
-
-    shell_init(&cfg);
-}
 
 /* ========================================================================== */
 /* recv Command                                                               */
@@ -426,7 +376,7 @@ static void rfEventHandler(WISE_RADIO_EVT_T evt)
 void main(void)
 {
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     wise_radio_init(rfIntf);
     wise_radio_set_evt_callback(rfIntf, rfEventHandler);

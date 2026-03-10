@@ -342,9 +342,8 @@ static WISE_STATUS _asaradc_exec_once(uint32_t timeoutMs)
     startTime = wise_tick_get_counter();
     while(1)
     {
-        if(hal_intf_asaradc_get_int_status())
+        if(hal_intf_asaradc_is_ready())
         {
-            hal_intf_asaradc_clear_int_status();
             result = WISE_SUCCESS;
             break;
         }

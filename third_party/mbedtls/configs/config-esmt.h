@@ -48,6 +48,7 @@
 #define MBEDTLS_SSL_SRV_C
 #define MBEDTLS_SSL_TLS_C
 #define MBEDTLS_CIPHER_MODE_CBC
+#define MBEDTLS_CMAC_C
 
 /* TLS protocol feature support */
 #define MBEDTLS_KEY_EXCHANGE_PSK_ENABLED

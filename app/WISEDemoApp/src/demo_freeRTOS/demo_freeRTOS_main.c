@@ -44,7 +44,6 @@
 #include "queue.h"
 #include "semphr.h"
 
-#define SHELL_UART_CH       0 /**< UART channel used for CLI shell I/O. */
 
 /**
  * @defgroup WISE_EXAMPLE_APP_FREERTOS_CLI FreeRTOS CLI Example App
@@ -62,6 +61,11 @@
  *
  * @{
  */
+
+#define DEMO_APP_PROMPT             "FreeRTOS> "
+#define MSG_QUEUE_LEN               5                 /**< Max number of pending messages. */
+#define MSG_SIZE                    sizeof(ShellMsg_t) /**< Size of one queue item in bytes. */
+
 
 /* ========================================================================== */
 /* Message Types and Queue                                                    */
@@ -89,64 +93,11 @@ typedef struct {
     TickType_t  timestamp; /**< Tick when message was enqueued. */
 } ShellMsg_t;
 
-#define MSG_QUEUE_LEN       5                 /**< Max number of pending messages. */
-#define MSG_SIZE            sizeof(ShellMsg_t) /**< Size of one queue item in bytes. */
 
 /** Global queue handle for shell-to-worker messaging. */
 QueueHandle_t xShellQueue = NULL;
 
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read one character from UART for shell input.
- *
- * This function is used as the shell backend "read_char" callback.
- *
- * @param[out] ch Pointer to store the received character.
- *
- * @retval true  A character was received.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a null-terminated string to UART for shell output.
- *
- * This function is used as the shell backend "write_str" callback.
- *
- * @param[in] s Null-terminated string to be transmitted.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize the shell library and configure UART backend.
- *
- * Configures callbacks and sets shell prompt to "CLI> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "CLI> ",
-    };
-    shell_init(&cfg);
-}
+extern bool shell_uart_read_char(char *ch);
 
 /**
  * @brief FreeRTOS task: process UART input and feed characters to shell engine.
@@ -300,7 +251,7 @@ void vWorkerTask(void *pvParameters)
 void main(void)
 {
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     /* Create RTOS Objects */
     xShellQueue = xQueueCreate(MSG_QUEUE_LEN, MSG_SIZE);

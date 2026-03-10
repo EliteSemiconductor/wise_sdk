@@ -57,11 +57,10 @@
  *
  * @{
  */
-
-#define SHELL_UART_CH           0     /**< UART channel used by shell backend. */
-#define TIMER_HUB_0_INTERVAL    12345 /**< Timer Hub channel 0 periodic interval (ms/ticks per driver). */
-#define TIMER_HUB_1_INTERVAL    4321  /**< Timer Hub channel 1 periodic interval (ms/ticks per driver). */
-#define TIMER_HUB_2_INTERVAL    2120  /**< Timer Hub channel 2 one-shot interval (ms/ticks per driver). */
+#define DEMO_APP_PROMPT             "WUTMR_HUB> "
+#define TIMER_HUB_0_INTERVAL        12345 /**< Timer Hub channel 0 periodic interval (ms/ticks per driver). */
+#define TIMER_HUB_1_INTERVAL        4321  /**< Timer Hub channel 1 periodic interval (ms/ticks per driver). */
+#define TIMER_HUB_2_INTERVAL        2120  /**< Timer Hub channel 2 one-shot interval (ms/ticks per driver). */
 
 /** @brief Set when Timer Hub channel 1 callback fires. */
 static uint8_t timer1Up = 0;
@@ -72,56 +71,6 @@ static uint8_t timer2Up = 0;
 static void _timer_hub_cb_0(void *context);
 static void _timer_hub_cb_1(void *context);
 static void _timer_hub_cb_2(void *context);
-
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read one character from UART for shell input.
- *
- * @param[out] ch Pointer to the variable that receives the character.
- *
- * @retval true  A character was read successfully.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a null-terminated string to UART for shell output.
- *
- * @param[in] s Null-terminated string to transmit.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize shell configuration and bind UART backend callbacks.
- *
- * Sets the shell prompt to "TMRHUB> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "TMRHUB> ",
-    };
-
-    shell_init(&cfg);
-}
 
 /* ========================================================================== */
 /* Timer Hub Callbacks                                                        */
@@ -193,7 +142,7 @@ void main(void)
     int32_t timerHubHandle2 = WISE_TIMER_HUB_CH_INVALID;
 
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     wise_timer_hub_init();
 

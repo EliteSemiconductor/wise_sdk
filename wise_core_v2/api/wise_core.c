@@ -15,7 +15,7 @@
 #define WISE_SDK_VERSION_MAJOR                          4
 
 // SDK minor version: increased for each official release
-#define WISE_SDK_VERSION_MINOR                          4
+#define WISE_SDK_VERSION_MINOR                          5
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH

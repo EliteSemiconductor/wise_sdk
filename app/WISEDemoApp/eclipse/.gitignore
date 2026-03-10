@@ -31,3 +31,5 @@
 /rtos_template/
 /demo_wmbus_phy_meter/
 /demo_wmbus_phy_other/
+/demo_wmbus_link_meter/
+/demo_wmbus_link_other/

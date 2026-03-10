@@ -13,4 +13,6 @@
  * Commands are registered using SHELL_CMD_AUTO() macro.
  */
 
+void app_shell_init(const char* prompt);
+
 #endif

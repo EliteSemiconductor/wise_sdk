@@ -144,6 +144,8 @@ uint16_t wmbus_setup_tx_frame(uint8_t *buffer, uint8_t accessNumber, WMBUS_acces
     //setup the payload before the headers, so we'll know the length
     uint16_t frameLength = 0;
 
+    debug_print("buffer=%08x payload=%08x\n", buffer, payloadPtr);
+
     deviceType = WMBUS_DEVICE_WATER_METER;
     
     if (encrypt) { //2B AES check

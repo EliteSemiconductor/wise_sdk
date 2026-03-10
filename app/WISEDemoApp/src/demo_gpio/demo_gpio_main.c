@@ -30,9 +30,10 @@
 #include "util.h"
 #include "demo_app_common.h"
 
-#define DEMO_GPIO_PIN_1             5 /**< GPIO pin index used as output (pin 5). */
-#define DEMO_GPIO_PIN_2             6 /**< GPIO pin index used as output (pin 6). */
-#define DEMO_GPIO_PIN_3             7 /**< GPIO pin index used as input with interrupt (pin 7). */
+#define DEMO_GPIO_PIN_1             2 /**< GPIO pin index used as output (pin 5). */
+#define DEMO_GPIO_PIN_2             3 /**< GPIO pin index used as output (pin 6). */
+#define DEMO_GPIO_PIN_3             13 /**< GPIO pin index used as input with interrupt (pin 7). */
+#define DEMO_APP_PROMPT             "GPIO> "
 
 /**
  * @defgroup WISE_EXAMPLE_APP_GPIO GPIO Example App
@@ -77,7 +78,8 @@ void main(void)
     WISE_GPIO_INT_CFG_T gpioIntConfig;
 
     demo_app_common_init();
-
+    app_shell_init(DEMO_APP_PROMPT);
+    
     /* wise_gpio_init() is already called in system global init. */
 
     /* Configure a GPIO pin as output using integrated configuration. */

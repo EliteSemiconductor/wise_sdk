@@ -6,6 +6,7 @@
 
 #include "hal_intf_pmu.h"
 #include "drv/hal_drv_pmu.h"
+#include "drv/hal_drv_dma.h"
 
 void hal_intf_pmu_set_sw_reset(void)
 {
@@ -93,7 +94,15 @@ void hal_pmu_clear_int_status(uint32_t source)
 
 void hal_intf_pmu_module_sw_reset(uint32_t module)
 {
+#if (CHIP_RADIO_FLEXIBLE_FMT_VERSION == 2)
+    hal_drv_dma_backup_channels();
+#endif
+
     hal_drv_pmu_module_sw_reset(module);
+
+#if (CHIP_RADIO_FLEXIBLE_FMT_VERSION == 2)
+    hal_drv_dma_restore_channels();
+#endif
 }
 
 void hal_intf_pmu_lfosc_clk_disable()

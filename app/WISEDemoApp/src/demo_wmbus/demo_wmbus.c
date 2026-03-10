@@ -72,8 +72,7 @@
  *
  * @{
  */
-
-#define SHELL_UART_CH               0   /**< UART channel used by shell backend. */
+#define DEMO_APP_PROMPT             "WMBUS> "
 #define WMBUS_RADIO_INTF            0   /**< Radio interface index used by this demo. */
 #define WMBUS_RF_BUFFER_LEN         768 /**< Radio driver buffer pool size in bytes. */
 
@@ -166,55 +165,6 @@ static void _setup_wmbus_demo_collector(void);
 static void _collector_proc(void);
 static void _collector_response(void);
 
-/* ========================================================================== */
-/* Shell Backend                                                              */
-/* ========================================================================== */
-
-/**
- * @brief Read one character from UART for shell input.
- *
- * @param[out] ch Pointer to the variable that receives the character.
- *
- * @retval true  A character was read successfully.
- * @retval false No character available or read failed.
- */
-static bool shell_uart_read_char(char *ch)
-{
-    uint8_t tmp;
-    if (wise_uart_read_char(SHELL_UART_CH, &tmp) == WISE_SUCCESS) {
-        *ch = (char)tmp;
-        return true;
-    }
-    return false;
-}
-
-/**
- * @brief Write a null-terminated string to UART for shell output.
- *
- * @param[in] s Null-terminated string to transmit.
- */
-static void shell_uart_write_str(const char *s)
-{
-    while (*s) {
-        wise_uart_write_char(SHELL_UART_CH, (uint8_t)*s++);
-    }
-}
-
-/**
- * @brief Initialize shell configuration and bind UART backend callbacks.
- *
- * Sets the shell prompt to "DEMO> ".
- */
-static void app_shell_init(void)
-{
-    shell_config_t cfg = {
-        .read_char = shell_uart_read_char,
-        .write_str = shell_uart_write_str,
-        .prompt    = "DEMO> ",
-    };
-
-    shell_init(&cfg);
-}
 
 /* ========================================================================== */
 /* Radio Event Callback                                                       */
@@ -284,7 +234,7 @@ static void radioWMbusEventCb(WISE_RADIO_EVT_T evt)
 void main(void)
 {
     demo_app_common_init();
-    app_shell_init();
+    app_shell_init(DEMO_APP_PROMPT);
 
     wise_radio_wmbus_init(WMBUS_RADIO_INTF);
     wise_radio_set_evt_callback(WMBUS_RADIO_INTF, radioWMbusEventCb);
