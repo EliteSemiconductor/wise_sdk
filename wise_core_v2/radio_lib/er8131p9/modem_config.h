@@ -23,5 +23,5 @@ typedef struct {
 
 extern MODEM_CFG_GRP modem_config_group_normal[7];
 extern MODEM_CFG_GRP_WMBUS modem_config_group_wmbus[6];
-extern const uint32_t bbp_basic_setting[9][2];
+extern const uint32_t bbp_basic_setting[8][2];
 extern const uint32_t bbp_gain_table[35][2];

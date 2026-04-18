@@ -69,5 +69,7 @@ uint32_t hal_intf_pmu_get_int_status(void);
 void hal_intf_pmu_clear_int_status(uint32_t mask);
 HAL_STATUS hal_intf_pmu_register_callback(HAL_ISR_CALLBACK callback, void *context);
 HAL_STATUS hal_intf_pmu_unregister_callback(void);
+uint32_t hal_intf_pmu_get_warm_reset_info(void);
+void hal_intf_pmu_clear_warm_reset_info(void);
 
 #endif

@@ -6,6 +6,7 @@
 
 #include "hdl/extpmu_er8130.h"
 #include "hal_intf_sys.h"
+#include "util_debug_log.h"
 
 void _extpmu_ana_time_config(void)
 {
@@ -38,13 +39,13 @@ void extpmu_set_sleep_er8130(uint8_t wutmr_en)
     //it needs to check status before enter shutdown mode:
     while(reg != 0x00554D50) {
          reg = REG_R32(EXTPMU_EXT_PMU_PERIPH_ID_0_ADDR);
-         printf("Check : EXTPMU periph ID\n");
+         WISE_LOG_DBG("Check : EXTPMU periph ID\n");
     }    
 
     reg = 0x0;
     while(reg & 0x00000038) {
         reg = REG_R32(EXTPMU_EXT_PMU_STS_REG_ADDR);
-        printf("Check : EXTPMU sts\n");
+        WISE_LOG_DBG("Check : EXTPMU sts\n");
     }
 
     reg = EXTPMU_SLEEP_EN_MASK;
@@ -83,7 +84,7 @@ void extpmu_set_wakeup_gpio_pin_er8130(uint8_t gpio_pin)
     uint32_t reg;
 
     if (gpio_pin >= CHIP_GPIO_NUM) {
-        printf("%s: Invalid GPIO pin: %u (valid range: 0-%u)\n",
+        WISE_LOG_ERR("%s: Invalid GPIO pin: %u (valid range: 0-%u)\n",
                __func__, gpio_pin, CHIP_GPIO_NUM - 1);
         return;
     }
@@ -126,10 +127,10 @@ void extpmu_clk_source_sel_er8130(uint8_t clk_src)
         pmu_clk_src = 0;
         break;
     case SYS_LFOSC_CLK_SRC_INTERNAL_32K:
-        printf("%s: ER8130A did not support Internal 32K clock selecting\n", __func__);
+        WISE_LOG_ERR("%s: ER8130A did not support Internal 32K clock selecting\n", __func__);
         return;
     default:
-        printf("Invalid clk_src: %u\n", clk_src);
+        WISE_LOG_ERR("Invalid clk_src: %u\n", clk_src);
         return;
     };
         

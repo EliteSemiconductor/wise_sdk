@@ -16,6 +16,7 @@
 #endif
 
 #include "util.h"
+#include "util_debug_log.h"
 
 static volatile uint32_t tickRound   = 0;
 static volatile uint32_t prevRound   = 0;
@@ -245,6 +246,31 @@ void hal_drv_sys_tick_delay_us(uint32_t us)
     }
 }
 
+void hal_drv_cpu_tick_delay_us(uint32_t us)
+{
+    uint32_t ticks   = HAL_US_TO_CLK(us);
+    uint32_t prev, current, elapsed = 0;
+
+    /* Configure SysTick: CPU clock source, no interrupt, enable */
+    SysTick->LOAD = 0xFFFFFF;
+    SysTick->VAL  = 0;                                                           /* clear & reset counter */
+    SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+
+    prev = SysTick->VAL;
+
+    while (elapsed <= ticks) {
+        current = SysTick->VAL;                                                  /* SysTick counts DOWN */
+        if (current < prev) {
+            elapsed += prev - current;                                           /* normal decrement */
+        } else if (current > prev) {
+            elapsed += prev + (0xFFFFFF - current + 1);                          /* wrap-around */
+        }
+        prev = current;
+    }
+
+    SysTick->CTRL = 0;                                                           /* disable SysTick */
+}
+
 int8_t hal_drv_sys_internal_16kosc_calibration(const DRV_SCLK16K_PARAM_T *p)
 {
     if (!p) return HAL_ERR;
@@ -288,7 +314,7 @@ int8_t hal_drv_sys_internal_16kosc_calibration(const DRV_SCLK16K_PARAM_T *p)
 
 
     if (ana_exec_anctl_osc16k_calibration() != 0) {
-        printf("hal_drv_sys_internal_16kosc_calibration: 16k calibration failed\n");
+        WISE_LOG_ERR("hal_drv_sys_internal_16kosc_calibration: 16k calibration failed\n");
         return HAL_ERR;
     }
     
@@ -309,6 +335,11 @@ void hal_drv_sys_switch_sclk_src(uint8_t sclk_idx)
     hal_drv_pmu_clk_src_sel(sclk_idx);
     //set shutdown source: 0=32K/1=16K
     hal_drv_extpmu_select_clk_source(sclk_idx);
+}
+
+void hal_drv_sys_ext32k_workaround(void)
+{
+    ana_control_ext32k_workaround();
 }
 
 #ifdef CHIP_TICK_TIMER_CHANNEL
@@ -363,7 +394,7 @@ uint32_t hal_drv_sys_tick_get_counter()
 
     if (now < prevCounter) {
         if ((nowHi == 0x00) && (prevHi == 0xff)) {
-            //debug_print("tick OVF\n");
+            //WISE_LOG_DBG("tick OVF\n");
         } else {
             return prevCounter;
         }

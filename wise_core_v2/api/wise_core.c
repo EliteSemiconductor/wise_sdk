@@ -15,7 +15,7 @@
 #define WISE_SDK_VERSION_MAJOR                          4
 
 // SDK minor version: increased for each official release
-#define WISE_SDK_VERSION_MINOR                          5
+#define WISE_SDK_VERSION_MINOR                          6
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH
@@ -91,32 +91,30 @@ __attribute__((used)) void debugHardfault(uint32_t *sp)
     uint32_t pc  = sp[6];
     uint32_t psr = sp[7];
 
-    printf("HardFault:\n");
-    printf("SCB->CFSR   0x%08lx\n", cfsr);
-    printf("SCB->HFSR   0x%08lx\n", hfsr);
-    printf("SCB->MMFAR  0x%08lx\n", mmfar);
-    printf("SCB->BFAR   0x%08lx\n", bfar);
-    printf("\n");
+    debug_print("HardFault:\n");
+    debug_print("SCB->CFSR   0x%08lx\n", cfsr);
+    debug_print("SCB->HFSR   0x%08lx\n", hfsr);
+    debug_print("SCB->MMFAR  0x%08lx\n", mmfar);
+    debug_print("SCB->BFAR   0x%08lx\n", bfar);
+    debug_print("\n");
 
-    printf("SP          0x%08lx\n", (uint32_t)sp);
-    printf("R0          0x%08lx\n", r0);
-    printf("R1          0x%08lx\n", r1);
-    printf("R2          0x%08lx\n", r2);
-    printf("R3          0x%08lx\n", r3);
-    printf("R12         0x%08lx\n", r12);
-    printf("LR          0x%08lx\n", lr);
-    printf("PC          0x%08lx\n", pc);
-    printf("PSR         0x%08lx\n", psr);
+    debug_print("SP          0x%08lx\n", (uint32_t)sp);
+    debug_print("R0          0x%08lx\n", r0);
+    debug_print("R1          0x%08lx\n", r1);
+    debug_print("R2          0x%08lx\n", r2);
+    debug_print("R3          0x%08lx\n", r3);
+    debug_print("R12         0x%08lx\n", r12);
+    debug_print("LR          0x%08lx\n", lr);
+    debug_print("PC          0x%08lx\n", pc);
+    debug_print("PSR         0x%08lx\n", psr);
 
-    printf("\n");
-    while (1)
-        ;
+    debug_print("\n");
+    
+    while (1);
 }
 
 void HardFault_Handler()
 {
-    // debug_print("HardFault!!\n");
-
     __asm volatile("tst lr, #4                                    \n"
                    "ite eq                                        \n"
                    "mrseq r0, msp                                 \n"

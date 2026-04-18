@@ -18,7 +18,7 @@
 #ifndef __WSIE_RADIO_API_H_
 #define __WSIE_RADIO_API_H_
 
-//#include "cmsis/include/a002.h"
+//#include "cmsis/include/b402.h"
 #include "hal_intf_radio.h"
 #include "types.h"
 #include "wise_core.h"
@@ -369,7 +369,7 @@ typedef WISE_BUFFER_T WISE_RADIO_BUFFER_T;
 typedef struct {
     WISE_CCA_T mode;   /**< CCA operating mode. */
     uint8_t retry;     /**< Maximum number of CCA retries. */
-    int8_t threshold;  /**< CCA threshold, typically in RSSI units. */
+    int16_t threshold_dbm;  /**< CCA threshold, typically in RSSI units. */
     uint16_t duration; /**< CCA sensing duration, in microseconds. */
     uint16_t backoff;  /**< Backoff time between retries, in microseconds. */
     uint16_t timeout;  /**< Total CCA timeout, in microseconds. */
@@ -800,7 +800,11 @@ int8_t wise_radio_set_rx_max_frame_length(int8_t intf_idx, uint16_t max_len);
  */
 int8_t wise_radio_release_rx_frame(int8_t intf_idx);
 
-void wise_radio_enable_prbs9(int8_t intf_idx, uint8_t enable);
+void wise_radio_enable_prbs9(int8_t intf_idx, uint8_t ch_index, uint8_t enable);
+
+void wise_radio_enable_repeat_mode(uint32_t rpt_len, bool enable);
+
+void wise_radio_enable_modem_clk(uint8_t enable);
 
 /** @} */ /* end of WISE_Radio_APIs group */
 

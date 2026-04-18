@@ -70,12 +70,14 @@
 /* ============================================================
  * Config
  * ============================================================ */
-#define I2C_CHANNEL     0    /**< I2C controller index. */
-#define I2C_SLAVE_ADDR  0x50 /**< Target address in 7-bit addressing mode. */
-#define I2C_SPEED_MODE  0    /**< 0=100kHz, 1=400kHz, 2=1MHz (driver-specific encoding). */
-#define I2C_ADDRESSING  0    /**< 0=7-bit, 1=10-bit. */
-#define TEST_DATA_SIZE  16   /**< Transfer length for demo TX/RX. */
-#define I2C_DMA_ENABLE  0    /**< Enable DMA for I2C transfers when non-zero. */
+#define I2C_CHANNEL     0      /**< I2C controller index. */
+#define I2C_SLAVE_ADDR  0x50   /**< Target address in 7-bit addressing mode. */
+#define I2C_SPEED_MODE  0      /**< 0=100kHz, 1=400kHz, 2=1MHz (driver-specific encoding). */
+#define I2C_BUS_HZ      100000 /**< Target bus rate in Hz — primary timing source. */
+#define I2C_ADDRESSING  0      /**< 0=7-bit, 1=10-bit. */
+#define TEST_DATA_SIZE  16     /**< Transfer length for demo TX/RX. */
+#define I2C_DMA_ENABLE  0      /**< Enable DMA for I2C transfers when non-zero. */
+#define SLAVE_WATCHDOG_MS 500  /**< Slave bus-stuck watchdog timeout (0=disabled). */
 
 /* ============================================================
  * I2C PIO/GPIO mapping
@@ -104,10 +106,12 @@ static const uint8_t i2c_pio_cfg[2][2][2] = { {
  * Globals
  * ============================================================ */
 
-/** @brief TX buffer used by master role. */
+/** @brief TX buffer used by master role and slave TX response. */
 static uint8_t tx_buf[TEST_DATA_SIZE] __attribute__((aligned(4)));
 /** @brief RX buffer used by slave role. */
 static uint8_t rx_buf[TEST_DATA_SIZE] __attribute__((aligned(4)));
+/** @brief Slave TX response buffer (pre-registered for master-read). */
+static uint8_t slave_tx_buf[TEST_DATA_SIZE] __attribute__((aligned(4)));
 
 /** @brief Set to 1 when @ref WISE_I2C_EVENT_TRANSFER_DONE is received. */
 static volatile int8_t g_xfer_done = 0;
@@ -231,8 +235,7 @@ static void demo_slave_listen_once(uint16_t recv_count)
     g_xfer_done = 0;
     g_addr_hit  = 0;
 
-    wise_i2c_clear_fifo(I2C_CHANNEL);
-    wise_i2c_recv_nbyte(I2C_CHANNEL, rx_buf, recv_count);
+    wise_i2c_slave_arm_rx(I2C_CHANNEL, rx_buf, recv_count);
 }
 
 /* ============================================================
@@ -286,6 +289,7 @@ int main(void)
     cfg.i2cEn          = I2C_ENABLE;
     cfg.dmaEn          = I2C_DMA_ENABLE;
     cfg.speedMode      = I2C_SPEED_MODE;
+    cfg.bus_hz         = I2C_BUS_HZ;
     cfg.addressing     = I2C_ADDRESSING;
     cfg.target_address = I2C_SLAVE_ADDR;
 
@@ -344,28 +348,50 @@ int main(void)
            I2C_SLAVE_ADDR,
            I2C_SPEED_MODE == 0 ? "100kHz" : (I2C_SPEED_MODE == 1 ? "400kHz" : "1MHz"));
 
+    /* Pre-register TX response buffer so master-read gets valid data */
+    for (uint32_t i = 0; i < TEST_DATA_SIZE; i++) {
+        slave_tx_buf[i] = (uint8_t)(0xA0 + i);
+    }
+    wise_i2c_slave_set_tx_buf(I2C_CHANNEL, slave_tx_buf, TEST_DATA_SIZE);
+
+    /* Enable bus-stuck watchdog */
+    wise_i2c_slave_set_timeout(I2C_CHANNEL, SLAVE_WATCHDOG_MS);
+
     demo_slave_listen_once(TEST_DATA_SIZE);
 
     printf("Slave listening...\n");
 
-    /* Wait for address hit */
-    while (!g_addr_hit) {
-        __NOP();
-    }
-    printf("[I2C%u] ADDRESS_HIT\n", I2C_CHANNEL);
+    while (1) {
+        /* Watchdog: auto-recover if bus gets stuck */
+        if (wise_i2c_slave_proc(I2C_CHANNEL) == 1) {
+            printf("[I2C%u] watchdog recovery — re-arming\n", I2C_CHANNEL);
+            demo_slave_listen_once(TEST_DATA_SIZE);
+            printf("Slave listening...\n");
+            continue;
+        }
 
-    /* Wait for transfer done */
-    while (!g_xfer_done) {
-        __NOP();
-    }
-    printf("[I2C%u] TRANSFER_DONE\n", I2C_CHANNEL);
+        if (!g_xfer_done) {
+            __NOP();
+            continue;
+        }
 
-    printf("Slave RX: ");
-    for (uint32_t i = 0; i < TEST_DATA_SIZE; i++) {
-        printf("%02X ", rx_buf[i]);
+        printf("[I2C%u] TRANSFER_DONE\n", I2C_CHANNEL);
+
+        uint8_t rx_count = wise_i2c_slave_get_rx_count(I2C_CHANNEL);
+        if (rx_count > 0) {
+            printf("Slave RX (%u bytes): ", rx_count);
+            for (uint32_t i = 0; i < rx_count; i++) {
+                printf("%02X ", rx_buf[i]);
+            }
+            printf("\n");
+        } else {
+            printf("Slave TX completed (master read)\n");
+        }
+
+        /* Re-arm for next transaction */
+        demo_slave_listen_once(TEST_DATA_SIZE);
+        printf("Slave listening...\n");
     }
-    printf("\n");
-    printf("Reception complete\n");
 
 #endif
 

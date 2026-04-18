@@ -487,9 +487,9 @@ WISE_STATUS wise_aes_ccm_encrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WIS
 #ifdef WISE_CRYPTO_DEBUG_RAW_TAG
     uint32_t tags[4] = {0};
     hal_intf_aes_read_tag(tags);
-    printf("[AES] Raw TAG Registers:\n");
+    WISE_LOG_DBG("[AES] Raw TAG Registers:\n");
     for (int i = 0; i < 4; i++) {
-        printf("  tag[%d] = 0x%08lX\n", i, tags[i]);
+        WISE_LOG_DBG("  tag[%d] = 0x%08lX\n", i, tags[i]);
     }
 #endif
 
@@ -555,9 +555,9 @@ WISE_STATUS wise_aes_ccm_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WIS
 #ifdef WISE_CRYPTO_DEBUG_RAW_TAG
     uint32_t tags[4] = {0};
     hal_intf_aes_read_tag(tags);
-    printf("[AES] Raw TAG Registers:\n");
+    WISE_LOG_DBG("[AES] Raw TAG Registers:\n");
     for (int i = 0; i < 4; i++) {
-        printf("  tag[%d] = 0x%08lX\n", i, tags[i]);
+        WISE_LOG_DBG("  tag[%d] = 0x%08lX\n", i, tags[i]);
     }
 #endif
 
@@ -574,7 +574,7 @@ WISE_STATUS wise_aes_ccm_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WIS
     hal_intf_aes_wait_finished();
 
     if (hal_intf_aes_ccm_decryption_result() != WISE_SUCCESS) {
-        printf("!!AES TAG Mismatch!!\n");
+        WISE_LOG_ERR("!!AES TAG Mismatch!!\n");
         return WISE_FAIL;
     }
     return WISE_SUCCESS;

@@ -1,6 +1,33 @@
 ESMT WISE SDK Release History
 
 ================================================================================
+Version: 4.0005
+Git revision: 0xecfaa1f3
+Library: 
+        libWISERadioLib_subg_soc_9005 v1.10
+        libWISERadioLib_subg_soc_9006 v1.06
+        libWMbusDatalink v1.00
+Release Date: March 10, 2026
+
+1. Overview
+    WISE SDK is a software package which supports to application development on
+    ESMT ER8xxx family SoC.
+
+2. Supported Platforms
+    - ER8130 TC01
+    - ER8130A/ER8131A
+
+3. Major Changes
+	- Release Wireless Mbus Data Link v1.00
+    - Implemented demo functions for WMbus Data Link.
+
+4. Bug fixing:
+    - Incorrect manchester encoding logic and flow.
+    - Fixed wmbus C mode IQK FSM error.
+    - Removed redundant register access in WMbus S mode.
+================================================================================
+
+================================================================================
 Version: 4.0004
 Git revision: 0xcf425bad
 Radio library: 

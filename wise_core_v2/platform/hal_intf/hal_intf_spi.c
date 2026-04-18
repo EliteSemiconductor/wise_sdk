@@ -73,3 +73,13 @@ void hal_intf_spi_reset(uint8_t spi_channel, HAL_SPI_RESET_TYPE type)
 {
     hal_drv_spi_reset(spi_channel, type);
 }
+
+int32_t hal_intf_spi_master_write_byte(uint8_t spi_channel, uint8_t in_byte)
+{
+    return hal_drv_spi_master_write_byte(spi_channel, in_byte);
+}
+
+int32_t hal_intf_spi_master_read_byte(uint8_t spi_channel, uint8_t *out_byte)
+{
+    return hal_drv_spi_master_read_byte(spi_channel, out_byte);
+}

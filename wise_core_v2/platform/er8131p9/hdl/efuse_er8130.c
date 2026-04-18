@@ -1,5 +1,6 @@
 #include "hdl/efuse_er8130.h"
 #include "hal_intf_efuse.h"
+#include "util_debug_log.h"
 
 static void set_efuse_ctl_cfg(uint8_t base_idx, uint8_t cmd, uint16_t addr)
 {
@@ -40,7 +41,7 @@ static void _efuse_write_word(uint8_t base_idx, uint32_t val)
         break;
     }
 
-    printf("write val = 0x%08lx\n", val);
+    WISE_LOG_DBG("write val = 0x%08lx\n", val);
 
     REG_W32(reg_addr, val);
 }
@@ -84,7 +85,7 @@ static inline uint8_t wait_for_efuse_idle(uint8_t base_idx)
     }
 
     if (time_out == 0) {
-        printf("efuse time out\n");
+        WISE_LOG_ERR("efuse time out\n");
     }
 
     return val;
@@ -97,9 +98,10 @@ bool is_efuse_addr_valid(uint8_t base_idx, uint32_t addr)
     if (addr & EFUSE_ADDR_WORD_MASK) {
         //address [0] always set to 0
         //address [1] set to 0 when operate at 32 bits mode
-        printf("efuse address is misaligned:\n");
-        printf("address [0] always set to 0\n");
-        printf("address [1] set to 0 when operate at 32 bits mode\n");
+        WISE_LOG_ERR("efuse address is misaligned:\n");
+        WISE_LOG_ERR("address [0] always set to 0\n");
+        WISE_LOG_ERR("address [1] set to 0 when operate at 32 bits mode\n");
+        
         val = false;
     }
 
@@ -107,7 +109,7 @@ bool is_efuse_addr_valid(uint8_t base_idx, uint32_t addr)
     case EFUSE_BASE_MCU:
         if (addr >= 0x0010) {
             val = false;
-            printf("Address is exceed MCU EFUSE limitation.\n");
+            WISE_LOG_ERR("Address is exceed MCU EFUSE limitation.\n");
         }    
         break;
     case EFUSE_BASE_NFC:

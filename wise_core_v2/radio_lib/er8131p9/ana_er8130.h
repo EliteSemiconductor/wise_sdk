@@ -60,6 +60,7 @@ void hal_drv_ana_switch_nfc_pwr_src(uint8_t src);
 void ana_set_charge_pump_er81xx(uint8_t phy_mode, uint32_t data_rate);
 void ana_set_iqbuf_ictrl_er81xx(void);
 void ana_set_ldo_sel_er81xx(uint8_t pa_type);
+void ana_set_ulpldo_enmode_er81xx(uint8_t enable);
 void ana_set_tpm_cal_er81xx(uint32_t mod_type, uint32_t data_rate);
 void ana_set_xtal_cfg_er81xx(void);
 void ana_set_tx_ramp_cfg_er81xx(uint8_t mod_type);
@@ -107,5 +108,9 @@ void ana_set_rx_general_config_er8130(uint8_t phy_mode, uint32_t data_rate, uint
 void ana_set_bod_lv_er81xx(uint8_t enable, uint8_t bod_lv);
 uint32_t ana_get_mac_status_er81xx(void);
 void ana_enable_prbs9_er81xx(uint8_t enable);
+void ana_enable_repeat_mode_er81xx(uint32_t rpt_len, bool enable);
+
+/* ================ WORKAROUND =============*/
+void ana_control_ext32k_workaround(void);
 
 #endif

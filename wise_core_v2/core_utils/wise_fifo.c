@@ -10,6 +10,7 @@
 #include "wise_core.h"
 #include "util.h"
 #include "wise_fifo.h"
+#include "util_debug_log.h"
 
 #define MAX_FIFO_NUM 8
 
@@ -57,7 +58,7 @@ WISE_FIFO_REF wise_fifo_create(uint8_t *buffer, uint16_t bufLen)
         fifoBank[fifoNum] = fifoHandle;
         fifoNum++;
     } else {
-        debug_print("WARNING!! fifo bank overflow\n");
+        WISE_LOG_ERR("WARNING!! fifo bank overflow\n");
     }
 
     return fifoHandle;

@@ -20,6 +20,7 @@
 #include "demo_app_common.h"
 #include "wmbus_datalink_api.h"
 #include "app_sensor_data.h"
+#include "wise_wmbus_crypto.h"
 
 #ifdef WMBUS_DEMO_LINK_METER
 #define DEMO_APP_PROMPT                 "METER> "
@@ -53,6 +54,17 @@ static const uint8_t cryptoKey[] =
 };
 
 static const WMBUS_LINK_security_mode_t securityMode = WMBUS_LINK_SM_7;
+
+WMBUS_LINK_device_info_t test_whitelist[] = {
+    {0x30000001, "ESM", 0x01, 0x07},
+    {0x30000002, "ESM", 0x01, 0x07},
+    {0x40000001, "ESM", 0x01, 0x07},
+    {0x40000002, "ESM", 0x01, 0x07},
+    {0x70000001, "ESM", 0x01, 0x07},
+    {0x70000002, "ESM", 0x01, 0x07},
+    {0x80000001, "ESM", 0x01, 0x07},
+    {0x80000002, "ESM", 0x01, 0x07}
+};
 
 /* ========================================================================== */
 /* Main                                                                       */
@@ -225,7 +237,10 @@ void app_wmbus_gw_cfg()
     //basic information
     wmbus_link_set_device_info(&dev_info);
 
-    wmbus_link_gw_set_admission_ctrl_enabled(0);
+    //test whitelist
+    wmbus_link_gw_whitelist_load(test_whitelist, sizeof(test_whitelist)/sizeof(test_whitelist[0]));
+
+    wmbus_link_gw_set_admission_ctrl_enabled(1);
 }
 
 void app_wmbus_gw_data_handler(uint32_t owner_id, const uint8_t *addr_p, uint8_t len)

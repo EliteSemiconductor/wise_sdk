@@ -13,6 +13,7 @@
 #define DMA_CH5_FUNC                                    SYS_DMA_FUNC_UNSED
 
 #define MIDDLEWARE_WISE_SYSTEM                          1
+#define MIDDLEWARE_WISE_WUTMR_CLK_CAL					1
 #define MIDDLEWARE_WISE_CTRL_CMD                        0
 #define MIDDLEWARE_WISE_FLASH_FILESYSTEM                0
 #define MIDDLEWARE_RETARGET_STDIO                       1

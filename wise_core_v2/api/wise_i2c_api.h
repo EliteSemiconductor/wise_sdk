@@ -11,7 +11,7 @@
  * @ingroup WISE_I2C
  *
  * This header provides the interface for configuring and using the I2C
- * controller in master/slave roles, including speed selection, addressing
+ * controller in master/slave roles, including bus-rate configuration, addressing
  * mode, FIFO access, combined transfer, and memory read/write helpers.
  */
 
@@ -122,13 +122,16 @@ typedef enum {
 
 /**
  * @enum I2C_SPEED_SEL_T
- * @brief I2C clock speed selection.
+ * @brief Legacy I2C timing-class selector.
+ *
+ * This enum is retained for preset compatibility only.
+ * New code should primarily configure I2C timing through `bus_hz`.
  */
 typedef enum {
-    E_I2C_CLOCK_SEL_100K = 0,                /**< 100 kb/s I2C speed. */
-    E_I2C_CLOCK_SEL_400K,                    /**< 400 kb/s I2C speed. */
-    E_I2C_CLOCK_SEL_1M,                      /**< 1 Mb/s I2C speed. */
-    E_I2C_CLOCK_SEL_MAX = E_I2C_CLOCK_SEL_1M /**< Maximum I2C speed selection. */
+    E_I2C_CLOCK_SEL_100K = 0,                /**< Standard-mode timing preset. */
+    E_I2C_CLOCK_SEL_400K,                    /**< Fast-mode timing preset. */
+    E_I2C_CLOCK_SEL_1M,                      /**< Fast-mode Plus timing preset. */
+    E_I2C_CLOCK_SEL_MAX = E_I2C_CLOCK_SEL_1M /**< Maximum legacy preset selector. */
 } I2C_SPEED_SEL_T;
 
 /**
@@ -158,15 +161,17 @@ typedef struct {
  * @struct WISE_I2C_CONF_T
  * @brief I2C configuration structure.
  *
- * Defines controller index, role, enable flags, speed, addressing mode,
- * direction and target address.
+ * Defines controller index, role, enable flags, bus rate/timing settings,
+ * addressing mode, direction and target address.
  */
 typedef struct {
     uint8_t i2c_idx;          /**< I2C controller index. */
     uint8_t role;             /**< Master or slave role (I2C_MASTER / I2C_SLAVE). */
     uint8_t i2cEn;            /**< Enable flag for I2C controller (I2C_ENABLE / I2C_DISABLE). */
     uint8_t dmaEn;            /**< Enable DMA mode data transfer (non-zero to enable). */
-    I2C_SPEED_SEL_T speedMode;/**< I2C bus speed selection. */
+    I2C_SPEED_SEL_T speedMode;/**< Legacy timing-class selector used for preset compatibility. */
+    uint32_t bus_hz;          /**< Target bus rate in Hz. Master sets bus speed; slave sets timing profile. */
+    uint32_t actual_bus_hz;   /**< Achieved bus rate in Hz after timing quantization. */
     uint8_t addressing;       /**< Addressing mode (I2C_ADDR_7_BITS / I2C_ADDR_10_BITS). */
     uint8_t dir;              /**< Transfer direction flag (implementation-specific). */
     uint16_t target_address;  /**< Target slave address. */
@@ -349,15 +354,75 @@ void wise_i2c_clear_fifo(uint8_t i2cIntf);
  * Executes @p nmsgs messages in a single transaction sequence, optionally
  * using repeated START conditions without releasing the bus in between.
  *
- * @param[in] intf        I2C controller/channel index.
- * @param[in] msgs        Pointer to an array of ::WISE_I2C_XFER_MSG_T.
- * @param[in] nmsgs       Number of messages in the array.
- * @param[in] interval_ms Interval between messages in milliseconds.
+ * When @p timeout_ms > 0, the function waits for each segment to complete
+ * (hardware CMPL) before proceeding to the next message, using @p timeout_ms
+ * as the per-segment completion deadline.  This ensures proper repeated-start
+ * semantics for combined transactions such as register read (write + read).
+ *
+ * When @p timeout_ms == 0, each segment is started in fire-and-forget mode
+ * (the caller is responsible for polling completion, e.g. wise_i2c_probe).
+ *
+ * @param[in] intf       I2C controller/channel index.
+ * @param[in] msgs       Pointer to an array of ::WISE_I2C_XFER_MSG_T.
+ * @param[in] nmsgs      Number of messages in the array.
+ * @param[in] timeout_ms Per-segment completion timeout in milliseconds (0 = fire-and-forget).
  *
  * @retval 0   Transfer completed successfully.
- * @retval <0  Transfer failed.
+ * @retval <0  Transfer failed or timed out.
  */
-int32_t wise_i2c_transfer(uint8_t intf, const WISE_I2C_XFER_MSG_T *msgs, size_t nmsgs, uint32_t interval_ms);
+int32_t wise_i2c_transfer(uint8_t intf, const WISE_I2C_XFER_MSG_T *msgs, size_t nmsgs, uint32_t timeout_ms);
+
+/**
+ * @brief Probe whether a slave address responds on the I2C bus.
+ *
+ * Issues a minimal write transaction to @p addr and waits for completion.
+ * The probe succeeds only when the transfer completes without arbitration
+ * loss and the controller reports an ACK from the target.
+ *
+ * This API is intended as a reusable building block for shell commands such
+ * as `i2c scan`, or for applications that need to verify device presence.
+ *
+ * @param[in] intf       I2C controller/channel index.
+ * @param[in] addr       Target slave address.
+ * @param[in] timeout_ms Poll timeout in milliseconds.
+ *
+ * @retval 0   Device responded with ACK.
+ * @retval <0  No device response, timeout, or transfer error.
+ */
+int32_t wise_i2c_probe(uint8_t intf, uint16_t addr, uint32_t timeout_ms);
+
+/**
+ * @brief Reconfigure the I2C timing profile for a target bus rate.
+ *
+ * This API derives ATCIIC100 timing register values from the requested bus
+ * rate according to the controller data sheet, then reapplies the current
+ * controller role/addressing/address/DMA settings.
+ *
+ * In master mode this changes the generated SCL bus frequency.
+ * In slave mode this updates the controller timing profile used to match the
+ * expected external bus rate.
+ *
+ * The request is constrained by controller limits and timing-field width.
+ * Frequencies higher than Fast-mode Plus are rejected.
+ *
+ * @param[in] i2c_channel I2C controller/channel index.
+ * @param[in] bus_hz      Target bus rate in Hz.
+ *
+ * @retval 0   Reconfiguration completed successfully.
+ * @retval <0  Invalid frequency, invalid channel, or reconfiguration failure.
+ */
+int32_t wise_i2c_set_timing_profile(uint8_t i2c_channel, uint32_t bus_hz);
+
+/**
+ * @brief Query the achieved I2C bus rate after timing quantization.
+ *
+ * @param[in] i2c_channel I2C controller/channel index.
+ * @param[out] bus_hz     Returned achieved bus rate in Hz.
+ *
+ * @retval 0   Query completed successfully.
+ * @retval <0  Invalid channel or NULL pointer.
+ */
+int32_t wise_i2c_get_effective_bus_hz(uint8_t i2c_channel, uint32_t *bus_hz);
 
 /**
  * @brief Read from an I2C memory-like device (for example EEPROM or registers).
@@ -394,5 +459,81 @@ int32_t wise_i2c_mem_read(uint8_t intf, uint16_t addr, uint32_t reg, uint8_t reg
  * @retval <0  Write failed or timed out.
  */
 int32_t wise_i2c_mem_write(uint8_t intf, uint16_t addr, uint32_t reg, uint8_t reg_len, const uint8_t *tx, uint16_t count, uint32_t timeout_ms);
+
+/* ===== Slave convenience APIs ===== */
+
+/**
+ * @brief Set the TX response buffer for I2C slave mode.
+ *
+ * When a master issues a Repeated Start and switches to read direction,
+ * the ISR fires the ADDRESS_HIT callback **before** loading the TX buffer.
+ * This allows the user to call this function inside the callback to set
+ * the response data based on the command bytes already received in the
+ * RX buffer.
+ *
+ * Can also be called outside the callback to pre-register a default
+ * response. The buffer pointer is preserved across wise_i2c_slave_arm_rx().
+ *
+ * @param[in] i2cIntf    I2C controller/channel index.
+ * @param[in] buf        Pointer to TX data buffer (must remain valid).
+ * @param[in] len        Number of bytes available for transmission.
+ */
+void wise_i2c_slave_set_tx_buf(uint8_t i2cIntf, uint8_t *buf, uint16_t len);
+
+/**
+ * @brief Arm I2C slave to receive data.
+ *
+ * Convenience wrapper that clears FIFO and arms slave receive mode.
+ * Note: in raw slave hardware control, receiver maps to Dir=0.
+ * and arms the RX path. Equivalent to calling wise_i2c_set_direction(),
+ * wise_i2c_clear_fifo(), and wise_i2c_recv_nbyte() in sequence.
+ *
+ * @param[in]  i2cIntf I2C controller/channel index.
+ * @param[out] buf     Pointer to receive buffer.
+ * @param[in]  len     Maximum number of bytes to receive.
+ *
+ * @retval WISE_SUCCESS Armed successfully.
+ * @retval WISE_FAIL    Failed to arm.
+ */
+WISE_STATUS wise_i2c_slave_arm_rx(uint8_t i2cIntf, uint8_t *buf, uint32_t len);
+
+/**
+ * @brief Get the number of bytes received so far by the slave.
+ *
+ * Returns the count of bytes that the ISR has stored into the RX buffer
+ * since the last arm.
+ *
+ * @param[in] i2cIntf I2C controller/channel index.
+ *
+ * @return Number of bytes received.
+ */
+uint8_t wise_i2c_slave_get_rx_count(uint8_t i2cIntf);
+
+/**
+ * @brief Set slave bus-stuck watchdog timeout.
+ *
+ * When enabled, wise_i2c_slave_proc() will automatically recover the
+ * slave if an ADDRESS_HIT event is not followed by TRANSFER_DONE within
+ * the specified timeout.  Set to 0 to disable.
+ *
+ * @param[in] i2cIntf    I2C controller/channel index.
+ * @param[in] timeout_ms Timeout in milliseconds (0 = disabled).
+ */
+void wise_i2c_slave_set_timeout(uint8_t i2cIntf, uint32_t timeout_ms);
+
+/**
+ * @brief Slave periodic processing — call from main loop.
+ *
+ * Checks the bus-stuck watchdog timer.  If a transaction started
+ * (ADDRESS_HIT) but never completed (TRANSFER_DONE) within the
+ * configured timeout, reconfigures the I2C hardware and re-arms
+ * the slave RX path automatically.
+ *
+ * @param[in] i2cIntf I2C controller/channel index.
+ *
+ * @retval 0  No action taken.
+ * @retval 1  Timeout detected — slave recovered.
+ */
+int32_t wise_i2c_slave_proc(uint8_t i2cIntf);
 
 #endif /* __WISE_I2C_API_H_ */

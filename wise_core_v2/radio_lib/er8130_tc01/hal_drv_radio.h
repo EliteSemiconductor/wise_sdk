@@ -489,6 +489,8 @@ void hal_drv_radio_enable_bod(uint8_t enable, uint8_t bod_lv);
 uint8_t hal_drv_radio_is_state_idle(void);
 void hal_drv_radio_enable_efuse_write_data(uint8_t enable);
 void hal_drv_radio_enable_prbs9(uint8_t enable);
+void hal_drv_radio_enable_repeat_mode(uint32_t rpt_len, bool enable);
+void hal_drv_radio_enable_tx_cca(uint16_t thd, bool enable);
 
 #ifdef ES_DEVICE_TRX_RADIO
 void hal_drv_radio_get_rx_fifo(uint8_t *rx_buf, uint32_t rx_len);

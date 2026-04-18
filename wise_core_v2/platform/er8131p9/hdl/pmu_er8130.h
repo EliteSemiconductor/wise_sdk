@@ -54,5 +54,7 @@ void pmu_enable_bod_reset_er8130(uint8_t enable);
 uint32_t pmu_get_int_status_er8130(void);
 void pmu_clear_int_status_er8130(uint32_t mask);
 void pmu_set_xip_clk_er8130(uint8_t clk_fac);
+uint32_t pmu_get_warm_reset_info_er8130(void);
+void pmu_clear_warm_reset_info_er8130(void);
 
 #endif

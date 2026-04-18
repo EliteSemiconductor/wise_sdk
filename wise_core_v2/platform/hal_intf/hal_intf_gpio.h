@@ -11,12 +11,16 @@
 #include "types.h"
 
 typedef struct {
-    uint8_t gpio_pin_idx;
-    uint8_t dbg_bus_module_idx;
-    uint8_t dbg_bus_signal_idx;
-    uint8_t dbg_id;
+    uint8_t pin_idx;
+    uint8_t dbg_target_idx;
+    uint8_t signal_idx;
+    uint8_t dbg_bus_idx;
 } GPIO_DBG_CFG_INFO;
 
+typedef struct {
+    uint8_t pin_idx;
+    uint8_t gio_fun;
+} GPIO_GIO_CFG_INFO;
 
 int32_t hal_intf_gpio_set_mode(uint8_t pin_idx, uint8_t mode);
 int32_t hal_intf_gpio_set_io_dirction(uint8_t pin_idx, uint8_t in_out);
@@ -34,6 +38,7 @@ uint8_t hal_intf_gpio_get_int_status(uint8_t pin_idx);
 int32_t hal_intf_gpio_clear_int_status(uint8_t pin_idx);
 uint32_t hal_intf_gpio_get_raw_int_status(void);
 void hal_intf_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg);
+void hal_intf_gpio_set_gio_fun(GPIO_GIO_CFG_INFO* gpio_gio_cfg);
 
 HAL_STATUS hal_intf_gpio_register_callback(uint8_t gpio_idx, CALLBACK_T cb, void *context);
 HAL_STATUS hal_intf_gpio_unregister_callback(uint8_t gpio_idx);

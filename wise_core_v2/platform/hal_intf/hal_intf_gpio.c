@@ -9,6 +9,7 @@
 
 #ifndef HAL_DRV_GPIO_SET_DEBUG_BUS
 #define HAL_DRV_GPIO_SET_DEBUG_BUS
+#define HAL_DRV_GPIO_SET_GIO_FUN
 #endif
 
 int32_t hal_intf_gpio_set_mode(uint8_t pin_idx, uint8_t mode)
@@ -153,5 +154,15 @@ HAL_STATUS hal_intf_gpio_unregister_callback(uint8_t gpio_idx)
 
 void hal_intf_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg)
 {
-	HAL_DRV_GPIO_SET_DEBUG_BUS(gpio_dbg_cfg);
+#ifdef HAL_DRV_GPIO_SET_DEBUG_BUS
+    hal_drv_gpio_set_debug_bus(gpio_dbg_cfg);
+#endif
+
+}
+
+void hal_intf_gpio_set_gio_fun(GPIO_GIO_CFG_INFO* gpio_gio_cfg)
+{
+#ifdef HAL_DRV_GPIO_SET_GIO_FUN
+    hal_drv_gpio_set_gio_fun(gpio_gio_cfg);
+#endif
 }

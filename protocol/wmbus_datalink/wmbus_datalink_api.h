@@ -120,6 +120,7 @@ typedef struct
     char manufacturer[3]; /**< 3-byte manufacturer code (no trailing '\0'). */
     uint8_t version;      /**< Device version. */
     uint8_t devType;      /**< Device type. */
+    uint8_t reserved[3];
 } WMBUS_LINK_device_info_t;
 
 /**
@@ -271,23 +272,15 @@ int32_t wmbus_link_gw_write_payload(uint32_t targetID, uint8_t *payload, uint16_
 void wmbus_link_gw_set_admission_ctrl_enabled(bool enable);
 
 /**
- * @brief Add a device to the gateway whitelist.
+ * @brief Add a device whitelist to the gateway.
  *
- * @param[in] devInfo_p Pointer to device info to be added.
+ * @param[list_p] The pointer of whole whitelist  loaded.
  *
- * @note Duplicate handling (replace/ignore) is implementation-defined.
+ * @param[count] The number of whitelist members.
+ *
+ * @note Clear the previous whitelist automatically then load the whitelist of devices.
  */
-void wmbus_link_gw_whitelist_add_device(WMBUS_LINK_device_info_t *devInfo_p);
-
-/**
- * @brief Remove a device from the gateway whitelist by device ID.
- *
- * @param[in] device_id Target device ID to remove.
- *
- * @retval true  Device was found and removed.
- * @retval false Device was not found (no change).
- */
-bool wmbus_link_gw_whitelist_del_device(uint32_t device_id);
+void wmbus_link_gw_whitelist_load(WMBUS_LINK_device_info_t *list_p, uint16_t count);
 
 /** @} */ /* end of WMBUS_LINK_APIs */
 

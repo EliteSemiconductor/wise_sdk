@@ -41,7 +41,6 @@ void dma_set_channel_buf_er8130(uint32_t ch_ofs, uint8_t buf_op, uint32_t addr, 
 void dma_set_periph_req_idx_er8130(uint32_t ch_ofs, uint8_t req_idx);
 void dma_set_extsrc_req_idx_er8130(uint32_t ch_ofs, uint8_t req_idx);
 void dma_set_m2m_ext_run_trigger_er8130(uint32_t ch_ofs);
-void dma_p2m2p_config_er8130(uint8_t ch, uint8_t req_idx, uint32_t addr, uint32_t len);
 void dma_p2m2p_start_er8130(uint8_t ch);
 void dma_m2m_set_src_type_er8130(uint32_t ch_ofs, uint8_t type, uint8_t nxt_unit);
 void dma_m2m_set_dst_type_er8130(uint32_t ch_ofs, uint8_t type, uint8_t nxt_unit);

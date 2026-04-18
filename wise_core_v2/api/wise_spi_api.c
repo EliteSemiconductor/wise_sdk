@@ -49,7 +49,7 @@ static WISE_STATUS _spi_hal_mode_setting(uint8_t channel, uint8_t spi_mode, HAL_
         break;
 
     default:
-        debug_printf("Unsupported SPI mode: %d\n", spi_mode);
+        WISE_LOG_ERR("Unsupported SPI mode: %d\n", spi_mode);
         return WISE_INVALID_INDEX;
     }
 
@@ -162,7 +162,7 @@ static WISE_STATUS _wise_spi_transfer(uint8_t spi_channel, uint8_t cmd, uint8_t 
     HAL_SPI_TRANS_FMT_T fmt = {0};
 
     if (spi_ctrl_array[spi_channel].state != E_SPI_STATE_ON) {
-        debug_printf("SPI is not enabled\n");
+        WISE_LOG_ERR("SPI is not enabled\n");
         return WISE_FAIL;
     }
 
@@ -230,13 +230,18 @@ WISE_STATUS wise_spi_master_read(uint8_t spi_channel, void *rx_data_buff, uint16
 
 WISE_STATUS wise_spi_master_write_byte(uint8_t spi_channel, uint8_t in_byte)
 {
-    uint8_t buff = in_byte;
-    return wise_spi_master_write(spi_channel, &buff, 1);
+    if (spi_ctrl_array[spi_channel].state != E_SPI_STATE_ON) {
+        return WISE_FAIL;
+    }
+    return hal_intf_spi_master_write_byte(spi_channel, in_byte);
 }
 
 WISE_STATUS wise_spi_master_read_byte(uint8_t spi_channel, uint8_t *out_byte)
 {
-    return wise_spi_master_read(spi_channel, out_byte, 1);
+    if (spi_ctrl_array[spi_channel].state != E_SPI_STATE_ON) {
+        return WISE_FAIL;
+    }
+    return hal_intf_spi_master_read_byte(spi_channel, out_byte);
 }
 
 void wise_spi_data_prepare(uint8_t spi_channel, void *tx_fifo_ptr, uint16_t tx_unit_count)

@@ -45,6 +45,19 @@
 #define ASARADC_MAX_POINTS 6
 #endif
 
+#define RESET_INFO_SYS_REQ              BIT0
+#define RESET_INFO_WDOG_RST             BIT1
+#define RESET_INFO_LOCKUP_RST           BIT2
+#define RESET_INFO_BOD_RST              BIT3
+#define RESET_INFO_CHIP_RST             BIT6
+#define RESET_INFO_EXT_PMU_RST          BIT7
+#define WARM_RESET_RELEVANT_MASK        (RESET_INFO_SYS_REQ |       \
+                                        RESET_INFO_WDOG_RST |       \
+                                        RESET_INFO_LOCKUP_RST |     \
+                                        RESET_INFO_BOD_RST |        \
+                                        RESET_INFO_CHIP_RST |       \
+                                        RESET_INFO_EXT_PMU_RST)
+
 /**
  * @enum SYS_DMA_FUNC_MAP
  * @brief DMA function mapping values for each peripheral.
@@ -114,11 +127,30 @@ typedef enum {
     ASARADC_VREF_2P4V       /**< 2.4 V reference. */
 } WISE_ASARADC_VREF;
 
-typedef enum
-{
+/**
+ * @enum WISE_SYS_ULPLDO_VREF_T
+ * @brief ULPLDO reference voltage selection.
+ */
+typedef enum {
+    WISE_SYS_ULPLDO_VREF_NORMAL = 0, /**< Default reference voltage. */
+    WISE_SYS_ULPLDO_VREF_ULTRA_LOW,  /**< Ultra-low reference voltage. */
+    WISE_SYS_ULPLDO_VREF_MAX,
+} WISE_SYS_ULPLDO_VREF_T;
+
+/**
+ * @enum WISE_SYS_ULPLDO_ENMODE_T
+ * @brief ULPLDO enable mode selection.
+ */
+typedef enum {
+    WISE_SYS_ULPLDO_ENMODE_DISABLE = 0, /**< Disable ULPLDO enable mode override. */
+    WISE_SYS_ULPLDO_ENMODE_ENABLE,      /**< Enable ULPLDO enable mode override. */
+    WISE_SYS_ULPLDO_ENMODE_MAX,
+} WISE_SYS_ULPLDO_ENMODE_T;
+
+typedef enum {
     SHUTDOWN_WAKE_SRC_WUTMR = 0x01,
-    SHUTDOWN_WAKE_SRC_NFC = 0x02,
-    SHUTDOWN_WAKE_SRC_GPIO = 0x04,
+    SHUTDOWN_WAKE_SRC_NFC   = 0x02,
+    SHUTDOWN_WAKE_SRC_GPIO  = 0x04,
 } SHUTDOWN_WAKE_SRC_T;
 
 /**
@@ -137,14 +169,16 @@ typedef enum {
  * @brief RF and XTAL board-level configuration properties.
  */
 typedef struct {
-    uint8_t tcxo_output_en;     /**< 0 = disable TCXO output, 1 = enable. */
-    uint8_t pa_type;            /**< 0 = 10 dB PA, 1 = 14 dB PA. */
-    uint8_t matching_type;      /**< 0 = 915 MHz, 1 = 868 MHz, 2 = 490 MHz. */
-    uint8_t gain_ctrl_40m;      /**< Gain control level (1–8). */
-    uint8_t gain_ctrl_40m_s;    /**< Gain control level (1–8) for sleep mode. */
-    uint8_t cap_xtal_i;         /**< Internal XTAL capacitor setting (default = 64). */
-    uint8_t cap_xtal_o;         /**< External XTAL capacitor setting (default = 64). */
-    uint8_t sram_retain;        /**< SRAM retaintion mode, 0 = 32K, 1 = 64K */
+    uint8_t tcxo_output_en;  /**< 0 = disable TCXO output, 1 = enable. */
+    uint8_t pa_type;         /**< 0 = 10 dB PA, 1 = 14 dB PA. */
+    uint8_t matching_type;   /**< 0 = 915 MHz, 1 = 868 MHz, 2 = 490 MHz. */
+    uint8_t gain_ctrl_40m;   /**< Gain control level (1–8). */
+    uint8_t gain_ctrl_40m_s; /**< Gain control level (1–8) for sleep mode. */
+    uint8_t cap_xtal_i;      /**< Internal XTAL capacitor setting (default = 64). */
+    uint8_t cap_xtal_o;      /**< External XTAL capacitor setting (default = 64). */
+    uint8_t sram_retain;     /**< SRAM retaintion mode, 0 = 32K, 1 = 64K */
+    WISE_SYS_ULPLDO_VREF_T ulpldo_vref;     /**< ULPLDO reference selection. */
+    WISE_SYS_ULPLDO_ENMODE_T ulpldo_enmode; /**< ULPLDO enable mode selection. */
 } WISE_SYS_BOARD_PROPERTY_T;
 
 typedef struct
@@ -355,8 +389,6 @@ void wise_sys_lfosc_clk_get_config(WISE_LFOSC_SRC_T *clk_cfg);
  */
 int32_t wise_sys_lfosc_clk_calibration();
 
-void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable);
-
 
 /* ------------------------------------------------------------------------- */
 /*                              ASARADC APIs                                 */
@@ -401,6 +433,22 @@ WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t* rawValu
  * @retval WISE_FAIL    Read failed.
  */
 WISE_STATUS wise_asaradc_read_input_hires(ASARADC_VIN_SEL_T vin_sel, uint32_t* rawValue);
+
+/* ------------------------------------------------------------------------- */
+/*                           Warm Reset Info                                 */
+/* ------------------------------------------------------------------------- */
+
+/**
+ * @brief Get warm reset information.
+ *
+ * @return Warm reset info register value.
+ */
+uint32_t wise_sys_get_warm_reset_info(void);
+
+/**
+ * @brief Clear warm reset information flags.
+ */
+void wise_sys_clear_warm_reset_info(void);
 
 /** @} */ /* end of WISE_SYS group */
 

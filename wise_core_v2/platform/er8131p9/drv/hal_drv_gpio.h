@@ -33,8 +33,7 @@ void hal_drv_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg);
 HAL_STATUS hal_drv_gpio_register_callback(uint8_t gpio_idx, CALLBACK_T cb, void *context);
 HAL_STATUS hal_drv_gpio_unregister_callback(uint8_t gpio_idx);
 
-
-#define HAL_DRV_GPIO_SET_DEBUG_BUS          hal_drv_gpio_set_debug_bus
-
+void hal_drv_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg);
+void hal_drv_gpio_set_gio_fun(GPIO_GIO_CFG_INFO* gpio_gio_cfg);
 
 #endif

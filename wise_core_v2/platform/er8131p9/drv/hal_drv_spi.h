@@ -36,6 +36,9 @@ void hal_drv_spi_config(uint8_t spi_idx, uint16_t clock_mode, uint8_t role, uint
 int32_t hal_drv_spi_transfer(uint8_t spi_idx, uint8_t role, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len, uint8_t trans_mode,
                              uint8_t flag_en, uint32_t addr_value, uint8_t cmd_value, void *tx_fifo, void *rx_fifo);
 
+int32_t hal_drv_spi_master_write_byte(uint8_t spi_index, uint8_t in_byte);
+int32_t hal_drv_spi_master_read_byte(uint8_t spi_index, uint8_t *out_byte);
+
 HAL_STATUS hal_drv_spi_register_event_callback(uint8_t spi_channel, EVT_CALLBACK_T cb, void *context);
 HAL_STATUS hal_drv_spi_unregister_event_callback(uint8_t spi_channel);
 

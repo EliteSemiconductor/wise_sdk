@@ -5,6 +5,11 @@
  */
 
 #include "hdl/gpio_er8130.h"
+#include "util_debug_log.h"
+
+#define DEBUG_BUS_DEBUG_MODULE_REG_ADDR 0x400FE000U
+#define DEBUG_BUS_DEBUG_SIGNAL_REG_ADDR 0x400FE004U
+#define GIO_CTRL_REG_ADDR               0x40014A80U
 
 void gpio_set_mode_er8130(uint8_t pin_idx, uint8_t mode)
 {
@@ -41,7 +46,7 @@ void gpio_set_io_direction_er8130(uint8_t pin_idx, uint8_t in_out)
 uint8_t gpio_get_io_direction_er8130(uint8_t pin_idx)
 {
     uint32_t reg_val = REG_R32(IOCTRL_GPIO_OE_REG_ADDR);
-    return (reg_val & (BIT(pin_idx)) ? MODE_OUTPUT : MODE_INPUT);
+    return ((reg_val & BIT(pin_idx)) ? MODE_OUTPUT : MODE_INPUT);
 }
 
 void gpio_set_debs_time_er8130(uint8_t pin_idx, uint8_t debs_time)
@@ -205,9 +210,9 @@ void gpio_set_pwm_er8130(uint8_t pwm_num, uint8_t pin_idx, uint8_t enable)
     uint32_t reg_val = REG_R32((IOCTRL_PWM_0_SEL_REG_ADDR + (0x4 * pwm_num)));
 
     if (enable) {
-        reg_val |= (1ul << pin_idx);
+        reg_val |= (1UL << pin_idx);
     } else {
-        reg_val &= ~(1ul << pin_idx);
+        reg_val &= ~(1UL << pin_idx);
     }
 
     REG_W32((IOCTRL_PWM_0_SEL_REG_ADDR + (0x4 * pwm_num)), reg_val);
@@ -218,38 +223,128 @@ void gpio_set_pwmslow_er8130(uint8_t pin_idx, uint8_t enable)
     uint32_t reg_val = REG_R32(IOCTRL_PWM_SLOW_SEL_REG_ADDR);
 
     if (enable) {
-        reg_val |= (1ul << pin_idx);
+        reg_val |= (1UL << pin_idx);
     } else {
-        reg_val &= ~(1ul << pin_idx);
+        reg_val &= ~(1UL << pin_idx);
     }
 
-    REG_W32((IOCTRL_PWM_SLOW_SEL_REG_ADDR), reg_val);
+    REG_W32(IOCTRL_PWM_SLOW_SEL_REG_ADDR, reg_val);
 }
 
-#define DEBUG_BUS_DEBUG_MODULE_REG_ADDR 0x400FE000
-#define DEBUG_BUS_DEBUG_SINNAL_REG_ADDR 0x400FE004
-void gpio_set_debug_bus_er8130(uint8_t gpio_pin_idx, uint8_t dbg_bus_module_idx, uint8_t dbg_bus_signal_idx, uint8_t dbg_id)
+/*
+ * Route an internal debug bus signal to a GPIO pin for probing.
+ *
+ * Parameters:
+ *   pin_idx       - GPIO pin to output the debug signal (0-15)
+ *   target_idx    - Debug module to observe (DEBUG_TARGET_PMU/MAC/CMU/ANCTL)
+ *   dbg_signal_idx- Signal group index within the target module
+ *   dbg_bus_idx   - Which bit of the debug bus to route to the GPIO pin
+ *
+ * Shell command: gpio dbg <pin_idx> <target_idx> <signal_idx> <bus_idx>
+ *
+ * -----------------------------------------------------------------------
+ * [1] Check sleep-to-active transition  (target = DEBUG_TARGET_PMU = 3)
+ * -----------------------------------------------------------------------
+ *   Shell: gpio dbg <pin> 3 0 <bus_idx>
+ *
+ *   Debug bus signal map (dbg_signal_idx = 0):
+ *     bus[7:5]  0x0 : active
+ *               0x3 : sleep
+ *     bus[1]    0   : MCU active
+ *               1   : MCU deep sleep
+ *
+ *   Wake-up sequence to verify:
+ *     bus[7:5]=3 (sleep) --> bus[7:5]=0 (active) --> bus[1]=0 (MCU active)
+ *
+ *   Example (observe bit 7 on GPIO 5, bit 1 on GPIO 6):
+ *     gpio dbg 5 3 0 7
+ *     gpio dbg 6 3 0 1
+ *
+ * -----------------------------------------------------------------------
+ * [2] Check RX ready  (target = DEBUG_TARGET_MAC = 4)
+ *     NOTE: cannot be used simultaneously with PMU debug target
+ * -----------------------------------------------------------------------
+ *   Shell: gpio dbg <pin> 4 0 <bus_idx>
+ *
+ *   Debug bus signal map (dbg_signal_idx = 0):
+ *     bus[11]   RX enable for analog
+ *     bus[10]   RX enable for BBP
+ *
+ *   RX settling sequence to verify:
+ *     bus[11]=1 (analog RX on) --> bus[10]=1 (BBP RX on)
+ *
+ *   Example (observe bit 11 on GPIO 5, bit 10 on GPIO 6):
+ *     gpio dbg 5 4 0 11
+ *     gpio dbg 6 4 0 10
+ */
+void gpio_set_debug_bus_er8130(uint8_t pin_idx, uint8_t target_idx, uint8_t dbg_signal_idx, uint8_t dbg_bus_idx)
 {
-    uint32_t debug_sel_bass_addr = (IOCTRL_DIO_0_DBG_NUM_REG_ADDR + (gpio_pin_idx << 2));
+    uint32_t dbg_output_gpio_pin_base_addr = (IOCTRL_DIO_0_DBG_NUM_REG_ADDR + (pin_idx << 2));
 
-    //debug bus: module select
-    REG_W32(DEBUG_BUS_DEBUG_MODULE_REG_ADDR, dbg_bus_module_idx);
-
-    switch (dbg_bus_module_idx){
-    case 17:
-        //debug bus: CMU
-        REG_W32(DEBUG_BUS_DEBUG_SINNAL_REG_ADDR, dbg_bus_signal_idx);
+    switch (target_idx) {
+    case DEBUG_TARGET_PMU:
+    case DEBUG_TARGET_MAC:
+    case DEBUG_TARGET_CMU:
+        REG_W32(DEBUG_BUS_DEBUG_MODULE_REG_ADDR, target_idx);
+        REG_W32(DEBUG_BUS_DEBUG_SIGNAL_REG_ADDR, dbg_signal_idx);
         break;
-    case 19:
-        //debug bus: ANCTLs
-        REG_W32(ANA_PMU_DBG_REG_ADDR, dbg_bus_signal_idx);
+    case DEBUG_TARGET_ANCTL:
+        REG_W32(DEBUG_BUS_DEBUG_MODULE_REG_ADDR, target_idx);
+        /* ANCTL signals are routed through ANA_PMU_DBG register, not the common signal bus */
+        REG_W32(ANA_PMU_DBG_REG_ADDR, dbg_signal_idx);
         break;
     default:
-        break;
+        printf("debug target did not support: %d\n", target_idx);
+        return;
     }
 
-    //set by gpio pin index
-    REG_W32(debug_sel_bass_addr, dbg_id);
-    printf("<<debug configuration>> \n gpio pin index : [%d]\n module_idx     : [%d]\n singnal_idx    : [%d]\n dbg_id         : [%d]\n", 
-                                            gpio_pin_idx, dbg_bus_module_idx, dbg_bus_signal_idx, dbg_id);
+    REG_W32(dbg_output_gpio_pin_base_addr, dbg_bus_idx);
+}
+
+/*
+ * GIO_CTRL_REG (0x40014A80) field layout:
+ *   GPIO 2 : bits [4:0]
+ *   GPIO 3 : bits [12:8]
+ *   GPIO 4 : bits [20:16]
+ *
+ * gio_fun values (GPIO_GIO_FUN):
+ *   GIO_FUN_TX_RX_EN      (0) : TX_EN / RX_EN indicator
+ *   GIO_FUN_TX_DATA_START (2) : TX start to send data
+ *   GIO_FUN_RX_SYNC_WORD  (6) : RX receive sync word
+ */
+void gpio_set_gio_fun_er8130(uint8_t pin_idx, uint8_t gio_fun)
+{
+    uint8_t  bit_offset = 0;
+    uint32_t reg_val;
+
+    switch (pin_idx) {
+    case 2:
+        bit_offset = 0;
+        break;
+    case 3:
+        bit_offset = 8;
+        break;
+    case 4:
+        bit_offset = 16;
+        break;
+    default:
+        printf("gpio_pin_idx is invalid = %d\n", pin_idx);
+        return;
+    }
+
+    switch (gio_fun) {
+    case GIO_FUN_TX_RX_EN:
+    case GIO_FUN_TX_DATA_START:
+    case GIO_FUN_RX_SYNC_WORD:
+        break;
+    default:
+        printf("gio_fun is invalid = %d, valid values: %d(TX_RX_EN), %d(TX_DATA_START), %d(RX_SYNC_WORD)\n",
+               gio_fun, GIO_FUN_TX_RX_EN, GIO_FUN_TX_DATA_START, GIO_FUN_RX_SYNC_WORD);
+        return;
+    }
+
+    reg_val  = REG_R32(GIO_CTRL_REG_ADDR);
+    reg_val &= ~(0xFFU << bit_offset);
+    reg_val |= ((uint32_t)gio_fun << bit_offset);
+    REG_W32(GIO_CTRL_REG_ADDR, reg_val);
 }

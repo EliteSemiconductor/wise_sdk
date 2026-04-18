@@ -1,9 +1,9 @@
-#include "es_platform_components.h"
 
-#if (defined MIDDLEWARE_WISE_TIMER_HUB) && (MIDDLEWARE_WISE_TIMER_HUB == 1)
+#include "wise_core.h"
 #include "wise_timer_hub.h"
 #include "wise_wutmr_api.h"
 #include "wise_gptmr_api.h"
+#include "util.h"
 
 enum
 {
@@ -45,10 +45,10 @@ static void _timer_hub_debug_info()
     uint32_t now = wise_wutmr_get_counter();
     int i;
 
-    debug_print("tmrhub now=%08x\n", now);
+    debug_print("tmrhub now=%08x\n", (unsigned int)now);
     for(i = 0; i < WISE_TIMER_HUB_CH_NUM; i++)
     {
-        debug_print(" ch=%d m=%d st=%d exp=%08x\n", i, timerBank[i].mode, timerBank[i].state, timerBank[i].nextExpire);
+        debug_print(" ch=%d m=%d st=%d exp=%08x\n", i, timerBank[i].mode, timerBank[i].state, (unsigned int)timerBank[i].nextExpire);
     }
 }
 
@@ -56,11 +56,6 @@ static void _wutmr_ch_expired(int ch, uint32_t curTick)
 {
     ST_TIMER_HUB_CH_T* pActCh = &timerBank[ch];
     
-    if(pActCh->cb)
-    {
-        (pActCh->cb)(pActCh->user);
-    }
-
     pActCh->startTick = curTick;
     pActCh->nextExpire = pActCh->startTick + pActCh->periodTick;
 
@@ -71,6 +66,11 @@ static void _wutmr_ch_expired(int ch, uint32_t curTick)
     else
     {        
         pActCh->state = E_TIMER_HUB_STATE_RUNNING;
+    }
+
+    if(pActCh->cb)
+    {
+        (pActCh->cb)(pActCh->user);
     }
 }
 
@@ -169,7 +169,6 @@ void wise_timer_hub_free_ch(int ch)
 
 int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs)
 {
-    int32_t result = WISE_FAIL;
     CORE_DECLARE_IRQ_STATE;
 
     if(!tmrHubInited)
@@ -200,7 +199,15 @@ int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs
     
     CORE_EXIT_CRITICAL();
 
-    return result;
+    return WISE_SUCCESS;
+}
+
+uint32_t wise_timer_hub_get_target_counter(int ch)
+{
+    if(timerBank[ch].state >= E_TIMER_HUB_STATE_RUNNING)
+        return timerBank[ch].nextExpire;
+    else
+        return 0;
 }
 
 void wise_timer_hub_stop_ch(int ch)
@@ -208,10 +215,10 @@ void wise_timer_hub_stop_ch(int ch)
     CORE_DECLARE_IRQ_STATE;
 
     if(!tmrHubInited)
-        return WISE_FAIL;
+        return;
 
     if(timerBank[ch].state <= E_TIMER_HUB_STATE_USED)
-        return WISE_FAIL;
+        return;
 
     CORE_ENTER_CRITICAL();
 
@@ -236,11 +243,11 @@ static void _wutmr_reschedule_next()
     
     for(i = 0; i < WISE_TIMER_HUB_CH_NUM; i++)
     {
-        if(timerBank[i].state == E_TIMER_HUB_STATE_RUNNING)
+        if(timerBank[i].state >= E_TIMER_HUB_STATE_RUNNING)
         {
             uint32_t diff = tick_diff(now, timerBank[i].nextExpire);
 
-            timerBank[i].state == E_TIMER_HUB_STATE_RUNNING; //set back to running here, pick up next active later
+            timerBank[i].state = E_TIMER_HUB_STATE_RUNNING; //set back to running here, pick up next active later
 
             if(diff >= 0xff000000)
             {
@@ -286,4 +293,3 @@ static void _wutmr_reschedule_next()
     }
 }
 
-#endif

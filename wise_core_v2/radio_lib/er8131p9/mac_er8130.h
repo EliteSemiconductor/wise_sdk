@@ -60,4 +60,7 @@ void mac_set_crc_endian_in_fcs_er81xx(uint8_t endian);
 void mac_set_crc_altchk_er81xx(uint8_t enable);
 void mac_set_tx_phr_config_er81xx(uint8_t len, uint8_t offset, uint8_t inv_en);
 void mac_set_rx_wmbus_fmt_config_er81xx(uint8_t wmbus_mode, uint32_t data_rate);
+void mac_set_tx_csma_er81xx(uint16_t duration, uint16_t thd, bool enable);
+uint32_t mac_get_tx_status_er81xx(void);
+
 #endif

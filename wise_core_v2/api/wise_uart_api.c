@@ -237,6 +237,7 @@ int32_t wise_uart_write(uint8_t uartIntf, uint8_t *buf, int reqLen)
         if (!_wise_uart_dma_buf_in_pool(buf, (uint32_t)reqLen)) {
             return WISE_FAIL;
         }
+        hal_intf_uart_wait_tx_done(uartIntf);
         if (hal_intf_dma_channel_setup(HAL_DMA_UART_TX(uartIntf), buf, NULL, reqLen, 0, 1) == HAL_ERR) {
             return WISE_FAIL;
         }
@@ -251,34 +252,15 @@ int32_t wise_uart_write(uint8_t uartIntf, uint8_t *buf, int reqLen)
 
 int32_t wise_uart_write_char(uint8_t uartIntf, uint8_t dataByte)
 {
-    if (uartCtrl[uartIntf].onFlag & WISE_UART_FLAG_TX) {
-        if (uartCtrl[uartIntf].txFifo) {
-            wise_fifo_push_char(uartCtrl[uartIntf].txFifo, dataByte);
-            _wise_uart_process_tx_fifo(uartIntf);
-        } else {
-            if (uartCtrl[uartIntf].dma_enable != ENABLE) {
-                hal_intf_uart_write_data(uartIntf, &dataByte, 1);
-            } else {
-#if (defined CHIP_HAS_DMA) && (defined CHIP_DMA_SUPPORT_PERIPHERAL)
-                uint8_t *dma_tx = &uart_dma_tx_byte[uartIntf];
-                *dma_tx = dataByte;
-                if (hal_intf_dma_channel_setup(HAL_DMA_UART_TX(uartIntf), dma_tx, NULL, 1, 0, 0) == HAL_ERR) {
-                    return WISE_FAIL;
-                }
-                hal_intf_dma_channel_trigger(HAL_DMA_UART_TX(uartIntf));
-#else
-                return WISE_FAIL;
-#endif
-            }
-        }
+    if (!(uartCtrl[uartIntf].onFlag & WISE_UART_FLAG_TX)) {
+        return WISE_FAIL;
     }
-
-    return WISE_SUCCESS;
+    return hal_intf_uart_write_char(uartIntf, dataByte);
 }
 
 int32_t wise_uart_read(uint8_t uartIntf, uint8_t *buf, int reqLen)
 {
-    // printf("%s: %d, %p, %d\n",__func__, uartIntf, buf, reqLen);
+    //WISE_LOG_DBG("%s: %d, %p, %d\n",__func__, uartIntf, buf, reqLen);
 
     return WISE_FAIL;
 }
@@ -287,16 +269,33 @@ int32_t wise_uart_read_char(uint8_t uartIntf, uint8_t *outputC)
 {
     uint8_t c;
 
-    if (WISE_SUCCESS == wise_fifo_pop_char(uartCtrl[uartIntf].rxFifo, &c)) {
-        *outputC = c;
-        return WISE_SUCCESS;
+    if(uartCtrl[uartIntf].rxFifo)
+    {
+        if (WISE_SUCCESS == wise_fifo_pop_char(uartCtrl[uartIntf].rxFifo, &c)) {
+            *outputC = c;
+            return WISE_SUCCESS;
+        }
     }
+    else
+    {
+        if(HAL_NO_ERR == hal_intf_uart_poll_byte(uartIntf, &c))
+        {
+            *outputC = c;
+            return WISE_SUCCESS;
+        }
+    }
+
     return WISE_FAIL;
 }
 
 int32_t wise_uart_check_data_len(uint8_t uartIntf)
 {
-    return wise_fifo_get_data_len(uartCtrl[uartIntf].rxFifo);
+    if(uartCtrl[uartIntf].rxFifo)
+        return wise_fifo_get_data_len(uartCtrl[uartIntf].rxFifo);
+    else
+    {
+        return 0; //todo
+    }
 }
 
 void wise_uart_set_rx_int_handler(uint8_t uartIntf, UART_RX_HANDLER rxCallback)
@@ -314,6 +313,46 @@ void wise_uart_enable_interrupt(int uartIntf)
 void wise_uart_disable_interrupt(int uartIntf)
 {
     hal_intf_uart_disable_irq(uartIntf);
+}
+
+void wise_uart_set_flow_control(uint8_t uartIntf, uint8_t flowControl)
+{
+    if (uartIntf >= CHIP_UART_CHANNEL_NUM) {
+        return;
+    }
+    hal_intf_uart_set_flow_control(uartIntf, (flowControl == E_UART_FLOW_CTS_RTS) ? 1 : 0);
+}
+
+uint8_t wise_uart_get_line_status(uint8_t uartIntf)
+{
+    if (uartIntf >= CHIP_UART_CHANNEL_NUM) {
+        return 0;
+    }
+    return hal_intf_uart_get_lsr(uartIntf);
+}
+
+uint8_t wise_uart_get_last_error(uint8_t uartIntf)
+{
+    if (uartIntf >= CHIP_UART_CHANNEL_NUM) {
+        return 0;
+    }
+    return hal_intf_uart_get_last_lsr(uartIntf);
+}
+
+void wise_uart_set_fifo_trigger(uint8_t uartIntf, uint8_t rxTrigger, uint8_t txTrigger)
+{
+    if (uartIntf >= CHIP_UART_CHANNEL_NUM) {
+        return;
+    }
+    hal_intf_uart_set_fifo_trigger(uartIntf, rxTrigger, txTrigger);
+}
+
+void wise_uart_set_break(uint8_t uartIntf, uint8_t enable)
+{
+    if (uartIntf >= CHIP_UART_CHANNEL_NUM) {
+        return;
+    }
+    hal_intf_uart_set_break(uartIntf, enable);
 }
 
 static void _wise_uart_process_tx_fifo(uint8_t channel)

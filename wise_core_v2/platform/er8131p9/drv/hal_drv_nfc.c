@@ -10,6 +10,7 @@
 #include "hal_drv_pmu.h"
 #include "hal_drv_extpmu.h"
 #include "ana_er8130.h"
+#include "util_debug_log.h"
 
 
 static CALLBACK_ENTRY_T nfc_callbacks[NFC_INT_NUM];
@@ -76,7 +77,7 @@ uint8_t hal_drv_nfc_get_dpe_ctrl_info(void)
 void hal_drv_nfc_register_int_callback(uint8_t int_idx, CALLBACK_T cb,              void *context)
 {
     if (int_idx >= NFC_INT_NUM) {
-        printf("NFC IRQ register: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
+        WISE_LOG_ERR("NFC IRQ register: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
         return;
     }
 
@@ -87,7 +88,7 @@ void hal_drv_nfc_register_int_callback(uint8_t int_idx, CALLBACK_T cb,          
 void hal_drv_nfc_unregister_int_callback(uint8_t int_idx)
 {
     if (int_idx >= NFC_INT_NUM) {
-        printf("NFC IRQ unregister: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
+        WISE_LOG_ERR("NFC IRQ unregister: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
         return;
     }
 
@@ -133,7 +134,7 @@ void hal_drv_nfc_set_wakeup_config(uint8_t pwr_mode)
         hal_drv_extpmu_set_wakeup_by_nfc(ENABLE);
         break;
     default:
-        printf("%s: power mode is bad = %d !\n", __func__, pwr_mode);
+        WISE_LOG_ERR("%s: power mode is bad = %d !\n", __func__, pwr_mode);
     }
 }
 

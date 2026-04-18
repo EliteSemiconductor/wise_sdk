@@ -81,4 +81,6 @@ uint8_t hal_intf_spi_get_cmd(uint8_t spi_channel);
 HAL_STATUS hal_intf_spi_slave_set_ready(uint8_t spi_channel);
 uint16_t hal_intf_spi_slave_get_recv_count(uint8_t spi_channel);
 void hal_intf_spi_data_prepare(uint8_t spi_channel, void *tx_fifo_ptr, uint16_t tx_unit_count);
+int32_t hal_intf_spi_master_write_byte(uint8_t spi_channel, uint8_t in_byte);
+int32_t hal_intf_spi_master_read_byte(uint8_t spi_channel, uint8_t *out_byte);
 #endif /* __HAL_INTF_SPI_H */

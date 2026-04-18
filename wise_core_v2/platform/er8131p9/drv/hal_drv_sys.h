@@ -61,7 +61,7 @@ void hal_drv_sys_tick_init();
 uint32_t hal_drv_sys_tick_get_counter();
 void hal_drv_sys_tick_delay_ms(uint32_t ms);
 void hal_drv_sys_tick_delay_us(uint32_t us);
-
+void hal_drv_cpu_tick_delay_us(uint32_t us);
 
 extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_32k_default;
 extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_32k_run_16k;
@@ -74,7 +74,7 @@ extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_ext32k;
 int8_t hal_drv_sys_internal_16kosc_calibration(const DRV_SCLK16K_PARAM_T *p);
 int8_t hal_drv_sys_internal_32kosc_calibration(const DRV_SCLK32K_PARAM_T *p);
 void hal_drv_sys_switch_sclk_src(uint8_t sclk_idx);
-
+void hal_drv_sys_ext32k_workaround(void);
 /* ================== ASARADC =============== */
 void hal_drv_asaradc_start(void);
 bool hal_drv_asaradc_is_ready(void);

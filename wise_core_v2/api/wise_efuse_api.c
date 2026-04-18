@@ -5,6 +5,7 @@
  */
 
 #include "api/wise_efuse_api.h"
+#include "util_debug_log.h"
 
 void wise_efuse_init(void)
 {
@@ -18,27 +19,27 @@ static inline bool _is_para_valid(uint32_t addr, const void *buf, uint32_t byte_
 
     if ((addr & 0x3u) != 0u) {
         valid = false;
-        debug_print("Address must be 4-byte aligned.\n");
+        WISE_LOG_DBG("Address must be 4-byte aligned.\n");
     }
 
     if (buf == NULL) {
         valid = false;
-        debug_print("Buffer is NULL.\n");
+        WISE_LOG_DBG("Buffer is NULL.\n");
     }
 
     if (byte_len == 0u) {
         valid = false;
-        debug_print("Length must be non-zero.\n");
+        WISE_LOG_DBG("Length must be non-zero.\n");
     }
 
     if ((byte_len & 0x3u) != 0u) {
         valid = false;
-        debug_print("Length must be a multiple of 4 bytes.\n");
+        WISE_LOG_DBG("Length must be a multiple of 4 bytes.\n");
     }
 
     if (byte_len > EFUSE_MAX_READ_BYTES) {
         valid = false;
-        debug_print("Length cannot exceed %lu bytes.\n", (unsigned long)EFUSE_MAX_READ_BYTES);
+        WISE_LOG_ERR("Length cannot exceed %lu bytes.\n", (unsigned long)EFUSE_MAX_READ_BYTES);
     }
 
     return valid;
@@ -61,7 +62,7 @@ WISE_STATUS wise_efuse_read(uint32_t addr, uint8_t *buf, uint32_t byte_len)
         efuse_conf.buf = &buf[i << 2u];
 
         if (hal_intf_efuse_read(&efuse_conf) != WISE_SUCCESS) {
-            debug_print("efuse read fail: addr=0x%08lx, i=%lu\n", (unsigned long)efuse_conf.addr, (unsigned long)i);
+            WISE_LOG_ERR("efuse read fail: addr=0x%08lx, i=%lu\n", (unsigned long)efuse_conf.addr, (unsigned long)i);
             return WISE_FAIL;
         }
     }
@@ -86,7 +87,7 @@ WISE_STATUS wise_efuse_write(uint32_t addr, uint8_t *buf, uint32_t byte_len)
         efuse_conf.buf = &buf[i << 2u];     
 
         if (hal_intf_efuse_write(&efuse_conf) != WISE_SUCCESS) {
-            debug_print("efuse write fail: addr=0x%08lx, val=0x%08lx, i=%lu\n", 
+            WISE_LOG_ERR("efuse write fail: addr=0x%08lx, val=0x%08lx, i=%lu\n", 
                         (unsigned long)efuse_conf.addr, 
                         (unsigned long)buf[i], 
                         (unsigned long)i);
@@ -114,7 +115,7 @@ WISE_STATUS wise_efuse_boot_cfg_read(uint32_t addr, uint8_t *buf, uint32_t byte_
         efuse_conf.buf = &buf[i << 2u];
 
         if (hal_intf_efuse_read(&efuse_conf) != WISE_SUCCESS) {
-            debug_print("efuse read fail: addr=0x%08lx, i=%lu\n", (unsigned long)efuse_conf.addr, (unsigned long)i);
+            WISE_LOG_ERR("efuse read fail: addr=0x%08lx, i=%lu\n", (unsigned long)efuse_conf.addr, (unsigned long)i);
             return WISE_FAIL;
         }
     }
@@ -139,7 +140,7 @@ WISE_STATUS wise_efuse_boot_cfg_write(uint32_t addr, uint8_t *buf, uint32_t byte
         efuse_conf.buf = &buf[i << 2u];     
 
         if (hal_intf_efuse_write(&efuse_conf) != WISE_SUCCESS) {
-            debug_print("efuse write fail: addr=0x%08lx, val=0x%08lx, i=%lu\n", 
+            WISE_LOG_ERR("efuse write fail: addr=0x%08lx, val=0x%08lx, i=%lu\n", 
                         (unsigned long)efuse_conf.addr, 
                         (unsigned long)buf[i], 
                         (unsigned long)i);

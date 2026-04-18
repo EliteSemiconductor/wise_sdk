@@ -82,7 +82,7 @@ void rtc_set_alarm_er8130(uint8_t channel, uint8_t hour, uint8_t min,
         alarm_reg = &RTC->ALARM5;
         break;
     default:
-        debug_printf("Invalid channel: %d\n", channel);
+        WISE_LOG_ERR("Invalid channel: %d\n", channel);
         return;
     }
     uint32_t reg_value = ((sec << RTC_ALARM_SEC_POS) & RTC_ALARM_SEC_MASK) |

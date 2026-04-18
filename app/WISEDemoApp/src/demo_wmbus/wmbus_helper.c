@@ -13,7 +13,9 @@ static WMBUS_deviceType_t deviceType = WMBUS_DEVICE_WATER_METER;
 static const uint8_t version = 0x02;
 #ifdef WMBUS_DEMO_PHY_METER
 static uint32_t devId = 0xb0000001; //BCD
-#else
+#elif defined WMBUS_DEMO_PHY_METER_PD
+static uint32_t devId = 0xc0000001; //BCD
+#else defined WMBUS_DEMO_PHY_OTHER
 static uint32_t devId = 0xa0000001; //BCD
 #endif
 
@@ -144,7 +146,7 @@ uint16_t wmbus_setup_tx_frame(uint8_t *buffer, uint8_t accessNumber, WMBUS_acces
     //setup the payload before the headers, so we'll know the length
     uint16_t frameLength = 0;
 
-    debug_print("buffer=%08x payload=%08x\n", buffer, payloadPtr);
+    //debug_print("buffer=%08x payload=%08x\n", buffer, payloadPtr);
 
     deviceType = WMBUS_DEVICE_WATER_METER;
     

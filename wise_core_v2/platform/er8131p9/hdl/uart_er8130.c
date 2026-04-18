@@ -22,8 +22,13 @@ void uart_config_er8130(uint32_t uart_base, uint32_t baudrate, uint8_t data, uin
     REG_W32(UART_IER_DLM_ADDR, ((dvsr_val & 0xFF00) >> 8));
 
     /* Set line control register */
-    reg = REG_R32(UART_LCR_ADDR) | ((data << UART_WLS_POS) & UART_WLS_MASK) | ((stop << UART_STB_POS) & UART_STB_MASK) |
-          ((parity << UART_PEN_POS) & UART_PEN_MASK);
+    reg = REG_R32(UART_LCR_ADDR) | ((data << UART_WLS_POS) & UART_WLS_MASK) | ((stop << UART_STB_POS) & UART_STB_MASK);
+    if (parity != 0) {
+        reg |= UART_PEN_MASK;           /* PEN = 1: enable parity */
+        if (parity == 2) {
+            reg |= UART_EPS_MASK;       /* EPS = 1: even parity */
+        }
+    }
     REG_W32(UART_LCR_ADDR, reg);
 
     REG_W32(UART_OSCR_ADDR, UART_OSCR);
@@ -90,4 +95,62 @@ void uart_irq_en_er8130(uint32_t uart_base, uint8_t int_type)
 
 void uart_irq_dis_er8130(uint32_t uart_base)
 {
+}
+
+int8_t uart_wait_tx_done_er8130(uint32_t uart_base)
+{
+    UART_T *UART        = (UART_T *)uart_base;
+    uint32_t timeout    = UART_TIMEOUT;
+
+    while (!(REG_R32(UART_LSR_ADDR) & UART_TEMT_MASK)) {
+        if (--timeout == 0) {
+            return HAL_ERR;
+        }
+    }
+    return HAL_NO_ERR;
+}
+
+uint8_t uart_get_lsr_er8130(uint32_t uart_base)
+{
+    UART_T *UART = (UART_T *)uart_base;
+    return (uint8_t)(REG_R32(UART_LSR_ADDR) & 0xFF);
+}
+
+void uart_set_fifo_trigger_er8130(uint32_t uart_base, uint8_t rx_trigger, uint8_t tx_trigger)
+{
+    UART_T *UART = (UART_T *)uart_base;
+    uint32_t reg = UART_FIFOE_MASK;     /* keep FIFO enabled */
+
+    reg |= ((rx_trigger << UART_RFIFOT_POS) & UART_RFIFOT_MASK);
+    reg |= ((tx_trigger << UART_TFIFOT_POS) & UART_TFIFOT_MASK);
+    REG_W32(UART_IIR_FCR_ADDR, reg);
+}
+
+void uart_set_break_er8130(uint32_t uart_base, uint8_t enable)
+{
+    UART_T *UART = (UART_T *)uart_base;
+    uint32_t lcr = REG_R32(UART_LCR_ADDR);
+
+    if (enable) {
+        lcr |= UART_BC_MASK;
+    } else {
+        lcr &= ~UART_BC_MASK;
+    }
+    REG_W32(UART_LCR_ADDR, lcr);
+}
+
+void uart_set_flow_control_er8130(uint32_t uart_base, uint8_t enable)
+{
+    UART_T *UART = (UART_T *)uart_base;
+    uint32_t mcr = REG_R32(UART_MCR_ADDR);
+
+    if (enable) {
+        mcr |= UART_AFE_MASK;   /* AFE = 1: auto flow control enable */
+        mcr |= UART_RTS_MASK;   /* RTS = 1: auto-CTS + auto-RTS */
+    } else {
+        mcr &= ~UART_AFE_MASK;
+        mcr &= ~UART_RTS_MASK;
+    }
+
+    REG_W32(UART_MCR_ADDR, mcr);
 }

@@ -7,6 +7,7 @@
 #include "api/wise_flash_api.h"
 #include "util.h"
 #include "util_crc.h"
+#include "util_debug_log.h"
 
 #define PACK_XIP_CFG(m, c)              (((m << 4) & 0xf0) | (c & 0xf))
 #define XIP_CFG_MODE(v)                 ((v >> 4) & 0xf)
@@ -148,7 +149,7 @@ void _flash_probe()
 
     if(!activeFlash)
     {
-        //debug_print("flash probe failed\n");
+        WISE_LOG_ERR("flash probe failed\n");
         while(1);
     }
 }
@@ -181,7 +182,7 @@ int32_t wise_flash_get_info(WISE_FLASH_INFO_T *outInfo)
         outInfo->blockSize    = activeFlash->blockSize;
         outInfo->minEraseSize = activeFlash->sectorSize;
 
-        //debug_print("FLASH ID: %08x\n", (unsigned int)activeFlash->id);
+        //WISE_LOG_DBG("FLASH ID: %08x\n", (unsigned int)activeFlash->id);
     }
 
     return WISE_SUCCESS;

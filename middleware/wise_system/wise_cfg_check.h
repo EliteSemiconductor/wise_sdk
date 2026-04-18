@@ -70,6 +70,16 @@
 #define BOARD_SRAM_RETAIN                               1
 #endif
 
+/* ULPLDO tuning is only meaningful on platforms that expose the 9006 ULPLDO control path. */
+#ifndef BOARD_ULPLDO_VREF
+#define BOARD_ULPLDO_VREF 0 /* 0 = normal, 1 = ultra low */
+#endif
+
+/* ENMODE drives the ULPLDO 0.9V/0.6V enable bits together when enabled. */
+#ifndef BOARD_ULPLDO_ENMODE
+#define BOARD_ULPLDO_ENMODE 1 /* 0 = disable, 1 = enable */
+#endif
+
 #if defined(BOARD_CONFIG_FILE)
 #include BOARD_CONFIG_FILE
 #else
@@ -77,4 +87,3 @@
 #endif
 
 #endif
-

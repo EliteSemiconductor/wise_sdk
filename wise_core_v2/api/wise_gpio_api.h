@@ -414,18 +414,6 @@ void wise_gpio_set_pwmslow(uint8_t pin_idx, uint8_t enable);
  */
 void wise_pwm_io_disable_pin(uint8_t gpio_index);
 
-/**
- * @brief Configure debug bus output on a GPIO pin.
- *
- * Routes a selected internal debug signal to a given GPIO pin.
- *
- * @param[in] pin_idx        GPIO pin index.
- * @param[in] dbg_module_idx Debug module index.
- * @param[in] dbg_single_idx Debug signal index within the module.
- * @param[in] dbg_func_idx   Debug function selection.
- */
-void wise_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg);
-
 /** @} */ /* end of WISE_GPIO group */
 
 #endif /* _WISE_GPIO_API_H_ */

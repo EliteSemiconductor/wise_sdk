@@ -19,7 +19,7 @@ void wise_wutmr_init(void)
     const HAL_INTERNAL_SCLK_CFG_T *cfg_to_use = &sclk_src_16k_run_default;
 
     if (hal_intf_sys_exec_internal_sclk_calibration(cfg_to_use) == WISE_FAIL) {
-        printf("internal sclk calibration fail!\n");
+        WISE_LOG_ERR("internal sclk calibration fail!\n");
         return;
     }
 #endif
@@ -64,7 +64,7 @@ void wise_wutmr_clk_calibrate(uint32_t intervalMs)
     if(intervalMs == 0)
         intervalMs = 1000;
 
-    debug_print("WUTMR SW clk calibration");
+    WISE_LOG_INFO("WUTMR SW clk calibration");
     while(1)
     {
         uint32_t timelapsed = hal_intf_sys_tick_get_counter() - calSourceStart;
@@ -72,14 +72,14 @@ void wise_wutmr_clk_calibrate(uint32_t intervalMs)
         if(timelapsed > MS_TO_CLK(intervalMs))
         {
             wutmrCalClkRate = hal_intf_wutmr_get_counter() - calTargetStart;
-            debug_print("finish\n");
+            WISE_LOG_INFO("finish\n");
             break;
         }
 
         if(timelapsed >= progressCount * (MS_TO_CLK(200)))
         {
             progressCount++;
-            debug_print(".");
+            WISE_LOG_INFO(".\n");
         }
         
         __asm("nop");
@@ -88,7 +88,7 @@ void wise_wutmr_clk_calibrate(uint32_t intervalMs)
     wutmrCalClkRate = wutmrCalClkRate * 1000 / intervalMs;
     hal_intf_wutmr_set_clock_base(wutmrCalClkRate);
     
-    debug_print("WUTMR cal: %lu\n", wutmrCalClkRate);
+    WISE_LOG_INFO("WUTMR cal: %lu\n", wutmrCalClkRate);
 }
 
 

@@ -16,14 +16,6 @@
 #include "api/wise_wutmr_api.h"
 #include "wise.h"
 
-/*
-#include "api/wise_timer_api.h"
-
-#include "api/wise_pmu_api.h"
-#include "api/wise_radio_api.h"
-#include "api/wise_sha_api.h"
-*/
-
 #if MIDDLEWARE_WISE_SHELL
 #include "shell.h"
 #elif MIDDLEWARE_WISE_SHELL_V2
@@ -131,6 +123,7 @@ void _wise_uart_dispatch_task();
 extern void _wise_process_event();
 extern uint8_t _wise_get_evt_num();
 extern void _wise_schlr_proc();
+extern void retarget_set_port(int uartPort);
 
 static ST_UART_PRE_CONF_T uartCfg[] = {
 #if (defined(ES_COMP_ENABLE_UART_0) && (ES_COMP_ENABLE_UART_0 == ENABLE))
@@ -214,16 +207,16 @@ WISE_GPIO_CFG_T uartIOCfg[] = {
 
 static const uint8_t dma_channel_map[SYS_DMA_CHANNEL_NUM] = {DMA_CH0_FUNC, DMA_CH1_FUNC, DMA_CH2_FUNC, DMA_CH3_FUNC, DMA_CH4_FUNC, DMA_CH5_FUNC};
 
-static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {
-    .tcxo_output_en = BOARD_TCXO_OUTPUT_EN,
-    .pa_type = BOARD_PA_TYPE,
-    .matching_type = BOARD_BAND_MATCHING,
-    .gain_ctrl_40m = BOARD_40M_GAIN_CTRL,
-    .gain_ctrl_40m_s = BOARD_40M_GAIN_CTRL_S,
-    .cap_xtal_i = BOARD_40M_CAP_XTAL_I,
-    .cap_xtal_o = BOARD_40M_CAP_XTAL_O,
-    .sram_retain = BOARD_SRAM_RETAIN,
-};
+static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {.tcxo_output_en  = BOARD_TCXO_OUTPUT_EN,
+                                                        .pa_type         = BOARD_PA_TYPE,
+                                                        .matching_type   = BOARD_BAND_MATCHING,
+                                                        .gain_ctrl_40m   = BOARD_40M_GAIN_CTRL,
+                                                        .gain_ctrl_40m_s = BOARD_40M_GAIN_CTRL_S,
+                                                        .cap_xtal_i      = BOARD_40M_CAP_XTAL_I,
+                                                        .cap_xtal_o      = BOARD_40M_CAP_XTAL_O,
+                                                        .sram_retain     = BOARD_SRAM_RETAIN,
+                                                        .ulpldo_vref     = BOARD_ULPLDO_VREF,
+                                                        .ulpldo_enmode   = BOARD_ULPLDO_ENMODE};
 
 static void _platform_init()
 {
@@ -279,6 +272,10 @@ static void _peripheral_init()
         wise_uart_enable_interrupt(uartCfg[i].uartIntf);
     }
 
+#ifdef STDIO_UART_PORT
+    retarget_set_port(STDIO_UART_PORT);
+#endif
+
 #if ES_DEVICE_PIO
     cfgNum = sizeof(uartIOCfg) / 2;
     for (i = 0; i < cfgNum; i++) {
@@ -292,7 +289,9 @@ static void _peripheral_init()
 #endif //ES_DEVICE_PIO
 
 #if (defined MIDDLEWARE_WISE_WUTMR_CLK_CAL) && (MIDDLEWARE_WISE_WUTMR_CLK_CAL == 1)
-    wise_wutmr_clk_calibrate(2000); //sw clock calibration for 1000ms
+    debug_print("LFOSC sel=%d\n", ES_DEVICE_LFOSC_SELECT);
+    if(ES_DEVICE_LFOSC_SELECT != SYS_LFOSC_CLK_SRC_EXTERNAL_32K)
+        wise_wutmr_clk_calibrate(2000); //sw clock calibration for 1000ms
 #endif
 }
 
@@ -437,7 +436,7 @@ int32_t wise_init()
     _platform_init();
     _peripheral_init();
     _soft_init();
-    
+
     return WISE_SUCCESS;
 }
 

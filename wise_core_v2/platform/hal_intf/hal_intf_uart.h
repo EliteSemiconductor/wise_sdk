@@ -48,6 +48,22 @@ typedef enum {
 #define HAL_UART_EVT_RX_ERROR 0x04
 #define HAL_UART_EVT_TX_ERROR 0x08
 
+/* LSR (Line Status Register) bit definitions */
+#define HAL_UART_LSR_DR       (1 << 0)  /* Data ready */
+#define HAL_UART_LSR_OE       (1 << 1)  /* Overrun error */
+#define HAL_UART_LSR_PE       (1 << 2)  /* Parity error */
+#define HAL_UART_LSR_FE       (1 << 3)  /* Framing error */
+#define HAL_UART_LSR_LBREAK   (1 << 4)  /* Line break */
+#define HAL_UART_LSR_THRE     (1 << 5)  /* THR empty */
+#define HAL_UART_LSR_TEMT     (1 << 6)  /* Transmitter empty */
+#define HAL_UART_LSR_ERRF     (1 << 7)  /* Error in RXFIFO */
+
+/* FIFO trigger level options (for hal_intf_uart_set_fifo_trigger) */
+#define HAL_UART_FIFO_TRIG_1   0  /* 1 byte */
+#define HAL_UART_FIFO_TRIG_4   1  /* 1/4 FIFO depth */
+#define HAL_UART_FIFO_TRIG_8   2  /* 1/2 FIFO depth */
+#define HAL_UART_FIFO_TRIG_14  3  /* FIFO depth - 2 */
+
 typedef void (*HAL_UART_ISR_CALLBACK)(uint8_t evt, void *userData);
 
 void hal_intf_uart_reset_fifo(uint8_t uart_idx, HAL_UART_RESET_TYPE type);
@@ -60,6 +76,15 @@ int32_t hal_intf_uart_enable_irq(uint8_t uart_idx, uint8_t intFlag);
 int32_t hal_intf_uart_disable_irq(uint8_t uart_idx);
 int32_t hal_intf_uart_write_data(uint8_t uart_idx, uint8_t *buf, uint32_t req_len);
 int32_t hal_intf_uart_poll_byte(uint8_t uart_idx, uint8_t *outByte);
+
+int32_t hal_intf_uart_write_char(uint8_t uart_idx, uint8_t ch);
+int32_t hal_intf_uart_read_char(uint8_t uart_idx, uint8_t *ch);
+int32_t hal_intf_uart_wait_tx_done(uint8_t uart_idx);
+uint8_t hal_intf_uart_get_lsr(uint8_t uart_idx);
+uint8_t hal_intf_uart_get_last_lsr(uint8_t uart_idx);
+void hal_intf_uart_set_fifo_trigger(uint8_t uart_idx, uint8_t rx_trigger, uint8_t tx_trigger);
+void hal_intf_uart_set_break(uint8_t uart_idx, uint8_t enable);
+int32_t hal_intf_uart_set_flow_control(uint8_t uart_idx, uint8_t enable);
 
 HAL_STATUS hal_intf_uart_register_callback(UART_CB_EVENT_T event, CALLBACK_T cb, void *context);
 HAL_STATUS hal_intf_uart_unregister_callback(UART_CB_EVENT_T event);

@@ -3,29 +3,32 @@
  * All rights reserved.
  *
  */
-
-#include "es_platform_components.h"
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <stddef.h>
 
-#if MIDDLEWARE_RETARGET_STDIO
-#include "api/wise_gpio_api.h"
-#include "api/wise_uart_api.h"
-#include "esmt_chip_specific.h"
+#include "wise_uart_api.h"
+
+int stdioUartPort = -1;
+
+void retarget_set_port(int uartPort)
+{
+    stdioUartPort = uartPort;
+}
 
 static void SendChar(char c)
 {
-#ifdef STDIO_UART_PORT
+    if(stdioUartPort < 0)
+        return;
+        
     if (c == '\n') {
-        wise_uart_write_char(STDIO_UART_PORT, '\r');
-        wise_uart_write_char(STDIO_UART_PORT, '\n');
+        wise_uart_write_char(stdioUartPort, '\r');
+        wise_uart_write_char(stdioUartPort, '\n');
     } else {
-        wise_uart_write_char(STDIO_UART_PORT, c);
+        wise_uart_write_char(stdioUartPort, c);
     }
-#endif
 }
 
 
@@ -45,17 +48,6 @@ int _write(int file, char *ptr, int len)
 
     return len;
 }
-
-#else /* !MIDDLEWARE_RETARGET_STDIO */
-
-int _write(int file, char *ptr, int len)
-{
-    (void)file;
-    (void)ptr;
-    return len;
-}
-
-#endif /* MIDDLEWARE_RETARGET_STDIO */
 
 // Placeholder for getpid function
 pid_t _getpid(void)

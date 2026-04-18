@@ -13,8 +13,6 @@
 
 #include <stdint.h>
 
-#include "es_platform_components.h"
-
 #include "wise_core.h"
 #include "wise_wutmr_api.h"
 #include "wise_gptmr_api.h"
@@ -34,6 +32,7 @@ int32_t wise_timer_hub_init();
 int32_t wise_timer_hub_alloc_ch(TIMER_HUB_CB_T cb, void* userData);
 void wise_timer_hub_free_ch(int ch);
 int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs);
+uint32_t wise_timer_hub_get_target_counter(int ch);
 void wise_timer_hub_stop_ch(int ch);
 
 #endif

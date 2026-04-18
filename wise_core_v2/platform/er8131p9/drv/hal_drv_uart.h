@@ -25,6 +25,15 @@ uint32_t hal_drv_uart_write_data(uint8_t uart_idx, uint8_t *data, uint32_t req_l
 void hal_drv_uart_irq_enable(uint8_t uart_idx, uint8_t int_type);
 void hal_drv_uart_irq_disable(uint8_t uart_idx);
 
+int32_t hal_drv_uart_write_char(uint8_t uart_idx, uint8_t ch);
+int32_t hal_drv_uart_read_char(uint8_t uart_idx, uint8_t *ch);
+int32_t hal_drv_uart_wait_tx_done(uint8_t uart_idx);
+uint8_t hal_drv_uart_get_lsr(uint8_t uart_idx);
+uint8_t hal_drv_uart_get_last_lsr(uint8_t uart_idx);
+void hal_drv_uart_set_fifo_trigger(uint8_t uart_idx, uint8_t rx_trigger, uint8_t tx_trigger);
+void hal_drv_uart_set_break(uint8_t uart_idx, uint8_t enable);
+void hal_drv_uart_set_flow_control(uint8_t uart_idx, uint8_t enable);
+
 HAL_STATUS hal_drv_uart_register_callback(UART_CB_EVENT_T event, CALLBACK_T cb, void *context);
 HAL_STATUS hal_drv_uart_unregister_callback(UART_CB_EVENT_T event);
 #endif /* __HAL_DRV_UART_H */

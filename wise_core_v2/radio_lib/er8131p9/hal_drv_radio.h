@@ -513,12 +513,16 @@ HAL_STATUS hal_drv_radio_set_rx_config(int8_t phy_idx, RADIO_CFG_T *radio_cfg);
 HAL_STATUS hal_drv_radio_set_tx_config(int8_t phy_idx, RADIO_CFG_T *radio_cfg);
 void hal_drv_radio_rx_iqk(int8_t phy_idx);
 void hal_drv_radio_set_ulpldo(uint8_t enable);
+void hal_drv_radio_set_ulpldo_enmode(uint8_t enable);
 uint8_t hal_drv_radio_get_tx_ramp_tpm(void);
 void hal_drv_radio_set_tx_ramp_tpm(uint8_t enable);
 void hal_drv_radio_enable_bod(uint8_t enable, uint8_t bod_lv);
 uint8_t hal_drv_radio_is_state_idle(void);
 void hal_drv_radio_enable_efuse_write_data(uint8_t enable);
 void hal_drv_radio_enable_prbs9(uint8_t enable);
+void hal_drv_radio_enable_repeat_mode(uint32_t rpt_len, bool enable);
+void hal_drv_radio_set_tx_csma(uint16_t duration, uint16_t thd, bool enable);
+uint32_t hal_drv_radio_get_tx_status(void);
 
 #ifdef ES_DEVICE_TRX_RADIO
 void hal_drv_radio_get_rx_fifo(uint8_t *rx_buf, uint32_t rx_len);

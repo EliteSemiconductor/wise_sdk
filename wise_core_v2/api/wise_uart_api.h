@@ -232,6 +232,76 @@ void wise_uart_enable_interrupt(int uartIntf);
 void wise_uart_disable_interrupt(int uartIntf);
 
 /**
+ * @brief Set UART flow control (CTS/RTS).
+ *
+ * Enables or disables hardware auto flow control via the MCR register.
+ * When enabled, the UART controller automatically manages RTS/CTS handshaking.
+ * PIO pin configuration for RTS/CTS must be done separately via wise_gpio_func_cfg().
+ *
+ * @param[in] uartIntf    UART interface index.
+ * @param[in] flowControl Flow control mode, see E_UART_FLOW_* definitions.
+ */
+void wise_uart_set_flow_control(uint8_t uartIntf, uint8_t flowControl);
+
+/**
+ * @brief Read UART Line Status Register.
+ *
+ * Returns the current LSR value which indicates data ready, TX status,
+ * and error conditions (overrun, parity, framing, break, RXFIFO error).
+ * Reading LSR clears the error bits.
+ *
+ * @param[in] uartIntf UART interface index.
+ *
+ * @return LSR register value. Use HAL_UART_LSR_* masks to decode:
+ *         - HAL_UART_LSR_DR:     Data ready
+ *         - HAL_UART_LSR_OE:     Overrun error
+ *         - HAL_UART_LSR_PE:     Parity error
+ *         - HAL_UART_LSR_FE:     Framing error
+ *         - HAL_UART_LSR_LBREAK: Line break
+ *         - HAL_UART_LSR_THRE:   THR empty
+ *         - HAL_UART_LSR_TEMT:   Transmitter empty
+ *         - HAL_UART_LSR_ERRF:   Error in RXFIFO
+ */
+uint8_t wise_uart_get_line_status(uint8_t uartIntf);
+
+/**
+ * @brief Get the last error status captured by the ISR.
+ *
+ * Returns the LSR value saved when a receiver line status error interrupt
+ * occurred, then clears the saved value. Useful for polling error status
+ * without directly reading LSR (which clears HW flags).
+ *
+ * @param[in] uartIntf UART interface index.
+ *
+ * @return Saved LSR value from the last error interrupt, or 0 if none.
+ */
+uint8_t wise_uart_get_last_error(uint8_t uartIntf);
+
+/**
+ * @brief Set UART hardware FIFO trigger levels.
+ *
+ * Configures when the UART controller asserts RX data available interrupt
+ * or DMA request based on FIFO fill level. Higher trigger levels reduce
+ * interrupt frequency but increase latency.
+ *
+ * @param[in] uartIntf  UART interface index.
+ * @param[in] rxTrigger RX FIFO trigger level (HAL_UART_FIFO_TRIG_*).
+ * @param[in] txTrigger TX FIFO trigger level (HAL_UART_FIFO_TRIG_*).
+ */
+void wise_uart_set_fifo_trigger(uint8_t uartIntf, uint8_t rxTrigger, uint8_t txTrigger);
+
+/**
+ * @brief Send a line break signal.
+ *
+ * When enabled, forces the UART TX output LOW (break condition).
+ * The break must be manually cleared by calling with enable=0.
+ *
+ * @param[in] uartIntf UART interface index.
+ * @param[in] enable   1 to assert break, 0 to de-assert.
+ */
+void wise_uart_set_break(uint8_t uartIntf, uint8_t enable);
+
+/**
  * @brief Reset UART FIFO.
  *
  * @param[in] uartIntf UART interface index.

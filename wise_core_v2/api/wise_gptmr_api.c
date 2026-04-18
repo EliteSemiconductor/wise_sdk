@@ -4,8 +4,9 @@
  *
  */
 
-#include "api/wise_gptmr_api.h"
+#include "wise_gptmr_api.h"
 #include "wise_core.h"
+#include "util_debug_log.h"
 
 #define IS_VALID_TIMER_CHANNEL(channel)         ((channel) < CHIP_TIMER_CHANNEL_NUM)
 
@@ -109,7 +110,7 @@ WISE_STATUS wise_timer_config(uint8_t timer_channel, WISE_TIMER_CTRL_T *config)
 #ifdef CHIP_TICK_TIMER_CHANNEL
     if(timer_channel == CHIP_TICK_TIMER_CHANNEL)
     {
-        debug_print("timer ch %d is internal used\n", timer_channel);
+        WISE_LOG_ERR("timer ch %d is internal used\n", timer_channel);
         return WISE_FAIL;
     }
 #endif

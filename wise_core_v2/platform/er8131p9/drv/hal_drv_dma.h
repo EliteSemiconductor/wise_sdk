@@ -7,8 +7,9 @@
 #ifndef __HAL_DRV_DMA_H
 #define __HAL_DRV_DMA_H
 
-#include "hal_intf_dma.h"
 #include <stdint.h>
+#include "hal_intf_dma.h"
+#include "util_debug_log.h"
 
 #define DMA_BACKUP_LEN 2048
 #define DMA_CSR_BKUP_ADDR 0x40040000
@@ -126,7 +127,7 @@ typedef enum {
 #define DMA_ASSERT_SAFE_RET(addr, len, retcode)                          \
     do {                                                                 \
         if (!hal_drv_dma_addr_is_safe((addr), (len))) {                 \
-            printf("[DMA][ERROR] unsafe addr=0x%08lx len=%lu\n",        \
+            WISE_LOG_ERR("[DMA] unsafe addr=0x%08lx len=%lu\n",        \
                    (unsigned long)(addr), (unsigned long)(len));        \
             return (retcode);                                           \
         }                                                               \

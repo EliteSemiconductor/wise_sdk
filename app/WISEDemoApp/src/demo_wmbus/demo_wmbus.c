@@ -50,6 +50,7 @@
 #include "wise_uart_api.h"
 #include "wise_sys_api.h"
 #include "wise_radio_wmbus_api.h"
+#include "wise_wutmr_api.h"
 
 #include "wise_shell_v2/src/shell.h"
 #include "demo_app_common.h"
@@ -76,7 +77,11 @@
 #define WMBUS_RADIO_INTF            0   /**< Radio interface index used by this demo. */
 #define WMBUS_RF_BUFFER_LEN         768 /**< Radio driver buffer pool size in bytes. */
 
+#ifdef WMBUS_DEMO_PHY_METER_PD
+#define METER_REPORT_INTERVAL       15000
+#else
 #define METER_REPORT_INTERVAL       8000 /**< Meter periodic report interval in milliseconds. */
+#endif
 #define METER_RESP_TIMEOUT          1000 /**< Meter response wait timeout in milliseconds. */
 #define COLLECTOR_ACK_TIME          5    /**< Collector ACK response delay in milliseconds. */
 
@@ -110,14 +115,18 @@ static uint8_t mbusRxBuffer[WMBUS_RX_BUF_LEN];
  *
  * If WMBUS_DEMO_PHY_METER is defined, role is meter; otherwise collector.
  */
-#ifdef WMBUS_DEMO_PHY_METER
+#if (defined WMBUS_DEMO_PHY_METER) || (defined WMBUS_DEMO_PHY_METER_PD)
 const wmbus_role_t wmbusRole = WMBUS_ROLE_METER;
-#else
+#elif (defined WMBUS_DEMO_PHY_OTHER)
 const wmbus_role_t wmbusRole = WMBUS_ROLE_OTHER;
 #endif
 
 /** @brief WMBus PHY mode selected for this demo. */
+#ifdef WMBUS_DEMO_PHY_METER_PD
+const wmbus_mode_t wmbusMode = WMBUS_MODE_T1;
+#else
 const wmbus_mode_t wmbusMode = WMBUS_MODE_T2;
+#endif
 
 /** @brief Demo AES key used by WMBus crypto helper. */
 static const uint8_t cryptoKey[] = {
@@ -152,6 +161,8 @@ static WISE_RX_META_T rxFrameMeta = {0};
 /** @brief WMBus accessibility field used by helper frame builder. */
 WMBUS_accessibility_t wmbusAccessbility = WMBUS_ACCESSIBILITY_LIMITED_ACCESS;
 
+static uint8_t biDirectionMode = 0;
+
 /** @brief WMBus access number (incremented each TX). */
 uint8_t accessNumber = 0U;
 
@@ -160,6 +171,7 @@ static void _setup_wmbus_demo_meter(void);
 static void _meter_report_timer(void *pData);
 static void _meter_proc(void *pData);
 static void _wmbus_meter_report(void);
+static void _meter_power_saving_proc();
 
 static void _setup_wmbus_demo_collector(void);
 static void _collector_proc(void);
@@ -239,10 +251,19 @@ void main(void)
     wise_radio_wmbus_init(WMBUS_RADIO_INTF);
     wise_radio_set_evt_callback(WMBUS_RADIO_INTF, radioWMbusEventCb);
     wise_radio_set_buffer(WMBUS_RADIO_INTF, &wmbusRFBuffer);
+
+#if (defined WMBUS_DEMO_PHY_METER_PD) || (defined WMBUS_DEMO_PHY_OTHER)
+    wise_radio_set_tx_io_mode(WMBUS_RADIO_INTF, CORE_IO_BLOCKING);
+#else
     wise_radio_set_tx_io_mode(WMBUS_RADIO_INTF, CORE_IO_NONBLOCKING);
+#endif
 
     wise_wmbus_crypto_init();
     wise_wmbus_crypto_set_key(cryptoKey);
+    
+    if((wmbusMode == WMBUS_MODE_S2) || (wmbusMode == WMBUS_MODE_T2) || (wmbusMode == WMBUS_MODE_C2) || 
+        (wmbusMode == WMBUS_MODE_R2) || (wmbusMode == WMBUS_MODE_F2))
+        biDirectionMode = 1;
 
     wise_radio_wmbus_set_mode(WMBUS_RADIO_INTF, wmbusRole, wmbusMode);
     wise_radio_set_tx_pwr(WMBUS_RADIO_INTF, 127);
@@ -250,13 +271,17 @@ void main(void)
     printf("Start WMbus %s-%s\n", WMBUS_MODE_STR[wmbusMode], WMBUS_ROLE_STR[wmbusRole]);
 
 #ifdef WMBUS_DEMO_PHY_METER
-    _setup_wmbus_demo_meter();
-#else
+    _setup_wmbus_demo_meter();  
+#elif defined WMBUS_DEMO_PHY_OTHER
     _setup_wmbus_demo_collector();
 #endif
 
     while (1) {
         wise_main_proc();
+
+#ifdef WMBUS_DEMO_PHY_METER_PD
+        _meter_power_saving_proc();
+#endif
     }
 }
 
@@ -327,10 +352,19 @@ void _meter_proc(void *pData)
         case E_MTR_STAT_REPORTING:
             if (reportFinished)
             {
-                meterState = E_MTR_STAT_WAITING_RESP;
-                meterRxStartTime = wise_tick_get_counter();
                 frameReceived = 0;
-                wise_radio_mbus_rx_start(WMBUS_RADIO_INTF, RADIO_RX_ONE_SHOT);
+
+                if(biDirectionMode)
+                {
+                    meterState = E_MTR_STAT_WAITING_RESP;
+                    meterRxStartTime = wise_tick_get_counter();
+                    
+                    wise_radio_mbus_rx_start(WMBUS_RADIO_INTF, RADIO_RX_ONE_SHOT);
+                }
+                else
+                {
+                    meterState = E_MTR_STAT_IDLE;
+                }
             }
             break;
 
@@ -371,6 +405,29 @@ void _meter_proc(void *pData)
             meterState = E_MTR_STAT_IDLE;
             break;
     };
+}
+
+static void _meter_power_saving_proc()
+{
+    uint32_t tickNow = wise_wutmr_get_counter();
+    static uint32_t prevRptTick = 0;
+    static uint32_t reportCount = 0;
+
+    if(((prevRptTick == 0) && (reportCount == 0)) || (tickNow - prevRptTick) >= wise_wutmr_ms_to_clk(METER_REPORT_INTERVAL))
+    {
+        uint32_t nextRptTick = tickNow + wise_wutmr_ms_to_clk(METER_REPORT_INTERVAL);
+        uint32_t sleepTick = 0;
+        
+        _wmbus_meter_report();
+        prevRptTick = tickNow;
+
+        tickNow = wise_wutmr_clk_to_ms(tickNow);
+        wise_log_time_info(tickNow * 10);
+        debug_print("WMbus meter report %lu\n", ++reportCount);
+
+        sleepTick = nextRptTick - wise_wutmr_get_counter();
+        wise_system_sleep(wise_wutmr_clk_to_ms(sleepTick) - 5); //wakeup 5ms earlier
+    }
 }
 
 /**

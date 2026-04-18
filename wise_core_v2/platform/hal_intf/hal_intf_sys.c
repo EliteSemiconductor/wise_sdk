@@ -8,7 +8,7 @@
 #include "esmt_chip_specific.h"
 #include "drv/hal_drv_sys.h"
 #include "drv/hal_drv_pmu.h"
-
+#include "util_debug_log.h"
 
 #ifdef CHIP_HAS_LFOSC
 
@@ -17,24 +17,24 @@ void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode)
 {
     const void *cfg = NULL;
 
-    printf("cfg_to_use = ");
+    WISE_LOG_DBG("cfg_to_use = ");
     if (osc_idx == SYS_LFOSC_CLK_SRC_INTERNAL_32K) {
         switch (work_mode) {
         case SCLK_32K_SRC_RUN_32K:
             cfg = &sclk_src_32k_default;
-            printf("SCLK_32K_SRC_RUN_32K\n");
+            WISE_LOG_DBG("SCLK_32K_SRC_RUN_32K\n");
             break;
         case SCLK_32K_SRC_RUN_16K:
             cfg = &sclk_src_32k_run_16k;
-            printf("SCLK_32K_SRC_RUN_16K\n");
+            WISE_LOG_DBG("SCLK_32K_SRC_RUN_16K\n");
             break;
         case SCLK_32K_SRC_RUN_8K:
             cfg = &sclk_src_32k_run_8k;
-            printf("SCLK_32K_SRC_RUN_8K\n");
+            WISE_LOG_DBG("SCLK_32K_SRC_RUN_8K\n");
             break;
         default:
             cfg = &sclk_src_32k_default;
-            printf("osc 32k work_mode is bad = %d\n", work_mode);
+            WISE_LOG_ERR("osc 32k work_mode is bad = %d\n", work_mode);
             break;
         }
     }
@@ -43,23 +43,23 @@ void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode)
         switch (work_mode) {
         case SCLK_16K_PWR_NORMAL:
             cfg = &sclk_src_16k_run_default;
-            printf("SCLK_16K_PWR_NORMAL\n");
+            WISE_LOG_DBG("SCLK_16K_PWR_NORMAL\n");
             break;
         case SCLK_16K_SRC_RUN_32K:
             cfg = &sclk_src_16k_run_32k;
-            printf("SCLK_16K_SRC_RUN_32K\n");
+            WISE_LOG_DBG("SCLK_16K_SRC_RUN_32K\n");
             break;
         case SCLK_16K_PWR_LOWPOWER:
             cfg = &sclk_src_16k_run_default_lowpwr;
-            printf("SCLK_16K_PWR_LOWPOWER\n");
+            WISE_LOG_DBG("SCLK_16K_PWR_LOWPOWER\n");
             break;
         case SCLK_16K_PWR_LOWPOWER_0P6V:
             cfg = &sclk_src_16k_run_default_lowpwr0p6v;
-            printf("SCLK_16K_PWR_LOWPOWER_0P6V\n");
+            WISE_LOG_DBG("SCLK_16K_PWR_LOWPOWER_0P6V\n");
             break;
         default:
             cfg = &sclk_src_16k_run_default;
-            printf("osc 16k work_mode is bad = %d\n", work_mode);
+            WISE_LOG_ERR("osc 16k work_mode is bad = %d\n", work_mode);
             break;
         }
     }
@@ -67,7 +67,7 @@ void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode)
     if (osc_idx == SYS_LFOSC_CLK_SRC_EXTERNAL_32K) {
 #ifdef CHIP_LFOSC_SUPPORT_EXT_32K
         cfg = &sclk_src_ext32k;
-        printf("osc ext 32k\n");
+        WISE_LOG_DBG("osc ext 32k\n");
 #else
         cfg = NULL;
 #endif
@@ -123,6 +123,10 @@ int8_t hal_intf_sys_exec_internal_sclk_calibration(const HAL_INTERNAL_SCLK_CFG_T
         }
         case SYS_LFOSC_CLK_SRC_EXTERNAL_32K:
             hal_intf_sys_switch_sclk_src(cfg->sclk_sel);
+#ifdef CONFIG_EXT32K_LP_WORKAROUND
+        /* Keep the workaround decision at this layer so the ANA helper is not a silent no-op. */
+        hal_drv_sys_ext32k_workaround();
+#endif
         	return HAL_NO_ERR;
         default:
         	return HAL_ERR;

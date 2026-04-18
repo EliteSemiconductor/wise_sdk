@@ -97,10 +97,10 @@ void dma_set_extsrc_req_idx_er8130(uint32_t ch_ofs, uint8_t req_idx)
     reg1 &= ~DMA_CH0_PERI_REQ_IDX_MASK;
 
     REG_W32(addr1, reg1);
-    //printf("ch_ofs = %lx\n", ch_ofs);
+    //WISE_LOG_DBG("ch_ofs = %lx\n", ch_ofs);
     reg &= ~DMA_CH0_M2M_EXT_SRC_MASK;
     reg |= ((req_idx << DMA_CH0_M2M_EXT_SRC_POS) & DMA_CH0_M2M_EXT_SRC_MASK);
-    //printf("addr = %lx reg = %lx\n", addr, reg);
+    //WISE_LOG_DBG("addr = %lx reg = %lx\n", addr, reg);
     REG_W32(addr, reg);
 }
 

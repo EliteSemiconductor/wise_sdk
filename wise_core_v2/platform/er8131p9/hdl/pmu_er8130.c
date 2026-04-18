@@ -12,7 +12,9 @@
 #include "hdl/pmu_er8130.h"
 #include "hdl/dma_er8130.h"
 #include "ana_er8130.h"
+#include "util_debug_log.h"
 
+#define CLEAR_WARM_RESET_INFO_VALUE 0xFFFFFFFF
 
 static inline void pmu_unlock()
 {
@@ -92,7 +94,7 @@ void pmu_set_pwr_mode_er8130(uint8_t mode)
     pmu_lock();
 
     if (mode == PWR_MODE_SLEEP) {
-        //        printf("PWR_MODE_SLEEP\n");
+        //        WISE_LOG_DBG("PWR_MODE_SLEEP\n");
         /* Set the processor uses deep sleep as its low power mode */
         SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
@@ -351,10 +353,10 @@ void pmu_clk_src_sel_er8130(uint8_t clk_src)
         ext_32k_pwr_en = 1;
         break;
     case SYS_LFOSC_CLK_SRC_INTERNAL_32K:
-        printf("%s: ER8130A did not support Internal 32K clock selecting\n", __func__);
+        WISE_LOG_ERR("%s: ER8130A did not support Internal 32K clock selecting\n", __func__);
         return;
     default:
-        printf("Invalid sclk_idx = %d\n", clk_src);
+        WISE_LOG_ERR("Invalid sclk_idx = %d\n", clk_src);
         return;
     }
 
@@ -562,4 +564,16 @@ RAM_TEXT void pmu_set_xip_clk_er8130(uint8_t clk_fac)
 	pmu_unlock();
 	REG_W32(PCRMU_XIP_CLK_FAC_REG_ADDR, clk_fac & PCRMU_XIP_CLK_FAC_MASK);
 	pmu_lock();
+}
+
+uint32_t pmu_get_warm_reset_info_er8130(void)
+{
+    return REG_R32(PCRMU_WARM_RESET_INFO_ADDR);
+}
+
+void pmu_clear_warm_reset_info_er8130(void)
+{
+    pmu_unlock();
+    REG_W32(PCRMU_WARM_RESET_INFO_ADDR, CLEAR_WARM_RESET_INFO_VALUE);
+    pmu_lock();
 }

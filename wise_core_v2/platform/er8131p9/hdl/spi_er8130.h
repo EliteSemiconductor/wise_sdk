@@ -51,6 +51,7 @@ typedef enum {
 
 void spi_reset_fifo_er8130(uint32_t spi_base);
 void spi_reset_er8130(uint32_t spi_base, SPI_RESET_TYPE type);
+int8_t spi_wait_for_completion_er8130(uint32_t spi_base);
 void spi_enable_interrupt_er8130(uint32_t spi_base, uint32_t int_src);
 void spi_disable_interrupt_er8130(uint32_t spi_base, uint32_t int_src);
 uint8_t spi_get_tx_fifo_depth_er8130(uint32_t spi_base);

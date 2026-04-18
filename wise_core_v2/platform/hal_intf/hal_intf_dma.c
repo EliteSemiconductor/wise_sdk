@@ -170,7 +170,6 @@ void hal_dma_func_map_export(void)
 
 void hal_intf_dma_func_map_export_printf(void)
 {
-    debug_printf("\n");
     /* API exposes channels CH0–CH5; driver maps them to HW DMA channels 2–7. */
     for (uint8_t ch = 0; ch < CHIP_DMA_CHANNEL_NUM - 2; ++ch) {
         HAL_DMA_SRC_REQ_SEL_T func = hal_drv_dma_get_func_by_channel(ch);
@@ -181,11 +180,11 @@ void hal_intf_dma_func_map_export_printf(void)
             func_name = dma_func_name_table[func];
         }
 
-        debug_printf("DMA Channel %u -> %s\n", ch, func_name);
+        WISE_LOG_DBG("DMA Channel %u -> %s\n", ch, func_name);
     }
 #if 0
     for (uint8_t i = 0; i < CHIP_DMA_CHANNEL_NUM; i++) { 
-        debug_printf("dma_channel[%d], function = %d\n", i, dma_channels[i].func);
+        WISE_LOG_DBG("dma_channel[%d], function = %d\n", i, dma_channels[i].func);
     }
 #endif
 }
@@ -226,7 +225,7 @@ HAL_STATUS hal_intf_dma_channel_setup(HAL_DMA_SRC_REQ_SEL_T func, const void *sr
 {
     int8_t dma_channel = hal_drv_dma_find_channel_by_func(func);
     if (dma_channel == HAL_ERR) {
-        debug_printf("!!dma func not setup\n");
+        WISE_LOG_ERR("!!dma func not setup\n");
         return HAL_ERR;
     }
 
@@ -269,7 +268,7 @@ HAL_STATUS hal_intf_dma_channel_trigger(HAL_DMA_SRC_REQ_SEL_T func)
 {
     int8_t dma_channel = hal_drv_dma_find_channel_by_func(func);
     if (dma_channel == HAL_ERR) {
-        debug_printf("!!dma func not setup\n");
+        WISE_LOG_ERR("!!dma func not setup\n");
         return HAL_ERR;
     }
 
@@ -614,14 +613,14 @@ HAL_STATUS hal_intf_aes_dma_setup(const HAL_AES_DMA_SETUP_T *cfg)
     /* AES input */
     ret = hal_intf_dma_channel_setup(HAL_DMA_AES_IN, cfg->data_io.input, NULL, cfg->data_io.input_length, 0, 0);
     if (ret != HAL_NO_ERR) {
-        debug_printf("!!dma setup fail aes in\n");
+        WISE_LOG_ERR("!!dma setup fail aes in\n");
         return ret;
     }
 
     /* AES output */
     ret = hal_intf_dma_channel_setup(HAL_DMA_AES_OUT, NULL, cfg->data_io.output, cfg->data_io.output_length, 0, 0);
     if (ret != HAL_NO_ERR) {
-        debug_printf("!!dma setup fail aes out\n");
+        WISE_LOG_ERR("!!dma setup fail aes out\n");
         return ret;
     }
 
@@ -629,7 +628,7 @@ HAL_STATUS hal_intf_aes_dma_setup(const HAL_AES_DMA_SETUP_T *cfg)
     if (cfg->auth_in) {
         ret = hal_intf_dma_channel_setup(HAL_DMA_AES_AUTH_IN, cfg->auth_in->input, NULL, cfg->auth_in->input_length, 0, 0);
         if (ret != HAL_NO_ERR) {
-            debug_printf("!!dma setup fail aes auth in\n");
+            WISE_LOG_ERR("!!dma setup fail aes auth in\n");
             return ret;
         }
     }
@@ -661,7 +660,7 @@ HAL_STATUS hal_intf_sha_dma_setup(const HAL_DMA_DATA_CFG_T *cfg)
     /* SHA input */
     ret = hal_intf_dma_channel_setup(HAL_DMA_SHA, cfg->input, NULL, cfg->input_length, 0, 0);
     if (ret != HAL_NO_ERR) {
-        debug_printf("!!dma setup fail sha in\n");
+        WISE_LOG_ERR("!!dma setup fail sha in\n");
         return ret;
     }
 

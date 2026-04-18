@@ -10,11 +10,37 @@
 #include "hal_intf_dma.h"
 #include "hal_intf_wutmr.h"
 #include "hal_intf_radio.h"
+#include "wise_radio_api.h"
 
 static uint8_t inited = 0;
 static WISE_LFOSC_SRC_T lfoscConfig;
-static uint8_t _gain_ctrl_40m = 8;
+static uint8_t _gain_ctrl_40m   = 8;
 static uint8_t _gain_ctrl_40m_s = 8;
+
+static bool _wise_sys_board_property_is_valid(const WISE_SYS_BOARD_PROPERTY_T *property)
+{
+    if ((property->ulpldo_vref >= WISE_SYS_ULPLDO_VREF_MAX) || (property->ulpldo_enmode >= WISE_SYS_ULPLDO_ENMODE_MAX)) {
+        return false;
+    }
+
+    return true;
+}
+
+static void _wise_sys_apply_board_sys_property(const WISE_SYS_BOARD_PROPERTY_T *property)
+{
+    hal_intf_sys_tcxo_cfg(property->tcxo_output_en);
+    hal_intf_sys_set_pa_type(property->pa_type);
+    hal_intf_sys_set_board_match_type(property->matching_type);
+    hal_intf_sys_set_40m_gain_ctrl(property->gain_ctrl_40m);
+    hal_intf_sys_set_xtal_cfg(property->cap_xtal_i, property->cap_xtal_o);
+    hal_intf_sys_set_sram_size(property->sram_retain);
+}
+
+static void _wise_sys_apply_board_radio_power_property(const WISE_SYS_BOARD_PROPERTY_T *property)
+{
+    hal_intf_radio_set_ulpldo((uint8_t)property->ulpldo_vref);
+    hal_intf_radio_set_ulpldo_enmode((uint8_t)property->ulpldo_enmode);
+}
 
 void wise_sys_init(void)
 {
@@ -186,7 +212,7 @@ int32_t wise_sys_lfosc_clk_calibration()
     }
 
     if (hal_intf_sys_exec_internal_sclk_calibration(clkCfg) != HAL_NO_ERR) {
-        printf("internal sclk calibration fail!\n");
+        WISE_LOG_ERR("internal sclk calibration fail!\n");
         return WISE_FAIL;
     }
 
@@ -248,17 +274,18 @@ int32_t wise_dma_memcpy_bytes(void *dst, const void *src, uint32_t byte_count)
 void wise_sys_set_board_property(const WISE_SYS_BOARD_PROPERTY_T *property)
 {
     if (property) {
-        hal_intf_sys_tcxo_cfg(property->tcxo_output_en);
-        hal_intf_sys_set_pa_type(property->pa_type);
-        hal_intf_sys_set_board_match_type(property->matching_type);
-        hal_intf_sys_set_40m_gain_ctrl(property->gain_ctrl_40m);
-        hal_intf_sys_set_xtal_cfg(property->cap_xtal_i, property->cap_xtal_o);
-        hal_intf_sys_set_sram_size(property->sram_retain);
+        if (!_wise_sys_board_property_is_valid(property)) {
+            WISE_LOG_ERR("invalid ULPLDO board property: vref=%d enmode=%d\n", property->ulpldo_vref, property->ulpldo_enmode);
+            return;
+        }
 
-        _gain_ctrl_40m = property->gain_ctrl_40m;
+        _wise_sys_apply_board_sys_property(property);
+        _wise_sys_apply_board_radio_power_property(property);
+
+        _gain_ctrl_40m   = property->gain_ctrl_40m;
         _gain_ctrl_40m_s = property->gain_ctrl_40m_s;
         
-        debug_print("gain_ctrl_40m=(%d,%d)\n", _gain_ctrl_40m, _gain_ctrl_40m_s);
+        WISE_LOG_DBG("gain_ctrl_40m=(%d,%d)\n", _gain_ctrl_40m, _gain_ctrl_40m_s);
     }
 }
 
@@ -290,20 +317,42 @@ uint8_t wise_sys_get_board_match_type(void)
 void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable)
 {
     if (enable) {
-        hal_intf_pmu_module_clk_enable(MAC_MODULE |ANA_MODULE);
+        wise_radio_enable_modem_clk(ENABLE);
         hal_intf_radio_enable_bod(ENABLE, bod_lv);
         wise_tick_delay_ms(10);    //it needs to wait 10ms after radio enable bod
         hal_intf_pmu_enable_bod_reset(ENABLE);
     } else {
         hal_intf_pmu_enable_bod_reset(DISABLE);
         hal_intf_radio_enable_bod(DISABLE, 0);
-
-        //check that the system is idle before disabling the clock
-        while (!hal_intf_radio_is_state_idle()) {
-                printf("Radio is prepared\n");
-        }
-        hal_intf_pmu_module_clk_disable(MAC_MODULE | ANA_MODULE);
+        wise_radio_enable_modem_clk(DISABLE);
     }
+}
+
+uint32_t wise_sys_get_warm_reset_info(void)
+{
+    return hal_intf_pmu_get_warm_reset_info();
+    
+    /*
+    uint8_t i;
+    const uint8_t table_num = ARRAY_SIZE(reset_flags);
+
+    if (reg_val & WARM_RESET_RELEVANT_MASK) {
+        WISE_LOG_DBG("WARM RESET : ");
+
+        for (i = 0; i< table_num; i++) {
+            if (reg_val & reset_flags[i].mask)
+                WISE_LOG_DBG(" [%s]", reset_flags[i].name);
+        }
+        WISE_LOG_DBG("\r\n");
+    }
+    
+    return reg_val;
+    */
+}
+
+void wise_sys_clear_warm_reset_info(void)
+{
+    hal_intf_pmu_clear_warm_reset_info();
 }
 
 /* ================== ASARADC =============== */

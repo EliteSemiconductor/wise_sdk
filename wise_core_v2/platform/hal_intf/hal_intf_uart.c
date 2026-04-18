@@ -53,6 +53,47 @@ int32_t hal_intf_uart_poll_byte(uint8_t uart_idx, uint8_t *outByte)
     return hal_drv_uart_read_byte(uart_idx, outByte);
 }
 
+int32_t hal_intf_uart_write_char(uint8_t uart_idx, uint8_t ch)
+{
+    return hal_drv_uart_write_char(uart_idx, ch);
+}
+
+int32_t hal_intf_uart_read_char(uint8_t uart_idx, uint8_t *ch)
+{
+    return hal_drv_uart_read_char(uart_idx, ch);
+}
+
+int32_t hal_intf_uart_wait_tx_done(uint8_t uart_idx)
+{
+    return hal_drv_uart_wait_tx_done(uart_idx);
+}
+
+uint8_t hal_intf_uart_get_lsr(uint8_t uart_idx)
+{
+    return hal_drv_uart_get_lsr(uart_idx);
+}
+
+uint8_t hal_intf_uart_get_last_lsr(uint8_t uart_idx)
+{
+    return hal_drv_uart_get_last_lsr(uart_idx);
+}
+
+void hal_intf_uart_set_fifo_trigger(uint8_t uart_idx, uint8_t rx_trigger, uint8_t tx_trigger)
+{
+    hal_drv_uart_set_fifo_trigger(uart_idx, rx_trigger, tx_trigger);
+}
+
+void hal_intf_uart_set_break(uint8_t uart_idx, uint8_t enable)
+{
+    hal_drv_uart_set_break(uart_idx, enable);
+}
+
+int32_t hal_intf_uart_set_flow_control(uint8_t uart_idx, uint8_t enable)
+{
+    hal_drv_uart_set_flow_control(uart_idx, enable);
+    return HAL_NO_ERR;
+}
+
 HAL_STATUS hal_intf_uart_register_callback(UART_CB_EVENT_T event, CALLBACK_T cb, void *context)
 {
     return hal_drv_uart_register_callback(event, cb, context);

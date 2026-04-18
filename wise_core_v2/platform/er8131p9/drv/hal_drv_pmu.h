@@ -58,6 +58,7 @@ void hal_drv_pmu_switch_nfc_pwr_src(uint8_t src);
 void hal_drv_pmu_set_cpu_pd(void);
 void hal_drv_pmu_reset_module_clock(void);
 void hal_drv_pmu_reset_module_core(uint32_t module_idx);
-
+uint32_t hal_drv_pmu_get_warm_reset_info(void);
+void hal_drv_pmu_clear_warm_reset_info(void);
 
 #endif

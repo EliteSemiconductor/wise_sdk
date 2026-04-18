@@ -346,7 +346,7 @@ void wise_gpio_write(uint8_t pin_idx, GPIO_STATUS status)
     if (wise_gpio_get_direction(pin_idx) == GPIO_DIR_OUTPUT) {
         hal_intf_gpio_write_pin(pin_idx, (uint8_t)status);
     } else {
-        debug_printf("Error: GPIO %d is not configured as output!\n", pin_idx);
+        WISE_LOG_ERR("GPIO %d is not configured as output!\n", pin_idx);
     }
 }
 
@@ -356,7 +356,7 @@ void wise_gpio_toggle(uint8_t pin_idx)
         GPIO_STATUS pinSts = wise_gpio_read(pin_idx);
         wise_gpio_write(pin_idx, (pinSts == GPIO_HIGH) ? GPIO_LOW : GPIO_HIGH);
     } else {
-        debug_print("Error: GPIO %d is not configured as output!\n", pin_idx);
+        WISE_LOG_ERR("GPIO %d is not configured as output!\n", pin_idx);
     }
 }
 
@@ -370,7 +370,4 @@ int32_t wise_gpio_unregister_callback(uint8_t gpio_idx)
     return hal_intf_gpio_unregister_callback(gpio_idx);
 }
 
-void wise_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg)
-{
-    hal_intf_gpio_set_debug_bus(gpio_dbg_cfg);
-}
+

@@ -14,9 +14,9 @@
 void print_array(int arr[], int n)
 {
     for (int i = 0; i < n; i++) {
-        debug_printf("[%d] = 0x%08x \n", i, arr[i]);
+        debug_print("[%d] = 0x%08x \n", i, arr[i]);
     }
-    debug_printf("\n");
+    debug_print("\n");
 }
 void dump_buffer(unsigned char *buffer, int len)
 {
@@ -39,42 +39,7 @@ void dump_buffer(unsigned char *buffer, int len)
     printf("\n");
     fflush(stdout);
 }
-#if 0
-void dump_buffer(unsigned char *buffer, int len)
-{
-    uint16_t lineLen;
-    volatile unsigned char *ptr = buffer;
-    uint16_t lineIndex          = 0;
 
-    while (len) {
-        uint16_t i;
-
-        if (len > 16) {
-            lineLen = 16;
-        } else {
-            lineLen = len;
-        }
-
-        printf("%04x: ", lineIndex << 4);
-        for (i = 0; i < lineLen; i++) {
-            printf("%02x ", *ptr);
-            if (i == 7) {
-                printf("   ");
-            }
-
-            ptr++;
-        }
-        printf("\n");
-
-        len -= lineLen;
-        lineIndex++;
-    }
-
-    printf("\n");
-
-    fflush(stdout);
-}
-#endif
 uint32_t bit_reverse(uint32_t val, uint8_t bytes)
 {
     uint32_t outputVal = 0;

@@ -51,13 +51,18 @@ void i2c_enable_fifo_empty_interrupt_er8130(I2C_T *i2c);
 void i2c_disable_fifo_empty_interrupt_er8130(I2C_T *i2c);
 void i2c_enable_fifo_full_interrupt_er8130(I2C_T *i2c);
 void i2c_disable_fifo_full_interrupt_er8130(I2C_T *i2c);
+void i2c_enable_byte_trans_interrupt_er8130(I2C_T *i2c);
+void i2c_disable_byte_trans_interrupt_er8130(I2C_T *i2c);
 void i2c_disable_all_interrupts_er8130(I2C_T *i2c);
 uint32_t i2c_get_status(I2C_T *i2c);
+bool i2c_is_complete_status_er8130(uint32_t status);
+bool i2c_is_ack_status_er8130(uint32_t status);
+bool i2c_is_arb_lost_status_er8130(uint32_t status);
 void i2c_set_status(I2C_T *i2c, uint32_t value);
 void i2c_set_data_byte_count_er8130(I2C_T *i2c, uint8_t len);
 uint8_t i2c_get_data_byte_count_er8130(I2C_T *i2c);
 void i2c_config_er8130(I2C_T *i2c, bool i2c_enable, bool role, bool addressing, bool dma_enable, uint8_t sudat, uint8_t sp, uint8_t hddat,
-                       uint8_t scl_ratio, uint8_t scl_hi, bool dir, uint16_t target_address);
+                       uint8_t scl_ratio, uint16_t scl_hi, bool dir, uint16_t target_address);
 
 void i2c_ctrl_set_phase_atomic(__IO uint32_t *ctrl_reg, bool stop, bool data, bool addr, bool start, bool dir);
 void i2c_master_xfer_config_er8130(I2C_T *i2c, bool en_stop, bool en_data, bool en_addr, bool en_start, bool dir);

@@ -83,8 +83,8 @@ void nfc_block_write_data_er8130(uint8_t block_idx, uint8_t block_len, uint32_t 
 
     for (i = 0; i < block_len; i++) {
         REG_W32(addr+((uint32_t)i<<2), tx_data_buff[i]);
-        //printf("block[%ld] (0x%08lx) : ", (block_idx+i), addr+((uint32_t)i<<2));
-        //printf("val = 0x%08lx\n", tx_data_buff[i]);
+        //WISE_LOG_DBG("block[%ld] (0x%08lx) : ", (block_idx+i), addr+((uint32_t)i<<2));
+        //WISE_LOG_DBG("val = 0x%08lx\n", tx_data_buff[i]);
     }
 }
 
@@ -125,7 +125,7 @@ uint8_t nfc_get_interrupt_idx_er8130(void)
     cfg = REG_R32(NFC_DPE_ADDR);
     cfg = ((cfg & 0x07000000) >> NFC_DPE_IRQ_SRC_POS);
 
-    //printf("cfg = 0x%08x\n", cfg);
+    //WISE_LOG_DBG("cfg = 0x%08x\n", cfg);
 
     if (cfg == NFC_INT_ID_0)
         int_idx = 0;
@@ -166,7 +166,7 @@ void nfc_set_interrupt_er8130(uint8_t int_idx, uint8_t enable)
           ((int_en << NFC_INT_EN_NFC_EVT_POS) & NFC_INT_EN_NFC_EVT_MASK);
     REG_W32(NFC_INT_EN_ADDR, cfg);
 
-    //printf("enable interrupt idx = %d\n", int_id);
+    //WISE_LOG_DBG("enable interrupt idx = %d\n", int_id);
 }
 
 

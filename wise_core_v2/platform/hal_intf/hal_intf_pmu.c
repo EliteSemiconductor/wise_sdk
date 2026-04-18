@@ -156,6 +156,17 @@ void hal_intf_pmu_clear_int_status(uint32_t mask)
 #endif
 }
 
+uint32_t hal_intf_pmu_get_warm_reset_info(void)
+{
+    return hal_drv_pmu_get_warm_reset_info();
+}
+
+void hal_intf_pmu_clear_warm_reset_info(void)
+{
+    hal_drv_pmu_clear_warm_reset_info();
+}
+
+
 HAL_STATUS hal_intf_pmu_register_callback(HAL_ISR_CALLBACK callback, void *context)
 {
 #ifdef CHIP_PMU_HAS_INT_CTRL

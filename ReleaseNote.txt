@@ -1,29 +1,42 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0005
-Git revision: 0xecfaa1f3
+Version: 4.0006
+Git revision: 0x210b88be
 Library: 
-        libWISERadioLib_subg_soc_9005 v1.10
-        libWISERadioLib_subg_soc_9006 v1.06
-        libWMbusDatalink v1.00
-Release Date: March 10, 2026
+        libWISERadioLib_subg_soc_9006 v1.07
+        libWMbusDatalink v1.01
+Release Date: April 18, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
     ESMT ER8xxx family SoC.
 
 2. Supported Platforms
-    - ER8130 TC01
     - ER8130A/ER8131A
 
 3. Major Changes
-	- Release Wireless Mbus Data Link v1.00
-    - Implemented demo functions for WMbus Data Link.
+	- Implemented unified logging mechanism with log level control and replaced printf/debug_print usage with UTIL_LOG framework.
+    - Added WMBus Data Link (v1.01) with whitelist and connection table support.
+    - Enhanced WMBus features including multi-connection support and improved GW standby behavior.
+    - Introduced TX CCA mode and repeat mode RF commands for better debugging and transmission control.
+    - Added I2C enhancements: slave watchdog, improved robustness, and driver synchronization between 9005/9006.
+    - Improved SPI driver by redesigning access path to polling mode.
+    - Added UART enhancements including DMA wait_tx_done and flow control APIs.
+    - Introduced OpenOCD flash programming support and flash driver development framework.
+    - Added warm reset information API for debugging system reset behavior.
+    - Improved middleware flexibility and timer hub functionality.
+    - Reduced harmonic at 2x central freuency to below -40dB
 
 4. Bug fixing:
-    - Incorrect manchester encoding logic and flow.
-    - Fixed wmbus C mode IQK FSM error.
-    - Removed redundant register access in WMbus S mode.
+    - Fixed WMBus-related issues including whitelist access number bugs and RF initialization hard fault.
+    - Fixed WOR wake-up hang issue caused by GPTMR dependency.
+    - Fixed I2C repeated-start issues and improved compatibility with non-clock-stretching masters.
+    - Fixed SPI read/write access violations.
+    - Fixed incorrect return value in timer hub function.
+    - Fixed repeated system initialization failure issue.
+    - Fixed LFOSC high-temperature sleep current issue with EXT32K workaround.
+    - Fixed incorrect Manchester encoding logic and related WMBus issues.
+    - Fixed occasionally failure of TPM calibration.
 ================================================================================
 

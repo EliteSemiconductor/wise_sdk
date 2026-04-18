@@ -16,6 +16,9 @@ typedef enum {
     HAL_I2C_SPEED_FAST_PLUS
 } HAL_I2C_SPEED_MODE_T;
 
+#define HAL_I2C_APB_CLK_HZ           (40000000u)
+#define HAL_I2C_MAX_BUS_FREQ_HZ      (1000000u)
+
 /* APB clock frequency is 40MHz */
 #define SETUP_T_SUDAT_STD (0x4)
 #define SETUP_T_SP_STD (0x2)
@@ -45,10 +48,12 @@ typedef struct {
     uint8_t role;
     uint8_t i2cEn;
     uint8_t dmaEn;
-    uint8_t speedMode;
+    uint8_t speedMode;       /**< Legacy timing-class selector for preset compatibility. */
+    uint32_t bus_hz;         /**< Target bus rate in Hz. Preferred over speedMode when non-zero. */
+    uint32_t actual_bus_hz;  /**< Achieved bus rate in Hz after timing quantization. */
     uint8_t addressing;
     uint8_t dir;            /**< I2C direct */
-    uint8_t target_address; /**< I2C target's address. */
+    uint16_t target_address; /**< I2C target's address. Supports 7-bit and 10-bit mode. */
     uint8_t fifo_size;
     volatile uint8_t *dataptr;
     uint8_t dataCnt;
@@ -81,7 +86,11 @@ HAL_STATUS hal_intf_i2c_receive(uint8_t i2c_idx, HAL_I2C_CONF_T *i2c_cfg, uint8_
 HAL_STATUS hal_intf_i2c_transmit_ex(uint8_t i2c_idx, HAL_I2C_CONF_T *i2c_cfg, HAL_I2C_MSG_T *i2c_msg, uint8_t *tx_fifo, uint32_t tx_len);
 HAL_STATUS hal_intf_i2c_receive_ex(uint8_t i2c_idx, HAL_I2C_CONF_T *i2c_cfg, HAL_I2C_MSG_T *i2c_msg, uint8_t *rx_fifo, uint32_t rx_len);
 HAL_STATUS hal_intf_i2c_config(uint8_t i2c_idx, HAL_I2C_CONF_T *i2c_cfg);
+HAL_STATUS hal_intf_i2c_config_bus_freq(uint8_t i2c_idx, HAL_I2C_CONF_T *i2c_cfg, uint32_t bus_hz);
 uint8_t hal_intf_i2c_get_data_count(uint8_t i2c_channel);
 uint8_t hal_intf_i2c_get_data(uint8_t i2c_channel);
+HAL_STATUS hal_intf_i2c_get_probe_state(uint8_t i2c_channel, bool *done, bool *ack, bool *arb_lost);
 void hal_intf_i2c_clear_fifo(uint8_t i2c_channel);
+void hal_intf_i2c_slave_set_tx_buf(uint8_t i2c_channel, uint8_t *buf, uint16_t len);
+uint8_t hal_intf_i2c_slave_get_rx_count(uint8_t i2c_channel);
 #endif /* __HAL_INTF_I2C_H */

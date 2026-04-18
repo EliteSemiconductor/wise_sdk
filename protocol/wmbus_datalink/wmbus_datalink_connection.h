@@ -20,15 +20,7 @@ typedef struct {
     uint8_t *rx_buffer;
     uint16_t rx_length;
 
-    uint8_t state;
-    uint8_t sub_state;
-
-    uint8_t tx_security_mode;
-    uint8_t tx_access_number;
-    uint8_t tx_access_number_tpl;
-    uint8_t reserved;
-    
-    uint32_t last_seen;   // the time recived the last packet
+    uint8_t reserved[2];
 } wmbus_connection_t;
 
 // WMBus Connection Table

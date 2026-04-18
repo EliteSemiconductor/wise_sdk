@@ -92,10 +92,16 @@ void hal_drv_gpio_set_pwmslow(uint8_t pin_idx, uint8_t enable)
 
 void hal_drv_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg)
 {
-    gpio_set_debug_bus_er8130(gpio_dbg_cfg->gpio_pin_idx, 
-                                gpio_dbg_cfg->dbg_bus_module_idx, 
-                                gpio_dbg_cfg->dbg_bus_signal_idx, 
-                                gpio_dbg_cfg->dbg_id);
+    gpio_set_debug_bus_er8130(gpio_dbg_cfg->pin_idx, 
+                                gpio_dbg_cfg->dbg_target_idx, 
+                                gpio_dbg_cfg->signal_idx,
+                                gpio_dbg_cfg->dbg_bus_idx);
+}
+
+void hal_drv_gpio_set_gio_fun(GPIO_GIO_CFG_INFO* gpio_gio_cfg)
+{
+    gpio_set_gio_fun_er8130(gpio_gio_cfg->pin_idx,
+                            gpio_gio_cfg->gio_fun);
 }
 
 HAL_STATUS hal_drv_gpio_register_callback(uint8_t gpio_idx, CALLBACK_T cb, void *context)

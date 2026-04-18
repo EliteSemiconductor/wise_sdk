@@ -6,6 +6,7 @@
 
 #include "api/wise_rtc_api.h"
 #include "hal_intf_sys.h"
+#include "util_debug_log.h"
 
 WISE_STATUS wise_rtc_init(void)
 {
@@ -13,7 +14,7 @@ WISE_STATUS wise_rtc_init(void)
     const HAL_INTERNAL_SCLK_CFG_T *cfg_to_use = &sclk_src_16k_run_32k;
 
     if (hal_intf_sys_exec_internal_sclk_calibration(cfg_to_use) == WISE_FAIL) {
-        printf("internal sclk calibration fail!\n");
+        WISE_LOG_ERR("internal sclk calibration fail!\n");
         return WISE_FAIL;
     }
 #endif

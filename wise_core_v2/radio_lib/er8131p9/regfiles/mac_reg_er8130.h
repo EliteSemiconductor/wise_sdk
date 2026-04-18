@@ -38,7 +38,9 @@
   __IO uint32_t RF_TX_STS;                                 /*!< RF_TX_STS Register (0x048)                                                 */
   __IO uint32_t IO_REG;                                    /*!< IO_REG Register (0x04C)                                                    */
   __IO uint32_t CSMA;                                      /*!< CSMA Register (0x050)                                                      */
-  __I  uint32_t RESERVED1[3];
+  __IO uint32_t CSMAT1;                                    /*!< CSMAT1 Register (0x054)                                                    */
+  __IO uint32_t CSMAT2;                                    /*!< CSMAT2 Register (0x058)                                                    */
+  __IO uint32_t CSMAT3;                                    /*!< CSMAT3 Register (0x05C)                                                    */
   __IO uint32_t INT_ST;                                    /*!< INT_ST Register (0x060)                                                    */
   __IO uint32_t INT_EN;                                    /*!< INT_EN Register (0x064)                                                    */
   __I  uint32_t INT;                                       /*!< INT Register (0x068)                                                       */
@@ -476,6 +478,21 @@
 #define MAC_CSMA_RETRYNUM_ADDR                             (uint32_t)&(MAC->CSMA)
 #define MAC_CSMA_RETRYNUM_POS                              (24)     /*< bit[26:24]  */
 #define MAC_CSMA_RETRYNUM_MASK                             (0x7ul << MAC_CSMA_RETRYNUM_POS)
+
+#define MAC_CSMAT1_ADDR                                    (uint32_t)&(MAC->CSMAT1)
+#define MAC_CSMA_TIM1_ADDR                                 (uint32_t)&(MAC->CSMAT1)
+#define MAC_CSMA_TIM1_POS                                  (0)      /*< bit[15:0]   */
+#define MAC_CSMA_TIM1_MASK                                 (0xFFFFul << MAC_CSMA_TIM1_POS)
+
+#define MAC_CSMAT2_ADDR                                    (uint32_t)&(MAC->CSMAT2)
+#define MAC_CSMA_TIM2_ADDR                                 (uint32_t)&(MAC->CSMAT2)
+#define MAC_CSMA_TIM2_POS                                  (0)      /*< bit[8:0]    */
+#define MAC_CSMA_TIM2_MASK                                 (0x1FFul << MAC_CSMA_TIM2_POS)
+
+#define MAC_CSMAT3_ADDR                                    (uint32_t)&(MAC->CSMAT3)
+#define MAC_CSMA_TIM3_ADDR                                 (uint32_t)&(MAC->CSMAT3)
+#define MAC_CSMA_TIM3_POS                                  (0)      /*< bit[11:0]   */
+#define MAC_CSMA_TIM3_MASK                                 (0xFFFul << MAC_CSMA_TIM3_POS)
 
 #define MAC_INT_ST_ADDR                                    (uint32_t)&(MAC->INT_ST)
 #define MAC_INT_ST_RX_ADDR                                 (uint32_t)&(MAC->INT_ST)

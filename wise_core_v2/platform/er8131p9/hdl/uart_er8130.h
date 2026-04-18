@@ -30,6 +30,8 @@ typedef enum {
 
 #define UART_INTEN_MASK         (UART_INTEN_ELSI_Msk | UART_INTEN_ETHEI_Msk | UART_INTEN_ERBI_Msk)
 
+#define UART_TIMEOUT 100000
+
 void uart_reset_fifo_er8130(uint32_t uart_base, UART_RESET_TYPE type);
 void uart_config_er8130(uint32_t uart_base, uint32_t baudrate, uint8_t data, uint8_t parity, uint8_t stop, uint8_t dmaConfig);
 uint8_t uart_get_int_status_er8130(uint32_t uart_base);
@@ -37,5 +39,10 @@ void uart_write_byte_er8130(uint32_t uart_base, uint8_t ch);
 int8_t uart_read_byte_er8130(uint32_t uart_base, uint8_t *ch);
 void uart_irq_en_er8130(uint32_t uart_base, uint8_t int_type);
 void uart_irq_dis_er8130(uint32_t uart_base);
+int8_t uart_wait_tx_done_er8130(uint32_t uart_base);
+uint8_t uart_get_lsr_er8130(uint32_t uart_base);
+void uart_set_fifo_trigger_er8130(uint32_t uart_base, uint8_t rx_trigger, uint8_t tx_trigger);
+void uart_set_break_er8130(uint32_t uart_base, uint8_t enable);
+void uart_set_flow_control_er8130(uint32_t uart_base, uint8_t enable);
 
 #endif

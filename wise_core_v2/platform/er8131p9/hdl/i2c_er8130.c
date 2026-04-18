@@ -66,7 +66,8 @@ uint8_t i2c_get_fifo_size_er8130(I2C_T *i2c)
 
 void i2c_clear_cmpl_status_er8130(I2C_T *i2c)
 {
-    i2c->STS.bitfield.Cmpl = 0;
+    /* Cmpl is W1C (Write-1-to-Clear): must write 1 to clear */
+    i2c->STS.reg = I2C_STS_Cmpl_MASK;
 }
 
 void i2c_enable_fifo_empty_interrupt_er8130(I2C_T *i2c)
@@ -89,6 +90,16 @@ void i2c_disable_fifo_full_interrupt_er8130(I2C_T *i2c)
     i2c->INT_EN.bitfield.FIFOFull = 0;
 }
 
+void i2c_enable_byte_trans_interrupt_er8130(I2C_T *i2c)
+{
+    i2c->INT_EN.bitfield.ByteTrans = 1;
+}
+
+void i2c_disable_byte_trans_interrupt_er8130(I2C_T *i2c)
+{
+    i2c->INT_EN.bitfield.ByteTrans = 0;
+}
+
 void i2c_disable_all_interrupts_er8130(I2C_T *i2c)
 {
     i2c->INT_EN.reg &= ~0x3FF;
@@ -97,6 +108,22 @@ void i2c_disable_all_interrupts_er8130(I2C_T *i2c)
 uint32_t i2c_get_status(I2C_T *i2c)
 {
     return i2c->STS.reg;
+}
+
+bool i2c_is_complete_status_er8130(uint32_t status)
+{
+    return (status & I2C_STS_Cmpl_MASK) != 0;
+}
+
+bool i2c_is_ack_status_er8130(uint32_t status)
+{
+    /* ATCIIC100 reports NACK when ACK bit is set, so ACK is the inverted sense. */
+    return (status & I2C_STS_ACK_MASK) == 0;
+}
+
+bool i2c_is_arb_lost_status_er8130(uint32_t status)
+{
+    return (status & I2C_STS_ArbLose_MASK) != 0;
 }
 
 void i2c_set_status(I2C_T *i2c, uint32_t value)
@@ -144,12 +171,13 @@ void i2c_master_xfer_config_er8130(I2C_T *i2c, bool en_stop, bool en_data, bool 
 }
 
 void i2c_config_er8130(I2C_T *i2c, bool i2c_enable, bool role, bool addressing, bool dma_enable, uint8_t sudat, uint8_t sp, uint8_t hddat,
-                       uint8_t scl_ratio, uint8_t scl_hi, bool dir, uint16_t target_address)
+                       uint8_t scl_ratio, uint16_t scl_hi, bool dir, uint16_t target_address)
 {
     /* reset the I2C controller (abort current transaction, set the
     SDA and SCL line to the open-drain mode, clear the Status
     Register, Interrupt Enable Register and empty the FIFO) */
     i2c->CMD.bitfield.CMD = I2C_ACTION_RESET_CONTROLLER;
+    __DSB();   /* ensure reset completes before reconfiguring registers */
 
     /* set setup configure */
     i2c->SETUP.bitfield.SUDAT      = sudat;
@@ -157,7 +185,6 @@ void i2c_config_er8130(I2C_T *i2c, bool i2c_enable, bool role, bool addressing, 
     i2c->SETUP.bitfield.HDDAT      = hddat;
     i2c->SETUP.bitfield.SCLRatio   = scl_ratio;
     i2c->SETUP.bitfield.SCLHi      = scl_hi;
-    i2c->SETUP.bitfield.IICEn      = i2c_enable;
     i2c->SETUP.bitfield.Master     = role;
     i2c->SETUP.bitfield.Addressing = addressing;
     i2c->SETUP.bitfield.DMAEn      = dma_enable;
@@ -167,13 +194,18 @@ void i2c_config_er8130(I2C_T *i2c, bool i2c_enable, bool role, bool addressing, 
     /* set Control configure */
     // phase ctrl (Master only)
     i2c_ctrl_set_phase_atomic(&i2c->CTRL.reg, role, role, role, role, adj_dir);
-    /* set Address configure */
+    /* set Address configure BEFORE enabling I2C */
     i2c->ADDR.bitfield.ADDRESS = target_address;
+
+    i2c->SETUP.bitfield.IICEn      = i2c_enable;
     if (role == I2C_SLAVE) {
+        IRQn_Type irqn = (IRQn_Type)((i2c == I2C0) ? I2C0_IRQn : I2C1_IRQn);
+        NVIC_DisableIRQ(irqn);
         i2c_disable_all_interrupts_er8130(i2c);
         i2c->STS.reg = 0x3f8; // clear status
         i2c_cmd_action_er8130(i2c, I2C_ACTION_CLEAR_FIFO);
-        NVIC_EnableIRQ((IRQn_Type)((i2c == I2C0) ? I2C0_IRQn : I2C1_IRQn));
+        NVIC_ClearPendingIRQ(irqn);
+        NVIC_EnableIRQ(irqn);
         i2c_enable_slave_transfer_interrupts_er8130(i2c, dma_enable);
     }
 }
@@ -192,9 +224,19 @@ HAL_STATUS i2c_transfer_er8130(I2C_T *i2c, bool role, bool dma_enable, I2C_TRANS
     i2c_disable_all_interrupts_er8130(i2c);
     i2c->STS.reg = 0x3f8; // clear status
     i2c_cmd_action_er8130(i2c, I2C_ACTION_CLEAR_FIFO);
-    NVIC_EnableIRQ((IRQn_Type)((i2c == I2C0) ? I2C0_IRQn : I2C1_IRQn));
 
     i2c->CTRL.bitfield.Dir = (role ? (mode ? 1 : 0) : (mode ? 0 : 1));
+
+    /*
+     * Clear any stale IRQ that was latched in the NVIC before we cleared
+     * the status register above.  Without this, the ISR would fire
+     * immediately on NVIC_EnableIRQ with old (now-cleared) status,
+     * causing the handler to see an empty status word or — worse —
+     * operate on a freshly-memset'd context during slave re-arm.
+     */
+    IRQn_Type irqn = (IRQn_Type)((i2c == I2C0) ? I2C0_IRQn : I2C1_IRQn);
+    NVIC_ClearPendingIRQ(irqn);
+    NVIC_EnableIRQ(irqn);
 
     if (role == I2C_MASTER) {
         if (mode == I2C_MODE_TX) {

@@ -232,17 +232,18 @@ static void hal_drv_spi_data_pull(uint8_t spi_index, void *rx_fifo, uint16_t rx_
 
     uint32_t real_unit_count = rx_unit_count;
     if (ctx->data_bit_width == 7 && ctx->data_merge == 1) {
-        real_unit_count = rx_unit_count / unit_size;
+        real_unit_count = (rx_unit_count + unit_size - 1) / unit_size;
     }
 
     uint16_t remain_units = real_unit_count - ctx->recved_unit_count;
     if (remain_units == 0) {
         if (ctx->transfer_end_flag == true) {
-            remain_units = 4;
-        } else {
-            spi_disable_interrupt_er8130(spi_base[spi_index], SPI_RX_FIFO_INT_EN_MASK);
-            return;
+            while (!spi_is_rx_fifo_empty_er8130(spi_base[spi_index])) {
+                (void)spi_read_data_er8130(spi_base[spi_index]);
+            }
         }
+        spi_disable_interrupt_er8130(spi_base[spi_index], SPI_RX_FIFO_INT_EN_MASK);
+        return;
     }
 
     uint16_t fifo_space_units = 4;
@@ -254,6 +255,47 @@ static void hal_drv_spi_data_pull(uint8_t spi_index, void *rx_fifo, uint16_t rx_
     if (ctx->recved_unit_count >= real_unit_count) {
         spi_disable_interrupt_er8130(spi_base[spi_index], SPI_RX_FIFO_INT_EN_MASK);
     }
+}
+
+int32_t hal_drv_spi_master_write_byte(uint8_t spi_index, uint8_t in_byte)
+{
+    uint32_t base = spi_base[spi_index];
+
+    if (spi_wait_for_completion_er8130(base)) {
+        return HAL_ERR;
+    }
+
+    spi_disable_interrupt_er8130(base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
+    spi_set_xfer_fmt_er8130(base, 0, 1, 0, SPI_TM_WRITE_ONLY, 0, 0);
+    spi_write_data_er8130(base, in_byte);
+    spi_cmd_trigger_er8130(base, 0, 0);
+
+    if (spi_wait_for_completion_er8130(base)) {
+        return HAL_ERR;
+    }
+
+    return HAL_NO_ERR;
+}
+
+int32_t hal_drv_spi_master_read_byte(uint8_t spi_index, uint8_t *out_byte)
+{
+    uint32_t base = spi_base[spi_index];
+
+    if (spi_wait_for_completion_er8130(base)) {
+        return HAL_ERR;
+    }
+
+    spi_disable_interrupt_er8130(base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
+    spi_set_xfer_fmt_er8130(base, 1, 0, 0, SPI_TM_READ_ONLY, 0, 0);
+    spi_cmd_trigger_er8130(base, 0, 0);
+
+    if (spi_wait_for_completion_er8130(base)) {
+        return HAL_ERR;
+    }
+
+    *out_byte = (uint8_t)(spi_read_data_er8130(base) & 0xFF);
+
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_spi_register_event_callback(uint8_t spi_channel, EVT_CALLBACK_T cb, void *context)

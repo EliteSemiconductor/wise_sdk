@@ -58,10 +58,12 @@ void hal_drv_uart_irq_enable(uint8_t uart_idx, uint8_t int_type)
 {
     uint32_t intFlag = 0;
 
-    if (int_type & HAL_UART_EVT_RX_FIN)
+    if (int_type & HAL_UART_EVT_RX_FIN) {
         intFlag |= UART_INTEN_ERBI_Msk;
+        intFlag |= UART_INTEN_ELSI_Msk;    /* enable receiver line status interrupt */
+    }
     if (int_type & HAL_UART_EVT_TX_FIN)
-        intFlag |= UART_INTEN_ETHEI_Msk; // kevinyang, 20241220, not sure
+        intFlag |= UART_INTEN_ETHEI_Msk;
     
     uart_irq_en_er8130(UART_BASE[uart_idx], intFlag);
 
@@ -75,6 +77,49 @@ void hal_drv_uart_irq_disable(uint8_t uart_idx) //kevinyang, 20251112, depreciat
 {
     uart_irq_dis_er8130(UART_BASE[uart_idx]);
     NVIC_DisableIRQ((IRQn_Type)UART_IRQ_NO[uart_idx]);
+}
+
+int32_t hal_drv_uart_write_char(uint8_t uart_idx, uint8_t ch)
+{
+    uart_write_byte_er8130(UART_BASE[uart_idx], ch);
+    return HAL_NO_ERR;
+}
+
+int32_t hal_drv_uart_read_char(uint8_t uart_idx, uint8_t *ch)
+{
+    uint32_t timeout = UART_TIMEOUT;
+
+    while (uart_read_byte_er8130(UART_BASE[uart_idx], ch) != HAL_NO_ERR) {
+        if (--timeout == 0) {
+            return HAL_ERR;
+        }
+    }
+    return HAL_NO_ERR;
+}
+
+int32_t hal_drv_uart_wait_tx_done(uint8_t uart_idx)
+{
+    return uart_wait_tx_done_er8130(UART_BASE[uart_idx]);
+}
+
+uint8_t hal_drv_uart_get_lsr(uint8_t uart_idx)
+{
+    return uart_get_lsr_er8130(UART_BASE[uart_idx]);
+}
+
+void hal_drv_uart_set_fifo_trigger(uint8_t uart_idx, uint8_t rx_trigger, uint8_t tx_trigger)
+{
+    uart_set_fifo_trigger_er8130(UART_BASE[uart_idx], rx_trigger, tx_trigger);
+}
+
+void hal_drv_uart_set_break(uint8_t uart_idx, uint8_t enable)
+{
+    uart_set_break_er8130(UART_BASE[uart_idx], enable);
+}
+
+void hal_drv_uart_set_flow_control(uint8_t uart_idx, uint8_t enable)
+{
+    uart_set_flow_control_er8130(UART_BASE[uart_idx], enable);
 }
 
 HAL_STATUS hal_drv_uart_register_callback(UART_CB_EVENT_T event, CALLBACK_T cb, void *context)
@@ -104,9 +149,23 @@ static void hal_drv_uart_trigger_callback(UART_CB_EVENT_T event, uint8_t gptmr_i
     }
 }
 
+static uint8_t uart_last_lsr[CHIP_UART_CHANNEL_NUM];
+
+uint8_t hal_drv_uart_get_last_lsr(uint8_t uart_idx)
+{
+    uint8_t lsr = uart_last_lsr[uart_idx];
+    uart_last_lsr[uart_idx] = 0;
+    return lsr;
+}
+
 void uart_IRQHandler(uint8_t uart_idx)
 {
     uint32_t int_status = hal_drv_uart_get_int_status(uart_idx);
+
+    if (int_status & UART_ERRINT) {
+        /* Read LSR to clear the error interrupt and save for polling */
+        uart_last_lsr[uart_idx] = uart_get_lsr_er8130(UART_BASE[uart_idx]);
+    }
 
     if ((int_status & UART_RXINT) || (int_status & UART_TOINT)) {
         hal_drv_uart_trigger_callback(HAL_UART_EVT_RX_FIN, uart_idx);

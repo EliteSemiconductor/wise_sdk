@@ -7,6 +7,6 @@
 #ifndef __RETARGET_H
 #define __RETARGET_H
 
-void retarget_init(void);
+extern void retarget_set_port(int uartPort);
 
 #endif

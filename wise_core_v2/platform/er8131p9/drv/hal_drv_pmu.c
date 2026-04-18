@@ -156,6 +156,16 @@ void hal_drv_pmu_clear_int_status(uint32_t mask)
     pmu_clear_int_status_er8130(mask);
 }
 
+uint32_t hal_drv_pmu_get_warm_reset_info(void)
+{
+    return pmu_get_warm_reset_info_er8130();
+}
+
+void hal_drv_pmu_clear_warm_reset_info(void)
+{
+    pmu_clear_warm_reset_info_er8130();
+}
+
 HAL_STATUS hal_drv_pmu_register_callback(PMU_EVT_CALLBACK_T callback, void *context)
 {
     pmuCallback = callback;

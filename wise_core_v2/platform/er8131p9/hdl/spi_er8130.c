@@ -18,7 +18,7 @@
         } else if ((spi_base) == (SPI_BASE + 0x1000)) {                                                                                              \
             NVIC_EnableIRQ((IRQn_Type)SPI1_IRQn);                                                                                                    \
         } else {                                                                                                                                     \
-            debug_printf("error SPI address");                                                                                                       \
+            WISE_LOG_ERR("error SPI address");                                                                                                       \
         }                                                                                                                                            \
     } while (0)
 #if 0
@@ -45,7 +45,7 @@ static void _spi_wait_reset_done(uint32_t spi_base, uint32_t mask)
     }
 
     if (to >= SPI_TIMEOUT) {
-        printf("Warning: SPI reset (mask=0x%lX) timeout!\n", mask);
+        WISE_LOG_ERR("Warning: SPI reset (mask=0x%lX) timeout!\n", mask);
     }
 }
 void spi_reset_er8130(uint32_t spi_base, SPI_RESET_TYPE type)
@@ -89,11 +89,11 @@ void spi_reset_fifo_er8130(uint32_t spi_base)
     }
 
     if (to >= SPI_TIMEOUT) {
-        printf("Warning: SPI reset timeout!\n");
+        WISE_LOG_ERR("Warning: SPI reset timeout!\n");
     }
 }
 #endif
-static int8_t spi_wait_for_completion_er8130(uint32_t spi_base)
+int8_t spi_wait_for_completion_er8130(uint32_t spi_base)
 {
     uint32_t timeout_count = 0;
     SPI_T *SPI             = (SPI_T *)spi_base;
@@ -338,7 +338,7 @@ HAL_STATUS spi_xfer_exec_er8130(uint32_t spi_base, uint8_t role, uint16_t rx_uni
     // uint16_t tx_data_conunt = ((tx_len + 3) >> 2);
 
     if (spi_wait_for_completion_er8130(spi_base)) {
-        debug_printf("spi wait prog done timeout\n");
+        WISE_LOG_ERR("spi wait prog done timeout\n");
         return HAL_ERR;
     }
 

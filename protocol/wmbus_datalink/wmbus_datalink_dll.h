@@ -622,6 +622,27 @@ typedef struct wmbus_readout_data{
   struct wmbus_readout_data* next;
 } wmbus_readout_data_t;
 
+typedef struct {
+  uint8_t event;
+  uint32_t device_id;
+} WMBUS_event_t;
+
+typedef struct{
+    /* Meter information */
+    uint32_t id;          /**< Device identifier (e.g., meter ID). */
+    char manufacturer[3]; /**< 3-byte manufacturer code (no trailing '\0'). */
+    uint8_t version;      /**< Device version. */
+    uint8_t devType;      /**< Device type. */
+
+    /* GW maintain the parameters for specific Meter */
+    uint8_t sub_state;
+    uint8_t tx_security_mode;
+    uint8_t gw2meter_access_number;
+    uint8_t gw2meter_access_number_tpl;
+    uint8_t reserved[3];
+    uint32_t gw2meter_message_counter;
+} WMBUS_whitelist_t;
+
 void dump_byte(uint8_t* p_dump, int length);
 void dump_raw(const char *tag, uint8_t *p_dump, int length);
 
@@ -667,7 +688,7 @@ void wmbus_link_plus_one_access_number(void);
 uint8_t wmbus_link_get_access_number_tpl(void);
 void wmbus_link_set_access_number_tpl(uint8_t access_number_tpl);
 void wmbus_link_plus_one_access_number_tpl(void);
-uint8_t wmbus_link_check_access_number(void);
+uint8_t wmbus_link_gw_check_access_number(void);
 
 void wmbus_link_set_primary(uint8_t primary);
 uint8_t wmbus_link_get_FCB(void);
@@ -699,8 +720,10 @@ uint8_t wmbus_link_api_parsing_packet(void);
 void wmbus_link_api_gen_packet(uint8_t *data_ptr, uint16_t data_len);
 void wmbus_link_api_notify_data2APP(void);
 
-void wmbus_link_set_state2connection(uint32_t id);
-void wmbus_link_get_state_from_connection(uint8_t *rx_buffer);
+void wmbus_link_set_state2WL(uint32_t id);
+void wmbus_link_get_state_from_WL(uint8_t *rx_buffer);
+bool wmbus_link_gw_add_device2WL(WMBUS_whitelist_t *entry_p);
+
 
 bool wmbus_link_gw_is_admission_ctrl_enabled(void);
 //void wmbus_link_gw_set_admission_ctrl_enabled(bool enable);
@@ -721,6 +744,8 @@ void wmbus_link_show_device_info(void);
 void wmbus_link_show_state(void);
 
 void wmbus_link_dump_timing_check(void);
+
+bool wmbus_link_gw_find_WL_by_ID(uint32_t dev_id);
 
 #define DEBUG_BY_GPIO 0
 void wmbus_link_gpio_toggle(uint8_t pin_idx);
