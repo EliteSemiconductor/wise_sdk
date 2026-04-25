@@ -169,14 +169,20 @@ typedef enum {
  * @brief RF and XTAL board-level configuration properties.
  */
 typedef struct {
-    uint8_t tcxo_output_en;  /**< 0 = disable TCXO output, 1 = enable. */
-    uint8_t pa_type;         /**< 0 = 10 dB PA, 1 = 14 dB PA. */
-    uint8_t matching_type;   /**< 0 = 915 MHz, 1 = 868 MHz, 2 = 490 MHz. */
-    uint8_t gain_ctrl_40m;   /**< Gain control level (1–8). */
-    uint8_t gain_ctrl_40m_s; /**< Gain control level (1–8) for sleep mode. */
-    uint8_t cap_xtal_i;      /**< Internal XTAL capacitor setting (default = 64). */
-    uint8_t cap_xtal_o;      /**< External XTAL capacitor setting (default = 64). */
-    uint8_t sram_retain;     /**< SRAM retaintion mode, 0 = 32K, 1 = 64K */
+    uint8_t tcxo_output_en;                 /**< 0 = disable TCXO output, 1 = enable. */
+    uint8_t pa_type;                        /**< 0 = 10 dB PA, 1 = 14 dB PA. */
+    uint8_t matching_type;                  /**< 0 = 915 MHz, 1 = 868 MHz, 2 = 490 MHz. */
+    uint8_t gain_ctrl_40m;                  /**< Gain control level (1–8). */
+    uint8_t gain_ctrl_40m_s;                /**< Gain control level (1–8) for sleep mode. */
+    uint8_t cap_xtal_i;                     /**< Internal XTAL capacitor setting (default = 64). */
+    uint8_t cap_xtal_o;                     /**< External XTAL capacitor setting (default = 64). */
+    uint8_t cap_lpxtal_i;                   /**< ext32k LPXTAL CAP_I_CTRL (0-63). All-zero CAP tuple = keep factory default. */
+    uint8_t cap_lpxtal_o;                   /**< ext32k LPXTAL CAP_O_CTRL (0-63). */
+    uint8_t maincap_lpxtal_i;               /**< ext32k LPXTAL MAINCAP_I_EN (0/1). */
+    uint8_t maincap_lpxtal_o;               /**< ext32k LPXTAL MAINCAP_O_EN (0/1). */
+    uint8_t gain_lpxtal;                    /**< ext32k LPXTAL GAIN_CTRL (0-63). 0 = keep whatever analog stack set. */
+    uint8_t sram_retain;                    /**< SRAM retaintion mode, 0 = 32K, 1 = 64K */
+    uint8_t ext32k_lp_workaround;           /**< 0 = disable, 1 = enable EXT32K low-power sleep-current workaround. */
     WISE_SYS_ULPLDO_VREF_T ulpldo_vref;     /**< ULPLDO reference selection. */
     WISE_SYS_ULPLDO_ENMODE_T ulpldo_enmode; /**< ULPLDO enable mode selection. */
 } WISE_SYS_BOARD_PROPERTY_T;
@@ -323,6 +329,17 @@ int32_t wise_dma_memcpy_bytes(void *dst, const void *src, uint32_t byte_count);
  * @param[in] property Pointer to a ::WISE_SYS_BOARD_PROPERTY_T structure.
  */
 void wise_sys_set_board_property(const WISE_SYS_BOARD_PROPERTY_T *property);
+
+/**
+ * @brief Enable/disable the EXT32K low-power sleep-current workaround.
+ *
+ * The workaround is applied inside the ext32k sclk-src switch path. Call this
+ * before LFOSC config/calibration so the flag is in place when ext32k is
+ * switched in.
+ *
+ * @param[in] enable 0 = disable, 1 = enable.
+ */
+void wise_sys_set_ext32k_lp_workaround(uint8_t enable);
 
 /**
  * @brief Enable or disable TCXO configuration.

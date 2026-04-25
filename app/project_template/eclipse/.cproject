@@ -163,16 +163,16 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="config"/>
 						<entry excluding="wise_shell_v2|wise_wmbus_crypto|wise_kermit|wise_system/syscalls.c|wise_radio_precfg|wise_shell|wise_flash_filesystem|wise_ctrl_cmd|wise_cli" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="middleware"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="platform/ble_soc_a002|radio_lib/soc_b402|platform/soc_b402|platform/er8131p9|radio_lib/er8131p9|radio_lib/xcvr04|radio_lib/subg_soc_9003|radio_lib/ble_soc_a001|prebuilt_libs|platform/subg_soc_9003|platform/ble_soc_a001|platform/a001|platform/er8130|platform/er8130_tc04/hdl/extpmu_er8130.c|platform/xcvr04" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="wise_core_v2"/>
+						<entry excluding="platform/ble_soc_a002|radio_lib/soc_b402|platform/soc_b402|platform/subg_soc_9006|radio_lib/subg_soc_9006|radio_lib/xcvr04|radio_lib/subg_soc_9003|radio_lib/ble_soc_a001|prebuilt_libs|platform/subg_soc_9003|platform/ble_soc_a001|platform/a001|platform/er8130|platform/er8130_tc04/hdl/extpmu_er8130.c|platform/xcvr04" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="wise_core_v2"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563" moduleId="org.eclipse.cdt.core.settings" name="er8131p9">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563" moduleId="org.eclipse.cdt.core.settings" name="subg_soc_9006">
 				<macros>
-					<stringMacro name="PlatformName" type="VALUE_TEXT" value="er8131p9"/>
+					<stringMacro name="PlatformName" type="VALUE_TEXT" value="subg_soc_9006"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -185,7 +185,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563" name="er8131p9" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}.elf ${ProjName}.bin">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563" name="subg_soc_9006" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}.elf ${ProjName}.bin">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1303837294" name="Arm Cross GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1799392892" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
@@ -351,7 +351,7 @@
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="subg_soc_9003"/>
 		<configuration configurationName="er8130_tc01"/>
-		<configuration configurationName="er8131p9"/>
+		<configuration configurationName="subg_soc_9006"/>
 		<configuration configurationName="ER8130_TC04">
 			<resource resourceType="PROJECT" workspacePath="/project_template"/>
 		</configuration>

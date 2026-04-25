@@ -70,6 +70,31 @@
 #define BOARD_SRAM_RETAIN                               1
 #endif
 
+#ifndef BOARD_32K_CAP_LPXTAL_I
+#define BOARD_32K_CAP_LPXTAL_I                          63 /* 0-63, LV_LPXTAL_CAP_I_CTRL */
+#endif
+
+#ifndef BOARD_32K_CAP_LPXTAL_O
+#define BOARD_32K_CAP_LPXTAL_O                          63 /* 0-63, LV_LPXTAL_CAP_O_CTRL */
+#endif
+
+#ifndef BOARD_32K_MAINCAP_I_EN
+#define BOARD_32K_MAINCAP_I_EN                          1 /* 0/1, LV_LPXTAL_MAINCAP_I_EN */
+#endif
+
+#ifndef BOARD_32K_MAINCAP_O_EN
+#define BOARD_32K_MAINCAP_O_EN                          1 /* 0/1, LV_LPXTAL_MAINCAP_O_EN */
+#endif
+
+#ifndef BOARD_32K_LPXTAL_GAIN
+#define BOARD_32K_LPXTAL_GAIN                           0 /* 0-63, LV_LPXTAL_GAIN_CTRL (XO_CONFIG_2). 0 = keep analog default */
+#endif
+
+/* Enable only when EXT32K is selected and the sleep-current issue must be masked. */
+#ifndef BOARD_EXT32K_LP_WORKAROUND
+#define BOARD_EXT32K_LP_WORKAROUND                      0 /* 0 = disable, 1 = enable */
+#endif
+
 /* ULPLDO tuning is only meaningful on platforms that expose the 9006 ULPLDO control path. */
 #ifndef BOARD_ULPLDO_VREF
 #define BOARD_ULPLDO_VREF 0 /* 0 = normal, 1 = ultra low */

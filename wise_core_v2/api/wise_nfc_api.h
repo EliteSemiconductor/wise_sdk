@@ -67,6 +67,18 @@ typedef enum {
 } NFC_INT_IDX_E;
 
 /**
+ * @enum NFC_PWR_MODE_T
+ * @brief NFC power source selection.
+ *
+ * Used to select the power source of NFC module
+ */
+typedef enum
+{
+    NFC_PWR_MODE_ACTIVE = 0,    /**< NFC powered by system */
+    NFC_PWR_MODE_PASSIVE,       /**< NFC powered by antenna */
+} NFC_PWR_MODE_T;
+
+/**
  * @struct WISE_NFC_CFG_T
  * @brief NFC configuration structure.
  *
@@ -234,14 +246,14 @@ void wise_nfc_set_interrupt_idx(NFC_INT_IDX_E int_idx);
  *
  * @param[in] src Power source index.
  */
-void wise_nfc_switch_pwr_src(uint8_t src);
+void wise_nfc_switch_pwr_src(NFC_PWR_MODE_T src);
 
 /**
  * @brief Get NFC power source index.
  *
  * @return Current power source index.
  */
-uint8_t wise_nfc_get_pwr_src_idx(void);
+NFC_PWR_MODE_T wise_nfc_get_pwr_src(void);
 
 void wise_nfc_set_wakeup_config(uint8_t pwr_mode);
 

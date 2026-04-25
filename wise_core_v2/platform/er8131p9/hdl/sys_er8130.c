@@ -11,6 +11,7 @@ static uint8_t board_matching_type = 0;
 static uint8_t board_40m_gain_ctrl = 1;
 static uint8_t board_cap_xtal_i = 64;
 static uint8_t board_cap_xtal_o = 64;
+static uint8_t board_lpxtal_gain = 0;
 
 
 uint32_t sys_get_chip_id_er8130(void)
@@ -131,6 +132,16 @@ void sys_set_xtal_cfg_er8130(uint8_t xtal_i, uint8_t xtal_o)
 {
     board_cap_xtal_i = xtal_i;
     board_cap_xtal_o = xtal_o;
+}
+
+void sys_set_lpxtal_gain_er8130(uint8_t gain)
+{
+    board_lpxtal_gain = gain;
+}
+
+uint8_t sys_get_lpxtal_gain_er8130(void)
+{
+    return board_lpxtal_gain;
 }
 
 

@@ -10,8 +10,6 @@
 #define CONFIG_ER8130 1
 #define TARGET_APP 1
 #define WORKAROUND_TX 1
-/* Enable only when EXT32K is selected and the low-temperature sleep-current issue must be masked. */
-#define CONFIG_EXT32K_LP_WORKAROUND 0
 /**
  * ============================
  *    DEVICE
@@ -102,6 +100,7 @@
 #define SHELL_NFC 1
 #define SHELL_EFUSE 1
 #define SHELL_UART 1
+#define SHELL_WUTMR 1
 
 #if MIDDLEWARE_WISE_CTRL_CMD
 #define CTRL_CMD_UART_PORT 0

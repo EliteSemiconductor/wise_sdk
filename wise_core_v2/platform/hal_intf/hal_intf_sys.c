@@ -12,6 +12,7 @@
 
 #ifdef CHIP_HAS_LFOSC
 
+static uint8_t _ext32k_lp_workaround_en = 0;
 
 void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode)
 {
@@ -123,10 +124,9 @@ int8_t hal_intf_sys_exec_internal_sclk_calibration(const HAL_INTERNAL_SCLK_CFG_T
         }
         case SYS_LFOSC_CLK_SRC_EXTERNAL_32K:
             hal_intf_sys_switch_sclk_src(cfg->sclk_sel);
-#ifdef CONFIG_EXT32K_LP_WORKAROUND
-        /* Keep the workaround decision at this layer so the ANA helper is not a silent no-op. */
-        hal_drv_sys_ext32k_workaround();
-#endif
+            if (_ext32k_lp_workaround_en) {
+                hal_intf_sys_ext32k_workaround();
+            }
         	return HAL_NO_ERR;
         default:
         	return HAL_ERR;
@@ -227,9 +227,34 @@ void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o)
 #endif
 }
 
+void hal_intf_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain)
+{
+#ifdef CHIP_SUPPORT_CUSTOM_BOARD
+    hal_drv_sys_set_lpxtal_cfg(cap_i, cap_o, maincap_i, maincap_o, gain);
+#else
+    (void)cap_i; (void)cap_o; (void)maincap_i; (void)maincap_o; (void)gain;
+#endif
+}
+
 void hal_intf_sys_set_sram_size(uint8_t sram_32_64)
 {
     hal_intf_pmu_set_sram_pd_mode(sram_32_64);
+}
+
+void hal_intf_sys_ext32k_workaround(void)
+{
+#ifdef CHIP_HAS_EXT32K_LP_WORKAROUND
+    hal_drv_sys_ext32k_workaround();
+#endif
+}
+
+void hal_intf_sys_set_ext32k_lp_workaround(uint8_t enable)
+{
+#ifdef CHIP_HAS_LFOSC
+    _ext32k_lp_workaround_en = enable ? 1 : 0;
+#else
+    (void)enable;
+#endif
 }
 
 /* ================== ASARADC =============== */

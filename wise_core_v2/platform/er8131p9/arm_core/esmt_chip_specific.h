@@ -161,6 +161,7 @@ typedef enum {
 // features for low-frequency osc
 #define CHIP_HAS_LFOSC
 #define CHIP_LFOSC_SUPPORT_EXT_32K
+#define CHIP_HAS_EXT32K_LP_WORKAROUND
 
 // features for DMA
 #define CHIP_DMA_CHANNEL_NUM                    8

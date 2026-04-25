@@ -102,7 +102,10 @@ void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode);
 void hal_intf_sys_switch_sclk_src(uint8_t sclk_idx);
 
 void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o);
+void hal_intf_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain);
 void hal_intf_sys_set_sram_size(uint8_t sram_32_64);
+void hal_intf_sys_ext32k_workaround(void);
+void hal_intf_sys_set_ext32k_lp_workaround(uint8_t enable);
 
 /* ================== ASARADC =============== */
 #ifdef CHIP_ADC_SUPPORT

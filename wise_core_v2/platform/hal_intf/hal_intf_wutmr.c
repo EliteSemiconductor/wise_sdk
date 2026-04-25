@@ -14,6 +14,15 @@ void hal_intf_wutmr_set_clock_base(uint32_t base_clock)
 #endif
 }
 
+uint32_t hal_intf_wutmr_get_clock_base()
+{
+#ifdef CHIP_HAS_LFOSC
+    return hal_drv_wutmr_get_clock_base();
+#else
+    return 0;
+#endif
+}
+
 void hal_intf_wutmr_set_time(uint32_t ms)
 {
 #ifdef CHIP_HAS_LFOSC

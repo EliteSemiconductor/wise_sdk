@@ -232,6 +232,36 @@ void hal_drv_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o)
     SYS_SET_XTAL_CFG(xtal_i, xtal_o);
 }
 
+void hal_drv_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain)
+{
+    uint32_t reg;
+
+    if ((cap_i | cap_o | maincap_i | maincap_o) != 0) {
+        reg  = REG_R32(ANA_XO_CONFIG_3_ADDR);
+        reg &= ~(ANA_LV_LPXTAL_CAP_I_CTRL_MASK  | ANA_LV_LPXTAL_CAP_O_CTRL_MASK |
+                 ANA_LV_LPXTAL_MAINCAP_I_EN_MASK | ANA_LV_LPXTAL_MAINCAP_O_EN_MASK);
+        reg |= ((uint32_t)(cap_i & 0x3F) << ANA_LV_LPXTAL_CAP_I_CTRL_POS);
+        reg |= ((uint32_t)(cap_o & 0x3F) << ANA_LV_LPXTAL_CAP_O_CTRL_POS);
+        reg |= ((uint32_t)(maincap_i ? 1U : 0U) << ANA_LV_LPXTAL_MAINCAP_I_EN_POS);
+        reg |= ((uint32_t)(maincap_o ? 1U : 0U) << ANA_LV_LPXTAL_MAINCAP_O_EN_POS);
+        REG_W32(ANA_XO_CONFIG_3_ADDR, reg);
+    }
+
+    SYS_SET_LPXTAL_GAIN(gain);
+
+    if (gain != 0) {
+        reg  = REG_R32(ANA_XO_CONFIG_2_ADDR);
+        reg &= ~ANA_LV_LPXTAL_GAIN_CTRL_MASK;
+        reg |= ((uint32_t)(gain & 0x3F) << ANA_LV_LPXTAL_GAIN_CTRL_POS);
+        REG_W32(ANA_XO_CONFIG_2_ADDR, reg);
+    }
+}
+
+uint8_t hal_drv_sys_get_lpxtal_gain(void)
+{
+    return SYS_GET_LPXTAL_GAIN();
+}
+
 void hal_drv_sys_tick_delay_ms(uint32_t ms)
 {
     hal_drv_sys_tick_delay_us(ms * 1000);

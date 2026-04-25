@@ -45,6 +45,8 @@ void sys_set_board_gain_ctrl_er8130(uint8_t gain_ctrl);
 uint8_t sys_get_board_gain_ctrl_er8130();
 uint32_t sys_get_xtal_cfg_er8130(void);
 void sys_set_xtal_cfg_er8130(uint8_t xtal_i, uint8_t xtal_o);
+void sys_set_lpxtal_gain_er8130(uint8_t gain);
+uint8_t sys_get_lpxtal_gain_er8130(void);
 
 
 #define SYS_GET_PA_TYPE()                   sys_get_pa_type_er8130()
@@ -56,4 +58,6 @@ void sys_set_xtal_cfg_er8130(uint8_t xtal_i, uint8_t xtal_o);
 #define SYS_SET_DELAY(us)                   sys_set_delay_er8130(us)
 #define SYS_GET_XTAL_CFG()                  sys_get_xtal_cfg_er8130();
 #define SYS_SET_XTAL_CFG(xtal_i, xtal_o)    sys_set_xtal_cfg_er8130(xtal_i, xtal_o)
+#define SYS_SET_LPXTAL_GAIN(gain)           sys_set_lpxtal_gain_er8130(gain)
+#define SYS_GET_LPXTAL_GAIN()               sys_get_lpxtal_gain_er8130()
 #endif

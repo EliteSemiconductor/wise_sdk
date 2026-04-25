@@ -18,6 +18,7 @@ typedef enum {
 typedef void (*WUTMR_EVT_CALLBACK_T)(void* context);
 
 void hal_intf_wutmr_set_clock_base(uint32_t base_clock);
+uint32_t hal_intf_wutmr_get_clock_base();
 void hal_intf_wutmr_set_time(uint32_t ms);
 void hal_intf_wutmr_set_time_tick(uint32_t tick);
 void hal_intf_wutmr_set_enable(uint8_t exec_type);

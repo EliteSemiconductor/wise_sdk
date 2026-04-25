@@ -11,7 +11,7 @@
 #define MS_TO_WUTMR_CNT(ms)                             ((ms * wutmrClockRate) / 1000)
 
 //static CALLBACK_ENTRY_T wutmr_callbacks[WUTMR_MAX_EVENTS];
-static uint32_t wutmrClockRate = 32768; //default 32K
+static uint32_t wutmrClockRate = 0; //default set to 0, LFOSC must be inited first
 static WUTMR_EVT_CALLBACK_T wutmrCallback = NULL;
 static void* callbackContext = NULL;
 
@@ -19,6 +19,11 @@ void hal_drv_wutmr_set_clock_base(uint32_t base_clock)
 {
     if(base_clock > 0)
         wutmrClockRate = base_clock;
+}
+
+uint32_t hal_drv_wutmr_get_clock_base()
+{
+    return wutmrClockRate;
 }
 
 void hal_drv_wutmr_set_time(uint32_t ms)

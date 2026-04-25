@@ -100,14 +100,14 @@ void wise_nfc_set_interrupt_idx(NFC_INT_IDX_E int_idx)
     hal_intf_nfc_set_interrupt(int_idx, ENABLE);
 }
 
-void wise_nfc_switch_pwr_src(uint8_t src)
+void wise_nfc_switch_pwr_src(NFC_PWR_MODE_T src)
 {
-    hal_intf_nfc_switch_pwr_src(src);
+    hal_intf_nfc_switch_pwr_src((uint8_t)src);
 }
 
-uint8_t wise_nfc_get_pwr_src_idx(void)
+NFC_PWR_MODE_T wise_nfc_get_pwr_src(void)
 {
-    return hal_intf_nfc_get_pwr_src_idx();
+    return (NFC_PWR_MODE_T)hal_intf_nfc_get_pwr_src_idx();
 }
 
 void wise_nfc_set_wakeup_config(uint8_t pwr_mode)

@@ -7,13 +7,14 @@
 #include "es_platform_components.h"
 #if MIDDLEWARE_WISE_SYSTEM
 #include "wise_core.h"
-#include "api/wise_flash_api.h"
-#include "api/wise_gpio_api.h"
-#include "api/wise_spi_api.h"
-#include "api/wise_sys_api.h"
-#include "api/wise_tick_api.h"
-#include "api/wise_uart_api.h"
-#include "api/wise_wutmr_api.h"
+#include "wise_flash_api.h"
+#include "wise_gpio_api.h"
+#include "wise_spi_api.h"
+#include "wise_sys_api.h"
+#include "wise_tick_api.h"
+#include "wise_uart_api.h"
+#include "wise_wutmr_api.h"
+#include "wise_nfc_api.h"
 #include "wise.h"
 
 #if MIDDLEWARE_WISE_SHELL
@@ -207,16 +208,22 @@ WISE_GPIO_CFG_T uartIOCfg[] = {
 
 static const uint8_t dma_channel_map[SYS_DMA_CHANNEL_NUM] = {DMA_CH0_FUNC, DMA_CH1_FUNC, DMA_CH2_FUNC, DMA_CH3_FUNC, DMA_CH4_FUNC, DMA_CH5_FUNC};
 
-static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {.tcxo_output_en  = BOARD_TCXO_OUTPUT_EN,
-                                                        .pa_type         = BOARD_PA_TYPE,
-                                                        .matching_type   = BOARD_BAND_MATCHING,
-                                                        .gain_ctrl_40m   = BOARD_40M_GAIN_CTRL,
-                                                        .gain_ctrl_40m_s = BOARD_40M_GAIN_CTRL_S,
-                                                        .cap_xtal_i      = BOARD_40M_CAP_XTAL_I,
-                                                        .cap_xtal_o      = BOARD_40M_CAP_XTAL_O,
-                                                        .sram_retain     = BOARD_SRAM_RETAIN,
-                                                        .ulpldo_vref     = BOARD_ULPLDO_VREF,
-                                                        .ulpldo_enmode   = BOARD_ULPLDO_ENMODE};
+static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {.tcxo_output_en   = BOARD_TCXO_OUTPUT_EN,
+                                                        .pa_type          = BOARD_PA_TYPE,
+                                                        .matching_type    = BOARD_BAND_MATCHING,
+                                                        .gain_ctrl_40m    = BOARD_40M_GAIN_CTRL,
+                                                        .gain_ctrl_40m_s  = BOARD_40M_GAIN_CTRL_S,
+                                                        .cap_xtal_i       = BOARD_40M_CAP_XTAL_I,
+                                                        .cap_xtal_o       = BOARD_40M_CAP_XTAL_O,
+                                                        .cap_lpxtal_i     = BOARD_32K_CAP_LPXTAL_I,
+                                                        .cap_lpxtal_o     = BOARD_32K_CAP_LPXTAL_O,
+                                                        .maincap_lpxtal_i = BOARD_32K_MAINCAP_I_EN,
+                                                        .maincap_lpxtal_o = BOARD_32K_MAINCAP_O_EN,
+                                                        .gain_lpxtal      = BOARD_32K_LPXTAL_GAIN,
+                                                        .sram_retain      = BOARD_SRAM_RETAIN,
+                                                        .ext32k_lp_workaround = BOARD_EXT32K_LP_WORKAROUND,
+                                                        .ulpldo_vref      = BOARD_ULPLDO_VREF,
+                                                        .ulpldo_enmode    = BOARD_ULPLDO_ENMODE};
 
 static void _platform_init()
 {
@@ -230,6 +237,9 @@ static void _platform_init()
         while (1)
             ;
     }
+
+    /* Propagate the EXT32K workaround flag before LFOSC calibration so the ext32k path can honor it. */
+    wise_sys_set_ext32k_lp_workaround(boardProperty.ext32k_lp_workaround);
 
 #ifndef TARGET_SBL
     wise_sys_lfosc_clk_src_config(oscCfg);
@@ -249,6 +259,8 @@ static void _platform_init()
     wise_sys_init_dma_channel(dma_channel_map);
     wise_sys_dma_channel_export();
 #endif
+
+    wise_nfc_switch_pwr_src(NFC_PWR_MODE_PASSIVE); //for power consumption, initially set NFC power source to passive mode
 }
 
 static void _peripheral_init()

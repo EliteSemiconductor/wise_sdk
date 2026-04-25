@@ -10,11 +10,8 @@
 #include "hal_intf_wutmr.h"
 #include <stdint.h>
 
-#define WUTMR_PER_MS                                    (32768 / 1000)
-#define WUTMR_TO_MS(c)                                  ((c) / WUTMR_PER_MS)
-#define MS_TO_WUTMR(m)                                  (m * 32768 / 1000)
-
 void hal_drv_wutmr_set_clock_base(uint32_t base_clock);
+uint32_t hal_drv_wutmr_get_clock_base();
 void hal_drv_wutmr_set_time(uint32_t ms);
 void hal_drv_wutmr_set_time_tick(uint32_t tick);
 void hal_drv_wutmr_set_enable(uint8_t period_en);

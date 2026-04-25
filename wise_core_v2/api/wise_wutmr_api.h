@@ -62,8 +62,11 @@ typedef enum {
 
 /**
  * @brief Initialize the wake-up timer subsystem.
+ *
+ * @retval WISE_SUCCESS Successfully initialized wake-up timer subsystem.
+ * @retval WISE_FAIL    LFOSC is not configured.
  */
-void wise_wutmr_init(void);
+int32_t wise_wutmr_init(void);
 
 /**
  * @brief Deinitialize the wake-up timer subsystem.
@@ -84,8 +87,10 @@ void wise_wutmr_disable(void);
  * @brief Calibrate the wake timer clock against a known millisecond interval.
  *
  * @param[in] ms Calibration duration in milliseconds.
+ *
+ * @retval Result of calibrated clock counter per second.
  */
-void wise_wutmr_clk_calibrate(uint32_t ms);
+uint32_t wise_wutmr_clk_calibrate(uint32_t ms);
 
 /**
  * @brief Enable wake timer interrupt.

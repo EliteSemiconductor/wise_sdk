@@ -19,4 +19,7 @@
 #define BOARD_40M_CAP_XTAL_O                        16  //default = 64
 #define BOARD_SRAM_RETAIN                           1   //0: 32k, 1: 64K
 
+#define ES_DEVICE_LFOSC_SELECT                      SYS_LFOSC_CLK_SRC_INTERNAL_16K
+#define ES_DEVICE_LFOSC_OPTION                      LFOSC_16K_MODE_TEMP_COMP
+
 #endif
