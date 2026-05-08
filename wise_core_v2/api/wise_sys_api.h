@@ -232,7 +232,7 @@ void wise_sys_reset(void);
  * @retval >=0  Length of unique ID returned.
  * @retval <0   Error occurred.
  */
-uint32_t wise_sys_get_chip_unique(void);
+int32_t wise_sys_get_chip_unique(uint8_t uniqueID[8]);
 
 /**
  * @brief Remap system memory to another address region.

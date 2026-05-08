@@ -55,15 +55,12 @@ typedef enum
  */
 typedef enum {
     WMBUS_MODE_S1  = 0, /**< S-mode, unidirectional. */
-    WMBUS_MODE_S1M = 1, /**< S-mode (S1m), unidirectional. */
-    WMBUS_MODE_S2  = 2, /**< S-mode, bidirectional. */
-    WMBUS_MODE_T1  = 3, /**< T-mode, unidirectional. */
-    WMBUS_MODE_T2  = 4, /**< T-mode, bidirectional. */
-    WMBUS_MODE_C1  = 5, /**< C-mode, unidirectional. */
-    WMBUS_MODE_C2  = 6, /**< C-mode, bidirectional. */
-    WMBUS_MODE_R2  = 7, /**< R-mode, bidirectional (not supported yet). */
-    WMBUS_MODE_F2  = 8, /**< F-mode, bidirectional (not supported yet). */
-    WMBUS_MODE_N   = 9  /**< N-mode (not supported yet). */
+    WMBUS_MODE_S2, /**< S-mode, bidirectional. */
+    WMBUS_MODE_T1, /**< T-mode, unidirectional. */
+    WMBUS_MODE_T2, /**< T-mode, bidirectional. */
+    WMBUS_MODE_C1, /**< C-mode, unidirectional. */
+    WMBUS_MODE_C2, /**< C-mode, bidirectional. */
+    WMBUS_MODE_R2, /**< R-mode, bidirectional (not supported yet). */
 } wmbus_mode_t;
 
 /**

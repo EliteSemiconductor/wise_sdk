@@ -83,10 +83,8 @@ void wise_sys_chip_reset()
     hal_intf_pmu_set_sw_reset();
 }
 
-uint32_t wise_sys_get_chip_unique(void)
+int32_t wise_sys_get_chip_unique(uint8_t uniqueID[8])
 {
-    uint8_t uniqueID[8] = {0x0};
-
     hal_intf_efuse_get_chip_unique(uniqueID);
 
     return WISE_SUCCESS;

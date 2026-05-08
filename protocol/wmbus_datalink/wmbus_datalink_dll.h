@@ -1,6 +1,9 @@
 #ifndef __WMBUS_DLL_H__
 #define __WMBUS_DLL_H__
 
+#define WMBUS_LINK_VER_MAJOR 1
+#define WMBUS_LINK_VER_MINOR 2
+
 #include "wise_radio_wmbus_api.h"
 
 extern uint8_t staticData_1[];
@@ -10,6 +13,7 @@ extern const uint16_t staticData_2_size;
 extern uint8_t staticData_3[];
 extern const uint16_t staticData_3_size;
 
+#define WMBUS_GW_PREENCRYPTION
 
 #define WMBUS_DEV_ID 0x01020304  //BCD
 #define WMBUS_VERSION 0x01
@@ -592,6 +596,9 @@ typedef struct {
     // Device type
     WMBUS_device_type_t wmbus_device_type;
 
+    //Varified GW ID 
+    uint32_t wmbus_varify_GW_id;
+
     //uint8_t wmbus_encrypt;    //[0/1]enable/disable that be replaced by security mode
     /* 0 = plain text; 5 = mode5; 7 = mode7 */
     uint8_t wmbus_security_mode;;
@@ -637,9 +644,11 @@ typedef struct{
     /* GW maintain the parameters for specific Meter */
     uint8_t sub_state;
     uint8_t tx_security_mode;
+    uint8_t gw2meter_function_code;
+    //uint8_t gw2meter_ci_field;
     uint8_t gw2meter_access_number;
     uint8_t gw2meter_access_number_tpl;
-    uint8_t reserved[3];
+    uint8_t reserved[2];
     uint32_t gw2meter_message_counter;
 } WMBUS_whitelist_t;
 
@@ -710,7 +719,9 @@ void wmbus_link_set_flag_GW_request(uint8_t _data);
 
 
 #ifdef WMBUS_GW_PREENCRYPTION
-void GW_prepare_encrypt_tx_buffer(void);
+void wmbus_link_GW_pre_encryption_clean(vodi);
+void wmbus_link_GW_pre_encryption(uint32_t id, uint8_t *data, uint16_t len);
+void wmbus_link_GW_next_pre_encryption(uint32_t id);
 #endif
 
 void wmbus_link_clear_flow_control_setting(void);

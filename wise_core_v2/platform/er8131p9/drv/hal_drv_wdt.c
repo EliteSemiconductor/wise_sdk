@@ -8,17 +8,34 @@
 #include "hdl/wdt_er8130.h"
 #include "hal_intf_wdt.h"
 
+typedef void (*wdt_dispatch_fn_t)(void);
+
+static wdt_dispatch_fn_t s_wdt_dispatch;
 static CALLBACK_ENTRY_T wdt_callbacks[WDT_MAX_EVENTS];
+
+static void wdt_isr_body(void)
+{
+    if (wdt_callbacks[WDT_EVENT_TIMEOUT].callback) {
+        wdt_callbacks[WDT_EVENT_TIMEOUT].callback(
+            wdt_callbacks[WDT_EVENT_TIMEOUT].context, 0);
+    }
+}
+
+static void hal_drv_wdt_init_dispatch(void)
+{
+    s_wdt_dispatch = wdt_isr_body;
+}
 
 HAL_STATUS hal_drv_wdt_register_callback(WDT_CB_EVENT_T event, CALLBACK_T cb,
                                           void *context)
 {
-    if (event < WDT_MAX_EVENTS) {
-        wdt_callbacks[event].callback = cb;
-        wdt_callbacks[event].context  = context;
-        return HAL_NO_ERR;
+    if (event >= WDT_MAX_EVENTS) {
+        return HAL_ERR;
     }
-    return HAL_ERR;
+    hal_drv_wdt_init_dispatch();
+    wdt_callbacks[event].callback = cb;
+    wdt_callbacks[event].context  = context;
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_wdt_unregister_callback(WDT_CB_EVENT_T event)
@@ -31,16 +48,12 @@ HAL_STATUS hal_drv_wdt_unregister_callback(WDT_CB_EVENT_T event)
     return HAL_ERR;
 }
 
-static void hal_drv_wdt_trigger_callback(WDT_CB_EVENT_T event, uint8_t wdt_idx)
-{
-    if (wdt_callbacks[event].callback) {
-        wdt_callbacks[event].callback(wdt_callbacks[event].context, wdt_idx);
-    }
-}
-
 WEAK_ISR void WDT_IRQHandler(void)
 {
-    hal_drv_wdt_trigger_callback(WDT_EVENT_TIMEOUT, 0);
+    wdt_dispatch_fn_t fn = s_wdt_dispatch;
+    if (fn) {
+        fn();
+    }
 }
 
 void hal_drv_wdt_config(uint32_t period, uint32_t reset_en)

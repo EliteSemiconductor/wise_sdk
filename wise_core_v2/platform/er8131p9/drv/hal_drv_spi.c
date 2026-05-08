@@ -37,6 +37,10 @@ static SPI_IRQ_HANDLER_T _spi_irq_handler[CHIP_SPI_CHANNEL_NUM] = {NULL};
 
 static void spi_int_handler(uint8_t spi_index);
 
+static void hal_drv_spi_bind_dispatch(uint8_t spi_index)
+{
+    _spi_irq_handler[spi_index] = spi_int_handler;
+}
 
 void hal_drv_spi_reset(uint32_t spi_index, DRV_SPI_RESET_TYPE type)
 {
@@ -54,8 +58,8 @@ void hal_drv_spi_config(uint8_t spi_index, uint16_t clock_mode, uint8_t role, ui
     spi_config_er8130(spi_base[spi_index], clock_mode, role, data_bit_width, addr_len, bus_clock, bit_order, data_merge, mosi_bir_dir,
                       dual_quard_mode, addr_fmt, dma_enable);
 
-    _spi_irq_handler[spi_index] = spi_int_handler;
-    
+    hal_drv_spi_bind_dispatch(spi_index);
+
     if (dma_enable == ENABLE) {
         hal_intf_spi_dma_init();
     }

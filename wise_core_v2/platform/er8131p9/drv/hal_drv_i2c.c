@@ -64,6 +64,13 @@ EVT_CALLBACK_ENTRY_T i2c_callbacks[CHIP_I2C_CHANNEL_NUM][I2C_MAX_EVENTS];
 static I2C_TRANSFER_CONTEXT_T i2c_context[CHIP_I2C_CHANNEL_NUM];
 static I2C_IRQ_HANDLER_T _i2c_irq_handler[CHIP_I2C_CHANNEL_NUM] = {NULL};
 
+static void i2c_irq_handler(uint8_t i2c_idx);
+
+static void hal_drv_i2c_bind_dispatch(uint8_t i2c_index)
+{
+    _i2c_irq_handler[i2c_index] = i2c_irq_handler;
+}
+
 #define I2C_DEBUG_TRACE_DEPTH 32
 #define I2C_DBG_EVT_ADDR_HIT  1
 #define I2C_DBG_EVT_FIFO_EMP  2
@@ -300,7 +307,9 @@ I2C_ISR_FUNC static void i2c_address_hit_interrupt_handler(void *context, uint8_
     uint8_t hw_dir = 0;
     for (int _d = 0; _d < I2C_DIR_POLL_ITERS; _d++) {
         hw_dir = i2c_channel[i2c_index]->CTRL.bitfield.Dir;
-        if (hw_dir) break;
+        if (hw_dir) {
+            break;
+        }
         __NOP(); __NOP();
     }
 
@@ -557,7 +566,7 @@ HAL_STATUS hal_drv_i2c_config(uint8_t i2c_index, bool i2c_enable, bool role, boo
 {
     i2c_config_er8130(i2c_channel[i2c_index], i2c_enable, role, addressing, dma_enable, sudat, sp, hddat, scl_ratio, scl_hi, dir, target_address);
 
-    _i2c_irq_handler[i2c_index] = i2c_irq_handler;
+    hal_drv_i2c_bind_dispatch(i2c_index);
     return HAL_NO_ERR;
 }
 void hal_drv_i2c_set_tartget_addres(uint8_t i2c_index, uint16_t target_address)
@@ -883,7 +892,9 @@ I2C_ISR_FUNC void i2c_irq_handler(uint8_t i2c_idx)
         uint8_t fsr_dir = 0;
         for (int _d = 0; _d < I2C_DIR_POLL_ITERS; _d++) {
             fsr_dir = hw->CTRL.bitfield.Dir;
-            if (fsr_dir) break;
+            if (fsr_dir) {
+                break;
+            }
             __NOP(); __NOP();
         }
         if (fsr_dir == 1) {

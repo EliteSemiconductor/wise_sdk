@@ -12,10 +12,31 @@
 #include "ana_er8130.h"
 #include "util_debug_log.h"
 
+typedef void (*nfc_dispatch_fn_t)(void);
 
+static nfc_dispatch_fn_t s_nfc_dispatch;
 static CALLBACK_ENTRY_T nfc_callbacks[NFC_INT_NUM];
 static uint8_t nfc_pwr_src = 0;
-    
+
+static void nfc_isr_body(void)
+{
+    uint8_t i;
+    uint8_t int_mask = NFC_GET_DPE_STATUS_INT_MASK();
+
+    NFC_CLEAR_INT_MASK();
+
+    for (i = 0; i < NFC_INT_NUM; i++) {
+        if (int_mask & (1UL << i) && nfc_callbacks[i].callback) {
+            nfc_callbacks[i].callback(nfc_callbacks[i].context, i);
+        }
+    }
+}
+
+static void hal_drv_nfc_init_dispatch(void)
+{
+    s_nfc_dispatch = nfc_isr_body;
+}
+
 uint8_t hal_drv_nfc_get_interrupt_idx(void)
 {
     return NFC_GET_INTERRUPT_IDX();
@@ -73,13 +94,14 @@ uint8_t hal_drv_nfc_get_dpe_ctrl_info(void)
     return NFC_GET_DPE_CTRL_INFO();
 }
 
-
 void hal_drv_nfc_register_int_callback(uint8_t int_idx, CALLBACK_T cb,              void *context)
 {
     if (int_idx >= NFC_INT_NUM) {
         WISE_LOG_ERR("NFC IRQ register: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
         return;
     }
+
+    hal_drv_nfc_init_dispatch();
 
     nfc_callbacks[int_idx].callback = cb;
     nfc_callbacks[int_idx].context  = context;
@@ -140,14 +162,8 @@ void hal_drv_nfc_set_wakeup_config(uint8_t pwr_mode)
 
 WEAK_ISR void NFC_IRQHandler(void)
 {
-    uint8_t i;
-    uint8_t int_mask = NFC_GET_DPE_STATUS_INT_MASK();
-    
-    NFC_CLEAR_INT_MASK();
-
-    for (i = 0; i < NFC_INT_NUM; i++) {
-        if (int_mask & (1UL << i) && nfc_callbacks[i].callback) {
-            nfc_callbacks[i].callback(nfc_callbacks[i].context, i);
-        }
+    nfc_dispatch_fn_t fn = s_nfc_dispatch;
+    if (fn) {
+        fn();
     }
 }

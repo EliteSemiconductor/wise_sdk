@@ -5,13 +5,24 @@
 #include "demo_app_common.h"
 #include "wise_sys_api.h"
 
+void print_bytes(uint8_t* data, int num)
+{
+    int i;
+    
+    for(i = 0; i < num; i++)
+        printf("%02x", data[i]);
+}
+
 void print_banner(char* appName)
 {
     WISE_SDK_VERSION_T sdkVer = {0};
     WISE_RADIO_VERSION_INFO_T radioVer = {0};
-
+    uint8_t chipUnique[8] = {0};
+    
     wise_core_get_version(&sdkVer);
     wise_radio_get_version(&radioVer);
+
+    wise_sys_get_chip_unique(chipUnique);
 
     printf("\n");
     printf("============================================\n");
@@ -19,6 +30,9 @@ void print_banner(char* appName)
     printf("   Built@ %s %s\n", __DATE__, __TIME__);
     printf("   WISE SDK Version %d.%04d %08x\n", sdkVer.verMajor, sdkVer.verMinor, sdkVer.signature);
     printf("   Radio Platform: %s V%d.%02d.%02d\n", radioVer.platform_name, radioVer.ver_major, radioVer.ver_minor, radioVer.ver_build);
+    printf("   Chip Unique: ");
+    print_bytes(chipUnique, 8);
+    printf("\n");
     printf("============================================\n");
     fflush(stdout);
 }

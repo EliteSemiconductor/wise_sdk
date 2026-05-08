@@ -31,8 +31,11 @@ static inline bool hal_drv_dma_addr_is_safe(uint32_t addr, uint32_t len)
            ((addr + len) <= 0x2000C000U);
 }
 
-
+typedef void (*dma_dispatch_fn_t)(void);
+static dma_dispatch_fn_t s_dma_dispatch;
 static EVT_CALLBACK_ENTRY_T dma_callbacks[CHIP_DMA_CHANNEL_NUM];
+
+static void hal_drv_dma_init_dispatch(void);
 uint32_t dma_mem_bkp[(DMA_BACKUP_LEN >> 2)];
 
 // Structure to backup DMA channel registers
@@ -413,6 +416,7 @@ void hal_drv_dma_module_reset(void)
 HAL_STATUS hal_drv_dma_register_callback(uint8_t dma_ch_idx, EVT_CALLBACK_T cb, void *context)
 {
     if (dma_ch_idx < CHIP_DMA_CHANNEL_NUM) {
+        hal_drv_dma_init_dispatch();
         dma_callbacks[dma_ch_idx].callback = cb;
         dma_callbacks[dma_ch_idx].context  = context;
         return HAL_NO_ERR;
@@ -437,7 +441,7 @@ static void hal_drv_dma_trigger_callback(uint8_t dma_ch_idx, uint32_t events)
     }
 }
 
-WEAK_ISR void DMA_IRQHandler(void)
+static void dma_isr_body(void)
 {
     uint32_t cmplt_a = hal_drv_dma_buf_a_cmplt_status();
     uint32_t cmplt_b = hal_drv_dma_buf_b_cmplt_status();
@@ -481,5 +485,18 @@ WEAK_ISR void DMA_IRQHandler(void)
         }
 
         hal_drv_dma_trigger_callback(ch, events);
+    }
+}
+
+static void hal_drv_dma_init_dispatch(void)
+{
+    s_dma_dispatch = dma_isr_body;
+}
+
+WEAK_ISR void DMA_IRQHandler(void)
+{
+    dma_dispatch_fn_t fn = s_dma_dispatch;
+    if (fn) {
+        fn();
     }
 }

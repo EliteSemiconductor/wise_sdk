@@ -8,10 +8,68 @@
 #include "hdl/gptmr_er8130.h"
 #include "hal_intf_gptmr.h"
 
+typedef void (*gptmr_dispatch_fn_t)(uint8_t gptmr_idx);
+
+static gptmr_dispatch_fn_t s_gptmr_dispatch[CHIP_TIMER_CHANNEL_NUM];
 static CALLBACK_ENTRY_T gptmr_callbacks[GPTMR_MAX_EVENTS];
 static GPTMR_CONFIG_CONTEXT_T gptmr_context[CHIP_TIMER_CHANNEL_NUM];
 static GPTMR_T *gptmr_channel[CHIP_TIMER_CHANNEL_NUM] = {GPTMR0, GPTMR1, GPTMR2, GPTMR3, GPTMR4, GPTMR5};
 
+static void hal_drv_gptmr_trigger_callback(GPTMR_CB_EVENT_T event,
+                                           uint8_t gptmr_idx)
+{
+    if (gptmr_callbacks[event].callback) {
+        gptmr_callbacks[event].callback(gptmr_callbacks[event].context,
+                                        gptmr_idx);
+    }
+}
+
+static void gptmr_isr_body(uint8_t gptmr_idx)
+{
+    hal_drv_gptmr_clear_int_flag(gptmr_idx);
+    GPTMR_CONFIG_CONTEXT_T *ctx = &gptmr_context[gptmr_idx];
+
+    if (ctx->type == TIMER_ONE_SHOT) {
+        hal_drv_gptmr_stop(gptmr_idx);
+        hal_drv_gptmr_disable_int(gptmr_idx);
+        ctx->start_offset = 0;
+        ctx->interval     = 0;
+    } else {
+        if (ctx->start_offset != 0) {
+            ctx->start_offset = 0;
+            hal_drv_gptmr_set_cnt(gptmr_idx, (ctx->interval_counter));
+        }
+    }
+
+    switch (gptmr_idx) {
+    case 0:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T0_TIMEOUT, gptmr_idx);
+        break;
+    case 1:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T1_TIMEOUT, gptmr_idx);
+        break;
+    case 2:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T2_TIMEOUT, gptmr_idx);
+        break;
+    case 3:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T3_TIMEOUT, gptmr_idx);
+        break;
+    case 4:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T4_TIMEOUT, gptmr_idx);
+        break;
+    case 5:
+        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T5_TIMEOUT, gptmr_idx);
+        break;
+    }
+}
+
+static void hal_drv_gptmr_init_all_channels(void)
+{
+    uint8_t ch;
+    for (ch = 0; ch < CHIP_TIMER_CHANNEL_NUM; ch++) {
+        s_gptmr_dispatch[ch] = gptmr_isr_body;
+    }
+}
 
 HAL_STATUS hal_drv_gptmr_open(uint8_t gptmr_idx, uint32_t mode)
 {
@@ -102,12 +160,13 @@ void hal_drv_gptmr_config(uint8_t gptmr_idx, TIMER_TYPE_T type,
 HAL_STATUS hal_drv_gptmr_register_callback(GPTMR_CB_EVENT_T event,
                                             CALLBACK_T cb, void *context)
 {
-    if (event < GPTMR_MAX_EVENTS) {
-        gptmr_callbacks[event].callback = cb;
-        gptmr_callbacks[event].context  = context;
-        return HAL_NO_ERR;
+    if (event >= GPTMR_MAX_EVENTS) {
+        return HAL_ERR;
     }
-    return HAL_ERR;
+    hal_drv_gptmr_init_all_channels();
+    gptmr_callbacks[event].callback = cb;
+    gptmr_callbacks[event].context  = context;
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_gptmr_unregister_callback(GPTMR_CB_EVENT_T event)
@@ -120,81 +179,50 @@ HAL_STATUS hal_drv_gptmr_unregister_callback(GPTMR_CB_EVENT_T event)
     return HAL_ERR;
 }
 
-static void hal_drv_gptmr_trigger_callback(GPTMR_CB_EVENT_T event,
-                                           uint8_t gptmr_idx)
-{
-    if (gptmr_callbacks[event].callback) {
-        gptmr_callbacks[event].callback(gptmr_callbacks[event].context,
-                                        gptmr_idx);
-    }
-}
-
-void gptimer_IRQHandler(uint8_t gptmr_idx)
-{
-    hal_drv_gptmr_clear_int_flag(gptmr_idx);
-    GPTMR_CONFIG_CONTEXT_T *ctx = &gptmr_context[gptmr_idx];
-    // GPTMR_CB_EVENT_T event = GPTMR_EVENT_TIMEOUT;
-
-    if (ctx->type == TIMER_ONE_SHOT) {
-        hal_drv_gptmr_stop(gptmr_idx);
-        hal_drv_gptmr_disable_int(gptmr_idx);
-        ctx->start_offset = 0;
-        ctx->interval     = 0;
-    } else {
-        if (ctx->start_offset != 0) {
-            ctx->start_offset = 0;
-            hal_drv_gptmr_set_cnt(gptmr_idx, (ctx->interval_counter));
-        }
-    }
-
-    switch (gptmr_idx) {
-    case 0:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T0_TIMEOUT, gptmr_idx);
-        break;
-    case 1:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T1_TIMEOUT, gptmr_idx);
-        break;
-    case 2:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T2_TIMEOUT, gptmr_idx);
-        break;
-    case 3:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T3_TIMEOUT, gptmr_idx);
-        break;
-    case 4:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T4_TIMEOUT, gptmr_idx);
-        break;
-    case 5:
-        hal_drv_gptmr_trigger_callback(GPTMR_EVENT_T5_TIMEOUT, gptmr_idx);
-        break;
-    }
-}
-
 WEAK_ISR void GPTMR0_IRQHandler()
 {
-    gptimer_IRQHandler(0);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[0];
+    if (fn) {
+        fn(0);
+    }
 }
 
 WEAK_ISR void GPTMR1_IRQHandler()
 {
-    gptimer_IRQHandler(1);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[1];
+    if (fn) {
+        fn(1);
+    }
 }
 
 WEAK_ISR void GPTMR2_IRQHandler()
 {
-    gptimer_IRQHandler(2);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[2];
+    if (fn) {
+        fn(2);
+    }
 }
 
 WEAK_ISR void GPTMR3_IRQHandler()
 {
-    gptimer_IRQHandler(3);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[3];
+    if (fn) {
+        fn(3);
+    }
 }
 
 WEAK_ISR void GPTMR4_IRQHandler()
 {
-    gptimer_IRQHandler(4);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[4];
+    if (fn) {
+        fn(4);
+    }
 }
 
 WEAK_ISR void GPTMR5_IRQHandler()
 {
-    gptimer_IRQHandler(5);
+    gptmr_dispatch_fn_t fn = s_gptmr_dispatch[5];
+    if (fn) {
+        fn(5);
+    }
 }

@@ -168,6 +168,7 @@ HAL_STATUS efuse_write_er8130(uint8_t base_idx, uint32_t addr, uint8_t *buf)
     return HAL_NO_ERR;
 }
 
+#define EFUSE_CHIP_UNIQUE_ID_SIZE 8U
 void efuse_get_chip_unique_er8130(uint8_t* id_arr)
 {
     uint32_t unique_id[3] = {0};

@@ -8,8 +8,31 @@
 #include "hdl/pmu_er8130.h"
 #include "hal_intf_pmu.h"
 
+typedef void (*pmu_dispatch_fn_t)(void);
+
+static pmu_dispatch_fn_t s_pmu_dispatch;
 static PMU_EVT_CALLBACK_T pmuCallback = NULL;
 static void* callbackContext = NULL;
+
+static void pmu_isr_body(void)
+{
+    uint32_t int_mask = hal_drv_pmu_get_int_status();
+
+    if (int_mask)
+    {
+        hal_drv_pmu_clear_int_status(int_mask);
+
+        if (pmuCallback)
+        {
+            pmuCallback(callbackContext);
+        }
+    }
+}
+
+static void hal_drv_pmu_init_dispatch(void)
+{
+    s_pmu_dispatch = pmu_isr_body;
+}
 
 void hal_drv_pmu_set_pwr_mode(uint8_t mode)
 {
@@ -168,6 +191,7 @@ void hal_drv_pmu_clear_warm_reset_info(void)
 
 HAL_STATUS hal_drv_pmu_register_callback(PMU_EVT_CALLBACK_T callback, void *context)
 {
+    hal_drv_pmu_init_dispatch();
     pmuCallback = callback;
     callbackContext = context;
     return HAL_NO_ERR;
@@ -182,16 +206,9 @@ HAL_STATUS hal_drv_pmu_unregister_callback(void)
 
 WEAK_ISR void PCRMU_IRQHandler(void)
 {
-   uint32_t int_mask = hal_drv_pmu_get_int_status();
-   
-   if (int_mask)
-   {
-        hal_drv_pmu_clear_int_status(int_mask);
-
-        if (pmuCallback)
-        {
-            pmuCallback(callbackContext);
-        }
+    pmu_dispatch_fn_t fn = s_pmu_dispatch;
+    if (fn) {
+        fn();
     }
 }
 

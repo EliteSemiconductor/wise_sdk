@@ -8,7 +8,34 @@
 #include "hdl/gpio_er8130.h"
 #include "hal_intf_gpio.h"
 
+typedef void (*gpio_dispatch_fn_t)(void);
+
+static gpio_dispatch_fn_t s_gpio_dispatch;
 static CALLBACK_ENTRY_T gpio_callbacks[CHIP_GPIO_NUM];
+
+static void hal_drv_gpio_trigger_callback(uint8_t gpio_idx)
+{
+    if (gpio_callbacks[gpio_idx].callback) {
+        gpio_callbacks[gpio_idx].callback(gpio_callbacks[gpio_idx].context, gpio_idx);
+    }
+}
+
+static void gpio_isr_body(void)
+{
+    uint32_t pinMask = hal_drv_gpio_raw_int_status();
+    hal_drv_gpio_clear_raw_int_status(pinMask);
+
+    for (uint8_t i = 0; i < CHIP_GPIO_NUM; i++) {
+        if (pinMask & (1UL << i)) {
+            hal_drv_gpio_trigger_callback(i);
+        }
+    }
+}
+
+static void hal_drv_gpio_init_dispatch(void)
+{
+    s_gpio_dispatch = gpio_isr_body;
+}
 
 void hal_drv_gpio_set_mode(uint8_t pin_idx, uint8_t mode)
 {
@@ -92,8 +119,8 @@ void hal_drv_gpio_set_pwmslow(uint8_t pin_idx, uint8_t enable)
 
 void hal_drv_gpio_set_debug_bus(GPIO_DBG_CFG_INFO* gpio_dbg_cfg)
 {
-    gpio_set_debug_bus_er8130(gpio_dbg_cfg->pin_idx, 
-                                gpio_dbg_cfg->dbg_target_idx, 
+    gpio_set_debug_bus_er8130(gpio_dbg_cfg->pin_idx,
+                                gpio_dbg_cfg->dbg_target_idx,
                                 gpio_dbg_cfg->signal_idx,
                                 gpio_dbg_cfg->dbg_bus_idx);
 }
@@ -106,12 +133,13 @@ void hal_drv_gpio_set_gio_fun(GPIO_GIO_CFG_INFO* gpio_gio_cfg)
 
 HAL_STATUS hal_drv_gpio_register_callback(uint8_t gpio_idx, CALLBACK_T cb, void *context)
 {
-    if (gpio_idx < CHIP_GPIO_NUM) {
-        gpio_callbacks[gpio_idx].callback = cb;
-        gpio_callbacks[gpio_idx].context  = context;
-        return HAL_NO_ERR;
+    if (gpio_idx >= CHIP_GPIO_NUM) {
+        return HAL_ERR;
     }
-    return HAL_ERR;
+    hal_drv_gpio_init_dispatch();
+    gpio_callbacks[gpio_idx].callback = cb;
+    gpio_callbacks[gpio_idx].context  = context;
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_gpio_unregister_callback(uint8_t gpio_idx)
@@ -124,21 +152,10 @@ HAL_STATUS hal_drv_gpio_unregister_callback(uint8_t gpio_idx)
     return HAL_ERR;
 }
 
-static void hal_drv_gpio_trigger_callback(uint8_t gpio_idx)
-{
-    if (gpio_callbacks[gpio_idx].callback) {
-        gpio_callbacks[gpio_idx].callback(gpio_callbacks[gpio_idx].context, gpio_idx);
-    }
-}
-
 WEAK_ISR void GPIO_IRQHandler(void)
 {
-    uint32_t pinMask = hal_drv_gpio_raw_int_status();
-    hal_drv_gpio_clear_raw_int_status(pinMask);
-
-    for (uint8_t i = 0; i < CHIP_GPIO_NUM; i++) {
-        if (pinMask & (1UL << i)) {
-            hal_drv_gpio_trigger_callback(i);
-        }
+    gpio_dispatch_fn_t fn = s_gpio_dispatch;
+    if (fn) {
+        fn();
     }
 }

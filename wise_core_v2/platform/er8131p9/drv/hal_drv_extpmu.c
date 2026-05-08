@@ -10,8 +10,29 @@
 
 #include "util.h"
 
+typedef void (*extpmu_dispatch_fn_t)(void);
+
+static extpmu_dispatch_fn_t s_extpmu_dispatch;
 static EXTPMU_EVT_CALLBACK_T extpmuCallback = NULL;
 static void* callbackContext = NULL;
+
+static void extpmu_isr_body(void)
+{
+    if (hal_drv_extpmu_get_int_status())
+    {
+        hal_drv_extpmu_clear_int_status();
+
+        if (extpmuCallback)
+        {
+            extpmuCallback(callbackContext);
+        }
+    }
+}
+
+static void hal_drv_extpmu_init_dispatch(void)
+{
+    s_extpmu_dispatch = extpmu_isr_body;
+}
 
 void hal_drv_extpmu_enable_external_pmu(uint8_t enable)
 {
@@ -76,14 +97,17 @@ void hal_drv_extpmu_set_interrupt_disable(void)
 
 void hal_drv_extpmu_set_wakeup_by_nfc(uint8_t enable)
 {
-    if (enable)
+    if (enable) {
         extpmu_enable_wakeup_source_er8130(EXTPMU_PMU_WUBY_NFC_MASK);
-    else
+    }
+    else {
         extpmu_disable_wakeup_source_er8130(EXTPMU_PMU_WUBY_NFC_MASK);
+    }
 }
 
 HAL_STATUS hal_drv_extpmu_register_callback(void (*callback)(void* context), void *context)
 {
+    hal_drv_extpmu_init_dispatch();
     extpmuCallback = callback;
     callbackContext = context;
     return HAL_NO_ERR;
@@ -111,13 +135,8 @@ HAL_STATUS hal_drv_extpmu_unregister_callback(void)
  */
 WEAK_ISR void EXTPMU_IRQHandler(void)
 {
-    if (hal_drv_extpmu_get_int_status())
-    {
-        hal_drv_extpmu_clear_int_status();
-
-        if (extpmuCallback)
-        {
-            extpmuCallback(callbackContext);
-        }
+    extpmu_dispatch_fn_t fn = s_extpmu_dispatch;
+    if (fn) {
+        fn();
     }
 }

@@ -50,8 +50,6 @@ extern uint8_t g_wmbus_dbg_msg_level;
         uint8_t tmp_dbg_msg_buf[WMBUS_DEBUG_MAX_STRING_LEN];   \
         dbg_dump_byte(tmp_dbg_msg_buf, tag, p_dump, length);     \
 	    wmbus_link_add_dbg_msg(&wmbus_dbg_msg_buffer, (char *)tmp_dbg_msg_buf); \
-        wmbus_link_dump_dbg_msg(&wmbus_dbg_msg_buffer); \
-        wmbus_link_clear_dbg_msg(&wmbus_dbg_msg_buffer);    \
 	    }   \
     }while(0)
 #else

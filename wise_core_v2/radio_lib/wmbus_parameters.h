@@ -319,65 +319,32 @@ typedef enum {
 //Therefore, the output will be 0x55 ... 55 57 D9 C8
 //the last four bytes: 01010101  01010111  11011001  11001000
 
-#ifdef REDUCE_WMBUS_PARAMS
+enum
+{
+    WMBUS_MOD_FSK = 0,
+    WMBUS_MOD_GFSK,
+};
+
 typedef struct
 {
     uint8_t codec;
     uint32_t freq_typ_hz;
     uint32_t fsk_deviation_typ_hz;
     uint8_t data_rate;
-} wmbus_freq_param_t;
+    uint8_t modulation;
+    uint32_t syncword;
+    uint8_t syncword_len;
+    uint8_t preamble;
+    uint8_t preamble_len;
+} wmbus_phy_param_t;
 
 //Mode S,T,C,R
 typedef struct {
     uint32_t mode;
     
-    wmbus_freq_param_t m2o;
-    wmbus_freq_param_t o2m;
-    
-    uint8_t gfsk_bt; //GFSK relative bandwidth
-} wmbus_rf_param_t;
-#else
-typedef struct
-{
-    uint8_t codec;
-
-    uint32_t freq_min_hz;
-    uint32_t freq_typ_hz;
-    uint32_t freq_max_hz;
-    uint32_t freq_tolerance_ppm;
-    
-    uint32_t fsk_deviation_min_hz;
-    uint32_t fsk_deviation_typ_hz;
-    uint32_t fsk_deviation_max_hz;
-
-    uint32_t chip_rate_min_cps;
-    uint32_t chip_rate_typ_cps;
-    uint32_t chip_rate_max_cps;
-    uint32_t chip_rate_tolerance_pct_ppm;
-
-    uint32_t data_rate_bps;
-} wmbus_freq_param_t;
-
-//Mode S,T,C,R
-typedef struct {
-    uint32_t mode;
-    
-    wmbus_freq_param_t m2o;
-    wmbus_freq_param_t o2m;
-    
-    uint8_t gfsk_bt; //GFSK relative bandwidth
-
-    uint8_t bit_jitter_us;
-    
-    uint32_t preamble_chips;
-    uint32_t postamble_min_chips;
-    uint32_t postamble_max_chips;
-        
-    uint32_t synchronization_min_chips;
-    uint32_t synchronization_max_chips;
-} wmbus_rf_param_t;
-#endif
+    wmbus_phy_param_t m2o;
+    wmbus_phy_param_t o2m;
+} wmbus_mode_param_t;
 
 typedef struct {
     wmbus_mode_n_subband_t subband;
@@ -404,7 +371,7 @@ typedef struct {
     uint8_t postamble_length_bits;
 } wmbus_mode_n_modulation_t;
 
-extern const wmbus_rf_param_t radioWmbusCfg[];
+extern const wmbus_mode_param_t radioWmbusCfg[];
 
 #endif
 

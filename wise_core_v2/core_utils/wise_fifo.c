@@ -46,6 +46,7 @@ WISE_FIFO_REF wise_fifo_create(uint8_t *buffer, uint16_t bufLen)
         (ST_WISE_FIFO_T *)malloc(sizeof(ST_WISE_FIFO_T));
 
     if (!fifoHandle) {
+        WISE_LOG_ERR("Failed to allocate FIFO handle\n");
         return NULL;
     }
 

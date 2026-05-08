@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0007
-Git revision: 0x8a254aa5
+Version: 4.0008
+Git revision: 0x0517b9af
 Library: 
-        libWISERadioLib_subg_soc_9006 v1.08
+        libWISERadioLib_subg_soc_9006 v1.09
         libWMbusDatalink v1.01
-Release Date: April 25, 2026
+Release Date: May 8, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -16,11 +16,16 @@ Release Date: April 25, 2026
     - ER8130A/ER8131A
 
 3. Major Changes
-	- Updated radio tx power mapping table.
-	- Supported cap/gain tuning for EXT32K LPXTAL.
-	- Default set NFC power to passive mode after system bootup.
-
+    - Added WMBUS C-mode and R-mode support in wise_radio_wmbus_api.
+    - Implemented WMBUS Data Link session write support and packet filtering mechanism for meter mode.
+    - Added EFUSE unique ID display in boot information and enabled EFUSE module by default.
+    - Updated WMBUS RF parameters and corrected C-mode sync word implementation.
+    - Updated firmware downloader: WISEDownloader_v1.0.0.exe
 4. Bug fixing:
-	- Incorrect WUTMR clock base for LFOSC external 32K crystal
+    - Fixed incorrect WMBUS C-mode sync word and removed related workaround patches.
+    - Fixed incorrect platform settings causing 9006 instability and crash issues.
+    - Fixed compile errors and removed redundant code in WMBUS modules.
+    - Fixed RF parameter handling and internal WMBUS configuration flow.
+    - Improved platform compatibility and restored stable TX/RX operation on 9006 platform.
 ================================================================================
 

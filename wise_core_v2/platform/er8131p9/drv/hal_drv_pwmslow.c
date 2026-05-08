@@ -6,7 +6,31 @@
 
 #include "drv/hal_drv_pwmslow.h"
 
+typedef void (*pwmslow_dispatch_fn_t)(void);
+
+static pwmslow_dispatch_fn_t s_pwmslow_dispatch;
 static CALLBACK_ENTRY_T pwmslow_callbacks[PWMSLOW_MAX_EVENTS];
+
+static void hal_drv_pwmslow_trigger_callback(PWMSLOW_CB_EVENT_T event,
+                                             uint8_t pwmslow_idx)
+{
+    if (pwmslow_callbacks[event].callback) {
+        pwmslow_callbacks[event].callback(pwmslow_callbacks[event].context,
+                                          pwmslow_idx);
+    }
+}
+
+static void pwmslow_isr_body(void)
+{
+    hal_drv_pwmslow_get_status();
+    hal_drv_pwmslow_clear_interrupt_flag();
+    hal_drv_pwmslow_trigger_callback(PWMSLOW_EVENT_TRIGGER, 0);
+}
+
+static void hal_drv_pwmslow_init_dispatch(void)
+{
+    s_pwmslow_dispatch = pwmslow_isr_body;
+}
 
 void hal_drv_pwmslow_start(void)
 {
@@ -68,12 +92,13 @@ void hal_drv_pwmslow_set_io_pin(uint32_t idle_status, uint32_t low_active_en)
 HAL_STATUS hal_drv_pwmslow_register_callback(PWMSLOW_CB_EVENT_T event,
                                               CALLBACK_T cb, void *context)
 {
-    if (event < PWMSLOW_MAX_EVENTS) {
-        pwmslow_callbacks[event].callback = cb;
-        pwmslow_callbacks[event].context  = context;
-        return HAL_NO_ERR;
+    if (event >= PWMSLOW_MAX_EVENTS) {
+        return HAL_ERR;
     }
-    return HAL_ERR;
+    hal_drv_pwmslow_init_dispatch();
+    pwmslow_callbacks[event].callback = cb;
+    pwmslow_callbacks[event].context  = context;
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_pwmslow_unregister_callback(PWMSLOW_CB_EVENT_T event)
@@ -86,23 +111,10 @@ HAL_STATUS hal_drv_pwmslow_unregister_callback(PWMSLOW_CB_EVENT_T event)
     return HAL_ERR;
 }
 
-static void hal_drv_pwmslow_trigger_callback(PWMSLOW_CB_EVENT_T event,
-                                             uint8_t pwmslow_idx)
-{
-    if (pwmslow_callbacks[event].callback) {
-        pwmslow_callbacks[event].callback(pwmslow_callbacks[event].context,
-                                          pwmslow_idx);
-    }
-}
-
-void pwmslow_irq_handler(void)
-{
-    hal_drv_pwmslow_get_status();
-    hal_drv_pwmslow_clear_interrupt_flag();
-    hal_drv_pwmslow_trigger_callback(PWMSLOW_EVENT_TRIGGER, 0);
-}
-
 WEAK_ISR void PWM_SLOW_IRQHandler(void)
 {
-    pwmslow_irq_handler();
+    pwmslow_dispatch_fn_t fn = s_pwmslow_dispatch;
+    if (fn) {
+        fn();
+    }
 }

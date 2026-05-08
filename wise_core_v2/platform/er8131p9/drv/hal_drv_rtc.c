@@ -7,7 +7,68 @@
 #include "drv/hal_drv_rtc.h"
 #include "hdl/rtc_er8130.h"
 
+typedef void (*rtc_dispatch_fn_t)(void);
+
+static rtc_dispatch_fn_t s_rtc_dispatch;
 static CALLBACK_ENTRY_T rtc_callbacks[RTC_MAX_EVENTS];
+
+static void hal_drv_rtc_trigger_callback(RTC_CB_EVENT_T event, uint8_t idx)
+{
+    if (rtc_callbacks[event].callback) {
+        rtc_callbacks[event].callback(rtc_callbacks[event].context, idx);
+    }
+}
+
+static void rtc_isr_body(void)
+{
+    uint32_t status = hal_drv_rtc_get_int_status();
+    hal_drv_rtc_clear_int_flag(status);
+
+    if (status & RTC_STS_ALARM_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 0);
+    }
+
+    if (status & RTC_STS_ALARM1_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 1);
+    }
+
+    if (status & RTC_STS_ALARM2_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 2);
+    }
+
+    if (status & RTC_STS_ALARM3_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 3);
+    }
+
+    if (status & RTC_STS_ALARM4_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 4);
+    }
+
+    if (status & RTC_STS_ALARM5_INT_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 5);
+    }
+
+    if (status & RTC_STS_DAY_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_DAY, 0);
+    }
+
+    if (status & RTC_STS_HOUR_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_HOUR, 0);
+    }
+
+    if (status & RTC_STS_MIN_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_MINUTE, 0);
+    }
+
+    if (status & RTC_STS_SEC_MASK) {
+        hal_drv_rtc_trigger_callback(RTC_EVENT_SECOND, 0);
+    }
+}
+
+static void hal_drv_rtc_init_dispatch(void)
+{
+    s_rtc_dispatch = rtc_isr_body;
+}
 
 void hal_drv_rtc_set_time(uint8_t day, uint8_t hour, uint8_t min, uint8_t sec)
 {
@@ -63,12 +124,13 @@ void hal_drv_rtc_set_alarm(uint8_t channel, uint8_t hour, uint8_t min,
 HAL_STATUS hal_drv_rtc_register_callback(RTC_CB_EVENT_T event, CALLBACK_T cb,
                                           void *context)
 {
-    if (event < RTC_MAX_EVENTS) {
-        rtc_callbacks[event].callback = cb;
-        rtc_callbacks[event].context  = context;
-        return HAL_NO_ERR;
+    if (event >= RTC_MAX_EVENTS) {
+        return HAL_ERR;
     }
-    return HAL_ERR;
+    hal_drv_rtc_init_dispatch();
+    rtc_callbacks[event].callback = cb;
+    rtc_callbacks[event].context  = context;
+    return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_drv_rtc_unregister_callback(RTC_CB_EVENT_T event)
@@ -81,55 +143,10 @@ HAL_STATUS hal_drv_rtc_unregister_callback(RTC_CB_EVENT_T event)
     return HAL_ERR;
 }
 
-static void hal_drv_rtc_trigger_callback(RTC_CB_EVENT_T event, uint8_t idx)
-{
-    if (rtc_callbacks[event].callback) {
-        rtc_callbacks[event].callback(rtc_callbacks[event].context, event);
-    }
-}
-
 WEAK_ISR void RTC_IRQHandler(void)
 {
-    uint32_t status = hal_drv_rtc_get_int_status();
-    hal_drv_rtc_clear_int_flag(status);
-
-    if (status & RTC_STS_ALARM_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 0);
-    }
-
-    if (status & RTC_STS_ALARM1_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 1);
-    }
-
-    if (status & RTC_STS_ALARM2_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 2);
-    }
-
-    if (status & RTC_STS_ALARM3_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 3);
-    }
-
-    if (status & RTC_STS_ALARM4_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 4);
-    }
-
-    if (status & RTC_STS_ALARM5_INT_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_ALARM, 5);
-    }
-
-    if (status & RTC_STS_DAY_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_DAY, 0);
-    }
-
-    if (status & RTC_STS_HOUR_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_HOUR, 0);
-    }
-
-    if (status & RTC_STS_MIN_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_MINUTE, 0);
-    }
-
-    if (status & RTC_STS_SEC_MASK) {
-        hal_drv_rtc_trigger_callback(RTC_EVENT_SECOND, 0);
+    rtc_dispatch_fn_t fn = s_rtc_dispatch;
+    if (fn) {
+        fn();
     }
 }

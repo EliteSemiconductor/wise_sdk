@@ -1,6 +1,30 @@
 ESMT WISE SDK Release History
 
 ================================================================================
+Version: 4.0007
+Git revision: 0x8a254aa5
+Library: 
+        libWISERadioLib_subg_soc_9006 v1.08
+        libWMbusDatalink v1.01
+Release Date: April 25, 2026
+
+1. Overview
+    WISE SDK is a software package which supports to application development on
+    ESMT ER8xxx family SoC.
+
+2. Supported Platforms
+    - ER8130A/ER8131A
+
+3. Major Changes
+	- Updated radio tx power mapping table.
+	- Supported cap/gain tuning for EXT32K LPXTAL.
+	- Default set NFC power to passive mode after system bootup.
+
+4. Bug fixing:
+	- Incorrect WUTMR clock base for LFOSC external 32K crystal
+================================================================================
+
+================================================================================
 Version: 4.0006
 Git revision: 0x210b88be
 Library: 

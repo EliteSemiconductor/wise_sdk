@@ -10,6 +10,10 @@
 #define CHIP_RADIO_FLEXIBLE_FMT_VERSION         0
 #endif
 
+#ifndef ENABLE_RADIO_TRACE_LOG
+#define ENABLE_RADIO_TRACE_LOG                 0
+#endif
+
 enum
 {
     PHY_INIT_NONE = 0,

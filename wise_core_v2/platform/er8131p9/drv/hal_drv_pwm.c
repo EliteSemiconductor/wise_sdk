@@ -6,7 +6,34 @@
 
 #include "drv/hal_drv_pwm.h"
 
+typedef void (*pwm_dispatch_fn_t)(void);
+
+static pwm_dispatch_fn_t s_pwm_dispatch;
 static CALLBACK_ENTRY_T pwm_callbacks[PWM_MAX_EVENTS];
+
+static void hal_drv_pwm_trigger_callback(PWM_CB_EVENT_T event, uint8_t pwm_idx)
+{
+    if (pwm_callbacks[event].callback) {
+        pwm_callbacks[event].callback(pwm_callbacks[event].context, pwm_idx);
+    }
+}
+
+static void pwm_isr_body(void)
+{
+    uint8_t interrupt_status = hal_drv_pwm_get_status();
+    hal_drv_pwm_clear_interrupt_flag(interrupt_status);
+
+    for (uint8_t ch = 0; ch < CHIP_PWM_CHANNEL_NUM; ch++) {
+        if (interrupt_status & (1u << ch)) {
+            hal_drv_pwm_trigger_callback(ch, ch);
+        }
+    }
+}
+
+static void hal_drv_pwm_init_dispatch(void)
+{
+    s_pwm_dispatch = pwm_isr_body;
+}
 
 void hal_drv_pwm_start(uint32_t channel_mask)
 {
@@ -70,12 +97,13 @@ void hal_drv_pwm_set_io_for_channel_pin(uint32_t channel, uint32_t idle_status,
 HAL_STATUS hal_drv_pwm_register_callback(PWM_CB_EVENT_T event, CALLBACK_T cb,
                                           void *context)
 {
-    if (event < PWM_MAX_EVENTS) {
-        pwm_callbacks[event].callback = cb;
-        pwm_callbacks[event].context  = context;
-        return WISE_SUCCESS;
+    if (event >= PWM_MAX_EVENTS) {
+        return WISE_FAIL;
     }
-    return WISE_FAIL;
+    hal_drv_pwm_init_dispatch();
+    pwm_callbacks[event].callback = cb;
+    pwm_callbacks[event].context  = context;
+    return WISE_SUCCESS;
 }
 
 HAL_STATUS hal_drv_pwm_unregister_callback(PWM_CB_EVENT_T event)
@@ -88,26 +116,10 @@ HAL_STATUS hal_drv_pwm_unregister_callback(PWM_CB_EVENT_T event)
     return WISE_FAIL;
 }
 
-static void hal_drv_pwm_trigger_callback(PWM_CB_EVENT_T event, uint8_t pwm_idx)
-{
-    if (pwm_callbacks[event].callback) {
-        pwm_callbacks[event].callback(pwm_callbacks[event].context, pwm_idx);
-    }
-}
-
-void pwm_irq_handler(void)
-{
-    uint8_t interrupt_status = hal_drv_pwm_get_status();
-    hal_drv_pwm_clear_interrupt_flag(interrupt_status);
-
-    for (uint8_t ch = 0; ch < CHIP_PWM_CHANNEL_NUM; ch++) {
-        if (interrupt_status & (1u << ch)) {
-            hal_drv_pwm_trigger_callback(ch, ch);
-        }
-    }
-}
-
 WEAK_ISR void PWM_IRQHandler(void)
 {
-    pwm_irq_handler();
+    pwm_dispatch_fn_t fn = s_pwm_dispatch;
+    if (fn) {
+        fn();
+    }
 }

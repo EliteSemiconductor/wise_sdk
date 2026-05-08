@@ -15,6 +15,7 @@
 #include "wise_uart_api.h"
 #include "wise_wutmr_api.h"
 #include "wise_nfc_api.h"
+#include "wise_efuse_api.h"
 #include "wise.h"
 
 #if MIDDLEWARE_WISE_SHELL
@@ -254,6 +255,7 @@ static void _platform_init()
     wise_gpio_init();
     wise_tick_init();
     wise_flash_init();
+    wise_efuse_init();
 
 #ifndef TARGET_SBL
     wise_sys_init_dma_channel(dma_channel_map);

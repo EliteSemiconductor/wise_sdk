@@ -26,7 +26,6 @@ static volatile uint32_t prevCounter = 0;
 #define HAL_US_TO_CLK(u)                ((u) * HAL_CLK_PER_US)
 #define HAL_IS_IN_ISR()                 ((SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0)
 
-
 #ifdef CHIP_HAS_LFOSC
 const HAL_INTERNAL_SCLK_CFG_T sclk_src_ext32k = {.sclk_sel = SYS_LFOSC_CLK_SRC_EXTERNAL_32K };
 
@@ -303,7 +302,9 @@ void hal_drv_cpu_tick_delay_us(uint32_t us)
 
 int8_t hal_drv_sys_internal_16kosc_calibration(const DRV_SCLK16K_PARAM_T *p)
 {
-    if (!p) return HAL_ERR;
+    if (!p) {
+        return HAL_ERR;
+    }
 
     hal_drv_pmu_module_clk_enable(ANA_MODULE);
     ana_control_16kosc_power(true);
@@ -341,7 +342,6 @@ int8_t hal_drv_sys_internal_16kosc_calibration(const DRV_SCLK16K_PARAM_T *p)
         p->init_ctrl_index,
         p->cal_cnt
     );
-
 
     if (ana_exec_anctl_osc16k_calibration() != 0) {
         WISE_LOG_ERR("hal_drv_sys_internal_16kosc_calibration: 16k calibration failed\n");
@@ -481,10 +481,25 @@ uint8_t hal_drv_asaradc_get_vin_sel(void)
     return ana_asaradc_get_vin_sel_er8130();
 }
 
+typedef void (*asaradc_dispatch_fn_t)(void);
+static asaradc_dispatch_fn_t s_asaradc_dispatch;
+
+static void asaradc_isr_body(void)
+{
+    f_asaradc_data_ready = 1;
+    hal_drv_asaradc_clear_int_status();
+}
+
+static void hal_drv_asaradc_init_dispatch(void)
+{
+    s_asaradc_dispatch = asaradc_isr_body;
+}
+
 void hal_drv_asaradc_set_interrupt(bool enable)
 {
     ana_asaradc_set_interrupt_er8130(enable);
     if (enable) {
+        hal_drv_asaradc_init_dispatch();
         NVIC_EnableIRQ((IRQn_Type)ASARADC_IRQn);
     } else {
         NVIC_DisableIRQ((IRQn_Type)ASARADC_IRQn);
@@ -518,6 +533,8 @@ uint32_t hal_drv_asaradc_get_hr_data(void)
 
 WEAK_ISR void ASARADC_IRQHandler(void)
 {
-    f_asaradc_data_ready = 1;
-    hal_drv_asaradc_clear_int_status();
+    asaradc_dispatch_fn_t fn = s_asaradc_dispatch;
+    if (fn) {
+        fn();
+    }
 }

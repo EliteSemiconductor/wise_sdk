@@ -135,7 +135,7 @@ static const uint8_t cryptoKey[] = {
 };
 
 /** @brief Human-readable mode names for logging. */
-static const int8_t* WMBUS_MODE_STR[] = {"S1", "S1M", "S2", "T1", "T2", "C1", "C2"};
+static const int8_t* WMBUS_MODE_STR[] = {"S1", "S2", "T1", "T2", "C1", "C2", "R2"};
 
 /** @brief Human-readable role names for logging. */
 static const int8_t* WMBUS_ROLE_STR[] = {"COLLECTOR", "METER"};
@@ -261,8 +261,7 @@ void main(void)
     wise_wmbus_crypto_init();
     wise_wmbus_crypto_set_key(cryptoKey);
     
-    if((wmbusMode == WMBUS_MODE_S2) || (wmbusMode == WMBUS_MODE_T2) || (wmbusMode == WMBUS_MODE_C2) || 
-        (wmbusMode == WMBUS_MODE_R2) || (wmbusMode == WMBUS_MODE_F2))
+    if((wmbusMode == WMBUS_MODE_S2) || (wmbusMode == WMBUS_MODE_T2) || (wmbusMode == WMBUS_MODE_C2) || (wmbusMode == WMBUS_MODE_R2))
         biDirectionMode = 1;
 
     wise_radio_wmbus_set_mode(WMBUS_RADIO_INTF, wmbusRole, wmbusMode);
@@ -377,7 +376,7 @@ void _meter_proc(void *pData)
                 {
                     wise_log_time_info(logTime);
                     debug_print("received response rssi=%d\n", rxFrameMeta.rssi);
-                    wmbus_dump_frame_info(mbusRxBuffer, rxFrameMeta.data_len);
+                    //wmbus_dump_frame_info(mbusRxBuffer, rxFrameMeta.data_len);
 
                     meterState = E_MTR_STAT_IDLE;
                 }
