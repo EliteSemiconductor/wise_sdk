@@ -230,9 +230,13 @@ void hal_intf_radio_get_rx_fifo(uint8_t *rx_buf, uint32_t rx_len);
 void hal_intf_radio_reset_rx_fifo(void);
 #endif
 
-void hal_intf_radio_test(void);
+void hal_intf_radio_test(uint32_t val);
 void hal_intf_radio_set_ulpldo(uint8_t enable);
 void hal_intf_radio_set_ulpldo_enmode(uint8_t enable);
 uint8_t hal_intf_radio_is_state_idle(void);
+void hal_intf_radio_chsd_init(void);
+void hal_intf_radio_fpag_init(void);
+void hal_intf_radio_set_la_init(uint8_t la_output_fmt);
+
 
 #endif

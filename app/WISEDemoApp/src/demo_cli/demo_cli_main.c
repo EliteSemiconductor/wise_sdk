@@ -30,6 +30,9 @@
 #include "wise_shell_v2/src/shell.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "Simple_CLI"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_SHELL_DEMO Shell Demo App
  * @ingroup WISE_EXAMPLE_APP
@@ -57,7 +60,7 @@
  */
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     while (1) {

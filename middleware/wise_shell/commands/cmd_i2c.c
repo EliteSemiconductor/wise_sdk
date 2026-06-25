@@ -222,7 +222,6 @@ static void _i2c_io_config(uint8_t i2c_channel)
     bool need_tcxo = false;
     bool need_swd  = false;
 
-#if ES_DEVICE_PIO
     /* { func, pin } */
     const uint8_t i2c_pio_cfg[2][2][2] = {
         {   /* I2C0 */
@@ -245,30 +244,6 @@ static void _i2c_io_config(uint8_t i2c_channel)
         if (pin == 14 || pin == 15) need_swd = true;
     }
 
-#else
-    /* Non-PIO behavior (your original table) */
-    WISE_GPIO_CFG_T i2c_io_cfg[2][2] = {
-        {   /* I2C0 */
-            {4, MODE_PERI_1, GPIO_DIR_INPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-            {5, MODE_PERI_1, GPIO_DIR_INPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE}
-        },
-        {   /* I2C1 */
-            {8, MODE_PERI_1, GPIO_DIR_INPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-            {9, MODE_PERI_1, GPIO_DIR_INPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE}
-        }
-    };
-
-    printf("[I2C%u][GPIO] configuring 2 pins\n", i2c_channel);
-
-    /* First pass: detect if pin10/14/15 are used */
-    for (int i = 0; i < 2; i++) {
-        uint8_t pin = i2c_io_cfg[i2c_channel][i].pin;
-
-        if (pin == 10) need_tcxo = true;
-        if (pin == 14 || pin == 15) need_swd = true;
-    }
-#endif
-
     /* Disable SWD / TCXO only if needed */
     if (need_swd) {
         wise_sys_swd_config(false);
@@ -281,7 +256,6 @@ static void _i2c_io_config(uint8_t i2c_channel)
     }
 
     /* Second pass: apply config */
-#if ES_DEVICE_PIO
     for (int i = 0; i < 2; i++) {
         uint8_t func = i2c_pio_cfg[i2c_channel][i][0];
         uint8_t pin  = i2c_pio_cfg[i2c_channel][i][1];
@@ -291,16 +265,6 @@ static void _i2c_io_config(uint8_t i2c_channel)
         printf("  Pin %2u -> %-12s (func=%u)\n",
                pin, gpio_pin_func_to_str(func), func);
     }
-#else
-    for (int i = 0; i < 2; i++) {
-        wise_gpio_cfg(&i2c_io_cfg[i2c_channel][i]);
-
-        printf("  Pin %2u -> mode=%d, dir=%d\n",
-               i2c_io_cfg[i2c_channel][i].pin,
-               i2c_io_cfg[i2c_channel][i].mode,
-               i2c_io_cfg[i2c_channel][i].dir);
-    }
-#endif
 }
 
 /* ================== Shared helpers ========== */

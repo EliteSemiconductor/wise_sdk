@@ -35,6 +35,12 @@
 #include "demo_app_common.h"
 #include "wise_kermit.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "Boot Loader"
+
+#ifndef STDIO_UART_PORT
+#error "STDIO UART port is not defined."
+#endif
 
 /**
  * @defgroup WISE_EXAMPLE_APP_LOADER Loader Example App
@@ -55,77 +61,16 @@
 
 #define APP_BOOT_ADDR               0x6000 /**< Boot address of the target application image. */
 #define DEMO_APP_PROMPT             "LOADER> "
+#define LOADER_UART_BUF_SIZE        256
 
-static void bootToAPP(uint32_t addr);
+uint8_t loaderUartBuf[LOADER_UART_BUF_SIZE];
 
+static void _loader_boot_to_app(uint32_t addr);
+static void _loader_print_banner();
+static void _loader_platform_init();
+static void _loader_peripheral_init();
+static int _loader_kermit_update();
 
-/* ========================================================================== */
-/* boot Command                                                               */
-/* ========================================================================== */
-
-/**
- * @brief Shell command: boot to application image.
- *
- * Boots to the application image located at @ref APP_BOOT_ADDR by calling
- * ::bootToAPP().
- *
- * @param[in] argc Argument count.
- * @param[in] argv Argument vector.
- *
- * @return 0 on success (command accepted).
- */
-static int cmd_boot(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-
-    printf("booting to APP @%08lx\r\n", (unsigned long)APP_BOOT_ADDR);
-    bootToAPP(APP_BOOT_ADDR);
-
-    return 0;
-}
-
-/** Register "boot" command to shell. */
-SHELL_CMD_AUTO(boot, cmd_boot, "Boot to APP");
-
-/* ========================================================================== */
-/* kermit Command                                                             */
-/* ========================================================================== */
-
-/**
- * @brief Shell command: update application image through kermit receiver.
- *
- * Starts the kermit receiver and writes received image into flash at
- * @ref APP_BOOT_ADDR. On success, prints received size and CRC.
- *
- * @param[in] argc Argument count.
- * @param[in] argv Argument vector.
- *
- * @return 0 on success (command accepted).
- */
-static int cmd_kermit(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-
-    uint32_t rxDataLen = 0;
-    uint16_t rxDataCrc = 0;
-
-    if (WISE_SUCCESS == wise_kermit_init(E_KERMIT_TARGET_FLASH, APP_BOOT_ADDR, STDIO_UART_PORT)) {
-        printf("Start kermit receiver\r\n");
-
-        if (WISE_SUCCESS == wise_kermit_load(&rxDataLen, &rxDataCrc)) {
-            printf("APP updated size=%08lx crc=%04x\r\n", (unsigned long)rxDataLen, rxDataCrc);
-        } else {
-            printf("aborted\r\n");
-        }
-    }
-
-    return 0;
-}
-
-/** Register "kermit" command to shell. */
-SHELL_CMD_AUTO(kermit, cmd_kermit, "Update APP through kermit");
 
 /* ========================================================================== */
 /* Boot Helper                                                                */
@@ -147,7 +92,7 @@ SHELL_CMD_AUTO(kermit, cmd_kermit, "Update APP through kermit");
  *       Some systems will jump to reset vector automatically; others may
  *       require additional steps (e.g., setting MSP/PC and branching).
  */
-static void bootToAPP(uint32_t addr)
+static void _loader_boot_to_app(uint32_t addr)
 {
     uint32_t wait = 20000;
 
@@ -156,30 +101,146 @@ static void bootToAPP(uint32_t addr)
     wise_pmu_module_clk_disable(0x1FFFFFFF);
 
     __disable_irq();
-    while (wait--) {
+    while (wait--) 
+    {
         asm("nop");
     }
 
     wise_sys_remap(addr);
 }
 
+static void _loader_print_banner()
+{
+    printf("\n");
+    printf("============================================\n");
+    printf("   ESMT WISE Demo Application: %s\n", DEMO_APP_NAME);
+    printf("   Built@ %s %s\n", __DATE__, __TIME__);
+    printf("============================================\n");
+    fflush(stdout);
+}
+
+static void _loader_platform_init()
+{
+    if (WISE_SUCCESS != wise_core_init()) 
+    {
+        while (1);
+    }
+
+    wise_gpio_init();
+    wise_tick_init();
+    wise_flash_init();
+}
+
+static void _loader_peripheral_init()
+{
+    WISE_BUFFER_T rxBuffer = {LOADER_UART_BUF_SIZE, (uint32_t)loaderUartBuf};
+    WISE_UART_CFG_T uartConfig =
+    {
+        ES_UART0_BAUDRATE,
+        E_UART_DATA_8_BIT,
+        E_UART_PARITY_NONE,
+        E_UART_STOP_1_BIT,
+        0,
+    };
+    
+    wise_uart_init();
+    wise_uart_config(STDIO_UART_PORT, &uartConfig);
+    wise_uart_set_buffer(STDIO_UART_PORT, &rxBuffer, NULL);
+    wise_uart_enable(STDIO_UART_PORT, WISE_UART_FLAG_RX | WISE_UART_FLAG_TX);
+    wise_uart_enable_interrupt(STDIO_UART_PORT);
+        
+    wise_gpio_func_cfg(ES_UART0_TX_PIN, MODE_PIO_FUNC_UART0_TX);
+    wise_gpio_func_cfg(ES_UART0_RX_PIN, MODE_PIO_FUNC_UART0_RX);
+
+    retarget_set_port(STDIO_UART_PORT);
+};
+
+int _loader_wait_user_input()
+{
+    uint32_t checkCount = 4;
+    uint32_t hitCounter = 0;
+    
+    debug_print("Press 'cccc' to enter console...\n");
+    while (checkCount--) 
+    {
+        uint32_t startTick = wise_tick_get_counter();
+        
+        while (1) 
+        {
+            uint8_t inputC;
+            uint32_t curTick = wise_tick_get_counter();
+            
+            if((curTick - startTick) >= MS_TO_CLK(1000))
+            {
+                wise_uart_write_char(STDIO_UART_PORT, '.');
+                break;
+            }
+
+            if(WISE_SUCCESS == wise_uart_read_char(STDIO_UART_PORT, &inputC))
+	        {
+	            wise_uart_write_char(STDIO_UART_PORT, inputC);
+	            if(inputC == 'c')
+	            {
+	                hitCounter++;
+                    if (hitCounter >= 4) 
+                    {
+                        return 1;
+                    }
+	            }
+	        }
+        }
+    }
+    
+    return 0;
+}
+
+static int _loader_kermit_update()
+{
+    uint32_t rxDataLen = 0;
+    uint16_t rxDataCrc = 0;
+
+    if (WISE_SUCCESS == wise_kermit_init(E_KERMIT_TARGET_FLASH, APP_BOOT_ADDR, STDIO_UART_PORT)) 
+    {
+        printf("\nStart kermit receiver\n");
+
+        if (WISE_SUCCESS == wise_kermit_load(&rxDataLen, &rxDataCrc)) 
+        {
+            printf("APP updated size=%08lx crc=%04x\n", (unsigned long)rxDataLen, rxDataCrc);
+        } 
+        else 
+        {
+            printf("aborted\n");
+            return WISE_FAIL;
+        }
+    }
+
+    return WISE_SUCCESS;
+}
+
+
 /* ========================================================================== */
 /* Main                                                                       */
 /* ========================================================================== */
-
-/**
- * @brief Main entry of the loader example application.
- *
- * Initializes common demo environment and starts the shell. The main loop
- * periodically calls ::wise_main_proc().
- */
 void main(void)
 {
-    demo_app_common_init();
-    app_shell_init(DEMO_APP_PROMPT);
+    _loader_platform_init();
+    _loader_peripheral_init();
+    _loader_print_banner();
 
-    while (1) {
-        wise_main_proc();
+    if(_loader_wait_user_input())
+    {
+        while(1)
+        {
+            if(WISE_SUCCESS == _loader_kermit_update())
+                break;
+        }
+    }
+    
+    printf("booting to APP @%08lx\r\n", (unsigned long)APP_BOOT_ADDR);
+    _loader_boot_to_app(APP_BOOT_ADDR);
+    
+    while (1) 
+    {
     }
 }
 

@@ -226,9 +226,14 @@ uint32_t hal_drv_sys_get_xtal_cfg(void)
     return SYS_GET_XTAL_CFG();
 }
 
-void hal_drv_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o)
+void hal_drv_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o, uint8_t maincap_i, uint8_t maincap_o)
 {
-    SYS_SET_XTAL_CFG(xtal_i, xtal_o);
+    SYS_SET_XTAL_CFG(xtal_i, xtal_o, maincap_i, maincap_o);
+}
+
+void hal_drv_sys_apply_xtal_cfg(void)
+{
+    ana_set_xtal_cfg_er81xx();
 }
 
 void hal_drv_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain)
@@ -390,6 +395,20 @@ uint32_t hal_drv_sys_tick_get_counter()
 {
     return (~(hal_drv_gptmr_get_cnt(CHIP_TICK_TIMER_CHANNEL)));
 }
+
+void hal_drv_sys_tick_restore(uint32_t counterVal)
+{
+    uint32_t tickTmrModule = (GPTMR0_MODULE << (CHIP_TICK_TIMER_CHANNEL));
+    
+    hal_drv_pmu_module_clk_enable(tickTmrModule);
+    hal_drv_gptmr_config_counter(CHIP_TICK_TIMER_CHANNEL,
+                            TIMER_PERIODIC,
+                            0,
+                            counterVal,
+                            0xffffffff);
+    hal_drv_gptmr_start(CHIP_TICK_TIMER_CHANNEL);
+}
+
 #else
 void hal_drv_sys_tick_init()
 {

@@ -37,12 +37,25 @@ void print_banner(char* appName)
     fflush(stdout);
 }
 
-void demo_app_common_init()
+/* App name supplied by the demo via demo_app_common_init(); cached here so the
+ * 'info' shell command (app_shell_commands.c) can print it later. */
+static const char *s_app_name = "WISE Demo";
+
+const char *demo_app_get_name(void)
 {
+    return s_app_name;
+}
+
+void demo_app_common_init(const char *appName)
+{
+    if (appName != NULL) {
+        s_app_name = appName;
+    }
+
     if (WISE_SUCCESS != wise_init())
 	{
 	    while (1);
 	}
 
-	print_banner((char*)DEMO_APP_NAME);
+	print_banner((char*)s_app_name);
 }

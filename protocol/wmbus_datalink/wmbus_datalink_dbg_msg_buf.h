@@ -17,6 +17,7 @@ typedef struct {
 
 typedef enum {
     WMBUS_DBG_MSG_ERROR = 1,
+    WMBUS_DBG_MSG_FLOW,
     WMBUS_DBG_MSG_INFO,
     WMBUS_DBG_MSG_DEBUG
 } WMBUS_dbg_msg_level_t;
@@ -59,4 +60,3 @@ extern uint8_t g_wmbus_dbg_msg_level;
 #endif //WMBUS_USER_PRINTF
 
 #endif // WMBUS_DBG_MSG_BUF_H
-

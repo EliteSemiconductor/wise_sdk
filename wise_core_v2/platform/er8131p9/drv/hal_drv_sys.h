@@ -55,12 +55,14 @@ void hal_drv_sys_set_board_match_type(uint8_t mat_type);
 void hal_drv_sys_set_40m_gain_ctrl(uint8_t gain_ctrl);
 uint8_t hal_drv_sys_get_40m_gain_ctrl();
 uint32_t hal_drv_sys_get_xtal_cfg(void);
-void hal_drv_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o);
+void hal_drv_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o, uint8_t maincap_i, uint8_t maincap_o);
+void hal_drv_sys_apply_xtal_cfg(void);
 void hal_drv_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain);
 uint8_t hal_drv_sys_get_lpxtal_gain(void);
 
 void hal_drv_sys_tick_init();
 uint32_t hal_drv_sys_tick_get_counter();
+void hal_drv_sys_tick_restore(uint32_t counterVal);
 void hal_drv_sys_tick_delay_ms(uint32_t ms);
 void hal_drv_sys_tick_delay_us(uint32_t us);
 void hal_drv_cpu_tick_delay_us(uint32_t us);

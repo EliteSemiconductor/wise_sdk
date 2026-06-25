@@ -3,7 +3,6 @@
 #define _COMPONENTS_DEFAULT_H
 
 #define ES_DEVICE_UART                                  1
-#define ES_DEVICE_PIO                                   1
 
 #define DMA_CH0_FUNC 									SYS_DMA_FUNC_AES_AUTH_IN
 #define DMA_CH1_FUNC 									SYS_DMA_FUNC_AES_IN
@@ -49,5 +48,11 @@
 #endif /* MIDDLEWARE_WISE_CTRL_CMD */
 
 #define ES_COMP_ENABLE_UART_0                           1
+
+/* W-MBus security: enables the crypto includes (mbedTLS / wise_wmbus_crypto) and
+ * the decrypt_data2APP buffers in wmbus_datalink_api.c. The W-MBus data-link code
+ * uses these unconditionally, so this must be on. (The wmbus_dll app sets it via
+ * its own es_platform_components.h; the WISEDemoApp wmbus config was missing it.) */
+#define WMBUS_ENCRYPT 1
 
 #endif /* _COMPONENTS_DEFAULT_H */

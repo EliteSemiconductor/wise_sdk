@@ -58,6 +58,9 @@
 #include "wise_wmbus_crypto.h"
 #include "wmbus_helper.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "DEMO W-Mbus"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_WMBUS WMBus PHY Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -245,7 +248,7 @@ static void radioWMbusEventCb(WISE_RADIO_EVT_T evt)
  */
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_radio_wmbus_init(WMBUS_RADIO_INTF);

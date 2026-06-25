@@ -173,7 +173,6 @@ static void _spi_io_config(uint8_t spiChannel, WISE_SPI_MODE_T spiMode)
     bool need_tcxo = false;
     bool need_swd  = false;
 
-#if ES_DEVICE_PIO
     /* { func, pin } */
     const uint8_t spi_pio_cfg[2][6][2] = {
         {   /* SPI 0 */
@@ -208,40 +207,6 @@ static void _spi_io_config(uint8_t spiChannel, WISE_SPI_MODE_T spiMode)
         if (pin == 14 || pin == 15) need_swd = true;
     }
 
-#else
-    /* non-PIO */
-    WISE_GPIO_CFG_T spi_io_cfg[2][6] = {{
-                                            {10, MODE_PERI_1, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#ifdef ES_DEVICE_TRX_RADIO
-                                            {11, MODE_GPIO,   GPIO_DIR_OUTPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#else
-                                            {11, MODE_PERI_1, GPIO_DIR_OUTPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#endif
-                                            {12, MODE_PERI_1, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {13, MODE_PERI_1, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {14, MODE_PERI_1, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {15, MODE_PERI_1, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE}
-                                        },
-                                        {
-                                            {6,  MODE_PERI_2, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {7,  MODE_PERI_2, GPIO_DIR_OUTPUT, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {8,  MODE_PERI_2, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {9,  MODE_PERI_2, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {10, MODE_PERI_2, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-                                            {11, MODE_PERI_2, GPIO_DIR_INPUT,  GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE}
-                                        }};
-
-    printf("[SPI%u][GPIO] spiMode=%d, numPins=%d\n", spiChannel, spiMode, num_pins);
-
-    /* First Pass: check which pins will be used */
-    for (int i = 0; i < num_pins; i++) {
-        uint8_t pin = spi_io_cfg[spiChannel][i].pin;
-
-        if (pin == 10) need_tcxo = true;
-        if (pin == 14 || pin == 15) need_swd = true;
-    }
-#endif
-
     /* Now safely disable SWD / TCXO only if pins are used */
     if (need_swd) {
         wise_sys_swd_config(false);
@@ -254,7 +219,6 @@ static void _spi_io_config(uint8_t spiChannel, WISE_SPI_MODE_T spiMode)
     }
 
     /* Second Pass: apply pin configuration */
-#if ES_DEVICE_PIO
     for (int i = 0; i < num_pins; i++) {
         uint8_t func = spi_pio_cfg[spiChannel][i][0];
         uint8_t pin  = spi_pio_cfg[spiChannel][i][1];
@@ -264,15 +228,6 @@ static void _spi_io_config(uint8_t spiChannel, WISE_SPI_MODE_T spiMode)
         printf("  Pin %2u -> %-12s (func=%u)\n",
                pin, gpio_pin_func_to_str(func), func);
     }
-#else
-    for (int i = 0; i < num_pins; i++) {
-        wise_gpio_cfg(&spi_io_cfg[spiChannel][i]);
-        printf("  Pin %2u -> mode=%d, dir=%d\n",
-               spi_io_cfg[spiChannel][i].pin,
-               spi_io_cfg[spiChannel][i].mode,
-               spi_io_cfg[spiChannel][i].dir);
-    }
-#endif
 }
 
 

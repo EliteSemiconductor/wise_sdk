@@ -85,7 +85,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Simple_CLI\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1768503300" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.666466884" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -226,7 +225,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;GPIO\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1142871630" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1770874340" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -367,7 +365,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;SPI\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.564284559" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1710016808" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -508,7 +505,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;I2C\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.297707659" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1081779192" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -649,7 +645,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;PWM\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1871497100" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.502066448" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -790,7 +785,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;PWMSLOW\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.929116220" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1323719272" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -931,7 +925,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;RTC\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1808056478" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1723020125" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1072,7 +1065,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;WUTMR\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_LOG_LEVEL=2"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1384931348" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
@@ -1214,7 +1206,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;GPTMR\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.784650121" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.935067276" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1355,7 +1346,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;WDT\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.856283775" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1081481192" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1496,7 +1486,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;CRYPTO\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1609435902" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1398208198" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1637,7 +1626,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;TRNG\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1589666584" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1410037044" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1778,7 +1766,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Radio\ TRX\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.400731683" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.661465869" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -1919,7 +1906,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Power\ mode\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.2123448325" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1517031611" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2060,7 +2046,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ template\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1398019504" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.593729546" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2201,7 +2186,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Boot\ Loader\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1222381542" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.625388178" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2250,7 +2234,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="config"/>
 						<entry excluding="wise_shell|wise_timer_hub|wise_wmbus_crypto|wise_nvm|wise_flash_filesystem|wise_ctrl_cmd|wise_system/syscalls.c|wise_radio_precfg|wise_cli" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="middleware"/>
-						<entry excluding="demo_wmbus_link|demo_wmbus|demo_freeRTOS|rtos_template|demo_timer_hub|demo_flash|demo_nfc|demo_template|demo_power_mode|demo_wutmr|demo_radio_trx|demo_gptmr|demo_trx|demo_spi|demo_rx|demo_rtc|demo_pwmslow|demo_pwm|demo_pio|demo_crypto|demo_wdt|demo_tx|demo_trng|demo_i2c|demo_gpio|demo_cli|to_be_removed" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="app_shell_commands.c|demo_app_common.c|demo_wmbus_link|demo_wmbus|demo_freeRTOS|rtos_template|demo_timer_hub|demo_flash|demo_nfc|demo_template|demo_power_mode|demo_wutmr|demo_radio_trx|demo_gptmr|demo_trx|demo_spi|demo_rx|demo_rtc|demo_pwmslow|demo_pwm|demo_pio|demo_crypto|demo_wdt|demo_tx|demo_trng|demo_i2c|demo_gpio|demo_cli|to_be_removed" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="FreeRTOS-Kernel|mbedtls|coremark" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="third_party"/>
 						<entry excluding="platform/ble_soc_a002|platform/soc_b402|radio_lib|platform/er8130_tc01|radio_lib/er8130_tc01|radio_lib/xcvr04|radio_lib/subg_soc_9003|radio_lib/ble_soc_a001|platform/subg_soc_9003|platform/ble_soc_a001|platform/a001|platform/er8130|platform/er8130_tc04/hdl/extpmu_er8130.c|platform/xcvr04" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="wise_core_v2"/>
 					</sourceEntries>
@@ -2342,7 +2326,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ NFC\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1098583639" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1028239767" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2483,7 +2466,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ Flash\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.22488686" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1883681915" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2625,7 +2607,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Timer\ Hub\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.921168735" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1294163351" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2769,7 +2750,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;Simple_CLI_RTOS\&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.165749028" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1870164322" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -2842,7 +2822,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for W-Mbus PHY for meter mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459" name="demo_wmbus_phy_meter" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
+				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for W-Mbus PHY for meter mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459" name="demo_wmbus_phy_meter" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1681618637" name="Arm Cross GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.643928017" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
@@ -2910,7 +2890,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ W-Mbus\&quot;"/>
 									<listOptionValue builtIn="false" value="WMBUS_DEMO_PHY_METER"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.497546826" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
@@ -2984,7 +2963,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for W-Mbus PHY for other mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.322152862" name="demo_wmbus_phy_other" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
+				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for W-Mbus PHY for other mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.322152862" name="demo_wmbus_phy_other" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.322152862." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1506048038" name="Arm Cross GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1255312356" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
@@ -3052,7 +3031,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ W-Mbus\&quot;"/>
 									<listOptionValue builtIn="false" value="WMBUS_DEMO_PHY_OTHER"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.331471480" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
@@ -3126,7 +3104,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for WMbus data link meter mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.277904438" name="demo_wmbus_link_meter" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
+				<configuration artifactName="${ProjName}_${ConfigName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="WISE example for WMbus data link meter mode" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.277904438" name="demo_wmbus_link_meter" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="Create binary output" postbuildStep="${cross_prefix}${cross_objcopy}${cross_suffix} -O binary ${ProjName}_${ConfigName}.elf ${ProjName}_${ConfigName}.bin">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.684091094.845061967.2018878805.602581563.839926662.628002501.524968471.200734364.1108785116.299434336.1396384459.277904438." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1698363147" name="Arm Cross GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.653836352" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
@@ -3194,7 +3172,6 @@
 									<listOptionValue builtIn="false" value="PLATFORM_COMPONENTS_FILE=\&quot;components_demo_wmbus.h\&quot;"/>
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;W-Mbus\ Link\&quot;"/>
 									<listOptionValue builtIn="false" value="WMBUS_DEMO_LINK_METER"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1514589342" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
@@ -3338,7 +3315,6 @@
 									<listOptionValue builtIn="false" value="PLATFORM_COMPONENTS_FILE=\&quot;components_demo_wmbus.h\&quot;"/>
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;W-Mbus\ Link\&quot;"/>
 									<listOptionValue builtIn="false" value="WMBUS_DEMO_LINK_OTHER"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.796435922" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>
@@ -3482,7 +3458,6 @@
 									<listOptionValue builtIn="false" value="TARGET_APP"/>
 									<listOptionValue builtIn="false" value="MBEDTLS_CONFIG_FILE=\&quot;config-esmt.h\&quot;"/>
 									<listOptionValue builtIn="false" value="WISE_WMBUS_SW_HELPER"/>
-									<listOptionValue builtIn="false" value="DEMO_APP_NAME=\&quot;DEMO\ W-Mbus\&quot;"/>
 									<listOptionValue builtIn="false" value="WMBUS_DEMO_PHY_METER_PD"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations.1229797450" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.otheroptimizations" useByScannerDiscovery="true" value="" valueType="string"/>

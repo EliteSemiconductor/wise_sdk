@@ -3,7 +3,6 @@
 #define _COMPONENTS_DEFAULT_H
 
 #define ES_DEVICE_UART                                  1
-#define ES_DEVICE_PIO                                   1
 
 #define DMA_CH0_FUNC 									SYS_DMA_FUNC_AES_AUTH_IN
 #define DMA_CH1_FUNC 									SYS_DMA_FUNC_AES_IN

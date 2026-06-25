@@ -13,7 +13,7 @@
 int32_t hal_drv_aes_set_init_vect(const uint8_t *iv_or_cnt);
 int32_t hal_drv_aes_mode_and_dir_config(uint32_t aes_direction, uint32_t aes_mode);
 int32_t hal_drv_aes_configure(uint32_t aes_direction, uint32_t aes_mode, uint32_t swap_mode, uint8_t key_src, uint32_t key_size,
-                              const uint8_t *key_bytes, uint32_t key_num, const uint8_t *iv_or_cnt);
+                              const uint8_t *key_bytes, uint32_t key_num);
 int32_t hal_drv_aes_start(uint32_t len, uint32_t trig_mode);
 
 uint32_t hal_drv_aes_ccm_decryption_result(void);

@@ -216,11 +216,20 @@ void wise_core_exit_critical(core_irq_state_t irqState);
  * Linker Symbols
  *============================================================================*/
 
-/** @brief Start address of DMA pool (defined in linker script) */
+/** @brief Start/end address of DMA pool (defined in linker script) */
+#if defined(__ARMCC_VERSION)
+/* Keil/ARM Compiler: the GNU linker-script symbols __dma_pool_start__/_end__
+ * do not exist under the scatter file. Map them onto the auto-generated base /
+ * ZI-limit symbols of the scatter's RW_DMA execution region (which holds the
+ * .dma_data / .dma_pool / .dma_buffer sections). */
+extern uint32_t Image$$RW_DMA$$Base;
+extern uint32_t Image$$RW_DMA$$ZI$$Limit;
+#define __dma_pool_start__ Image$$RW_DMA$$Base
+#define __dma_pool_end__   Image$$RW_DMA$$ZI$$Limit
+#else
 extern uint32_t __dma_pool_start__;
-
-/** @brief End address of DMA pool (defined in linker script) */
 extern uint32_t __dma_pool_end__;
+#endif
 /**
  * @def DMA_ATTR
  * @brief DMA buffer, zero-initialized (use for output buffers)

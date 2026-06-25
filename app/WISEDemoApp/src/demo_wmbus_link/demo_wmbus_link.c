@@ -22,6 +22,9 @@
 #include "app_sensor_data.h"
 #include "wise_wmbus_crypto.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "W-Mbus Link"
+
 #ifdef WMBUS_DEMO_LINK_METER
 #define DEMO_APP_PROMPT                 "METER> "
 #else
@@ -66,6 +69,12 @@ WMBUS_LINK_device_info_t test_whitelist[] = {
     {0x80000002, "ESM", 0x01, 0x07}
 };
 
+#define TEST_WHITELIST_STATE_BUFFER_BYTES 320U
+
+static uint32_t test_whitelist_state_buffer[
+    (TEST_WHITELIST_STATE_BUFFER_BYTES + sizeof(uint32_t) - 1U) / sizeof(uint32_t)
+];
+
 /* ========================================================================== */
 /* Main                                                                       */
 /* ========================================================================== */
@@ -108,7 +117,7 @@ void app_wmbus_log_info()
 
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     app_wmbus_init();
@@ -138,6 +147,8 @@ void app_wmbus_meter_cfg()
 
     //basic information
     wmbus_link_set_device_info(&dev_info);
+
+    wmbus_link_set_verify_gw_id(GATEWAY_DEV_ID);
     
     wise_schlr_add_periodical(MS_TO_SCHLR_UNIT(METER_REPORT_INTERVAL), app_wmbus_meter_report_proc, NULL);
     wise_schlr_add_periodical(MS_TO_SCHLR_UNIT(METER_SENSOR_UPDATE_INTERVAL), app_wmbus_meter_sensor_update, NULL);
@@ -238,9 +249,11 @@ void app_wmbus_gw_cfg()
     wmbus_link_set_device_info(&dev_info);
 
     //test whitelist
-    wmbus_link_gw_whitelist_load(test_whitelist, sizeof(test_whitelist)/sizeof(test_whitelist[0]));
-
-    wmbus_link_gw_set_admission_ctrl_enabled(1);
+    wmbus_link_gw_whitelist_load_fixed(
+        test_whitelist,
+        sizeof(test_whitelist) / sizeof(test_whitelist[0]),
+        test_whitelist_state_buffer,
+        sizeof(test_whitelist_state_buffer));
 }
 
 void app_wmbus_gw_data_handler(uint32_t owner_id, const uint8_t *addr_p, uint8_t len)

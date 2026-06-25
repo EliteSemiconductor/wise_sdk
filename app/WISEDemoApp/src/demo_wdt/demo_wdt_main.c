@@ -34,6 +34,9 @@
 #include "wise_wdt_api.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "WDT"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_WDT WDT Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -105,7 +108,7 @@ SHELL_CMD_AUTO(block, cmd_block, "Block main loop");
  */
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_wdt_init();

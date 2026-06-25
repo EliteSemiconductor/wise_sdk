@@ -1,0 +1,47 @@
+ESMT WMBus Data Link Library Release Notes
+
+================================================================================
+Version: libWMbusDatalink v1.03
+Git revision: 0x00000000
+Library:
+        libWMbusDatalink.a
+Release Date: June 23, 2026
+
+1. Overview
+    libWMbusDatalink is the Wireless M-Bus data link layer static library for
+    WISE SDK applications. It provides WMBus link-layer initialization,
+    gateway/meter role handling, packet creation/parsing, whitelist management,
+    connection handling, and RF platform interface integration.
+
+    This maintenance update focuses on Gateway multi-meter session stability,
+    RX parsing safety, Rx-to-Tx flow improvement, scheduled event protection,
+    and WMBus log parser refinement after the v1.03 release.
+
+2. Supported Platforms
+    - ESMT ER8130 series
+    - subg_soc_9006 platform
+    - SOC_9006/SOC_9006_GW/SOC_9006_MTR build configurations
+
+3. Major Changes
+    - Refactored Gateway context restore flow before RX packet parsing.
+    - Improved Gateway pre-encryption queue handling.
+    - Removed state snapshot usage to reduce RAM usage and improve Rx2Tx flow.
+    - Added retry handling when access number is unexpected.
+    - Added shared Tx packet helper logic while keeping public APIs unchanged.
+    - Created WMBus log analysis tool.
+    - Added Meter watchdog checks to the WMBus log parser.
+
+4. Bug Fixing
+    - Fixed second Meter join failure.
+    - Fixed Gateway loading the correct Meter context for RX parsing.
+    - Fixed WMBus log parser misjudgment.
+    - Added signed error handling for packet parsing.
+    - Added Tx/Rx buffer length guards.
+    - Protected scheduled event handling.
+    - Enhanced command argument parsing.
+
+5. Compatibility Notes
+    - Public version macros remain:
+        WMBUS_LINK_VER_MAJOR = 1
+        WMBUS_LINK_VER_MINOR = 3
+================================================================================

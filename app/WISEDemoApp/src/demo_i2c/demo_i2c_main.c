@@ -40,6 +40,9 @@
 #include "wise_i2c_api.h"
 #include "wise_sys_api.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "I2C"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_I2C I2C Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -266,7 +269,7 @@ int main(void)
 #endif
     );
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
 
     demo_i2c_io_config(I2C_CHANNEL);
 

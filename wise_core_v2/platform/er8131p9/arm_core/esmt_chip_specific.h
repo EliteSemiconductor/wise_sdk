@@ -211,6 +211,7 @@ typedef enum {
 #define CHIP_TIMER_CHANNEL_NUM                  6
 #define CHIP_TIMER_COUNTER_DOWN
 #define CHIP_TICK_TIMER_CHANNEL                 5
+#define CHIP_TICK_TIMER_SLEEP_RESTORE
 
 // features for TRNG
 

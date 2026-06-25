@@ -1,0 +1,249 @@
+WMBus Log Parser Usage
+======================
+
+Tool:
+  wmbus_log_parser.py
+
+Purpose:
+  Parse WMBus UART logs generated with WMBUS_DBG_MSG_FLOW and
+  WMBUS_DBG_MSG_ERROR. The parser summarizes tagged events, reports errors,
+  and prints context around the first error.
+
+
+1. Run From The tools Directory
+-------------------------------
+
+If the current directory is:
+
+  $:\wise_sdk\protocol\wmbus_datalink\tools
+
+Run the command from PowerShell:
+
+  python -B .\wmbus_log_parser.py --input gw=gw.log --input meter="meter_*.log"
+
+Or specify logs one by one:
+
+  python -B .\wmbus_log_parser.py --input gw=gw.log --input meter=meter_80000001.log --input meter=meter_40000001.log
+
+
+2. Input Options
+----------------
+
+Input log, can be repeated:
+
+  --input gw=gw.log --input meter=meter_80000001.log
+
+The text before "=" is the report source prefix. The text after "=" is the log
+file path or glob pattern.
+
+Examples:
+
+  --input gw=gw.log
+  --input meter=meter_80000001.log
+  --input dut=uart.log
+
+Wildcard:
+
+  --input meter="meter_*.log"
+
+Context lines around the first error:
+
+  --context 20
+
+Meter trigger watchdog:
+
+  --meter-trigger-period-ms 10000
+  --meter-trigger-tolerance-ms 3000
+  --meter-session-idle-timeout-ms 20000
+
+  The parser treats tagged [MTR] events as meter activity. If the next meter
+  trigger activity does not appear within period + tolerance, the parser reports
+  an ERR diagnostic:
+
+    TRIGGER_STOPPED
+
+  If --meter-session-idle-timeout-ms is not specified, the default is:
+
+    2 * --meter-trigger-period-ms
+
+  If a meter session is active and no liveness activity is seen before the idle
+  timeout, the parser reports an ERR diagnostic:
+
+    SESSION_STUCK
+
+  Manual control boundaries such as "wm stop", "wm fsm", and boot banners reset
+  the watchdog, so manually stopped or restarted logs are not compared across
+  that gap.
+
+  The watchdog needs timestamp prefixes to calculate elapsed time. Without
+  timestamps, the parser can still count events and firmware errors, but timing
+  diagnostics are limited.
+
+  For older logs without full tags, several raw WMBus messages are also treated
+  as liveness activity:
+
+    GW receives data ... from ID:0x...
+    MTR receives raw data
+    Tx done
+    Received NKE so finish this session
+
+Meter reset detector:
+
+  If a boot banner appears while a meter session is active, the parser reports a
+  warning and clears the active session state:
+
+    MTR.WARN.BOOT_DURING_ACTIVE_SESSION
+
+Write JSON report:
+
+  --json report.json
+
+  The JSON report includes firmware errors, firmware warn events, parser warning
+  details, and parser diagnostics. Parser diagnostics include:
+
+    line_no
+    level
+    code
+    message
+    raw_line
+
+Text report:
+
+  The parser always prints the summary to the console and also writes the same
+  text report to the first input log folder:
+
+    wmbus_log_parser_report.txt
+
+Example:
+
+  python -B .\wmbus_log_parser.py --input gw=gw.log --input meter="meter_*.log" --context 20
+
+
+3. Expected Log Tags
+--------------------
+
+The parser recognizes tagged lines such as:
+
+  [GW][RX] state=... dev=... func=... len=... ell=... stl=... ci=...
+  [GW][SESSION_START] state=... dev=... reason=RX_FIRST_PACKET func=...
+  [GW][TX_DONE] state=... dev=... tx_func=... tx_ell=... tx_stl=...
+  [GW][PREENC_NEXT] dev=... result=DATA
+  [GW][SESSION_END] state=... dev=... reason=SND_NKE result=OK
+  [GW][SESSION_END] state=... dev=... reason=FAC_TIMEOUT timer=FAC action=standby
+  [MTR][SESSION_START] state=... dev=... reason=FIRST_REQ_TX func=...
+  [MTR][TX] state=... phase=FIRST_REQ dev=... func=...
+  [MTR][RX] state=... dev=... func=...
+  [MTR][TX_DONE] state=... phase=RSP_ACK dev=...
+  [MTR][SESSION_END] state=... dev=... reason=RX_NKE result=OK
+  [MTR][SESSION_END] state=... dev=... reason=FAC_TIMEOUT timer=FAC action=standby
+  [CONN][ADD] dev=... index=... count=...
+  [CONN][REMOVE] dev=... index=... count=...
+
+Any tag line that contains [ERR] is treated as an error, for example:
+
+  [GW][ERR][RETRY_LIMIT] state=... dev=... reason=ACC action=abort
+  [GW][ERR][INVALID_FSM_STATE] state=... event=... action=ignore
+  [GW][RX][ERR] state=... dev=...
+
+Timestamp prefixes are supported by Tera Term:
+
+  [Wed May 27 15:42:21.512 2026] i=1, [GW][RX] state=...
+
+
+4. Output Meaning
+-----------------
+
+Result PASS:
+  No firmware [ERR] line was found, no firmware [WARN] event was found, and no
+  parser diagnostic or parser warning detail was generated.
+
+Result WARN:
+  No error was found, but the log contains firmware [WARN] events or the parser
+  detected a possible issue such as duplicate connection add/remove, active
+  connection left at EOF, boot during active session, or delayed trigger during
+  an active session.
+
+Result FAIL:
+  At least one firmware [ERR] line was found, or the parser generated an ERR
+  diagnostic.
+
+Firmware errors:
+  Firmware errors are [ERR] lines printed by firmware. They appear in the
+  "Firmware errors" section.
+
+Parser diagnostics:
+  Parser diagnostics are generated by the parser. They are not direct firmware
+  log lines. They appear in the "Parser diagnostics" section and are exported
+  to JSON as parser_diagnostics.
+
+  Current parser diagnostic codes:
+
+    ERR  TRIGGER_STOPPED
+    ERR  SESSION_STUCK
+    WARN TRIGGER_DELAYED_BY_ACTIVE_SESSION
+    WARN ACTIVE_SESSION_AT_EOF
+
+WARN event:
+  WARN means the link layer detected a recoverable condition. For example, an
+  access number mismatch can happen during wireless retry/recovery:
+
+    [GW][WARN][ACC_MISMATCH] state=... dev=... retry=1 max=3 action=retry
+
+  WARN does not make the parser result FAIL. The link layer should emit [ERR]
+  if retry exceeds the protocol threshold or the session cannot recover.
+
+Connection balance warning:
+  The parser tracks connection add/remove events:
+
+    [CONN][ADD] ...
+    [CONN][REMOVE] ...
+
+  Duplicate ADD for the same dev is reported as a warning.
+  REMOVE without an active connection is reported as a warning.
+  A connection that remains active at EOF is also reported as a warning.
+
+Parser diagnostic examples:
+
+  Trigger stopped:
+
+    meter_80000001:120: ERR TRIGGER_STOPPED dev=0x80000001 elapsed_ms=16000 limit_ms=13000 ...
+
+  Session stuck:
+
+    meter_80000001:220: ERR SESSION_STUCK dev=0x80000001 idle_ms=25000 limit_ms=20000 ...
+
+  Trigger delayed by active session:
+
+    meter_80000001:300: WARN TRIGGER_DELAYED_BY_ACTIVE_SESSION dev=0x80000001 ...
+
+  Active session at EOF:
+
+    meter_80000001:340: WARN ACTIVE_SESSION_AT_EOF dev=0x80000001 ...
+
+Error contexts:
+  Context lines are printed around firmware [ERR] lines and parser ERR
+  diagnostics. To keep the report readable, only the first few error contexts
+  are printed when many errors are present.
+
+Events:
+  Count of parsed tag events, grouped by role and event type.
+
+
+5. Useful PowerShell Commands
+-----------------------------
+
+Search for errors:
+
+  Select-String -Path gw.log,meter_*.log -Pattern "\[ERR\]"
+
+Search session end:
+
+  Select-String -Path gw.log,meter_*.log -Pattern "\[SESSION_END\]"
+
+Search sessions ended by FAC timeout:
+
+  Select-String -Path gw.log,meter_*.log -Pattern "reason=FAC_TIMEOUT"
+
+Search a device ID:
+
+  Select-String -Path gw.log,meter_*.log -Pattern "0x80000001"

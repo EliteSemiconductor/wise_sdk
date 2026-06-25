@@ -96,6 +96,11 @@ void wise_wmbus_crypto_set_key(uint8_t* newKey)
     memcpy(pAESKey, newKey, AES_KEY_LEN);
 }
 
+void wise_wmbus_crypto_get_key(uint8_t* key)
+{
+    memcpy(key, pAESKey, AES_KEY_LEN);
+}
+
 int wise_wmbus_crypto_cmac_gen(const uint8_t key[16], const uint8_t *buf, size_t len, uint8_t out16[16])
 {
     const mbedtls_cipher_info_t *info = mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_AES_128_ECB);
@@ -146,14 +151,13 @@ int wise_wmbus_aes128_cbc_decrypt(const uint8_t key[16], const uint8_t iv[16], c
 #define CMAC_BLOCK_SIZE              (16U)
 #define CMAC_RB                      (0x87U)
 
-WISE_AES_KEY_CONFIG_T mbusAESKeyCfg = 
+WISE_AES_KEY_CONFIG_T mbusAESKeyCfg =
 {
     .key_size  = AES_KEY_128,
     .key_src   = AES_KEY_SRC_FROM_USER,
     .key_num   = 0,
     .key_bytes = (uint32_t *)NULL,
     .swap_mode = AES_SWAP_IN_OUT,
-    .iv_or_cnt = (uint32_t *)NULL,
 };
 
 WISE_AES_CONFIG_CTX_T wmbusAESCBCCtx = 
@@ -182,14 +186,19 @@ void wise_wmbus_crypto_init()
 }
 
 void wise_wmbus_crypto_set_key(uint8_t* newKey)
-{  
+{
     memcpy(pAESKey, newKey, AES_KEY_LEN);
     mbusAESKeyCfg.key_bytes = pAESKey;
 
-    if (wise_aes_key_config(&mbusAESKeyCfg) != WISE_SUCCESS) 
+    if (wise_aes_key_config(&mbusAESKeyCfg) != WISE_SUCCESS)
     {
         debug_print("set aes key fail\n");
     }
+}
+
+void wise_wmbus_crypto_get_key(uint8_t* key)
+{
+    memcpy(key, pAESKey, AES_KEY_LEN);
 }
 
 static void _cmac_xor_128(uint8_t out[16], const uint8_t a[16], const uint8_t b[16])

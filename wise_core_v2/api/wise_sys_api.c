@@ -17,6 +17,11 @@ static WISE_LFOSC_SRC_T lfoscConfig;
 static uint8_t _gain_ctrl_40m   = 8;
 static uint8_t _gain_ctrl_40m_s = 8;
 
+void _wise_sys_init(void);
+
+extern void _systick_backup();
+extern void _systick_restore();
+
 static bool _wise_sys_board_property_is_valid(const WISE_SYS_BOARD_PROPERTY_T *property)
 {
     if ((property->ulpldo_vref >= WISE_SYS_ULPLDO_VREF_MAX) || (property->ulpldo_enmode >= WISE_SYS_ULPLDO_ENMODE_MAX)) {
@@ -32,9 +37,8 @@ static void _wise_sys_apply_board_sys_property(const WISE_SYS_BOARD_PROPERTY_T *
     hal_intf_sys_set_pa_type(property->pa_type);
     hal_intf_sys_set_board_match_type(property->matching_type);
     hal_intf_sys_set_40m_gain_ctrl(property->gain_ctrl_40m);
-    hal_intf_sys_set_xtal_cfg(property->cap_xtal_i, property->cap_xtal_o);
-    hal_intf_sys_set_lpxtal_cfg(property->cap_lpxtal_i, property->cap_lpxtal_o,
-                                property->maincap_lpxtal_i, property->maincap_lpxtal_o,
+    hal_intf_sys_set_xtal_cfg(property->cap_xtal_i, property->cap_xtal_o, property->maincap_xtal_i, property->maincap_xtal_o);
+    hal_intf_sys_set_lpxtal_cfg(property->cap_lpxtal_i, property->cap_lpxtal_o, property->maincap_lpxtal_i, property->maincap_lpxtal_o,
                                 property->gain_lpxtal);
     hal_intf_sys_set_sram_size(property->sram_retain);
     hal_intf_sys_set_ext32k_lp_workaround(property->ext32k_lp_workaround);
@@ -46,7 +50,7 @@ static void _wise_sys_apply_board_radio_power_property(const WISE_SYS_BOARD_PROP
     hal_intf_radio_set_ulpldo_enmode((uint8_t)property->ulpldo_enmode);
 }
 
-void wise_sys_init(void)
+void _wise_sys_init(void)
 {
     if (inited) {
         return;
@@ -64,7 +68,6 @@ void wise_sys_init(void)
     //set parameters for lower currents
     hal_intf_pmu_reset_module_clock();
     hal_intf_radio_set_dcdc_default_val();
-    
 
     inited = 1;
 }
@@ -102,17 +105,23 @@ void wise_sys_remap(uint32_t remap_addr)
 
 void wise_sys_set_cpu_pd(void)
 {
+    _systick_backup();
     hal_intf_pmu_set_cpu_pd();
+    _systick_restore();
 }
 
 void wise_sys_enter_sleep_mode(void)
 {
     hal_intf_sys_set_40m_gain_ctrl(_gain_ctrl_40m_s);
-    
+
     // for phy0 radio
     hal_intf_radio_rx_stop(0);
     hal_intf_radio_set_pwr_mode(0, PWR_MODE_SLEEP);
+
+    _systick_backup();    
     hal_intf_pmu_set_pwr_mode(PWR_MODE_SLEEP);
+    _systick_restore();
+    
     // --------Sleep--------
     // System in Sleep mode
     // --------Wakeup-------
@@ -286,14 +295,11 @@ void wise_sys_set_board_property(const WISE_SYS_BOARD_PROPERTY_T *property)
 
         _gain_ctrl_40m   = property->gain_ctrl_40m;
         _gain_ctrl_40m_s = property->gain_ctrl_40m_s;
-        
-        WISE_LOG_DBG("gain_ctrl_40m=(%d,%d)\n", _gain_ctrl_40m, _gain_ctrl_40m_s);
-    }
-}
 
-void wise_sys_set_ext32k_lp_workaround(uint8_t enable)
-{
-    hal_intf_sys_set_ext32k_lp_workaround(enable);
+        WISE_LOG_DBG("gain_ctrl_40m=(%d,%d)\n", _gain_ctrl_40m, _gain_ctrl_40m_s);
+        /* Propagate the EXT32K workaround flag before LFOSC calibration so the ext32k path can honor it. */
+        hal_intf_sys_set_ext32k_lp_workaround(property->ext32k_lp_workaround);
+    }
 }
 
 void wise_sys_tcxo_config(bool enable)
@@ -321,12 +327,49 @@ uint8_t wise_sys_get_board_match_type(void)
     return hal_intf_sys_get_board_match_type();
 }
 
+void wise_sys_set_xtal_cap(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o)
+{
+    /* Store the new trim/maincap settings, then push them to the analog block. */
+    hal_intf_sys_set_xtal_cfg(cap_i, cap_o, maincap_i, maincap_o);
+    hal_intf_sys_apply_xtal_cfg();
+}
+
+void wise_sys_get_xtal_cap(uint8_t *cap_i, uint8_t *cap_o, uint8_t *maincap_i, uint8_t *maincap_o)
+{
+    uint32_t cfg = hal_intf_sys_get_xtal_cfg();
+
+    if (cap_i) {
+        *cap_i = (uint8_t)(cfg & 0xFF);
+    }
+    if (cap_o) {
+        *cap_o = (uint8_t)((cfg >> 16) & 0xFF);
+    }
+    if (maincap_i) {
+        *maincap_i = (uint8_t)((cfg >> 24) & 0x1);
+    }
+    if (maincap_o) {
+        *maincap_o = (uint8_t)((cfg >> 25) & 0x1);
+    }
+}
+
+void wise_sys_set_40m_gain_ctrl(uint8_t gain)
+{
+    /* hal_intf_sys_set_40m_gain_ctrl both stores the value and applies it to the analog block. */
+    hal_intf_sys_set_40m_gain_ctrl(gain);
+    _gain_ctrl_40m = gain;
+}
+
+uint8_t wise_sys_get_40m_gain_ctrl(void)
+{
+    return hal_intf_sys_get_40m_gain_ctrl();
+}
+
 void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable)
 {
     if (enable) {
         wise_radio_enable_modem_clk(ENABLE);
         hal_intf_radio_enable_bod(ENABLE, bod_lv);
-        wise_tick_delay_ms(10);    //it needs to wait 10ms after radio enable bod
+        wise_tick_delay_ms(10); //it needs to wait 10ms after radio enable bod
         hal_intf_pmu_enable_bod_reset(ENABLE);
     } else {
         hal_intf_pmu_enable_bod_reset(DISABLE);
@@ -338,7 +381,7 @@ void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable)
 uint32_t wise_sys_get_warm_reset_info(void)
 {
     return hal_intf_pmu_get_warm_reset_info();
-    
+
     /*
     uint8_t i;
     const uint8_t table_num = ARRAY_SIZE(reset_flags);
@@ -363,12 +406,11 @@ void wise_sys_clear_warm_reset_info(void)
 }
 
 /* ================== ASARADC =============== */
-#define ASARADC_CFG_DEF_FETCH_MODE              0
-#define ASARADC_CFG_DEF_TIMER_MODE1             3
-#define ASARADC_CFG_DEF_TIMER_MODE2             3
-#define ASARADC_CFG_DEF_DAF_ENABLE              0
-#define ASARADC_CFG_DEF_DAF_SHIFT_N             0
-
+#define ASARADC_CFG_DEF_FETCH_MODE 0
+#define ASARADC_CFG_DEF_TIMER_MODE1 3
+#define ASARADC_CFG_DEF_TIMER_MODE2 3
+#define ASARADC_CFG_DEF_DAF_ENABLE 0
+#define ASARADC_CFG_DEF_DAF_SHIFT_N 0
 
 WISE_STATUS wise_asaradc_init(void)
 {
@@ -376,14 +418,10 @@ WISE_STATUS wise_asaradc_init(void)
 }
 
 WISE_STATUS wise_asaradc_config(WISE_ASARADC_VREF vref)
-{                                
-    hal_intf_asaradc_config((bool)vref, 
-                            ASARADC_CFG_DEF_FETCH_MODE, 
-                            ASARADC_CFG_DEF_TIMER_MODE1, 
-                            ASARADC_CFG_DEF_TIMER_MODE2, 
-                            ASARADC_CFG_DEF_DAF_ENABLE, 
-                            ASARADC_CFG_DEF_DAF_SHIFT_N);
-    
+{
+    hal_intf_asaradc_config((bool)vref, ASARADC_CFG_DEF_FETCH_MODE, ASARADC_CFG_DEF_TIMER_MODE1, ASARADC_CFG_DEF_TIMER_MODE2,
+                            ASARADC_CFG_DEF_DAF_ENABLE, ASARADC_CFG_DEF_DAF_SHIFT_N);
+
     return WISE_SUCCESS;
 }
 
@@ -391,61 +429,59 @@ static WISE_STATUS _asaradc_exec_once(uint32_t timeoutMs)
 {
     WISE_STATUS result = WISE_SUCCESS;
     uint32_t startTime = 0;
-    
+
     hal_intf_asaradc_set_interrupt(ENABLE);
     hal_intf_asaradc_start();
 
     startTime = wise_tick_get_counter();
-    while(1)
-    {
-        if(hal_intf_asaradc_is_ready())
-        {
+    while (1) {
+        if (hal_intf_asaradc_is_ready()) {
             result = WISE_SUCCESS;
             break;
         }
-        
-        if(((uint32_t)(wise_tick_get_counter() - startTime)) > MS_TO_CLK(timeoutMs))
-        {
+
+        if (((uint32_t)(wise_tick_get_counter() - startTime)) > MS_TO_CLK(timeoutMs)) {
             result = WISE_FAIL;
             break;
         }
     }
-    
+
     hal_intf_asaradc_set_interrupt(DISABLE);
-    
+
     return result;
 }
 
-WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t* rawValue)
+WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t *rawValue)
 {
     WISE_STATUS result = WISE_SUCCESS;
-    
+
     hal_intf_asaradc_set_vin_sel(vin_sel);
-    
+
     result = _asaradc_exec_once(2000);
-    if(result == WISE_SUCCESS)
+    if (result == WISE_SUCCESS) {
         *rawValue = hal_intf_asaradc_get_data();
-    else
+    } else {
         result = WISE_FAIL;
-    
+    }
+
     return result;
 }
 
-WISE_STATUS wise_asaradc_read_input_hires(ASARADC_VIN_SEL_T vin_sel, uint32_t* rawValue)
+WISE_STATUS wise_asaradc_read_input_hires(ASARADC_VIN_SEL_T vin_sel, uint32_t *rawValue)
 {
     WISE_STATUS result = WISE_SUCCESS;
-    
+
     hal_intf_asaradc_set_vin_sel(vin_sel);
-    
+
     result = _asaradc_exec_once(2000);
-    if(result == WISE_SUCCESS)
+    if (result == WISE_SUCCESS) {
         *rawValue = hal_intf_asaradc_get_hr_data();
-    else
+    } else {
         result = WISE_FAIL;
-    
+    }
+
     return result;
 }
-
 
 //kevinyang, 20251114, keep these APIs as internal test
 typedef struct {
@@ -467,13 +503,8 @@ typedef struct {
     bool clamp; /* true: clamp; false: extrapolate */
 } WISE_ASARADC_CALIB_T;
 
-WISE_STATUS wise_asaradc_config_detail(WISE_ASARADC_VREF vref, 
-                                bool fetch_mode, 
-                                uint8_t timer_mode1, 
-                                uint8_t timer_mode2, 
-                                bool daf_enable,
-                                uint8_t daf_shift_n, 
-                                ASARADC_VIN_SEL_T vin_sel);
+WISE_STATUS wise_asaradc_config_detail(WISE_ASARADC_VREF vref, bool fetch_mode, uint8_t timer_mode1, uint8_t timer_mode2, bool daf_enable,
+                                       uint8_t daf_shift_n, ASARADC_VIN_SEL_T vin_sel);
 void wise_asaradc_start(void);
 bool wise_asaradc_is_ready(void);
 void wise_asaradc_enable_interrupt(bool enable);
@@ -484,9 +515,8 @@ bool wise_asaradc_capture_once(ASARADC_VIN_SEL_T vin_sel, WISE_ASARADC_DATA_T *o
 int32_t wise_asaradc_code_to_mV(uint16_t code);
 bool wise_asaradc_cal_table_set(const uint16_t *code, const int32_t *mv, uint8_t n, bool clamp);
 
-
 WISE_STATUS wise_asaradc_config_detail(WISE_ASARADC_VREF vref, bool fetch_mode, uint8_t timer_mode1, uint8_t timer_mode2, bool daf_enable,
-                                uint8_t daf_shift_n, ASARADC_VIN_SEL_T vin_sel)
+                                       uint8_t daf_shift_n, ASARADC_VIN_SEL_T vin_sel)
 {
     hal_intf_asaradc_config((bool)vref, fetch_mode, timer_mode1, timer_mode2, daf_enable, daf_shift_n);
     hal_intf_asaradc_set_vin_sel(vin_sel);
@@ -506,7 +536,7 @@ bool wise_asaradc_is_ready(void)
 void wise_asaradc_enable_interrupt(bool enable)
 {
     hal_intf_asaradc_set_interrupt(enable);
-    
+
     if (enable) {
         NVIC_EnableIRQ((IRQn_Type)ASARADC_IRQn);
     } else {

@@ -42,8 +42,12 @@ void hal_drv_gptmr_reset_counter(uint8_t gptmr_idx);
 uint32_t hal_drv_gptmr_get_cnt(uint8_t gptmr_idx);
 uint32_t hal_drv_gptmr_get_max(uint8_t gptmr_idx);
 void hal_drv_gptmr_config(uint8_t gptmr_idx, TIMER_TYPE_T type,
-                          bool interrupt_enable, uint32_t start_offset,
-                          uint32_t interval);
+                          bool interrupt_enable, uint32_t start_us,
+                          uint32_t interval_us);
+void hal_drv_gptmr_config_counter(uint8_t gptmr_idx, TIMER_TYPE_T type,
+                          bool interrupt_enable, uint32_t start_counter,
+                          uint32_t interval_counter);
+
 HAL_STATUS hal_drv_gptmr_register_callback(GPTMR_CB_EVENT_T event,
                                             CALLBACK_T cb, void *context);
 HAL_STATUS hal_drv_gptmr_unregister_callback(GPTMR_CB_EVENT_T event);

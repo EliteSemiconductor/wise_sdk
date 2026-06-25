@@ -90,15 +90,14 @@ typedef enum
 typedef enum
 {
     WMBUS_LINK_MODE_S1  = 0,
-    WMBUS_LINK_MODE_S1M = 1,
-    WMBUS_LINK_MODE_S2  = 2,
-    WMBUS_LINK_MODE_T1  = 3,
-    WMBUS_LINK_MODE_T2  = 4,
-    WMBUS_LINK_MODE_C1  = 5,
-    WMBUS_LINK_MODE_C2  = 6,
-    WMBUS_LINK_MODE_R2  = 7,
-    WMBUS_LINK_MODE_F2  = 8,
-    WMBUS_LINK_MODE_N   = 9
+    WMBUS_LINK_MODE_S2  = 1,
+    WMBUS_LINK_MODE_T1  = 2,
+    WMBUS_LINK_MODE_T2  = 3,
+    WMBUS_LINK_MODE_C1  = 4,
+    WMBUS_LINK_MODE_C2  = 5,
+    WMBUS_LINK_MODE_R2  = 6,
+    WMBUS_LINK_MODE_F2  = 7,
+    WMBUS_LINK_MODE_N   = 8
 } WMBUS_LINK_mode_t;
 
 typedef struct
@@ -272,15 +271,74 @@ int32_t wmbus_link_gw_write_payload(uint32_t targetID, uint8_t *payload, uint16_
 void wmbus_link_gw_set_admission_ctrl_enabled(bool enable);
 
 /**
- * @brief Add a device whitelist to the gateway.
+ * @brief Gateway: configure a fixed whitelist table.
  *
- * @param[list_p] The pointer of whole whitelist  loaded.
+ * The application owns the device info table and provides a writable RAM
+ * buffer for link-layer per-meter runtime state. The state layout is internal
+ * to the link layer. Unknown meters are rejected and reported by meter status
+ * callback when registered.
  *
- * @param[count] The number of whitelist members.
+ * Calling this API enables gateway admission control automatically.
  *
- * @note Clear the previous whitelist automatically then load the whitelist of devices.
+ * @param[in]     info_p            Device info table provided by the application.
+ * @param[in]     count             Number of entries in the device info table.
+ * @param[in,out] state_buffer_p    Writable RAM buffer provided by the application.
+ * @param[in]     state_buffer_size State buffer size in bytes.
+ *
+ * @retval true  Fixed whitelist was accepted.
+ * @retval false Invalid parameters or insufficient state buffer size.
+ *
+ * @note When count is non-zero, both info_p and state_buffer_p must be non-NULL.
+ * @note state_buffer_p must be 4-byte aligned.
  */
-void wmbus_link_gw_whitelist_load(WMBUS_LINK_device_info_t *list_p, uint16_t count);
+bool wmbus_link_gw_whitelist_load_fixed(const WMBUS_LINK_device_info_t *info_p,
+                                        uint16_t count,
+                                        void *state_buffer_p,
+                                        uint32_t state_buffer_size);
+
+/**
+ * @brief Query fixed whitelist state buffer size.
+ *
+ * @param[in] count Number of fixed whitelist entries.
+ *
+ * @return Required state buffer size in bytes.
+ */
+uint32_t wmbus_link_gw_whitelist_get_state_buffer_size(uint16_t count);
+
+/**
+ * @brief Gateway: configure a dynamic learning whitelist buffer.
+ *
+ * The application provides one writable RAM buffer. The link layer lays out
+ * device info entries and state entries inside this buffer. Unknown meters are
+ * learned and accepted while capacity is available.
+ *
+ * Calling this API disables gateway admission control automatically so dynamic
+ * learning can admit unknown meters.
+ *
+ * @param[in,out] buffer_p    Writable RAM buffer provided by the application.
+ * @param[in]     buffer_size Buffer size in bytes.
+ * @param[in]     max_count   Maximum number of meters to learn/store.
+ *
+ * @retval true  Dynamic whitelist buffer was accepted.
+ * @retval false Invalid parameters or insufficient buffer size.
+ *
+ * @note buffer_p must be 4-byte aligned.
+ */
+bool wmbus_link_gw_whitelist_load_dynamic_buffer(void *buffer_p,
+                                                 uint32_t buffer_size,
+                                                 uint16_t max_count);
+
+/**
+ * @brief Query dynamic whitelist buffer size.
+ *
+ * The returned size covers both learned device info entries and internal
+ * per-meter runtime state, including alignment padding.
+ *
+ * @param[in] max_count Maximum number of meters to learn/store.
+ *
+ * @return Required dynamic buffer size in bytes.
+ */
+uint32_t wmbus_link_gw_whitelist_get_dynamic_buffer_size(uint16_t max_count);
 
 /** @} */ /* end of WMBUS_LINK_APIs */
 

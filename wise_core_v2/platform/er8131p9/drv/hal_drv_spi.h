@@ -29,12 +29,12 @@ typedef enum {
 
 void hal_drv_spi_reset(uint32_t spi_index, DRV_SPI_RESET_TYPE type);
 uint8_t hal_drv_spi_get_cmd(uint8_t spi_index);
-void hal_drv_spi_config(uint8_t spi_idx, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint8_t addr_len, uint32_t bus_clock,
-                        uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dual_quard_mode, uint8_t addr_fmt, uint8_t block_mode,
-                        uint8_t dma_enable);
+void hal_drv_spi_config(uint8_t spi_idx, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint32_t bus_clock,
+                        uint8_t bit_order, uint8_t data_merge, uint8_t io_mode, uint8_t block_mode, uint8_t dma_enable);
 
 int32_t hal_drv_spi_transfer(uint8_t spi_idx, uint8_t role, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len, uint8_t trans_mode,
-                             uint8_t flag_en, uint32_t addr_value, uint8_t cmd_value, void *tx_fifo, void *rx_fifo);
+                             uint8_t cmd_en, uint32_t addr_value, uint8_t cmd_value, uint8_t addr_len, uint8_t addr_fmt,
+                             void *tx_fifo, void *rx_fifo);
 
 int32_t hal_drv_spi_master_write_byte(uint8_t spi_index, uint8_t in_byte);
 int32_t hal_drv_spi_master_read_byte(uint8_t spi_index, uint8_t *out_byte);

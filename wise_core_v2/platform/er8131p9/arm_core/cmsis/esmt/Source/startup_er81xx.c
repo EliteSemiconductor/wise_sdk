@@ -45,8 +45,16 @@
 #define HEAP_SIZE 0x00000800
 #endif
 
+/* NB: ARM Compiler 6 (armclang) also defines __GNUC__, so the ARM compiler
+ * (__ARMCC_VERSION, covering both AC5 and AC6) must be tested *before* __GNUC__
+ * everywhere in this file. */
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
+/* Under GNU the stack/heap live in dedicated linker sections. Under the ARM
+ * Compiler they are reserved by the scatter file via the ARM_LIB_STACK /
+ * ARM_LIB_HEAP regions instead, so these arrays are omitted. */
 uint8_t stack_space[STACK_SIZE] __attribute__((section(".stack")));
 uint8_t heap_space[HEAP_SIZE] __attribute__((section(".heap")));
+#endif
 
 /*----------------------------------------------------------------------------
  * Exception / Interrupt Handler Function Prototype
@@ -56,8 +64,18 @@ typedef void (*VECTOR_TABLE_Type)(void);
 /*----------------------------------------------------------------------------
   External References
  *----------------------------------------------------------------------------*/
+#if defined(__ARMCC_VERSION)
+/* ARM Compiler (AC5 armcc / AC6 armclang): the initial SP and C-runtime entry
+ * come from the scatter file's ARM_LIB_STACK region and the library __main()
+ * respectively. ($ is a legal identifier character for the ARM compiler.) */
+extern uint32_t Image$$ARM_LIB_STACK$$ZI$$Limit;
+extern void __main(void);
+#define __INITIAL_SP (&Image$$ARM_LIB_STACK$$ZI$$Limit)
+#elif defined(__GNUC__)
 extern uint32_t __stack;
 extern void __libc_init_array(void);
+#define __INITIAL_SP (&__stack)
+#endif
 extern int main(void);
 
 void dataInit();
@@ -126,7 +144,7 @@ void ASARADC_IRQHandler(void) __attribute__((weak, alias("Default_Handler")));
 extern const VECTOR_TABLE_Type __Vectors[TOTAL_INTERRUPTS];
 
 const VECTOR_TABLE_Type __Vectors[TOTAL_INTERRUPTS] __VECTOR_TABLE_ATTRIBUTE = {
-    (VECTOR_TABLE_Type)(&__stack), /*     Initial Stack Pointer */
+    (VECTOR_TABLE_Type)(__INITIAL_SP), /* Initial Stack Pointer */
     Reset_Handler,                 /*     Reset Handler         */
     NMI_Handler,                   /* -14 NMI Handler           */
     HardFault_Handler,             /* -13 Hard Fault Handler    */
@@ -183,7 +201,7 @@ const VECTOR_TABLE_Type __Vectors[TOTAL_INTERRUPTS] __VECTOR_TABLE_ATTRIBUTE = {
 #pragma GCC diagnostic pop
 #endif
 
-#if defined(__GNUC__)
+#if defined(__GNUC__) && !defined(__ARMCC_VERSION)
 
 #ifdef DMA_POOL
 /* DMA pool symbols */
@@ -266,16 +284,24 @@ void Reset_Handler(void)
     SystemInit(); /* CMSIS System Initialization */
 #endif
 
+#if defined(__ARMCC_VERSION)
+    /* ARM Compiler (AC5/AC6): __main performs the scatter-load (RW/ZI plus the
+     * RAM functions region) and C-library init, then calls main(). */
+    __main();
+#elif defined(__GNUC__)
+    /* GNU: copy .data / .ram_text from flash and zero .bss ourselves, run the
+     * C++/init_array constructors, then enter the application. */
     dataInit();
     bssInit();
     ramTextInit();
-#if defined(DMA_POOL) && defined(__GNUC__)
+#if defined(DMA_POOL)
     dma_data_init();
     dma_bss_init();
 #endif
 
     __libc_init_array();
     main();
+#endif
     while(1);
 }
 

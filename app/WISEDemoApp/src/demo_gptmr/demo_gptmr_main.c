@@ -32,6 +32,9 @@
 
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "GPTMR"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_GPTMR GPTMR Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -89,7 +92,7 @@ void main(void)
 {
     WISE_TIMER_CTRL_T timerCfg = {0};
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_timer_init();

@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#if !defined(__ARMCC_VERSION)   /* <unistd.h> is a newlib/host header; ArmClang lacks it */
 #include <unistd.h>
+#endif
 
 #include "wmbus_helper.h"
 #include "util.h"

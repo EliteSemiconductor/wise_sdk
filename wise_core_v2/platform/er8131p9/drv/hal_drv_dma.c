@@ -85,7 +85,7 @@ HAL_STATUS hal_drv_dma_extsrc_config(uint8_t channel, DMA_SRC_REQ_SEL_T func)
 
     return HAL_NO_ERR;
 }
-HAL_STATUS hal_drv_dma_extsrc_update(uint8_t channel, DMA_SRC_REQ_SEL_T func, uint32_t mem_addr, uint32_t len)
+HAL_STATUS hal_drv_dma_extsrc_update(uint8_t channel, DMA_SRC_REQ_SEL_T func, uint32_t mem_addr, uint32_t len, uint8_t data_size)
 {
      DMA_ASSERT_SAFE_RET(mem_addr, len, HAL_DMA_ERR_UNSAFE_ADDR);
 
@@ -103,12 +103,18 @@ HAL_STATUS hal_drv_dma_extsrc_update(uint8_t channel, DMA_SRC_REQ_SEL_T func, ui
     uint8_t src_type = (dir == DMA_DIR_MEM_TO_PERIPH) ? M2M_ADDR_TYPE_INCRE : M2M_ADDR_TYPE_FIXED;
     uint8_t dst_type = (dir == DMA_DIR_MEM_TO_PERIPH) ? M2M_ADDR_TYPE_FIXED : M2M_ADDR_TYPE_INCRE;
 
+    /* The SPI Data Register access width depends on the runtime data-merge /
+     * data-length setting, so it cannot be a fixed value in the static
+     * dma_extsrc_info table. SPI passes an explicit width; generic callers
+     * (I2C/UART) pass DMA_DATA_SIZE_KEEP to use the table default. */
+    uint8_t ds = (data_size == DMA_DATA_SIZE_KEEP) ? info->data_size : data_size;
+
     dma_channel_init_er8130(ch_ofs);
     dma_m2m_start_er8130(ch_ofs);
     dma_m2m_setup_transfer_er8130(ch_ofs, src, dst, len);
     dma_m2m_set_src_type_er8130(ch_ofs, src_type, dst_type);
     dma_m2m_set_dst_type_er8130(ch_ofs, dst_type, src_type);
-    dma_m2m_set_data_size_er8130(ch_ofs, info->data_size);
+    dma_m2m_set_data_size_er8130(ch_ofs, ds);
 
     return HAL_NO_ERR;
 }

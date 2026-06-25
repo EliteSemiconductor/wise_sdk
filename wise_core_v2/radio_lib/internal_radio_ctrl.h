@@ -7,7 +7,7 @@
 #include "wise_radio_api.h"
 
 #ifndef CHIP_RADIO_FLEXIBLE_FMT_VERSION
-#define CHIP_RADIO_FLEXIBLE_FMT_VERSION         0
+#define CHIP_RADIO_FLEXIBLE_FMT_VERSION         2 //currently baseline is version 2
 #endif
 
 #ifndef ENABLE_RADIO_TRACE_LOG
@@ -17,9 +17,10 @@
 enum
 {
     PHY_INIT_NONE = 0,
-    PHY_INIT_TRANSPARENT,
-    PHY_INIT_802154,
-    PHY_INIT_WMBUS,
+    PHY_INIT_TRANSPARENT = 1,
+    PHY_INIT_802154 = 2,
+    PHY_INIT_BLE = 3,
+    PHY_INIT_WMBUS = 4,
 };
 
 #define RADIO_MAX_RX_BUF_NUM                    8
@@ -76,6 +77,6 @@ typedef struct {
 } RADIO_INTF_CFG_T;
 
 typedef void (*RX_VALIDATE_PROC_T)(RADIO_INTF_CFG_T *intf_cfg, uint8_t *pframe, WISE_RX_META_T *rx_meta, uint32_t status);
-typedef uint16_t (*RX_SYNC_CALLBACK_T)(RADIO_INTF_CFG_T *intf_cfg, uint8_t *pframe);
+typedef uint16_t (*RX_SYNC_CALLBACK_T)(RADIO_INTF_CFG_T *intf_cfg, volatile uint8_t *pframe);
 
 #endif

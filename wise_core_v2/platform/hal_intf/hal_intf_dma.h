@@ -150,7 +150,7 @@ HAL_STATUS hal_intf_dma_aes_in_channel_trigger(void);
 HAL_STATUS hal_intf_dma_enable_channel(uint8_t dma_channel);
 
 HAL_STATUS hal_intf_dma_extsrc_config(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func);
-HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len);
+HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len, uint8_t data_size);
 HAL_STATUS hal_intf_dma_extsrc_setup(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len);
 HAL_STATUS hal_intf_dma_extsrc_send(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len);
 HAL_STATUS hal_intf_dma_extsrc_trigger(uint8_t channel, HAL_DMA_SRC_REQ_SEL_T func);
@@ -159,7 +159,7 @@ HAL_STATUS hal_intf_dma_extsrc_trigger(uint8_t channel, HAL_DMA_SRC_REQ_SEL_T fu
 /*  SPI DMA Helpers                                                           */
 /* ========================================================================== */
 HAL_STATUS hal_intf_spi_dma_init(void);
-HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count);
+HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count, uint8_t data_size);
 HAL_STATUS hal_intf_spi_dma_trigger(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count);
 /* ========================================================================== */
 /*  I2C DMA Helpers                                                           */
@@ -250,12 +250,13 @@ static inline HAL_STATUS hal_intf_dma_extsrc_config(uint8_t ch, HAL_DMA_SRC_REQ_
     return HAL_ERR;
 }
 
-static inline HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len)
+static inline HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len, uint8_t data_size)
 {
     (void)ch;
     (void)func;
     (void)data;
     (void)len;
+    (void)data_size;
     return HAL_ERR;
 }
 
@@ -290,13 +291,14 @@ static inline HAL_STATUS hal_intf_spi_dma_init(void)
     return HAL_ERR;
 }
 
-static inline HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count)
+static inline HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count, uint8_t data_size)
 {
     (void)spi_index;
     (void)tx_fifo_ptr;
     (void)tx_count;
     (void)rx_fifo_ptr;
     (void)rx_count;
+    (void)data_size;
     return HAL_ERR;
 }
 

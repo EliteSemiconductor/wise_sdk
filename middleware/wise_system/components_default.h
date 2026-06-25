@@ -25,7 +25,6 @@
 #define ES_DEVICE_I2C 1
 #define ES_DEVICE_PWM 1
 #define ES_DEVICE_PWMSLOW 1
-#define ES_DEVICE_PIO 1
 
 /**
  * ============================
@@ -33,11 +32,6 @@
  * ============================
  */
 #define ES_COMP_ENABLE_UART_0 1
-#define ES_UART0_BAUDRATE 115200
-#define ES_UART0_TX_PIN 0
-#define ES_UART0_RX_PIN 1
-#define ES_UART0_RX_BUF_SIZE 256
-//#define ES_UART0_TX_BUF_SIZE 2048
 
 /**
  * ============================

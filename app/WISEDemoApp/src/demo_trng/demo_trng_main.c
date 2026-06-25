@@ -13,6 +13,9 @@
 #include "wise_trng_api.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "TRNG"
+
 #define DEMO_APP_PROMPT             "TRNG> "
 #define TRNG_TMP_BUF_LEN            256
 
@@ -63,7 +66,7 @@ SHELL_CMD_AUTO(gen, cmd_trng_gen, "generate N bytes of random data");
 
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_trng_init();

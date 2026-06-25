@@ -19,6 +19,9 @@
 #include "wise_shell_v2/src/shell.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "DEMO template"
+
 #define DEMO_APP_PROMPT             "DEMO> "
 
 
@@ -28,7 +31,7 @@
 
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     while (1) {

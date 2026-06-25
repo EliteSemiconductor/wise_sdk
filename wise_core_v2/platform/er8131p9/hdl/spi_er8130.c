@@ -241,8 +241,8 @@ uint16_t spi_get_slv_read_cnt_er8130(uint32_t spi_base)
     return rcnt;
 }
 
-void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint8_t addr_len, uint32_t bus_clock,
-                       uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dual_quard_mode, uint8_t addr_fmt, uint8_t dma_enable)
+void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint32_t bus_clock,
+                       uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dma_enable)
 {
     uint32_t reg     = 0;
     uint8_t sclk_div = SPI_SCLK_DIV_MASK;
@@ -254,20 +254,16 @@ void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uin
         clock_mode 2: CPOL=1, CPHA=0
         clock_mode 3: CPOL=1, CPHA=1
     */
-    reg = (reg & ~(SPI_CPHA_MASK | SPI_CPOL_MASK | SPI_SLV_MODE_MASK | SPI_LSB_MASK | SPI_MOSI_BI_DIR_MASK | SPI_DATA_MERGE_MASK | SPI_DATA_LEN_MASK |
-                   SPI_ADDR_LEN_MASK)) |
+    /* AddrLen (TransFmt) and DualQuad / AddrFmt (TransCtrl) are programmed
+     * per-transfer in spi_set_xfer_fmt_er8130(), not here. */
+    reg = (reg & ~(SPI_CPHA_MASK | SPI_CPOL_MASK | SPI_SLV_MODE_MASK | SPI_LSB_MASK | SPI_MOSI_BI_DIR_MASK | SPI_DATA_MERGE_MASK |
+                   SPI_DATA_LEN_MASK)) |
           (((clock_mode & 0x01) << SPI_CPHA_POS) & SPI_CPHA_MASK) | (((clock_mode >> 1) << SPI_CPOL_POS) & SPI_CPOL_MASK) |
           ((role << SPI_SLV_MODE_POS) & SPI_SLV_MODE_MASK) | ((bit_order << SPI_LSB_POS) & SPI_LSB_MASK) |
           ((mosi_bir_dir << SPI_MOSI_BI_DIR_POS) & SPI_MOSI_BI_DIR_MASK) | ((data_merge << SPI_DATA_MERGE_POS) & SPI_DATA_MERGE_MASK) |
-          (((data_bit_width - 1) << SPI_DATA_LEN_POS) & SPI_DATA_LEN_MASK) | (((addr_len - 1) << SPI_ADDR_LEN_POS) & SPI_ADDR_LEN_MASK);
+          (((data_bit_width - 1) << SPI_DATA_LEN_POS) & SPI_DATA_LEN_MASK);
     REG_W32(SPI_TRANS_FMT_ADDR, reg);
 
-    reg = REG_R32(SPI_TRANS_CTRL_ADDR);
-    /* Set spi data phase format */
-    reg = (reg & ~SPI_DUAL_QUAD_MASK) | ((dual_quard_mode << SPI_DUAL_QUAD_POS) & SPI_DUAL_QUAD_MASK);
-    /* Set spi address phase format */
-    reg = (reg & ~SPI_ADDR_FMT_MASK) | ((addr_fmt << SPI_ADDR_FMT_POS) & SPI_ADDR_FMT_MASK);
-    REG_W32(SPI_TRANS_CTRL_ADDR, reg);
     /* Set the divisor for SPI interface sclk */
     if (role == MASTER_MODE) {
         if (bus_clock < SystemCoreClock) {
@@ -279,9 +275,28 @@ void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uin
     }
 
     spi_set_tx_fifo_threshold_er8130(spi_base, (spi_get_tx_fifo_depth_er8130(spi_base) >> 1));
-    spi_set_rx_fifo_threshold_er8130(spi_base, (spi_get_rx_fifo_depth_er8130(spi_base) >> 1));
+    /* RX threshold: fire RXTH as early as possible (1 unit) for the slave so the
+     * drain ISR gets maximum head-room before the small RX FIFO fills. A slave
+     * cannot hold the master's clock, so once the RX FIFO fills the controller
+     * ends the transaction -> truncation. The lower the threshold, the more time
+     * the ISR has to keep the FIFO from ever becoming full (critical in quad,
+     * where data arrives 4x faster than single). */
+    if (role == ROLE_SLAVE) {
+        spi_set_rx_fifo_threshold_er8130(spi_base, 1);
+    } else {
+        spi_set_rx_fifo_threshold_er8130(spi_base, (spi_get_rx_fifo_depth_er8130(spi_base) >> 1));
+    }
 
     //spi_reset_fifo_er8130(spi_base);
+
+    /* Clear any stale RX/TX DMA-enable bits left in the CTRL register by a
+     * previous DMA transfer. spi_reset_er8130() is a read-modify-write that
+     * preserves these bits, so without an explicit clear a PIO transfer that
+     * follows a DMA one runs with the SPI still in RX/TX-DMA mode -- a half-DMA
+     * state that otherwise only a full HW reset would clear. The per-transfer
+     * DMA path re-enables them when DMA is actually used. */
+    spi_rx_dma_enable_er8130(spi_base, DISABLE);
+    spi_tx_dma_enable_er8130(spi_base, DISABLE);
 
     if (role == ROLE_SLAVE) {
         spi_reset_er8130(spi_base, SPI_RESET_RX);
@@ -295,7 +310,7 @@ void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uin
 }
 
 void spi_set_xfer_fmt_er8130(uint32_t spi_base, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len, uint8_t trans_mode,
-                             uint8_t flag_en, uint32_t addr_value)
+                             uint8_t flag_en, uint32_t addr_value, uint8_t io_mode, uint8_t addr_len, uint8_t addr_fmt)
 {
     uint32_t reg = 0;
     SPI_T *SPI   = (SPI_T *)spi_base;
@@ -304,7 +319,14 @@ void spi_set_xfer_fmt_er8130(uint32_t spi_base, uint16_t rx_unit_count, uint16_t
     uint16_t tx_data_len    = tx_unit_count > 0 ? tx_unit_count - 1 : 0;
     uint16_t dummy_data_len = dummy_len > 0 ? dummy_len - 1 : 0;
     uint8_t cmd_en          = (flag_en & SPI_MSG_CMD_EN) ? 1 : 0;
-    uint8_t addr_en         = (flag_en & SPI_MSG_ADDR_EN) ? 1 : 0;
+    /* Address phase is driven by addr_len: 0 => no address phase. */
+    uint8_t addr_en         = (addr_len > 0) ? 1 : 0;
+    uint8_t addr_len_field  = (addr_len > 0) ? (addr_len - 1) : 0;
+
+    /* AddrLen lives in the Transfer Format register; reprogram per-transfer. */
+    reg = REG_R32(SPI_TRANS_FMT_ADDR);
+    reg = (reg & ~SPI_ADDR_LEN_MASK) | ((addr_len_field << SPI_ADDR_LEN_POS) & SPI_ADDR_LEN_MASK);
+    REG_W32(SPI_TRANS_FMT_ADDR, reg);
 
     reg = REG_R32(SPI_TRANS_CTRL_ADDR);
     /* Set data length */
@@ -312,13 +334,16 @@ void spi_set_xfer_fmt_er8130(uint32_t spi_base, uint16_t rx_unit_count, uint16_t
           ((tx_data_len << SPI_WR_TRAN_CNT_POS) & SPI_WR_TRAN_CNT_MASK) | ((dummy_data_len << SPI_DMY_CNT_POS) & SPI_DMY_CNT_MASK);
     /* Set transfer mode */
     reg = (reg & ~SPI_TRANS_MODE_MASK) | ((trans_mode << SPI_TRANS_MODE_POS) & SPI_TRANS_MODE_MASK);
+    /* Set data phase IO width (Single / Dual / Quad) */
+    reg = (reg & ~SPI_DUAL_QUAD_MASK) | ((io_mode << SPI_DUAL_QUAD_POS) & SPI_DUAL_QUAD_MASK);
+    /* Set address phase IO format */
+    reg = (reg & ~SPI_ADDR_FMT_MASK) | ((addr_fmt << SPI_ADDR_FMT_POS) & SPI_ADDR_FMT_MASK);
     /* Set cmd and address phase enable */
-    flag_en &= (SPI_MSG_CMD_EN | SPI_MSG_ADDR_EN);
-    reg      = (reg & ~(SPI_CMD_EN_MASK | SPI_ADDR_EN_MASK)) | ((cmd_en << SPI_CMD_EN_POS) & SPI_CMD_EN_MASK) |
+    reg = (reg & ~(SPI_CMD_EN_MASK | SPI_ADDR_EN_MASK)) | ((cmd_en << SPI_CMD_EN_POS) & SPI_CMD_EN_MASK) |
           ((addr_en << SPI_ADDR_EN_POS) & SPI_ADDR_EN_MASK);
     REG_W32(SPI_TRANS_CTRL_ADDR, reg);
 
-    if (flag_en & SPI_MSG_ADDR_EN) {
+    if (addr_en) {
         REG_W32(SPI_ADDR_ADDR, addr_value);
     }
 
@@ -332,7 +357,7 @@ void spi_set_xfer_fmt_er8130(uint32_t spi_base, uint16_t rx_unit_count, uint16_t
 
 HAL_STATUS spi_xfer_exec_er8130(uint32_t spi_base, uint8_t role, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len,
                                 uint8_t trans_mode, uint8_t flag_en, uint32_t addr_value, uint8_t cmd_value, void *tx_fifo, void *rx_fifo,
-                                uint8_t dma_enable)
+                                uint8_t dma_enable, uint8_t io_mode, uint8_t addr_len, uint8_t addr_fmt)
 {
     // SPI_T *SPI = (SPI_T *)spi_base;
     // uint16_t tx_data_conunt = ((tx_len + 3) >> 2);
@@ -344,7 +369,27 @@ HAL_STATUS spi_xfer_exec_er8130(uint32_t spi_base, uint8_t role, uint16_t rx_uni
 
     spi_disable_interrupt_er8130(spi_base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
     //    spi_reset_fifo_er8130(spi_base);
-    spi_set_xfer_fmt_er8130(spi_base, rx_unit_count, tx_unit_count, dummy_len, trans_mode, flag_en, addr_value);
+    if (role == ROLE_SLAVE && trans_mode == SPI_TM_READ_ONLY) {
+        /* BUILT-IN command receive (Table 1, e.g. 0x54 Write Data Quad): the
+         * data-phase format is decided by the RECEIVED command, not by TransCtrl.
+         * Datasheet 5.2.1 doesn't program TransCtrl here; writing DualQuad/
+         * RdTranCnt/Dummy fights the HW command decode. Clear TransCtrl to its
+         * default and just reset the RX FIFO (DataLen/DataMerge live in the
+         * Transfer Format register, set at open). */
+        SPI_T *SPI = (SPI_T *)spi_base;
+        REG_W32(SPI_TRANS_CTRL_ADDR, 0);
+        if (rx_unit_count > 0) {
+            spi_reset_er8130(spi_base, SPI_RESET_RX);
+        }
+        if (tx_unit_count > 0) {
+            spi_reset_er8130(spi_base, SPI_RESET_TX);
+        }
+    } else {
+        /* Master, OR slave USER-DEFINED command receive (datasheet 1.3.2 / Fig 7):
+         * for a user-defined opcode the slave data-phase format DOES come from
+         * TransCtrl (DualQuad / WrTranCnt / DummyCnt / TransMode), so program it. */
+        spi_set_xfer_fmt_er8130(spi_base, rx_unit_count, tx_unit_count, dummy_len, trans_mode, flag_en, addr_value, io_mode, addr_len, addr_fmt);
+    }
     if (dma_enable) {
         if (tx_unit_count != 0 && tx_fifo != NULL) {
             spi_tx_dma_enable_er8130(spi_base, ENABLE);
@@ -353,8 +398,15 @@ HAL_STATUS spi_xfer_exec_er8130(uint32_t spi_base, uint8_t role, uint16_t rx_uni
             spi_rx_dma_enable_er8130(spi_base, ENABLE);
         }
         spi_enable_interrupt_er8130(spi_base, (SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
+    } else if (role == ROLE_SLAVE) {
+        /* Datasheet 5.2.1.2: a receiving slave enables ONLY SlvCmd + RXFIFO +
+         * End. Enabling the TX-side interrupts (TXFIFOInt/TXUR) here is wrong for
+         * a slave RX -- it raises a spurious TX-threshold ISR at the start and,
+         * with TransMode=0 (write+read), pulls the TX path into the transaction. */
+        spi_enable_interrupt_er8130(spi_base, (SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
     } else {
-        spi_enable_interrupt_er8130(spi_base, (SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
+        spi_enable_interrupt_er8130(spi_base, (SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK |
+                                               SPI_SLV_CMD_EN_MASK));
     }
     SPI_ENABLE_IRQ(spi_base);
 

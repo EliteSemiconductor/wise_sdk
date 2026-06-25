@@ -26,7 +26,7 @@ int32_t hal_drv_aes_set_init_vect(const uint8_t *iv_or_cnt)
 }
 
 int32_t hal_drv_aes_configure(uint32_t aes_direction, uint32_t aes_mode, uint32_t swap_mode, uint8_t key_src, uint32_t key_size,
-                              const uint8_t *key_bytes, uint32_t key_num, const uint8_t *iv_or_cnt)
+                              const uint8_t *key_bytes, uint32_t key_num)
 {
     uint8_t in_swap  = 0;
     uint8_t out_swap = 0;
@@ -51,9 +51,6 @@ int32_t hal_drv_aes_configure(uint32_t aes_direction, uint32_t aes_mode, uint32_
     }
     aes_set_config_er8130(aes_direction, aes_mode, in_swap, out_swap);
     aes_set_key_er8130(key_src, key_size, key_bytes, key_num);
-    //if (aes_mode != DRV_AES_MODE_ECB || aes_mode != DRV_AES_MODE_CCM) {
-    aes_set_init_vect_er8130(iv_or_cnt);
-    //}
 
     return HAL_NO_ERR;
 }

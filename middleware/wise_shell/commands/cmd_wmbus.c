@@ -850,8 +850,7 @@ void _wmbus_aes_test()
                                      .key_src   = AES_KEY_SRC_FROM_USER,
                                      .key_num   = 0,
                                      .key_bytes = (uint32_t *)cryptoKey,
-                                     .swap_mode = AES_SWAP_NONE,
-                                     .iv_or_cnt = (uint32_t *)iv};
+                                     .swap_mode = AES_SWAP_NONE};
 
     static const uint8_t debugPins[] = {3, 6, 7, 9};
     inputBuf                         = malloc(TEST_DATA_LEN);
@@ -914,7 +913,6 @@ void _wmbus_aes_test()
         wise_debug_io_low(2);
         wise_debug_io_high(2);
         wise_aes_exec(&cbc_ctx);
-        //wise_aes_cbc_encrypt(&key_cfg, &aesData);
         wise_debug_io_low(2);
 
         aesData.input         = outputBuf;
@@ -925,7 +923,6 @@ void _wmbus_aes_test()
         wise_debug_io_low(3);
         wise_debug_io_high(3);
         wise_aes_exec(&cbc_ctx);
-        //wise_aes_cbc_decrypt(&key_cfg, &aesData);
         wise_debug_io_low(3);
     }
 

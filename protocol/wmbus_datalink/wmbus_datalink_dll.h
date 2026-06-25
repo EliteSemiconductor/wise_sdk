@@ -1,10 +1,25 @@
 #ifndef __WMBUS_DLL_H__
 #define __WMBUS_DLL_H__
 
+#include <stdbool.h>
+#include <stdint.h>
+#include "wmbus_datalink_diag.h"
+
 #define WMBUS_LINK_VER_MAJOR 1
-#define WMBUS_LINK_VER_MINOR 2
+#define WMBUS_LINK_VER_MINOR 3
+#define WMBUS_WHITELIST_MAX_NUM 200
+#define WMBUS_LINK_GW_WHITELIST_STATE_BYTES ((uint32_t)sizeof(WMBUS_whitelist_state_t))
+#define WMBUS_LINK_GW_WHITELIST_ALIGN4_SIZE(size) (((uint32_t)(size) + 3U) & ~3U)
+#define WMBUS_LINK_GW_WHITELIST_STATE_BUFFER_SIZE(count) \
+    ((uint32_t)(count) * WMBUS_LINK_GW_WHITELIST_STATE_BYTES)
+#define WMBUS_LINK_GW_WHITELIST_DYNAMIC_BUFFER_SIZE(count) \
+    (WMBUS_LINK_GW_WHITELIST_ALIGN4_SIZE((uint32_t)(count) * sizeof(WMBUS_LINK_device_info_t)) + \
+     WMBUS_LINK_GW_WHITELIST_STATE_BUFFER_SIZE(count))
+#define WMBUS_LINK_GW_WHITELIST_BUFFER_WORDS(bytes) \
+    (((uint32_t)(bytes) + sizeof(uint32_t) - 1U) / sizeof(uint32_t))
 
 #include "wise_radio_wmbus_api.h"
+#include "wmbus_datalink_api.h"
 
 extern uint8_t staticData_1[];
 extern const uint16_t staticData_1_size;
@@ -634,23 +649,59 @@ typedef struct {
   uint32_t device_id;
 } WMBUS_event_t;
 
-typedef struct{
-    /* Meter information */
-    uint32_t id;          /**< Device identifier (e.g., meter ID). */
-    char manufacturer[3]; /**< 3-byte manufacturer code (no trailing '\0'). */
-    uint8_t version;      /**< Device version. */
-    uint8_t devType;      /**< Device type. */
+typedef enum {
+    WMBUS_WHITELIST_MODE_FIXED = 0,
+    WMBUS_WHITELIST_MODE_DYNAMIC = 1,
+} WMBUS_whitelist_mode_t;
 
-    /* GW maintain the parameters for specific Meter */
+typedef struct
+{
     uint8_t sub_state;
     uint8_t tx_security_mode;
     uint8_t gw2meter_function_code;
-    //uint8_t gw2meter_ci_field;
+    uint8_t reserved;
     uint8_t gw2meter_access_number;
     uint8_t gw2meter_access_number_tpl;
-    uint8_t reserved[2];
+    uint8_t gw_ringbuffer_last_index;
+    uint8_t flag_PASS_pre_encryption;
+    uint32_t gw_session_dev_id;
+    uint8_t gw_rx_function_code;
+    uint8_t gw_rx_ell_access_number;
+    uint8_t gw_rx_stl_access_number;
+    uint8_t gw_rx_ci_field;
+    uint8_t gw_tx_function_code;
+    uint8_t gw_tx_ell_access_number;
+    uint8_t gw_tx_stl_access_number;
+    uint8_t gw_wmbus_primary;
+    uint8_t gw_wmbus_FCB;
+    uint8_t gw_wmbus_FCV;
+    uint8_t gw_wmbus_ACD;
+    uint8_t gw_wmbus_DFC;
+    uint8_t gw_session_active;
+    uint8_t gw_fac_timer_active;
+    int8_t gw_fac_schedule_id;
+    WMBUS_event_t gw_fac_event;
     uint32_t gw2meter_message_counter;
-} WMBUS_whitelist_t;
+} WMBUS_whitelist_state_t;
+
+typedef struct {
+    const WMBUS_LINK_device_info_t *info;
+    WMBUS_whitelist_state_t *state;
+} WMBUS_whitelist_entry_t;
+
+typedef enum
+{
+    WMBUS_METER_STATUS_ACCEPTED_ADDED = 0,
+    WMBUS_METER_STATUS_REJECTED_UNKNOWN,
+    WMBUS_METER_STATUS_REJECTED_TABLE_FULL,
+    WMBUS_METER_STATUS_REJECTED_NO_DYNAMIC_BUFFER,
+} WMBUS_meter_status_t;
+
+typedef void (*wmbus_link_meter_status_cb_t)(
+    WMBUS_meter_status_t status,
+    const WMBUS_LINK_device_info_t *meter_info);
+
+int32_t wmbus_link_register_meter_status_cb(wmbus_link_meter_status_cb_t cb);
 
 void dump_byte(uint8_t* p_dump, int length);
 void dump_raw(const char *tag, uint8_t *p_dump, int length);
@@ -719,21 +770,32 @@ void wmbus_link_set_flag_GW_request(uint8_t _data);
 
 
 #ifdef WMBUS_GW_PREENCRYPTION
-void wmbus_link_GW_pre_encryption_clean(vodi);
+void wmbus_link_GW_pre_encryption_clean(void);
 void wmbus_link_GW_pre_encryption(uint32_t id, uint8_t *data, uint16_t len);
 void wmbus_link_GW_next_pre_encryption(uint32_t id);
 #endif
 
 void wmbus_link_clear_flow_control_setting(void);
+void wmbus_link_clear_flow_control_setting_by_id(uint32_t dev_id);
 void wmbus_link_flow_control(void);
 
-uint8_t wmbus_link_api_parsing_packet(void);
+int32_t wmbus_link_api_parsing_packet(void);
 void wmbus_link_api_gen_packet(uint8_t *data_ptr, uint16_t data_len);
 void wmbus_link_api_notify_data2APP(void);
 
-void wmbus_link_set_state2WL(uint32_t id);
-void wmbus_link_get_state_from_WL(uint8_t *rx_buffer);
-bool wmbus_link_gw_add_device2WL(WMBUS_whitelist_t *entry_p);
+bool wmbus_link_gw_load_context_by_id(uint32_t dev_id);
+bool wmbus_link_gw_save_context_by_id(uint32_t dev_id);
+uint32_t wmbus_link_gw_get_current_dev_id(void);
+void wmbus_link_gw_whitelist_dump(void);
+bool wmbus_link_gw_whitelist_init_temporary(WMBUS_whitelist_mode_t mode,
+                                            uint16_t capacity);
+void wmbus_link_gw_whitelist_clear(void);
+bool wmbus_link_gw_whitelist_free_temporary(void);
+bool wmbus_link_gw_whitelist_add_device(const WMBUS_LINK_device_info_t *info_p);
+bool wmbus_link_gw_whitelist_del_device(uint32_t dev_id);
+WMBUS_whitelist_mode_t wmbus_link_gw_whitelist_get_mode(void);
+uint16_t wmbus_link_gw_whitelist_get_count(void);
+uint16_t wmbus_link_gw_whitelist_get_capacity(void);
 
 
 bool wmbus_link_gw_is_admission_ctrl_enabled(void);
@@ -754,12 +816,15 @@ void wmbus_link_show_device_info(void);
 
 void wmbus_link_show_state(void);
 
-void wmbus_link_dump_timing_check(void);
-
 bool wmbus_link_gw_find_WL_by_ID(uint32_t dev_id);
+
+void wmbus_link_set_meter_only_accept_gw(bool enable);
+bool wmbus_link_get_meter_only_accept_gw(void);
+void wmbus_link_set_verify_gw_id(uint32_t gw_id);
+uint32_t wmbus_link_get_verify_gw_id(void);
+bool wmbus_link_meter_check_packet_from_gw(uint8_t *rx_buffer);
 
 #define DEBUG_BY_GPIO 0
 void wmbus_link_gpio_toggle(uint8_t pin_idx);
 
 #endif 
-

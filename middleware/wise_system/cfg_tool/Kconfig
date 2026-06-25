@@ -139,10 +139,6 @@ menu "Platform Components Configuration"
     config ES_DEVICE_PWMSLOW
         bool "Enable PWMSLOW"
         default n
-
-    config ES_DEVICE_PIO
-        bool "Enable PIO"
-        default n
 endmenu # Platform Components Configuration
 
 menu "DMA Channel Configuration"
@@ -668,7 +664,6 @@ menu "Middleware Components Configuration"
 
             config SHELL_PIO
                 bool "Enable PIO Support in Shell"
-                depends on ES_DEVICE_PIO
                 default n
 
             config SHELL_WMBUS

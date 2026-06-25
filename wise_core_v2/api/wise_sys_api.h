@@ -37,26 +37,22 @@
  * @{
  */
 
-#define CHIP_UNIQUE_LEN                 8   /**< Length of the unique device ID (bytes). */
+#define CHIP_UNIQUE_LEN 8 /**< Length of the unique device ID (bytes). */
 
-#define SYS_DMA_CHANNEL_NUM             6   /**< Total number of DMA channels. */
+#define SYS_DMA_CHANNEL_NUM 6 /**< Total number of DMA channels. */
 
 #ifndef ASARADC_MAX_POINTS
 #define ASARADC_MAX_POINTS 6
 #endif
 
-#define RESET_INFO_SYS_REQ              BIT0
-#define RESET_INFO_WDOG_RST             BIT1
-#define RESET_INFO_LOCKUP_RST           BIT2
-#define RESET_INFO_BOD_RST              BIT3
-#define RESET_INFO_CHIP_RST             BIT6
-#define RESET_INFO_EXT_PMU_RST          BIT7
-#define WARM_RESET_RELEVANT_MASK        (RESET_INFO_SYS_REQ |       \
-                                        RESET_INFO_WDOG_RST |       \
-                                        RESET_INFO_LOCKUP_RST |     \
-                                        RESET_INFO_BOD_RST |        \
-                                        RESET_INFO_CHIP_RST |       \
-                                        RESET_INFO_EXT_PMU_RST)
+#define RESET_INFO_SYS_REQ BIT0
+#define RESET_INFO_WDOG_RST BIT1
+#define RESET_INFO_LOCKUP_RST BIT2
+#define RESET_INFO_BOD_RST BIT3
+#define RESET_INFO_CHIP_RST BIT6
+#define RESET_INFO_EXT_PMU_RST BIT7
+#define WARM_RESET_RELEVANT_MASK                                                                                                                     \
+    (RESET_INFO_SYS_REQ | RESET_INFO_WDOG_RST | RESET_INFO_LOCKUP_RST | RESET_INFO_BOD_RST | RESET_INFO_CHIP_RST | RESET_INFO_EXT_PMU_RST)
 
 /**
  * @enum SYS_DMA_FUNC_MAP
@@ -123,8 +119,8 @@ typedef struct {
  * @brief ASARADC voltage reference selection.
  */
 typedef enum {
-    ASARADC_VREF_1P6V = 0,  /**< 1.6 V reference. */
-    ASARADC_VREF_2P4V       /**< 2.4 V reference. */
+    ASARADC_VREF_1P6V = 0, /**< 1.6 V reference. */
+    ASARADC_VREF_2P4V      /**< 2.4 V reference. */
 } WISE_ASARADC_VREF;
 
 /**
@@ -176,6 +172,8 @@ typedef struct {
     uint8_t gain_ctrl_40m_s;                /**< Gain control level (1–8) for sleep mode. */
     uint8_t cap_xtal_i;                     /**< Internal XTAL capacitor setting (default = 64). */
     uint8_t cap_xtal_o;                     /**< External XTAL capacitor setting (default = 64). */
+    uint8_t maincap_xtal_i;                 /**< 40M XTAL MAINCAP_I_EN (0/1). */
+    uint8_t maincap_xtal_o;                 /**< 40M XTAL MAINCAP_O_EN (0/1). */
     uint8_t cap_lpxtal_i;                   /**< ext32k LPXTAL CAP_I_CTRL (0-63). All-zero CAP tuple = keep factory default. */
     uint8_t cap_lpxtal_o;                   /**< ext32k LPXTAL CAP_O_CTRL (0-63). */
     uint8_t maincap_lpxtal_i;               /**< ext32k LPXTAL MAINCAP_I_EN (0/1). */
@@ -187,11 +185,10 @@ typedef struct {
     WISE_SYS_ULPLDO_ENMODE_T ulpldo_enmode; /**< ULPLDO enable mode selection. */
 } WISE_SYS_BOARD_PROPERTY_T;
 
-typedef struct
-{
+typedef struct {
     SHUTDOWN_WAKE_SRC_T wake_src;
     uint32_t shutdown_ms; //period in ms to exit shutdown if SHUTDOWN_WAKE_SRC_WUTMR is set
-    uint8_t wake_io_idx; //gpio pin to exit shutdown if SHUTDOWN_WAKE_SRC_GPIO is set
+    uint8_t wake_io_idx;  //gpio pin to exit shutdown if SHUTDOWN_WAKE_SRC_GPIO is set
 } SYS_SHUTDOWN_CFT_T;
 
 /**
@@ -199,25 +196,18 @@ typedef struct
  * @brief LFOSC clock source configuration.
  */
 typedef struct {
-    uint8_t clk_src;                /**< Clock source selector (device-specific). */
+    uint8_t clk_src; /**< Clock source selector (device-specific). */
     union {
         uint8_t mode_select;
         LFOSC_32K_MODE_T mode_32k;
         LFOSC_16K_MODE_T mode_16k;
-    } mode;                         /**< Mode selection depends on @ref clk_src. */
-    uint8_t calFinish;              /**< Calibration status flag. */
+    } mode;            /**< Mode selection depends on @ref clk_src. */
+    uint8_t calFinish; /**< Calibration status flag. */
 } WISE_LFOSC_SRC_T;
 
 /* ------------------------------------------------------------------------- */
 /*                            System Core APIs                               */
 /* ------------------------------------------------------------------------- */
-
-/**
- * @brief Initialize the system.
- *
- * Performs core system initialization including clocks, power, and subsystems.
- */
-void wise_sys_init(void);
 
 /**
  * @brief Perform a full system reset.
@@ -318,7 +308,6 @@ void wise_sys_dma_channel_export(void);
  */
 int32_t wise_dma_memcpy_bytes(void *dst, const void *src, uint32_t byte_count);
 
-
 /* ------------------------------------------------------------------------- */
 /*                         Board RF Property Config                          */
 /* ------------------------------------------------------------------------- */
@@ -329,17 +318,6 @@ int32_t wise_dma_memcpy_bytes(void *dst, const void *src, uint32_t byte_count);
  * @param[in] property Pointer to a ::WISE_SYS_BOARD_PROPERTY_T structure.
  */
 void wise_sys_set_board_property(const WISE_SYS_BOARD_PROPERTY_T *property);
-
-/**
- * @brief Enable/disable the EXT32K low-power sleep-current workaround.
- *
- * The workaround is applied inside the ext32k sclk-src switch path. Call this
- * before LFOSC config/calibration so the flag is in place when ext32k is
- * switched in.
- *
- * @param[in] enable 0 = disable, 1 = enable.
- */
-void wise_sys_set_ext32k_lp_workaround(uint8_t enable);
 
 /**
  * @brief Enable or disable TCXO configuration.
@@ -374,8 +352,43 @@ void wise_sys_set_board_match_type(uint8_t mat_type);
  */
 uint8_t wise_sys_get_board_match_type(void);
 
-void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable);
+/**
+ * @brief Dynamically set the 40M XTAL capacitor configuration and apply it to the analog block.
+ *
+ * @param[in] cap_i     XO_40M_CAP_I_CTRL trim (0-127).
+ * @param[in] cap_o     XO_40M_CAP_O_CTRL trim (0-127).
+ * @param[in] maincap_i XO_40M_MAINCAP_I_EN (0/1).
+ * @param[in] maincap_o XO_40M_MAINCAP_O_EN (0/1).
+ */
+void wise_sys_set_xtal_cap(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o);
 
+/**
+ * @brief Get the current 40M XTAL capacitor configuration.
+ *
+ * Any of the output pointers may be NULL.
+ *
+ * @param[out] cap_i     Receives XO_40M_CAP_I_CTRL trim.
+ * @param[out] cap_o     Receives XO_40M_CAP_O_CTRL trim.
+ * @param[out] maincap_i Receives XO_40M_MAINCAP_I_EN.
+ * @param[out] maincap_o Receives XO_40M_MAINCAP_O_EN.
+ */
+void wise_sys_get_xtal_cap(uint8_t *cap_i, uint8_t *cap_o, uint8_t *maincap_i, uint8_t *maincap_o);
+
+/**
+ * @brief Dynamically set the 40M XTAL gain control and apply it to the analog block.
+ *
+ * @param[in] gain XO_40M_GAIN_CTRL level (1-8).
+ */
+void wise_sys_set_40m_gain_ctrl(uint8_t gain);
+
+/**
+ * @brief Get the current 40M XTAL gain control level.
+ *
+ * @return XO_40M_GAIN_CTRL level.
+ */
+uint8_t wise_sys_get_40m_gain_ctrl(void);
+
+void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable);
 
 /* ------------------------------------------------------------------------- */
 /*                     LFOSC (Low Frequency Oscillator)                      */
@@ -405,7 +418,6 @@ void wise_sys_lfosc_clk_get_config(WISE_LFOSC_SRC_T *clk_cfg);
  * @retval <0  Failure.
  */
 int32_t wise_sys_lfosc_clk_calibration();
-
 
 /* ------------------------------------------------------------------------- */
 /*                              ASARADC APIs                                 */
@@ -438,7 +450,7 @@ WISE_STATUS wise_asaradc_config(WISE_ASARADC_VREF vref);
  * @retval WISE_SUCCESS Read successful.
  * @retval WISE_FAIL    Read failed.
  */
-WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t* rawValue);
+WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t *rawValue);
 
 /**
  * @brief Read high-resolution (27-bit) ASARADC value.
@@ -449,7 +461,7 @@ WISE_STATUS wise_asaradc_read_input(ASARADC_VIN_SEL_T vin_sel, uint16_t* rawValu
  * @retval WISE_SUCCESS Read successful.
  * @retval WISE_FAIL    Read failed.
  */
-WISE_STATUS wise_asaradc_read_input_hires(ASARADC_VIN_SEL_T vin_sel, uint32_t* rawValue);
+WISE_STATUS wise_asaradc_read_input_hires(ASARADC_VIN_SEL_T vin_sel, uint32_t *rawValue);
 
 /* ------------------------------------------------------------------------- */
 /*                           Warm Reset Info                                 */
@@ -468,6 +480,5 @@ uint32_t wise_sys_get_warm_reset_info(void);
 void wise_sys_clear_warm_reset_info(void);
 
 /** @} */ /* end of WISE_SYS group */
-
 
 #endif /* __WISE_SYS_API_H */

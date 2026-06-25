@@ -213,6 +213,10 @@
 #define ASSERT_ALLOC_FAIL(msg)              do{debug_print("memory failed: "); debug_print(msg); while(1);} while(0)
 
 
+#define UTIL_FLAG_SET(v, f)                 (v |= f)
+#define UTIL_FLAG_CLEAR(v, f)               (v &= ~f)
+#define UTIL_FLAG_IS_SET(v, f)              ((v & f) ? 1 : 0)
+
 //uint8_t crc8_citt(const void *data, uint32_t size);
 //uint8_t crc8_citt_byte(uint8_t start, uint8_t new);
 

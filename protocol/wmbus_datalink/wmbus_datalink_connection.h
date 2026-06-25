@@ -41,6 +41,7 @@ wmbus_connection_t* wmbus_link_find_connection(wmbus_connection_t *new_conn);
 wmbus_connection_t* wmbus_link_find_connection_by_id(uint32_t id);
 //only supported for GW
 void wmbus_link_find_tx_queue_by_id(uint32_t id);
+void wmbus_link_use_default_tx_queue(void);
 void wmbus_link_free_connection_table(void);
 void wmbus_link_print_connections(void);
 

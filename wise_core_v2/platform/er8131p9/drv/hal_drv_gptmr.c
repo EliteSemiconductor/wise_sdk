@@ -157,6 +157,29 @@ void hal_drv_gptmr_config(uint8_t gptmr_idx, TIMER_TYPE_T type,
     gptmr_context[gptmr_idx].interval_counter = interval_counter;
 }
 
+void hal_drv_gptmr_config_counter(uint8_t gptmr_idx, TIMER_TYPE_T type,
+                          bool interrupt_enable, uint32_t start_counter,
+                          uint32_t interval_counter)
+{
+    uint32_t interval = interval_counter / GPTMR_CLK_PER_US;
+    
+    hal_drv_gptmr_set_cnt(gptmr_idx, start_counter);
+    hal_drv_gptmr_open(gptmr_idx, type);
+
+    if (interrupt_enable) {
+        hal_drv_gptmr_enable_int(gptmr_idx);
+    } else {
+        hal_drv_gptmr_disable_int(gptmr_idx);
+    }
+    
+    // Save the configuration
+    gptmr_context[gptmr_idx].type             = type;
+    gptmr_context[gptmr_idx].start_offset     = start_counter;
+    gptmr_context[gptmr_idx].interval         = interval;
+    gptmr_context[gptmr_idx].interval_counter = interval_counter;
+}
+
+
 HAL_STATUS hal_drv_gptmr_register_callback(GPTMR_CB_EVENT_T event,
                                             CALLBACK_T cb, void *context)
 {

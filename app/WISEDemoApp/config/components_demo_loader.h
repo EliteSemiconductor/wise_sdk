@@ -3,7 +3,6 @@
 #define _COMPONENTS_DEFAULT_H
 
 #define ES_DEVICE_UART                                  1
-#define ES_DEVICE_PIO                                   1
 
 #define DMA_CH0_FUNC                                    SYS_DMA_FUNC_UNSED
 #define DMA_CH1_FUNC                                    SYS_DMA_FUNC_UNSED
@@ -25,7 +24,7 @@
 #define CONFIG_API_PRINTF                               0
 
 #define MIDDLEWARE_WISE_SHELL                           0
-#define MIDDLEWARE_WISE_SHELL_V2                        1
+#define MIDDLEWARE_WISE_SHELL_V2                        0
 
 #define SHELL_RADIO                                     0
 #define SHELL_TIMER                                     0

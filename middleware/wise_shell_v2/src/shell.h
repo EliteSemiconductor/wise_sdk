@@ -141,6 +141,20 @@ typedef struct shell_command {
         __attribute__((section(".shell_cmds"), used)) =                        \
             &SHELL_CONCAT(_shell_cmd_, _name)
 
+/* Auto-register command group WITH a default handler. The handler runs when the
+ * group is invoked bare (no subcommand) -- e.g. to print usage/quick-start --
+ * instead of the auto subcommand list. Subcommand dispatch is unchanged. */
+#define SHELL_CMD_GROUP_AUTO_DEF(_name, _subcmds, _handler, _help)             \
+    static const shell_command_t SHELL_CONCAT(_shell_cmd_, _name) = {          \
+        .name         = #_name,                                                \
+        .handler      = (_handler),                                            \
+        .subcmds      = (_subcmds),                                            \
+        .subcmd_count = sizeof(_subcmds) / sizeof((_subcmds)[0]),              \
+        .help         = (_help)};                                              \
+    static const shell_command_t *SHELL_CONCAT(_shell_cmd_ptr_, _name)         \
+        __attribute__((section(".shell_cmds"), used)) =                        \
+            &SHELL_CONCAT(_shell_cmd_, _name)
+
 /* =====================================================================
  * Backend Callbacks
  * ===================================================================== */

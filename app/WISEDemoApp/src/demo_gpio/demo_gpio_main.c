@@ -30,6 +30,9 @@
 #include "util.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "GPIO"
+
 #define DEMO_GPIO_PIN_1             2 /**< GPIO pin index used as output (pin 5). */
 #define DEMO_GPIO_PIN_2             3 /**< GPIO pin index used as output (pin 6). */
 #define DEMO_GPIO_PIN_3             13 /**< GPIO pin index used as input with interrupt (pin 7). */
@@ -77,7 +80,7 @@ void main(void)
     WISE_GPIO_CFG_T pinConfig;
     WISE_GPIO_INT_CFG_T gpioIntConfig;
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
     
     /* wise_gpio_init() is already called in system global init. */

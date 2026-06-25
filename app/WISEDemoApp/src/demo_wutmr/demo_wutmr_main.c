@@ -41,6 +41,9 @@
 #include "esmt_chip_specific.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "WUTMR"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_WUTMR WUTMR Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -450,7 +453,7 @@ static void wutmrIsrCallback(void *context)
  */
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_wutmr_register_callback(wutmrIsrCallback, NULL);

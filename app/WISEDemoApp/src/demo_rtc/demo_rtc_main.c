@@ -44,6 +44,9 @@
 #include "wise_shell_v2/src/shell.h"
 #include "demo_app_common.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "RTC"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_RTC RTC Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -253,7 +256,7 @@ void main(void)
         .time.sec = 0,
     };
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     wise_rtc_init();

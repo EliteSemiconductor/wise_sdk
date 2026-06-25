@@ -48,6 +48,9 @@
 #include "wise_pwmslow_api.h"
 #include "wise_sys_api.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "PWMSLOW"
+
 /**
  * @defgroup WISE_EXAMPLE_APP_PWMSLOW PWMSLOW Example App
  * @ingroup WISE_EXAMPLE_APP
@@ -172,7 +175,7 @@ int main(void)
 #endif
     );
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
 
     /* CRITICAL: Configure LFOSC before PWMSLOW initialization */
     demo_lfosc_config();

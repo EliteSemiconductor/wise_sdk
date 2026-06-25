@@ -11,6 +11,9 @@
 #include "util.h"
 #include "wise_crypto_api.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "CRYPTO"
+
 #define DEMO_APP_PROMPT             "CRYPTO> "
 #define CRYPTO_BUF_LEN              64
 
@@ -41,7 +44,7 @@ void main(void)
     WISE_AES_KEY_CONFIG_T cryptoKeyCfg = {0};
     WISE_AES_CONFIG_CTX_T cryptoAESCtx = {0};
     
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     _init_test_pattern();
@@ -55,8 +58,7 @@ void main(void)
     cryptoKeyCfg.key_num = 0; //NA for AES_KEY_SRC_FROM_USER mode
     cryptoKeyCfg.key_bytes = cryptoKey;
     cryptoKeyCfg.swap_mode = AES_SWAP_NONE;
-    cryptoKeyCfg.iv_or_cnt = NULL;
-    
+
     if (wise_aes_key_config(&cryptoKeyCfg) != WISE_SUCCESS)
     {
         debug_print("set aes ECB key fail\n");

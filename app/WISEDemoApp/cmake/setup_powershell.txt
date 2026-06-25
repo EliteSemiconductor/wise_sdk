@@ -1,0 +1,14 @@
+1. install cmake in powershell
+    winget install Kitware.CMake
+2. install ninja in powershell
+    winget install Ninja-build.Ninja
+3. set toolchain path
+    $env:Path += ";C:\esmt\Development_Suite\v1.0\tools\toolchain\gcc\bin\"
+4. cmake config command. For 
+    cmake -S . -B [output_path] -G Ninja --toolchain toolchains/arm-gcc.cmake
+5. cmake build specific target
+    cmake --build [output_path] --target [target_name]
+6. cmake build all
+    cmake --build [output_path]
+7. list available targets
+    ninja -C build -t query all

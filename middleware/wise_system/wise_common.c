@@ -178,7 +178,6 @@ static ST_UART_PRE_CONF_T uartCfg[] = {
 #endif
 };
 
-#if ES_DEVICE_PIO
 uint8_t uartIOCfg[][2] = {
 #if (defined(ES_COMP_ENABLE_UART_0) && (ES_COMP_ENABLE_UART_0 == ENABLE))
     {MODE_PIO_FUNC_UART0_TX, ES_UART0_TX_PIN}, {MODE_PIO_FUNC_UART0_RX, ES_UART0_RX_PIN},
@@ -190,41 +189,27 @@ uint8_t uartIOCfg[][2] = {
     {MODE_PIO_FUNC_UART2_TX, ES_UART2_TX_PIN}, {MODE_PIO_FUNC_UART2_RX, ES_UART2_RX_PIN},
 #endif
 };
-#else //ES_DEVICE_PIO
-WISE_GPIO_CFG_T uartIOCfg[] = {
-#if (defined(ES_COMP_ENABLE_UART_0) && (ES_COMP_ENABLE_UART_0 == ENABLE))
-    {ES_UART0_TX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-    {ES_UART0_RX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#endif
-#if (defined(ES_COMP_ENABLE_UART_1) && (ES_COMP_ENABLE_UART_1 == ENABLE))
-    {ES_UART1_TX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-    {ES_UART1_RX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#endif
-#if (defined(ES_COMP_ENABLE_UART_2) && (ES_COMP_ENABLE_UART_2 == ENABLE))
-    {ES_UART2_TX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-    {ES_UART2_RX_PIN, MODE_PERI_1, GPIO_DIR_NONE, GPIO_INT_DISABLE, GPIO_INT_TYPE_NONE},
-#endif
-};
-#endif //ES_DEVICE_PIO
 
 static const uint8_t dma_channel_map[SYS_DMA_CHANNEL_NUM] = {DMA_CH0_FUNC, DMA_CH1_FUNC, DMA_CH2_FUNC, DMA_CH3_FUNC, DMA_CH4_FUNC, DMA_CH5_FUNC};
 
-static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {.tcxo_output_en   = BOARD_TCXO_OUTPUT_EN,
-                                                        .pa_type          = BOARD_PA_TYPE,
-                                                        .matching_type    = BOARD_BAND_MATCHING,
-                                                        .gain_ctrl_40m    = BOARD_40M_GAIN_CTRL,
-                                                        .gain_ctrl_40m_s  = BOARD_40M_GAIN_CTRL_S,
-                                                        .cap_xtal_i       = BOARD_40M_CAP_XTAL_I,
-                                                        .cap_xtal_o       = BOARD_40M_CAP_XTAL_O,
-                                                        .cap_lpxtal_i     = BOARD_32K_CAP_LPXTAL_I,
-                                                        .cap_lpxtal_o     = BOARD_32K_CAP_LPXTAL_O,
-                                                        .maincap_lpxtal_i = BOARD_32K_MAINCAP_I_EN,
-                                                        .maincap_lpxtal_o = BOARD_32K_MAINCAP_O_EN,
-                                                        .gain_lpxtal      = BOARD_32K_LPXTAL_GAIN,
-                                                        .sram_retain      = BOARD_SRAM_RETAIN,
+static const WISE_SYS_BOARD_PROPERTY_T boardProperty = {.tcxo_output_en       = BOARD_TCXO_OUTPUT_EN,
+                                                        .pa_type              = BOARD_PA_TYPE,
+                                                        .matching_type        = BOARD_BAND_MATCHING,
+                                                        .gain_ctrl_40m        = BOARD_40M_GAIN_CTRL,
+                                                        .gain_ctrl_40m_s      = BOARD_40M_GAIN_CTRL_S,
+                                                        .cap_xtal_i           = BOARD_40M_CAP_XTAL_I,
+                                                        .cap_xtal_o           = BOARD_40M_CAP_XTAL_O,
+                                                        .maincap_xtal_i       = BOARD_40M_MAINCAP_I_EN,
+                                                        .maincap_xtal_o       = BOARD_40M_MAINCAP_O_EN,
+                                                        .cap_lpxtal_i         = BOARD_32K_CAP_LPXTAL_I,
+                                                        .cap_lpxtal_o         = BOARD_32K_CAP_LPXTAL_O,
+                                                        .maincap_lpxtal_i     = BOARD_32K_MAINCAP_I_EN,
+                                                        .maincap_lpxtal_o     = BOARD_32K_MAINCAP_O_EN,
+                                                        .gain_lpxtal          = BOARD_32K_LPXTAL_GAIN,
+                                                        .sram_retain          = BOARD_SRAM_RETAIN,
                                                         .ext32k_lp_workaround = BOARD_EXT32K_LP_WORKAROUND,
-                                                        .ulpldo_vref      = BOARD_ULPLDO_VREF,
-                                                        .ulpldo_enmode    = BOARD_ULPLDO_ENMODE};
+                                                        .ulpldo_vref          = BOARD_ULPLDO_VREF,
+                                                        .ulpldo_enmode        = BOARD_ULPLDO_ENMODE};
 
 static void _platform_init()
 {
@@ -239,8 +224,7 @@ static void _platform_init()
             ;
     }
 
-    /* Propagate the EXT32K workaround flag before LFOSC calibration so the ext32k path can honor it. */
-    wise_sys_set_ext32k_lp_workaround(boardProperty.ext32k_lp_workaround);
+    wise_sys_set_board_property(&boardProperty);
 
 #ifndef TARGET_SBL
     wise_sys_lfosc_clk_src_config(oscCfg);
@@ -249,8 +233,6 @@ static void _platform_init()
     wise_wutmr_init();
     wise_wutmr_enable();
 #endif
-
-    wise_sys_set_board_property(&boardProperty);
 
     wise_gpio_init();
     wise_tick_init();
@@ -290,22 +272,16 @@ static void _peripheral_init()
     retarget_set_port(STDIO_UART_PORT);
 #endif
 
-#if ES_DEVICE_PIO
     cfgNum = sizeof(uartIOCfg) / 2;
     for (i = 0; i < cfgNum; i++) {
         wise_gpio_func_cfg(uartIOCfg[i][1], uartIOCfg[i][0]);
     }
-#else
-    cfgNum = sizeof(uartIOCfg) / sizeof(WISE_GPIO_CFG_T);
-    for (i = 0; i < cfgNum; i++) {
-        wise_gpio_cfg(&uartIOCfg[i]);
-    }
-#endif //ES_DEVICE_PIO
 
 #if (defined MIDDLEWARE_WISE_WUTMR_CLK_CAL) && (MIDDLEWARE_WISE_WUTMR_CLK_CAL == 1)
     debug_print("LFOSC sel=%d\n", ES_DEVICE_LFOSC_SELECT);
-    if(ES_DEVICE_LFOSC_SELECT != SYS_LFOSC_CLK_SRC_EXTERNAL_32K)
+    if (ES_DEVICE_LFOSC_SELECT != SYS_LFOSC_CLK_SRC_EXTERNAL_32K) {
         wise_wutmr_clk_calibrate(2000); //sw clock calibration for 1000ms
+    }
 #endif
 }
 
@@ -321,17 +297,10 @@ static void _peripheral_restore()
         wise_uart_enable_interrupt(uartCfg[i].uartIntf);
     }
 
-#if ES_DEVICE_PIO
     cfgNum = sizeof(uartIOCfg) / 2;
     for (i = 0; i < cfgNum; i++) {
         wise_gpio_func_cfg(uartIOCfg[i][1], uartIOCfg[i][0]);
     }
-#else
-    cfgNum = sizeof(uartIOCfg) / sizeof(WISE_GPIO_CFG_T);
-    for (i = 0; i < cfgNum; i++) {
-        wise_gpio_cfg(&uartIOCfg[i]);
-    }
-#endif
 }
 
 #if (MIDDLEWARE_WISE_SHELL || MIDDLEWARE_WISE_SHELL_V2 || MIDDLEWARE_WISE_CTRL_CMD)

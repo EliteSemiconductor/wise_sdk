@@ -49,10 +49,6 @@
 #define DMA_CH5_FUNC                                    SYS_DMA_FUNC_UNSED
 #endif
 
-#ifndef ES_DEVICE_PIO
-#define ES_DEVICE_PIO                                   0
-#endif
-
 #ifndef ES_DEVICE_LFOSC_SELECT
 #define ES_DEVICE_LFOSC_SELECT                          SYS_LFOSC_CLK_SRC_INTERNAL_16K
 #define ES_DEVICE_LFOSC_OPTION                          LFOSC_16K_MODE_TEMP_COMP
@@ -64,6 +60,14 @@
 
 #ifndef BOARD_40M_GAIN_CTRL_S
 #define BOARD_40M_GAIN_CTRL_S                           15
+#endif
+
+#ifndef BOARD_40M_MAINCAP_I_EN
+#define BOARD_40M_MAINCAP_I_EN                          1 /* 0/1, XO_40M_MAINCAP_I_EN */
+#endif
+
+#ifndef BOARD_40M_MAINCAP_O_EN
+#define BOARD_40M_MAINCAP_O_EN                          1 /* 0/1, XO_40M_MAINCAP_O_EN */
 #endif
 
 #ifndef BOARD_SRAM_RETAIN
@@ -92,7 +96,7 @@
 
 /* Enable only when EXT32K is selected and the sleep-current issue must be masked. */
 #ifndef BOARD_EXT32K_LP_WORKAROUND
-#define BOARD_EXT32K_LP_WORKAROUND                      0 /* 0 = disable, 1 = enable */
+#define BOARD_EXT32K_LP_WORKAROUND                      1 /* 0 = disable, 1 = enable */
 #endif
 
 /* ULPLDO tuning is only meaningful on platforms that expose the 9006 ULPLDO control path. */

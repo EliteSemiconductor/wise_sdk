@@ -164,9 +164,12 @@ typedef enum
  */
 typedef enum 
 {
-    E_PHY_TRANSPARENT       = 0, /**< Transparent (raw) PHY mode. */
-    E_PHY_802154            = 1, /**< IEEE 802.15.4-compliant PHY mode. */
-    E_PHY_MBUS              = 5, /**< Wireless M-Bus PHY mode. */
+    E_PHY_TRANSPARENT = 0x0, /**< Transparent (raw) PHY mode. */
+    E_PHY_802154      = 0x1, /**< IEEE 802.15.4-compliant PHY mode. */
+    E_PHY_CCA         = 0x2,
+    E_PHY_BLE         = 0x3,
+    E_PHY_BLE_LR      = 0x4,
+    E_PHY_MBUS        = 0x5, /**< Wireless M-Bus PHY mode. */
 } WISE_PHY_MODE_T;
 
 /**
@@ -805,6 +808,8 @@ void wise_radio_enable_prbs9(int8_t intf_idx, uint8_t ch_index, uint8_t enable);
 void wise_radio_enable_repeat_mode(uint32_t rpt_len, bool enable);
 
 void wise_radio_enable_modem_clk(uint8_t enable);
+
+void wise_radio_chsd_init(void);
 
 /** @} */ /* end of WISE_Radio_APIs group */
 

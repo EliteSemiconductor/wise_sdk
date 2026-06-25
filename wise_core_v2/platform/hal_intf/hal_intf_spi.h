@@ -10,46 +10,46 @@
 #include "esmt_chip_specific.h"
 #include "types.h"
 
-#define SPI_TM_WRITE_ONLY 0x01
-#define SPI_TM_READ_ONLY 0x02
-#define SPI_TM_WRITE_READ 0x03
-#define SPI_TM_READ_WRITE 0x04
-#define SPI_TM_WRITE_DMY_READ 0x05
-#define SPI_TM_READ_DMY_WRITE 0x06
-#define SPI_TM_NONE_DATA 0x07
-#define SPI_TM_DMY_WRITE 0x08
-#define SPI_TM_DMY_READ 0x09
-
 typedef struct hal_info_spi_t {
     uint8_t spi_idx;
     void *spi;
     uint8_t block_mode;
 } HAL_INFO_SPI_T;
 
+/* Merged IO-mode values carried in HAL_SPI_CONF_T.io_mode (mirror of
+ * WISE_SPI_IO_MODE_T). The driver derives TransFmt.MOSIBiDir (3-wire) and
+ * TransCtrl.DualQuad (dual/quad) from this single value. */
+#define HAL_SPI_IO_SINGLE 0
+#define HAL_SPI_IO_3WIRE  1
+#define HAL_SPI_IO_DUAL   2
+#define HAL_SPI_IO_QUAD   3
+
+/* Channel-wide config, applied once at open. addr_len / addr_fmt are per-
+ * transfer (HAL_SPI_TRANS_FMT_T); io_mode (wire + lane width) is channel-wide. */
 typedef struct {
     uint16_t clock_mode;
     uint8_t role;
     uint8_t data_bit_width;
-    uint8_t addr_len;
     uint32_t bus_clock;
     uint8_t bit_order;
     uint8_t data_merge;
-    uint8_t mosi_bir_dir;
-    uint8_t dual_quard_mode;
-    uint8_t addr_fmt;
+    uint8_t io_mode;        /* HAL_SPI_IO_* : wire topology + data-lane width */
     uint8_t block_mode;
     uint8_t dma_enable;
 } HAL_SPI_CONF_T;
 
+/* Per-transfer descriptor. addr_len == 0 means no address phase. */
 typedef struct {
     uint8_t role;
     uint16_t rx_unit_count;
     uint16_t tx_unit_count;
     uint8_t dummy_len;
     uint8_t trans_mode;
-    uint8_t flag_en;
-    uint32_t addr_value;
+    uint8_t cmd_en;
     uint8_t cmd_value;
+    uint32_t addr_value;
+    uint8_t addr_len;
+    uint8_t addr_fmt;
 } HAL_SPI_TRANS_FMT_T;
 
 typedef enum {

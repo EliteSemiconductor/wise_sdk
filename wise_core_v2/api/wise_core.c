@@ -15,15 +15,17 @@
 #define WISE_SDK_VERSION_MAJOR                          4
 
 // SDK minor version: increased for each official release
-#define WISE_SDK_VERSION_MINOR                          8
+#define WISE_SDK_VERSION_MINOR                          9
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH
 
 void debugHardfault(uint32_t *sp);
 void _core_xip_mode_config();
+
 extern void _flash_probe();
 extern int32_t _flash_get_xip_cfg(uint8_t* mode, uint8_t* clk);
+extern void _wise_sys_init(void);
 
 void wise_core_get_version(WISE_SDK_VERSION_T *sdkVerInfo)
 {
@@ -65,7 +67,7 @@ WISE_STATUS wise_core_init(void)
     if(ESMT_SOC_CHIP_ID != wise_sys_get_chip_id())
         return WISE_FAIL;
     
-    wise_sys_init();
+    _wise_sys_init();
     wise_sys_lock(); // for soc remapping
 
 #ifdef CHIP_XIP_SUPPORT_RUNTIME_CONFIG
@@ -113,6 +115,22 @@ __attribute__((used)) void debugHardfault(uint32_t *sp)
     while (1);
 }
 
+#if defined(__CC_ARM)
+/* ARM Compiler 5 does not accept GNU extended inline assembly, so the fault
+ * trampoline is written as an embedded-assembler function. It captures the
+ * stacked frame pointer (MSP or PSP, per EXC_RETURN bit 2) and tail-calls the
+ * C handler debugHardfault(uint32_t *sp). */
+__asm void HardFault_Handler(void)
+{
+    IMPORT  debugHardfault
+    TST     lr, #4
+    ITE     EQ
+    MRSEQ   r0, MSP
+    MRSNE   r0, PSP
+    LDR     r1, =debugHardfault
+    BX      r1
+}
+#else
 void HardFault_Handler()
 {
     __asm volatile("tst lr, #4                                    \n"
@@ -125,6 +143,7 @@ void HardFault_Handler()
 
     while (1);
 }
+#endif
 
 void _core_xip_mode_config()
 {

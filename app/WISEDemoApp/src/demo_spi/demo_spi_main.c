@@ -26,7 +26,7 @@
  * Functional notes:
  * - Transfer is performed in non-blocking mode and waits for
  *   @ref WISE_SPI_EVENT_TRANSFER_DONE event.
- * - Master sends a command (SPI_MSG_FMT_CMD_EN) followed by payload data.
+ * - Master sends a command (cmd_en) followed by payload data.
  * - Slave prepares an RX buffer and waits for the transfer completion event.
  */
 
@@ -41,6 +41,9 @@
 #include "wise_gpio_api.h"
 #include "wise_spi_api.h"
 #include "wise_sys_api.h"
+
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "SPI"
 
 /**
  * @defgroup WISE_EXAMPLE_APP_SPI SPI Example App
@@ -73,7 +76,15 @@
  * Config
  * ============================================================ */
 #define SPI_CHANNEL        0               /**< SPI channel index used by this demo. */
-#define SPI_MODE_TYPE      SPI_MODE_REGULAR/**< SPI operating mode (driver enum). */
+/* WISE_SPI_MODE_T was removed (wire vs IO split). Local IO-width selector for
+ * pin-count and per-transfer io_mode in this demo. */
+typedef enum {
+    SPI_IOW_REGULAR = 0,
+    SPI_IOW_3WIRE,
+    SPI_IOW_DUAL,
+    SPI_IOW_QUAD,
+} SPI_IO_WIDTH_T;
+#define SPI_MODE_TYPE      SPI_IOW_REGULAR /**< Demo IO width (local selector). */
 #define SPI_CLOCK_SEL      E_SPI_CLOCK_SEL_1M /**< SPI clock selection (driver enum). */
 #define SPI_DATA_BIT_WIDTH 8               /**< SPI data bit width (bits per unit). */
 #define TEST_DATA_SIZE     16              /**< Test payload length in bytes. */
@@ -172,10 +183,10 @@ static void demo_spi_callback(uint8_t spi_channel,
  * @param[in] spi_mode    SPI mode (driver enum).
  */
 static void demo_spi_io_config(uint8_t spi_channel,
-                               WISE_SPI_MODE_T spi_mode)
+                               SPI_IO_WIDTH_T spi_mode)
 {
-    int num_pins = (spi_mode == SPI_MODE_QUAD)  ? 6 :
-                   (spi_mode == SPI_MODE_3WIRE) ? 3 : 4;
+    int num_pins = (spi_mode == SPI_IOW_QUAD)  ? 6 :
+                   (spi_mode == SPI_IOW_3WIRE) ? 3 : 4;
 
     bool need_tcxo = false;
     bool need_swd  = false;
@@ -226,7 +237,7 @@ static void demo_slave_listen_once(uint16_t recv_count)
 
     memset(rx_buf, 0, sizeof(rx_buf));
 
-    msg.trans_mode    = SPI_TM_READ_ONLY;
+    msg.trans_mode    = WISE_SPI_TM_READ_ONLY;
     msg.dummy_len     = 1;
     msg.rx_data_buff  = rx_buf;
     msg.rx_unit_count = recv_count;
@@ -278,7 +289,7 @@ int main(void)
 {
     WISE_STATUS st;
 
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
 
     printf("\n=== SPI Demo (%s) ===\n",
 #if (DEMO_SPI_ROLE == DEMO_SPI_ROLE_MASTER)
@@ -302,18 +313,14 @@ int main(void)
 
     WISE_SPI_CONF_T cfg = {0};
     cfg.clock_mode     = CLOCK_MODE0;
-    cfg.spi_mode       = SPI_MODE_TYPE;
-    cfg.role           = (DEMO_SPI_ROLE == DEMO_SPI_ROLE_MASTER)
-                           ? E_SPI_ROLE_MASTER
-                           : E_SPI_ROLE_SLAVE;
+    cfg.io_mode        = (SPI_MODE_TYPE == SPI_IOW_QUAD) ? WISE_SPI_IO_QUAD :
+                         (SPI_MODE_TYPE == SPI_IOW_DUAL) ? WISE_SPI_IO_DUAL : WISE_SPI_IO_SINGLE;
     cfg.data_bit_width = SPI_DATA_BIT_WIDTH;
-    cfg.addr_len       = 2;
     cfg.clock_sel      = SPI_CLOCK_SEL;
     cfg.bit_order      = SPI_MSB_FIRST;
-    cfg.data_merge     = 1;
-    cfg.addr_fmt       = 0;
+    cfg.data_merge     = WISE_SPI_ENABLE;
     cfg.block_mode     = E_SPI_NONBLOCK_MODE;
-    cfg.dma_enable     = 0;
+    cfg.dma_enable     = WISE_SPI_DISABLE;
 
 #if (DEMO_SPI_ROLE == DEMO_SPI_ROLE_MASTER)
 
@@ -328,15 +335,15 @@ int main(void)
     }
 
     WISE_SPI_XFER_MSG_T msg = {0};
-    msg.msg_fmt      |= SPI_MSG_FMT_CMD_EN;
-    msg.trans_mode    = SPI_TM_DMY_WRITE;
+    msg.cmd_en        = WISE_SPI_ENABLE;
+    msg.trans_mode    = WISE_SPI_TM_DMY_WRITE;
     msg.tx_data_buff  = tx_buf;
     msg.tx_unit_count = TEST_DATA_SIZE;
 
-    if (cfg.spi_mode == SPI_MODE_QUAD) {
+    if (SPI_MODE_TYPE == SPI_IOW_QUAD) {
         msg.cmd       = WRITE_DATA_QUAD_IO;
         msg.dummy_len = 4;
-    } else if (cfg.spi_mode == SPI_MODE_DUAL) {
+    } else if (SPI_MODE_TYPE == SPI_IOW_DUAL) {
         msg.cmd       = WRITE_DATA_DUAL_IO;
         msg.dummy_len = 1;
     } else {

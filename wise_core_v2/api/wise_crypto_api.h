@@ -110,10 +110,10 @@ typedef enum {
 
 /**
  * @struct WISE_AES_KEY_CONFIG_T
- * @brief AES key and IV/Counter configuration.
+ * @brief AES key configuration.
  *
- * Describes key source, key data or index, swap mode, and initial
- * IV/counter where required by the AES mode.
+ * Describes key source, key data or index, and swap mode. IV/counter
+ * for modes that require it is supplied via @ref WISE_AES_DATA_T.
  *
  * @ingroup WISE_CRYPTO
  */
@@ -123,7 +123,6 @@ typedef struct {
     const uint8_t *key_bytes; /**< Pointer to key bytes (if @ref AES_KEY_SRC_FROM_USER), NULL otherwise. */
     uint32_t key_num;         /**< Keystore key index (when using stored key). */
     AES_SWAP_T swap_mode;     /**< Data swap behavior for AES engine. */
-    const uint8_t *iv_or_cnt; /**< IV or counter value for modes that require it. */
 } WISE_AES_KEY_CONFIG_T;
 
 /**
@@ -138,7 +137,7 @@ typedef struct {
     const uint8_t *input;       /**< Pointer to input buffer. */
     uint8_t *output;            /**< Pointer to output buffer. */
     uint32_t length;            /**< Data length in bytes (must be multiple of 16 for block modes). */
-    const uint8_t *iv_or_cnt;   /**< Optional IV or counter (may override key config). */
+    const uint8_t *iv_or_cnt;   /**< IV or counter for modes that require it (CBC, CTR, CBC-MAC); NULL for ECB. */
 } WISE_AES_DATA_T;
 
 /**
@@ -271,135 +270,6 @@ WISE_STATUS wise_aes_ccm_configure(WISE_AES_CCM_CTX_T *ctx);
  * @ingroup WISE_CRYPTO
  */
 WISE_STATUS wise_aes_ccm_exec(WISE_AES_CCM_CTX_T *ctx, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-ECB encryption.
- *
- * One-shot helper that configures the key and runs ECB encryption.
- *
- * @param[in]  key_cfg Pointer to AES key configuration.
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Encryption completed successfully.
- * @retval ::WISE_FAIL    Encryption failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ecb_encrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-ECB decryption.
- *
- * @param[in]  key_cfg Pointer to AES key configuration.
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Decryption completed successfully.
- * @retval ::WISE_FAIL    Decryption failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ecb_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-CBC encryption.
- *
- * @param[in]  key_cfg Pointer to AES key configuration (includes IV).
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Encryption completed successfully.
- * @retval ::WISE_FAIL    Encryption failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_cbc_encrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-CBC decryption.
- *
- * @param[in]  key_cfg Pointer to AES key configuration (includes IV).
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Decryption completed successfully.
- * @retval ::WISE_FAIL    Decryption failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_cbc_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-CTR encryption.
- *
- * The same function may be used for decryption in CTR mode.
- *
- * @param[in]  key_cfg Pointer to AES key configuration (includes counter).
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Operation completed successfully.
- * @retval ::WISE_FAIL    Operation failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ctr_encrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-CTR decryption.
- *
- * Provided for API symmetry. Internally equivalent to encrypt in CTR mode.
- *
- * @param[in]  key_cfg Pointer to AES key configuration (includes counter).
- * @param[in]  data    Pointer to AES data buffers.
- *
- * @retval ::WISE_SUCCESS Operation completed successfully.
- * @retval ::WISE_FAIL    Operation failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ctr_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Generate CBC-MAC tag using AES-CBC.
- *
- * @param[in]  key_cfg Pointer to AES key configuration.
- * @param[in]  data    Pointer to data over which MAC is computed.
- *
- * @retval ::WISE_SUCCESS MAC generation completed successfully.
- * @retval ::WISE_FAIL    MAC generation failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_cbcmac_generate(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data);
-
-/**
- * @brief Perform AES-CCM authenticated encryption.
- *
- * One-shot helper that configures key, CCM parameters and encrypts payload.
- *
- * @param[in]  key_cfg Pointer to AES key configuration.
- * @param[in]  data    Pointer to AES data buffers.
- * @param[in]  ccm     Pointer to CCM extra parameters.
- *
- * @retval ::WISE_SUCCESS Encryption and tag generation succeeded.
- * @retval ::WISE_FAIL    Operation failed.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ccm_encrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data, const WISE_AES_CCM_EXTRA_T *ccm);
-
-/**
- * @brief Perform AES-CCM authenticated decryption.
- *
- * Decrypts payload and verifies authentication tag.
- *
- * @param[in]  key_cfg Pointer to AES key configuration.
- * @param[in]  data    Pointer to AES data buffers.
- * @param[in]  ccm     Pointer to CCM extra parameters.
- *
- * @retval ::WISE_SUCCESS Decryption and tag verification succeeded.
- * @retval ::WISE_FAIL    Authentication failed or operation error.
- *
- * @ingroup WISE_CRYPTO
- */
-WISE_STATUS wise_aes_ccm_decrypt(const WISE_AES_KEY_CONFIG_T *key_cfg, const WISE_AES_DATA_T *data, const WISE_AES_CCM_EXTRA_T *ccm);
 
 /**
  * @brief Read AES authentication tags.

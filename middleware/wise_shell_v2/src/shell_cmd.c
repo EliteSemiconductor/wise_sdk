@@ -132,16 +132,17 @@ static bool _exec_cmd(int argc, char **argv, const shell_command_t *const *cmds,
         }
 
         if (strcmp(argv[0], cmd->name) == 0) {
-            /* Simple command: has handler, run directly */
-            if (cmd->handler) {
-                cmd->handler(argc, argv);
-                return true;
-            }
-
-            /* Command group: has subcmds */
+            /* Command group: dispatch to a subcommand. */
             if (cmd->subcmds && cmd->subcmd_count > 0) {
                 if (argc < 2 || !argv[1] || argv[1][0] == '\0') {
-                    _show_subcmds(cmd, w);
+                    /* Invoked bare (no subcommand): run the group's default
+                     * handler if it has one (e.g. to print usage/quick-start),
+                     * otherwise list the available subcommands. */
+                    if (cmd->handler) {
+                        cmd->handler(argc, argv);
+                    } else {
+                        _show_subcmds(cmd, w);
+                    }
                     return true;
                 }
 
@@ -159,6 +160,12 @@ static bool _exec_cmd(int argc, char **argv, const shell_command_t *const *cmds,
                 _w(w, argv[1]);
                 _w(w, "\r\n");
                 _show_subcmds(cmd, w);
+                return true;
+            }
+
+            /* Simple command: has handler, run directly */
+            if (cmd->handler) {
+                cmd->handler(argc, argv);
                 return true;
             }
 

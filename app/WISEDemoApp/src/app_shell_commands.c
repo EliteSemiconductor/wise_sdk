@@ -101,8 +101,9 @@ static int cmd_info(int argc, char **argv)
     (void)argv;
 
     extern void print_banner(char* appName);
+    extern const char *demo_app_get_name(void);
 
-    print_banner((char*)DEMO_APP_NAME);
+    print_banner((char*)demo_app_get_name());
 
     return 0;
 }

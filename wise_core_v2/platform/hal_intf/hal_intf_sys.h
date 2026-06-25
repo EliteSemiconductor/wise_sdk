@@ -87,13 +87,16 @@ int32_t hal_intf_sys_lock(void);
 
 void hal_intf_sys_tick_init();
 uint32_t hal_intf_sys_tick_get_counter();
+void hal_intf_sys_tick_restore(uint32_t couterVal);
 void hal_intf_sys_tick_delay_ms(uint32_t ms);
 void hal_intf_sys_tick_delay_us(uint32_t us);
+void hal_intf_cpu_tick_delay_us(uint32_t us);
 void hal_intf_sys_set_pa_type(uint8_t pa_type);
 uint8_t hal_intf_sys_get_pa_type(void);
 void hal_intf_sys_set_board_match_type(uint8_t mat_type);
 uint8_t hal_intf_sys_get_board_match_type(void);
 void hal_intf_sys_set_40m_gain_ctrl(uint8_t ctrl_value);
+uint8_t hal_intf_sys_get_40m_gain_ctrl(void);
 
 void hal_intf_sys_swd_cfg(bool swd_enable);
 void hal_intf_sys_tcxo_cfg(bool tcxo_enable);
@@ -101,7 +104,9 @@ void hal_intf_sys_tcxo_cfg(bool tcxo_enable);
 void *hal_intf_sys_get_sclk_cfg(uint8_t osc_idx, uint8_t work_mode);
 void hal_intf_sys_switch_sclk_src(uint8_t sclk_idx);
 
-void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o);
+void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o, uint8_t maincap_i, uint8_t maincap_o);
+uint32_t hal_intf_sys_get_xtal_cfg(void);
+void hal_intf_sys_apply_xtal_cfg(void);
 void hal_intf_sys_set_lpxtal_cfg(uint8_t cap_i, uint8_t cap_o, uint8_t maincap_i, uint8_t maincap_o, uint8_t gain);
 void hal_intf_sys_set_sram_size(uint8_t sram_32_64);
 void hal_intf_sys_ext32k_workaround(void);

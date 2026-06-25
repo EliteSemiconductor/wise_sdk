@@ -20,36 +20,12 @@
 int32_t hal_intf_aes_cfg_init_vect(const uint8_t *iv_or_cnt);
 int32_t hal_intf_aes_mode_and_dir_config(uint32_t aes_direction, uint32_t aes_mode);
 int32_t hal_intf_aes_configure(uint32_t aes_direction, uint32_t aes_mode, uint32_t swap_mode, uint8_t key_src, uint32_t key_size,
-                               const uint8_t *key_bytes, uint32_t key_num, const uint8_t *iv_or_cnt);
+                               const uint8_t *key_bytes, uint32_t key_num);
 int32_t hal_intf_aes_start(uint32_t len, uint32_t trig_mode);
 uint32_t hal_intf_aes_ccm_decryption_result(void);
 void hal_intf_aes_wait_finished(void);
 void hal_intf_aes_wait_tag_finished(void);
 int32_t hal_intf_aes_read_tag(uint32_t tags[4]);
-// -------------------- ECB --------------------
-int32_t hal_intf_aes_ecb_encrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num);
-int32_t hal_intf_aes_ecb_decrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num);
-// -------------------- CBC --------------------
-int32_t hal_intf_aes_cbc_encrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *iv);
-int32_t hal_intf_aes_cbc_decrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *iv);
-// -------------------- CTR --------------------
-int32_t hal_intf_aes_ctr_encrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *counter);
-int32_t hal_intf_aes_ctr_decrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *counter);
-// -------------------- CBC-MAC --------------------
-int32_t hal_intf_aes_cbcmac_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                      const uint8_t *iv);
-// -------------------- CCM --------------------
-int32_t hal_intf_aes_ccm_init(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num, bool encrypt);
-
-int32_t hal_intf_aes_ccm_encrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *nonce, uint8_t nonce_len, uint8_t tag_len, uint32_t auth_len);
-
-int32_t hal_intf_aes_ccm_decrypt_configure(uint32_t swap_mode, uint8_t key_src, uint32_t key_size, const uint8_t *key_bytes, uint32_t key_num,
-                                           const uint8_t *nonce, uint8_t nonce_len, uint8_t tag_len, uint32_t auth_len);
 #endif //CHIP_CRYPTO_HAS_AES
 
 #ifdef CHIP_CRYPTO_HAS_SHA

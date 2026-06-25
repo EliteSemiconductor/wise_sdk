@@ -5,7 +5,6 @@
 #define FREERTOS_BASE                                   1
 
 #define ES_DEVICE_UART                                  1
-#define ES_DEVICE_PIO                                   1
 
 #define DMA_CH0_FUNC                                    SYS_DMA_FUNC_UNSED
 #define DMA_CH1_FUNC                                    SYS_DMA_FUNC_UNSED

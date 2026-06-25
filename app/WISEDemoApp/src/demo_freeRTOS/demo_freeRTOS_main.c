@@ -44,6 +44,9 @@
 #include "queue.h"
 #include "semphr.h"
 
+/* Demo banner name (was a -D define; now provided in the demo source). */
+#define DEMO_APP_NAME "Simple_CLI_RTOS"
+
 
 /**
  * @defgroup WISE_EXAMPLE_APP_FREERTOS_CLI FreeRTOS CLI Example App
@@ -250,7 +253,7 @@ void vWorkerTask(void *pvParameters)
  */
 void main(void)
 {
-    demo_app_common_init();
+    demo_app_common_init(DEMO_APP_NAME);
     app_shell_init(DEMO_APP_PROMPT);
 
     /* Create RTOS Objects */

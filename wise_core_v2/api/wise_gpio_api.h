@@ -52,6 +52,7 @@ typedef enum {
     MODE_PWM    = 2, /**< PWM function. */
     MODE_PERI_2 = 3, /**< Peripheral function 2. */
     MODE_PIO    = 4, /**< PIO function (remapped I/O). */
+    MODE_TEST_CHIP = 5,
     MODE_DEBUG  = 7, /**< Debug function. */
 } GPIO_MODE_T;
 

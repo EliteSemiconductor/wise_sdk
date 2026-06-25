@@ -26,6 +26,7 @@ typedef struct {
     volatile uint8_t block_mode;
     volatile uint8_t dma_enable;
     volatile uint8_t role;
+    volatile uint8_t io_mode; /* HAL_SPI_IO_* : channel wire + lane width */
 } SPI_TRANSFER_CONTEXT_T;
 
 typedef void (*SPI_IRQ_HANDLER_T)(uint8_t spi_index);
@@ -35,7 +36,14 @@ static SPI_TRANSFER_CONTEXT_T spi_context[CHIP_SPI_CHANNEL_NUM];
 uint32_t spi_base[CHIP_SPI_CHANNEL_NUM] = {SPI_BASE, (SPI_BASE + 0x1000)};
 static SPI_IRQ_HANDLER_T _spi_irq_handler[CHIP_SPI_CHANNEL_NUM] = {NULL};
 
+/* Lazy-init cache: 1 = TRANS_CTRL / INT_EN already match the write-byte
+ * configuration, so hal_drv_spi_master_write_byte() can skip the
+ * set_xfer_fmt + disable_interrupt steps. Any function that reprograms
+ * TRANS_CTRL or INT_EN must clear this. */
+static uint8_t spi_wbyte_fmt_cached[CHIP_SPI_CHANNEL_NUM] = {0};
+
 static void spi_int_handler(uint8_t spi_index);
+static uint8_t spi_get_unit_size(SPI_TRANSFER_CONTEXT_T *ctx);
 
 static void hal_drv_spi_bind_dispatch(uint8_t spi_index)
 {
@@ -45,18 +53,24 @@ static void hal_drv_spi_bind_dispatch(uint8_t spi_index)
 void hal_drv_spi_reset(uint32_t spi_index, DRV_SPI_RESET_TYPE type)
 {
     spi_reset_er8130(spi_base[spi_index], type);
+    spi_wbyte_fmt_cached[spi_index] = 0;
 }
-void hal_drv_spi_config(uint8_t spi_index, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint8_t addr_len, uint32_t bus_clock,
-                        uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dual_quard_mode, uint8_t addr_fmt, uint8_t block_mode,
-                        uint8_t dma_enable)
+void hal_drv_spi_config(uint8_t spi_index, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint32_t bus_clock,
+                        uint8_t bit_order, uint8_t data_merge, uint8_t io_mode, uint8_t block_mode, uint8_t dma_enable)
 {
+    /* io_mode (HAL_SPI_IO_*) bundles wire topology + lane width. MOSIBiDir
+     * (3-wire) lives in TransFmt and is set here at open; DualQuad (dual/quad)
+     * lives in TransCtrl and is applied per transfer (see hal_drv_spi_transfer). */
+    uint8_t mosi_bir_dir = (io_mode == HAL_SPI_IO_3WIRE) ? 1 : 0;
+
     spi_context[spi_index].data_bit_width = data_bit_width - 1;
     spi_context[spi_index].data_merge     = data_merge;
     spi_context[spi_index].block_mode     = block_mode;
     spi_context[spi_index].dma_enable     = dma_enable;
     spi_context[spi_index].role           = role;
-    spi_config_er8130(spi_base[spi_index], clock_mode, role, data_bit_width, addr_len, bus_clock, bit_order, data_merge, mosi_bir_dir,
-                      dual_quard_mode, addr_fmt, dma_enable);
+    spi_context[spi_index].io_mode        = io_mode;
+    spi_config_er8130(spi_base[spi_index], clock_mode, role, data_bit_width, bus_clock, bit_order, data_merge, mosi_bir_dir, dma_enable);
+    spi_wbyte_fmt_cached[spi_index] = 0;
 
     hal_drv_spi_bind_dispatch(spi_index);
 
@@ -68,11 +82,14 @@ void hal_drv_spi_config(uint8_t spi_index, uint16_t clock_mode, uint8_t role, ui
 int32_t hal_drv_spi_slave_set_ready(uint8_t spi_index)
 {
     if (spi_context[spi_index].dma_enable == ENABLE) {
-        spi_enable_interrupt_er8130(spi_base[spi_index], (SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
+        spi_enable_interrupt_er8130(spi_base[spi_index],
+                                    (SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
     } else {
-        spi_enable_interrupt_er8130(spi_base[spi_index], (SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
+        spi_enable_interrupt_er8130(spi_base[spi_index],
+                                    (SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK));
     }
     spi_set_slv_rdy_er8130(spi_base[spi_index], 1);
+    spi_wbyte_fmt_cached[spi_index] = 0;
     return HAL_NO_ERR;
 }
 
@@ -82,10 +99,20 @@ uint16_t hal_drv_spi_slave_get_recv_count(uint8_t spi_index)
 }
 
 int32_t hal_drv_spi_transfer(uint8_t spi_index, uint8_t role, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len, uint8_t trans_mode,
-                             uint8_t flag_en, uint32_t addr_value, uint8_t cmd_value, void *tx_fifo, void *rx_fifo)
+                             uint8_t cmd_en, uint32_t addr_value, uint8_t cmd_value, uint8_t addr_len, uint8_t addr_fmt,
+                             void *tx_fifo, void *rx_fifo)
 {
     uint8_t dma_en = spi_context[spi_index].dma_enable;
     uint32_t base  = spi_base[spi_index];
+
+    /* Derive the HW flag bits: cmd phase from cmd_en, address phase from
+     * addr_len (0 => no address phase). */
+    uint8_t flag_en = (cmd_en ? SPI_MSG_CMD_EN : 0) | (addr_len > 0 ? SPI_MSG_ADDR_EN : 0);
+
+    /* DualQuad value (TransCtrl) derived from the channel's io_mode (set at
+     * open): single/3wire -> 0, dual -> 1, quad -> 2. */
+    uint8_t io_mode = (spi_context[spi_index].io_mode == HAL_SPI_IO_DUAL)   ? 1 :
+                      (spi_context[spi_index].io_mode == HAL_SPI_IO_QUAD)   ? 2 : 0;
 
     SPI_TRANSFER_CONTEXT_T *ctx = &spi_context[spi_index];
     ctx->role                   = role;
@@ -101,11 +128,19 @@ int32_t hal_drv_spi_transfer(uint8_t spi_index, uint8_t role, uint16_t rx_unit_c
 
     // DMA Setup
     if (dma_en) {
-        hal_intf_spi_dma_update(spi_index, tx_fifo, tx_unit_count, rx_fifo, rx_unit_count);
+        /* Match the DMA beat width to the SPI Data Register access width: with
+         * 8-bit data-merge each access moves 4 bytes (32-bit), otherwise it is
+         * 1/2/4 bytes per the data length. The static dma_extsrc_info table
+         * always assumes 32-bit, so the width is passed in explicitly here. */
+        uint8_t unit_sz   = spi_get_unit_size(ctx);
+        uint8_t data_size = (unit_sz >= 4) ? DATA_SIZE_32BITS : (unit_sz == 2) ? DATA_SIZE_16BITS : DATA_SIZE_8BITS;
+        hal_intf_spi_dma_update(spi_index, tx_fifo, tx_unit_count, rx_fifo, rx_unit_count, data_size);
     }
 
     // SPI Core Transfer
-    spi_xfer_exec_er8130(base, role, rx_unit_count, tx_unit_count, dummy_len, trans_mode, flag_en, addr_value, cmd_value, tx_fifo, rx_fifo, dma_en);
+    spi_xfer_exec_er8130(base, role, rx_unit_count, tx_unit_count, dummy_len, trans_mode, flag_en, addr_value, cmd_value, tx_fifo, rx_fifo, dma_en,
+                         io_mode, addr_len, addr_fmt);
+    spi_wbyte_fmt_cached[spi_index] = 0;
 
     // DMA Trigger
     if (dma_en) {
@@ -250,11 +285,16 @@ static void hal_drv_spi_data_pull(uint8_t spi_index, void *rx_fifo, uint16_t rx_
         return;
     }
 
-    uint16_t fifo_space_units = 4;
-    uint16_t pull_units       = (remain_units > fifo_space_units) ? fifo_space_units : remain_units;
-
-    spi_read_pull_units(spi_index, ctx, unit_size, pull_units);
-    ctx->recved_unit_count += pull_units;
+    /* Drain the whole RX FIFO this pass instead of a fixed chunk. With a fixed
+     * pull, transfers larger than the FIFO depth overrun and silently drop
+     * bytes whenever the ISR is momentarily delayed (slave RX). Emptying the
+     * FIFO each time gives a full FIFO-depth of headroom before the next pull. */
+    uint16_t pulled = 0;
+    while (pulled < remain_units && !spi_is_rx_fifo_empty_er8130(spi_base[spi_index])) {
+        spi_read_pull_units(spi_index, ctx, unit_size, 1);
+        pulled++;
+    }
+    ctx->recved_unit_count += pulled;
 
     if (ctx->recved_unit_count >= real_unit_count) {
         spi_disable_interrupt_er8130(spi_base[spi_index], SPI_RX_FIFO_INT_EN_MASK);
@@ -269,8 +309,13 @@ int32_t hal_drv_spi_master_write_byte(uint8_t spi_index, uint8_t in_byte)
         return HAL_ERR;
     }
 
-    spi_disable_interrupt_er8130(base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
-    spi_set_xfer_fmt_er8130(base, 0, 1, 0, SPI_TM_WRITE_ONLY, 0, 0);
+    /* Fast path: TRANS_CTRL/INT_EN already match write-byte config from a
+     * previous call, so skip the RMW setup. */
+    if (!spi_wbyte_fmt_cached[spi_index]) {
+        spi_disable_interrupt_er8130(base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
+        spi_set_xfer_fmt_er8130(base, 0, 1, 0, SPI_TM_WRITE_ONLY, 0, 0, 0, 0, 0);
+        spi_wbyte_fmt_cached[spi_index] = 1;
+    }
     spi_write_data_er8130(base, in_byte);
     spi_cmd_trigger_er8130(base, 0, 0);
 
@@ -290,7 +335,8 @@ int32_t hal_drv_spi_master_read_byte(uint8_t spi_index, uint8_t *out_byte)
     }
 
     spi_disable_interrupt_er8130(base, SPI_TX_FIFO_INT_EN_MASK | SPI_RX_FIFO_INT_EN_MASK | SPI_END_INT_EN_MASK | SPI_SLV_CMD_EN_MASK);
-    spi_set_xfer_fmt_er8130(base, 1, 0, 0, SPI_TM_READ_ONLY, 0, 0);
+    spi_set_xfer_fmt_er8130(base, 1, 0, 0, SPI_TM_READ_ONLY, 0, 0, 0, 0, 0);
+    spi_wbyte_fmt_cached[spi_index] = 0;
     spi_cmd_trigger_er8130(base, 0, 0);
 
     if (spi_wait_for_completion_er8130(base)) {
@@ -358,6 +404,16 @@ void spi_int_handler(uint8_t spi_index)
     }
 
     if (int_status & SPI_Int_END) {
+        /* A full transfer wraps the 9-bit slave RCNT to 0. Read the programmed
+         * unit count so a complete transfer (RCNT==0) is not mistaken for
+         * "nothing received" -- needed for the DMA path, where recved_unit_count
+         * is otherwise left at 0 (PIO already counts what it drained). */
+        uint16_t rcnt_at_end = spi_get_slv_read_cnt_er8130(spi_base[spi_index]);
+        if (rcnt_at_end == 0 && ctx->rx_unit_count > 0 && ctx->recved_unit_count == 0) {
+            ctx->recved_unit_count = (ctx->data_bit_width == 7 && ctx->data_merge == 1)
+                                         ? (uint16_t)((ctx->rx_unit_count + 3) / 4)
+                                         : ctx->rx_unit_count;
+        }
         spi_context[spi_index].transfer_end_flag = true;
         spi_disable_interrupt_er8130(spi_base[spi_index], (SPI_Int_END | SPI_Int_RXTH));
         if (spi_context[spi_index].dma_enable == false) {

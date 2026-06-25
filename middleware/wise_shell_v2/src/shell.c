@@ -15,8 +15,18 @@ static char s_input_buf[SHELL_INPUT_BUF_SIZE];
  * Linker Section (defined in linker script)
  * ===================================================================== */
 
+#if defined(__ARMCC_VERSION)
+/* Keil/ARM Compiler: the GNU linker-script symbols __shell_cmds_start/_end do
+ * not exist under the scatter file. Map them onto the base/limit of the
+ * scatter's ER_SHELL_CMDS execution region, which collects *(.shell_cmds). */
+extern const shell_command_t *Image$$ER_SHELL_CMDS$$Base[];
+extern const shell_command_t *Image$$ER_SHELL_CMDS$$Limit[];
+#define __shell_cmds_start Image$$ER_SHELL_CMDS$$Base
+#define __shell_cmds_end   Image$$ER_SHELL_CMDS$$Limit
+#else
 extern const shell_command_t *__shell_cmds_start[];
 extern const shell_command_t *__shell_cmds_end[];
+#endif
 
 /* =====================================================================
  * Global state

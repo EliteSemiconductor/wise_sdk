@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0008
-Git revision: 0x0517b9af
+Version: 4.0009
+Git revision: 0x2427626f
 Library: 
-        libWISERadioLib_subg_soc_9006 v1.09
-        libWMbusDatalink v1.01
-Release Date: May 8, 2026
+        libWISERadioLib_subg_soc_9006 v1.10
+        libWMbusDatalink v1.03
+Release Date: June 25, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -16,16 +16,26 @@ Release Date: May 8, 2026
     - ER8130A/ER8131A
 
 3. Major Changes
-    - Added WMBUS C-mode and R-mode support in wise_radio_wmbus_api.
-    - Implemented WMBUS Data Link session write support and packet filtering mechanism for meter mode.
-    - Added EFUSE unique ID display in boot information and enabled EFUSE module by default.
-    - Updated WMBUS RF parameters and corrected C-mode sync word implementation.
-    - Updated firmware downloader: WISEDownloader_v1.0.0.exe
+    - Updated radio library for 9006 platform to v1.10 and WMBus Data Link library to v1.03.
+    - WMBus: added pre-encryption mechanism and enhanced gateway pre-encryption queue handling.
+    - WMBus: improved gateway/meter context restore flow and refactored scheduled-event protection.
+    - WMBus: added datalink diagnostic module to measure MCU frequency and code-flow timing.
+    - WMBus: added optional early sync mode for low data rate reception.
+    - WMBus: added Python log analysis tool with meter watchdog checks.
+    - SPI: consolidated and rewrote the SPI API and 9006 HAL driver with I2C-style shell commands and lazy-init cache.
+    - I2C: split interrupt handler into master/slave paths with a non-stretch fast path; made ISR-in-RAM a build-time option.
+    - Crypto: unified AES IV handling through data_cfg and removed the duplicate legacy API.
+    - System: added XO_40M main capacitance control and XO tuning shell command.
+    - Shell: migrated verification commands to shell v2 and added SPI verify commands.
+    - Build: added CMake build support for WISEDemoApp and project_template, and Keil MDK projects targeting ER813x.
+    - Tools: updated WISEDownloader to v1.1.0
+    - Tools: added ESMT.ER813x_DFP.1.0.0.pack for KEIL MDK
+    
 4. Bug fixing:
-    - Fixed incorrect WMBUS C-mode sync word and removed related workaround patches.
-    - Fixed incorrect platform settings causing 9006 instability and crash issues.
-    - Fixed compile errors and removed redundant code in WMBUS modules.
-    - Fixed RF parameter handling and internal WMBUS configuration flow.
-    - Improved platform compatibility and restored stable TX/RX operation on 9006 platform.
+    - Fixed system tick not advancing after CPU idle/sleep by backing up and restoring the tick.
+    - Fixed WMBus sync word being overwritten by the predefined modem configuration and refined the RX sync interrupt handler.
+    - Fixed second meter join failure and added retry handling when the access number is unexpected.
+    - Added signed error handling and Tx/Rx buffer length guards for WMBus packet parsing.
+    - Fixed defects in wise_radio_api.c.
+    - Fixed multiple compilation errors and warnings across Keil MDK and demo project builds.
 ================================================================================
-

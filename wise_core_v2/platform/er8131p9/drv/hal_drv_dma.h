@@ -32,6 +32,10 @@ enum m2m_data_size {
     DATA_SIZE_8BITS = 0,
     DATA_SIZE_16BITS,
     DATA_SIZE_32BITS,
+    /* Sentinel for hal_drv_dma_extsrc_update(): keep the per-channel default
+     * width from the static dma_extsrc_info table (used by I2C/UART/generic
+     * callers). SPI passes an explicit width derived from its data-merge. */
+    DMA_DATA_SIZE_KEEP = 0xFF,
 };
 
 typedef enum {
@@ -139,7 +143,7 @@ void hal_drv_dma_modem_backup(void);
 void hal_drv_dma_backup_channels(void);
 void hal_drv_dma_restore_channels(void);
 HAL_STATUS hal_drv_dma_extsrc_config(uint8_t channel, DMA_SRC_REQ_SEL_T func);
-HAL_STATUS hal_drv_dma_extsrc_update(uint8_t channel, DMA_SRC_REQ_SEL_T func, uint32_t mem_addr, uint32_t len);
+HAL_STATUS hal_drv_dma_extsrc_update(uint8_t channel, DMA_SRC_REQ_SEL_T func, uint32_t mem_addr, uint32_t len, uint8_t data_size);
 void hal_drv_dma_extsrc_trigger(uint8_t channel, DMA_SRC_REQ_SEL_T func);
 HAL_STATUS hal_drv_dma_p2m2p_update_transfer(uint8_t ch, uint32_t addr, uint32_t len);
 void hal_drv_dma_buffer_trigger(uint8_t ch, uint32_t buf_op);

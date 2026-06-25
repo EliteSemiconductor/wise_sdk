@@ -23,15 +23,37 @@
 #define I2C_DIR_POLL_ITERS 80000
 
 /*
- * Place ISR hot-path functions in SRAM for faster execution.
- * Set to 0 to run from flash (for comparison / code-size testing).
+ * ISR placement.
+ *   0 = run from flash (default, saves ~1.9KB RAM)
+ *   1 = run from SRAM  (lower latency, required for slave +
+ *       non-stretching master)
+ *
+ * Defaults to flash. To run the ISR from SRAM, define
+ * I2C_ISR_RUN_IN_RAM=1 via the build preprocessor
+ * (e.g. -DI2C_ISR_RUN_IN_RAM=1) for the build that needs it.
  */
-#define I2C_ISR_RUN_IN_RAM 1
+#ifndef I2C_ISR_RUN_IN_RAM
+#define I2C_ISR_RUN_IN_RAM 0
+#endif
 
 #if I2C_ISR_RUN_IN_RAM
 #define I2C_ISR_FUNC  RAM_TEXT
 #else
 #define I2C_ISR_FUNC
+#endif
+
+/*
+ * Slave ISR fast path for masters that do NOT support clock stretching.
+ *   0 = general slave ISR (default): relies on HW auto clock-stretch +
+ *       Dir poll; one byte per ByteTrans. Can run from flash.
+ *   1 = fast slave ISR: dir_snapshot + preload + burst-fill FIFO,
+ *       deferred callback. REQUIRES I2C_ISR_RUN_IN_RAM=1.
+ *
+ * Selects which handler hal_drv_i2c_bind_dispatch() binds for a slave
+ * channel. Master channels always bind i2c_irq_handler_master.
+ */
+#ifndef I2C_SLAVE_FASTPATH_NONSTRETCH
+#define I2C_SLAVE_FASTPATH_NONSTRETCH 0
 #endif
 
 typedef struct {
@@ -64,11 +86,24 @@ EVT_CALLBACK_ENTRY_T i2c_callbacks[CHIP_I2C_CHANNEL_NUM][I2C_MAX_EVENTS];
 static I2C_TRANSFER_CONTEXT_T i2c_context[CHIP_I2C_CHANNEL_NUM];
 static I2C_IRQ_HANDLER_T _i2c_irq_handler[CHIP_I2C_CHANNEL_NUM] = {NULL};
 
-static void i2c_irq_handler(uint8_t i2c_idx);
+static void i2c_irq_handler_master(uint8_t i2c_idx);
+#if I2C_SLAVE_FASTPATH_NONSTRETCH
+static void i2c_irq_handler_slave_fast(uint8_t i2c_idx);
+#else
+static void i2c_irq_handler_slave(uint8_t i2c_idx);
+#endif
 
-static void hal_drv_i2c_bind_dispatch(uint8_t i2c_index)
+static void hal_drv_i2c_bind_dispatch(uint8_t i2c_index, bool role)
 {
-    _i2c_irq_handler[i2c_index] = i2c_irq_handler;
+    if (role == I2C_MASTER) {
+        _i2c_irq_handler[i2c_index] = i2c_irq_handler_master;
+    } else {
+#if I2C_SLAVE_FASTPATH_NONSTRETCH
+        _i2c_irq_handler[i2c_index] = i2c_irq_handler_slave_fast;
+#else
+        _i2c_irq_handler[i2c_index] = i2c_irq_handler_slave;
+#endif
+    }
 }
 
 #define I2C_DEBUG_TRACE_DEPTH 32
@@ -96,7 +131,6 @@ static bool i2c_probe_arb_lost_latched[CHIP_I2C_CHANNEL_NUM];
 I2C_ISR_FUNC static void hal_drv_i2c_trigger_event(uint8_t i2c_channel, uint32_t i2c_event);
 I2C_ISR_FUNC static void hal_drv_i2c_pull_data(uint8_t i2c_index, I2C_TRANSFER_CONTEXT_T *ctx);
 I2C_ISR_FUNC static void hal_drv_i2c_push_data(uint8_t i2c_index, I2C_TRANSFER_CONTEXT_T *ctx);
-static void i2c_irq_handler(uint8_t i2c_idx);
 
 I2C_ISR_FUNC static void i2c_debug_trace_log(uint8_t i2c_idx, uint8_t evt, I2C_TRANSFER_CONTEXT_T *ctx)
 {
@@ -566,7 +600,7 @@ HAL_STATUS hal_drv_i2c_config(uint8_t i2c_index, bool i2c_enable, bool role, boo
 {
     i2c_config_er8130(i2c_channel[i2c_index], i2c_enable, role, addressing, dma_enable, sudat, sp, hddat, scl_ratio, scl_hi, dir, target_address);
 
-    hal_drv_i2c_bind_dispatch(i2c_index);
+    hal_drv_i2c_bind_dispatch(i2c_index, role);
     return HAL_NO_ERR;
 }
 void hal_drv_i2c_set_tartget_addres(uint8_t i2c_index, uint16_t target_address)
@@ -654,7 +688,157 @@ uint8_t hal_drv_i2c_slave_get_rx_count(uint8_t i2c_idx)
     return i2c_context[i2c_idx].recved_rx_len;
 }
 
-I2C_ISR_FUNC void i2c_irq_handler(uint8_t i2c_idx)
+/*
+ * Master-only ISR.  Stripped of all slave/clock-stretch logic: AddrHit
+ * enables FIFO interrupts, FIFOEmpty pushes TX, FIFOFull pulls RX, Cmpl
+ * latches probe state and fires TRANSFER_DONE.  Logic is identical to the
+ * master branches of the original unified handler.
+ */
+static void i2c_irq_handler_master(uint8_t i2c_idx)
+{
+    I2C_T *hw = i2c_channel[i2c_idx];
+    uint32_t int_status = hw->STS.reg;
+    I2C_TRANSFER_CONTEXT_T *ctx = (I2C_TRANSFER_CONTEXT_T *)&i2c_context[i2c_idx];
+
+    if (int_status & I2C_STS_ArbLose_MASK) {
+        i2c_probe_arb_lost_latched[i2c_idx] = true;
+    }
+
+    /*
+     * ISR priority order (per ATCIIC100 Datasheet):
+     *   1. AddrHit  2. FIFOEmpty (TX)  3. FIFOFull (RX)  4. Cmpl
+     */
+    if (int_status & I2C_STS_AddrHit_MASK) {
+        int_status &= ~I2C_STS_AddrHit_MASK;
+        i2c_address_hit_interrupt_handler(&i2c_context[i2c_idx], i2c_idx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_ADDR_HIT, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_AddrHit_MASK);
+    }
+
+    if ((int_status & I2C_STS_FIFOEmpty_MASK)) {
+        int_status &= ~I2C_STS_FIFOEmpty_MASK;
+        hal_drv_i2c_push_data(i2c_idx, ctx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_FIFO_EMP, ctx);
+    }
+
+    if ((int_status & I2C_STS_FIFOFull_MASK)) {
+        int_status &= ~I2C_STS_FIFOFull_MASK;
+        hal_drv_i2c_pull_data(i2c_idx, ctx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_FIFO_FUL, ctx);
+    }
+
+    if (int_status & I2C_STS_Cmpl_MASK) {
+        i2c_probe_done_latched[i2c_idx] = true;
+        i2c_probe_ack_latched[i2c_idx] = !i2c_is_ack_status_er8130(int_status);
+        i2c_probe_arb_lost_latched[i2c_idx] = i2c_is_arb_lost_status_er8130(int_status);
+        int_status &= ~I2C_STS_Cmpl_MASK;
+        i2c_transfer_end_interrupt_handler(&i2c_context[i2c_idx], i2c_idx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_CMPL, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_Cmpl_MASK);
+    }
+}
+
+/*
+ * General slave ISR for masters that DO support clock stretching.
+ *
+ * This is the slave path WITHOUT the non-stretching fast blocks
+ * (ultra-fast AddrHit preload, fast ByteTrans burst-fill, fast combined
+ * CMPL+AddrHit Sr).  It relies on HW auto clock-stretch plus the Dir poll
+ * inside i2c_address_hit_interrupt_handler, pushing one byte per ByteTrans.
+ * Every branch is identical to the corresponding slave branch of the
+ * original unified handler.
+ */
+#if !I2C_SLAVE_FASTPATH_NONSTRETCH
+static void i2c_irq_handler_slave(uint8_t i2c_idx)
+{
+    I2C_T *hw = i2c_channel[i2c_idx];
+    uint32_t int_status = hw->STS.reg;
+    I2C_TRANSFER_CONTEXT_T *ctx = (I2C_TRANSFER_CONTEXT_T *)&i2c_context[i2c_idx];
+
+    bool sr_cmpl_consumed_inline = false;
+    if (ctx->mode == I2C_MODE_RX
+        && (int_status & I2C_STS_Cmpl_MASK)
+        && (int_status & I2C_STS_AddrHit_MASK)) {
+        int_status &= ~I2C_STS_Cmpl_MASK;
+        i2c_clear_cmpl_status_er8130(i2c_channel[i2c_idx]);
+        {
+            uint8_t max_drain = ctx->fifo_size;
+            while (ctx->recved_rx_len < ctx->rx_len && max_drain > 0) {
+                ctx->rx_fifo[ctx->recved_rx_len] =
+                    (uint8_t)hw->DATA.bitfield.DATAFIELD;
+                ctx->recved_rx_len++;
+                ctx->debug_rx_drained_len++;
+                max_drain--;
+            }
+        }
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_CMPL_INL, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_Cmpl_MASK);
+        sr_cmpl_consumed_inline = true;
+    }
+
+    /*
+     * ISR priority order (per ATCIIC100 Datasheet):
+     *   1. AddrHit  2. FIFOEmpty (TX)  3. ByteTrans  4. FIFOFull (RX)  5. Cmpl
+     */
+    if (int_status & I2C_STS_AddrHit_MASK) {
+        int_status &= ~I2C_STS_AddrHit_MASK;
+        i2c_address_hit_interrupt_handler(&i2c_context[i2c_idx], i2c_idx);
+        if (sr_cmpl_consumed_inline && ctx->sr_write_cmpl_pending) {
+            ctx->sr_write_cmpl_pending = false;
+        }
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_ADDR_HIT, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_AddrHit_MASK);
+
+        /* Slave TX fast exit: return so ByteTrans ISR can fire ASAP. */
+        if (ctx->mode == I2C_MODE_TX) {
+            return;
+        }
+    }
+
+    if ((int_status & I2C_STS_FIFOEmpty_MASK)) {
+        int_status &= ~I2C_STS_FIFOEmpty_MASK;
+        if (ctx->mode != I2C_MODE_TX) {
+            hal_drv_i2c_push_data(i2c_idx, ctx);
+        }
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_FIFO_EMP, ctx);
+    }
+
+    if (int_status & I2C_STS_ByteTrans_MASK) {
+        int_status &= ~I2C_STS_ByteTrans_MASK;
+        if (ctx->mode == I2C_MODE_TX) {
+            hal_drv_i2c_push_data(i2c_idx, ctx);
+        }
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_BYTE_TX, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_ByteTrans_MASK);
+    }
+
+    if ((int_status & I2C_STS_FIFOFull_MASK)) {
+        int_status &= ~I2C_STS_FIFOFull_MASK;
+        hal_drv_i2c_pull_data(i2c_idx, ctx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_FIFO_FUL, ctx);
+    }
+
+    if (int_status & I2C_STS_Cmpl_MASK) {
+        int_status &= ~I2C_STS_Cmpl_MASK;
+        i2c_transfer_end_interrupt_handler(&i2c_context[i2c_idx], i2c_idx);
+        i2c_debug_trace_log(i2c_idx, I2C_DBG_EVT_CMPL, ctx);
+        i2c_set_status(i2c_channel[i2c_idx], I2C_STS_Cmpl_MASK);
+    }
+}
+#endif /* !I2C_SLAVE_FASTPATH_NONSTRETCH */
+
+#if I2C_SLAVE_FASTPATH_NONSTRETCH
+/*
+ * Fast slave ISR for masters that do NOT support clock stretching.
+ *
+ * Byte-for-byte the original unified handler: dir_snapshot at entry (no Dir
+ * poll), preload byte0 + burst-fill FIFO, deferred callbacks.  The internal
+ * role==I2C_MASTER branches are dead code here (this handler is only bound
+ * to slave channels) but are retained verbatim to keep behavior identical.
+ *
+ * REQUIRES I2C_ISR_RUN_IN_RAM=1 for the latency this path assumes.
+ */
+I2C_ISR_FUNC void i2c_irq_handler_slave_fast(uint8_t i2c_idx)
 {
     I2C_T *hw = i2c_channel[i2c_idx];
     uint32_t int_status = hw->STS.reg;
@@ -1025,19 +1209,20 @@ I2C_ISR_FUNC void i2c_irq_handler(uint8_t i2c_idx)
         i2c_set_status(i2c_channel[i2c_idx], I2C_STS_Cmpl_MASK);
     }
 }
+#endif /* I2C_SLAVE_FASTPATH_NONSTRETCH */
 
-WEAK_ISR RAM_TEXT void I2C0_IRQHandler(void)
+WEAK_ISR I2C_ISR_FUNC void I2C0_IRQHandler(void)
 {
-    //i2c_irq_handler(0);
+    /* Dispatch to role-bound handler (master / slave / slave-fast). */
     if(_i2c_irq_handler[0])
     {
         (_i2c_irq_handler[0])(0);
     }
 }
 
-WEAK_ISR RAM_TEXT void I2C1_IRQHandler(void)
+WEAK_ISR I2C_ISR_FUNC void I2C1_IRQHandler(void)
 {
-    //i2c_irq_handler(1);
+    /* Dispatch to role-bound handler (master / slave / slave-fast). */
     if(_i2c_irq_handler[1])
     {
         (_i2c_irq_handler[1])(1);

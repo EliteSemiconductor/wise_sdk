@@ -9,7 +9,10 @@
 #include "app_shell_commands.h"
 #include "wise_shell_v2/src/shell.h"
 
-void demo_app_common_init(void);
+/* The application name is supplied by each demo (demo_xxx_main.c defines
+ * DEMO_APP_NAME and passes it here) instead of via a -D preprocessor define. */
+void demo_app_common_init(const char *appName);
 void print_banner(char* appName);
+const char *demo_app_get_name(void);
 
 #endif

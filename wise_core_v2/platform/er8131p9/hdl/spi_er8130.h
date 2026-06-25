@@ -71,13 +71,13 @@ uint8_t spi_get_interrupt_status_er8130(uint32_t spi_base);
 void spi_clear_interrupt_status_er8130(uint32_t spi_base, uint8_t status);
 void spi_write_data_er8130(uint32_t spi_base, uint32_t value);
 uint32_t spi_read_data_er8130(uint32_t spi_base);
-void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint8_t addr_len, uint32_t bus_clock,
-                       uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dual_quard_mode, uint8_t addr_fmt, uint8_t dma_enable);
+void spi_config_er8130(uint32_t spi_base, uint16_t clock_mode, uint8_t role, uint8_t data_bit_width, uint32_t bus_clock,
+                       uint8_t bit_order, uint8_t data_merge, uint8_t mosi_bir_dir, uint8_t dma_enable);
 void spi_set_xfer_fmt_er8130(uint32_t spi_base, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len, uint8_t trans_mode,
-                             uint8_t flag_en, uint32_t addr_value);
+                             uint8_t flag_en, uint32_t addr_value, uint8_t io_mode, uint8_t addr_len, uint8_t addr_fmt);
 HAL_STATUS spi_xfer_exec_er8130(uint32_t spi_base, uint8_t role, uint16_t rx_unit_count, uint16_t tx_unit_count, uint8_t dummy_len,
                                 uint8_t trans_mode, uint8_t flag_en, uint32_t addr_value, uint8_t cmd_value, void *tx_fifo, void *rx_fifo,
-                                uint8_t dma_enable);
+                                uint8_t dma_enable, uint8_t io_mode, uint8_t addr_len, uint8_t addr_fmt);
 
 HAL_STATUS spi_tx_dma_enable_er8130(uint32_t spi_base, uint8_t dma_enable);
 HAL_STATUS spi_rx_dma_enable_er8130(uint32_t spi_base, uint8_t dma_enable);

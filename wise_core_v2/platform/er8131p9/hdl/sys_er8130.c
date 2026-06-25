@@ -11,6 +11,8 @@ static uint8_t board_matching_type = 0;
 static uint8_t board_40m_gain_ctrl = 1;
 static uint8_t board_cap_xtal_i = 64;
 static uint8_t board_cap_xtal_o = 64;
+static uint8_t board_maincap_xtal_i = 1;
+static uint8_t board_maincap_xtal_o = 1;
 static uint8_t board_lpxtal_gain = 0;
 
 
@@ -125,13 +127,19 @@ uint8_t sys_get_board_gain_ctrl_er8130()
 
 uint32_t sys_get_xtal_cfg_er8130(void)
 {
-    return ((board_cap_xtal_o<<16)|board_cap_xtal_i);
+    /* bits[7:0]=cap_i, bits[23:16]=cap_o, bit[24]=maincap_i, bit[25]=maincap_o */
+    return (((uint32_t)(board_maincap_xtal_o & 0x1) << 25) |
+            ((uint32_t)(board_maincap_xtal_i & 0x1) << 24) |
+            ((uint32_t)board_cap_xtal_o << 16) |
+            (uint32_t)board_cap_xtal_i);
 }
 
-void sys_set_xtal_cfg_er8130(uint8_t xtal_i, uint8_t xtal_o)
+void sys_set_xtal_cfg_er8130(uint8_t xtal_i, uint8_t xtal_o, uint8_t maincap_i, uint8_t maincap_o)
 {
-    board_cap_xtal_i = xtal_i;
-    board_cap_xtal_o = xtal_o;
+    board_cap_xtal_i     = xtal_i;
+    board_cap_xtal_o     = xtal_o;
+    board_maincap_xtal_i = maincap_i ? 1 : 0;
+    board_maincap_xtal_o = maincap_o ? 1 : 0;
 }
 
 void sys_set_lpxtal_gain_er8130(uint8_t gain)

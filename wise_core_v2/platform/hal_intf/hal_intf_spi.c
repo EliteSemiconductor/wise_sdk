@@ -15,13 +15,11 @@ int32_t hal_intf_spi_set_config(uint8_t spi_idx, HAL_SPI_CONF_T *spi_cfg)
     hal_intf_spi_reset(spi_idx, HAL_SPI_RESET_ALL);
 
 #ifdef CHIP_DMA_SUPPORT_PERIPHERAL
-    hal_drv_spi_config(spi_idx, spi_cfg->clock_mode, spi_cfg->role, spi_cfg->data_bit_width, spi_cfg->addr_len, spi_cfg->bus_clock,
-                       spi_cfg->bit_order, spi_cfg->data_merge, spi_cfg->mosi_bir_dir, spi_cfg->dual_quard_mode, spi_cfg->addr_fmt,
-                       spi_cfg->block_mode, spi_cfg->dma_enable);
+    hal_drv_spi_config(spi_idx, spi_cfg->clock_mode, spi_cfg->role, spi_cfg->data_bit_width, spi_cfg->bus_clock, spi_cfg->bit_order,
+                       spi_cfg->data_merge, spi_cfg->io_mode, spi_cfg->block_mode, spi_cfg->dma_enable);
 #else
-    hal_drv_spi_config(spi_idx, spi_cfg->clock_mode, spi_cfg->role, spi_cfg->data_bit_width, spi_cfg->addr_len, spi_cfg->bus_clock,
-                       spi_cfg->bit_order, spi_cfg->data_merge, spi_cfg->mosi_bir_dir, spi_cfg->dual_quard_mode, spi_cfg->addr_fmt,
-                       spi_cfg->block_mode,DISABLE);
+    hal_drv_spi_config(spi_idx, spi_cfg->clock_mode, spi_cfg->role, spi_cfg->data_bit_width, spi_cfg->bus_clock, spi_cfg->bit_order,
+                       spi_cfg->data_merge, spi_cfg->io_mode, spi_cfg->block_mode, DISABLE);
 #endif
     return HAL_NO_ERR;
 }
@@ -34,8 +32,8 @@ int32_t hal_intf_spi_xfer_exec(uint8_t spi_idx, HAL_SPI_TRANS_FMT_T *fmt, void *
     if (fmt->rx_unit_count != 0 && rx_buf != NULL) {
         hal_intf_spi_reset(spi_idx, HAL_SPI_RESET_RX);
     }
-    return hal_drv_spi_transfer(spi_idx, fmt->role, fmt->rx_unit_count, fmt->tx_unit_count, fmt->dummy_len, fmt->trans_mode, fmt->flag_en,
-                                fmt->addr_value, fmt->cmd_value, tx_buf, rx_buf);
+    return hal_drv_spi_transfer(spi_idx, fmt->role, fmt->rx_unit_count, fmt->tx_unit_count, fmt->dummy_len, fmt->trans_mode, fmt->cmd_en,
+                                fmt->addr_value, fmt->cmd_value, fmt->addr_len, fmt->addr_fmt, tx_buf, rx_buf);
 }
 
 HAL_STATUS hal_intf_spi_register_event_callback(uint8_t spi_channel, EVT_CALLBACK_T cb, void *context)

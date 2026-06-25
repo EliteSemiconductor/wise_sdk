@@ -156,6 +156,13 @@ uint32_t hal_intf_sys_tick_get_counter()
     return hal_drv_sys_tick_get_counter();
 }
 
+void hal_intf_sys_tick_restore(uint32_t couterVal)
+{
+#ifdef CHIP_TICK_TIMER_SLEEP_RESTORE
+    hal_drv_sys_tick_restore(couterVal);
+#endif
+}
+
 void hal_intf_sys_tick_delay_ms(uint32_t ms)
 {
     hal_drv_sys_tick_delay_ms(ms);
@@ -164,6 +171,11 @@ void hal_intf_sys_tick_delay_ms(uint32_t ms)
 void hal_intf_sys_tick_delay_us(uint32_t us)
 {
     hal_drv_sys_tick_delay_us(us);
+}
+
+void hal_intf_cpu_tick_delay_us(uint32_t us)
+{
+    hal_drv_cpu_tick_delay_us(us);
 }
 
 uint32_t hal_intf_sys_get_chip_id(void)
@@ -220,10 +232,37 @@ void hal_intf_sys_set_40m_gain_ctrl(uint8_t ctrl_value)
 #endif
 }
 
-void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o)
+uint8_t hal_intf_sys_get_40m_gain_ctrl(void)
 {
 #ifdef CHIP_SUPPORT_CUSTOM_BOARD
-    hal_drv_sys_set_xtal_cfg(xtal_i, xtal_o);
+    return hal_drv_sys_get_40m_gain_ctrl();
+#else
+    return 0;
+#endif
+}
+
+void hal_intf_sys_set_xtal_cfg(uint8_t xtal_i, uint8_t xtal_o, uint8_t maincap_i, uint8_t maincap_o)
+{
+#ifdef CHIP_SUPPORT_CUSTOM_BOARD
+    hal_drv_sys_set_xtal_cfg(xtal_i, xtal_o, maincap_i, maincap_o);
+#else
+    (void)xtal_i; (void)xtal_o; (void)maincap_i; (void)maincap_o;
+#endif
+}
+
+uint32_t hal_intf_sys_get_xtal_cfg(void)
+{
+#ifdef CHIP_SUPPORT_CUSTOM_BOARD
+    return hal_drv_sys_get_xtal_cfg();
+#else
+    return 0;
+#endif
+}
+
+void hal_intf_sys_apply_xtal_cfg(void)
+{
+#ifdef CHIP_SUPPORT_CUSTOM_BOARD
+    hal_drv_sys_apply_xtal_cfg();
 #endif
 }
 

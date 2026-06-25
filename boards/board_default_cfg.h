@@ -17,6 +17,8 @@
 #define BOARD_40M_GAIN_CTRL_S                       15
 #define BOARD_40M_CAP_XTAL_I                        16  //default = 64
 #define BOARD_40M_CAP_XTAL_O                        16  //default = 64
+#define BOARD_40M_MAINCAP_I_EN                      1   //0/1, XO_40M_MAINCAP_I_EN
+#define BOARD_40M_MAINCAP_O_EN                      1   //0/1, XO_40M_MAINCAP_O_EN
 #define BOARD_SRAM_RETAIN                           1   //0: 32k, 1: 64K
 
 #define ES_DEVICE_LFOSC_SELECT                      SYS_LFOSC_CLK_SRC_INTERNAL_16K

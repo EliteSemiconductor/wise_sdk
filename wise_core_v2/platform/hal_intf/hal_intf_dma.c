@@ -314,22 +314,22 @@ HAL_STATUS hal_intf_dma_extsrc_config(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func)
     return hal_drv_dma_extsrc_config(ch, func);
 }
 
-HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len)
+HAL_STATUS hal_intf_dma_extsrc_update(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len, uint8_t data_size)
 {
-    hal_drv_dma_extsrc_update(ch, func, (uint32_t)(uintptr_t)data, len);
+    hal_drv_dma_extsrc_update(ch, func, (uint32_t)(uintptr_t)data, len, data_size);
     return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_intf_dma_extsrc_setup(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len)
 {
     hal_intf_dma_extsrc_config(ch, func);
-    hal_intf_dma_extsrc_update(ch, func, data, len);
+    hal_intf_dma_extsrc_update(ch, func, data, len, DMA_DATA_SIZE_KEEP);
     return HAL_NO_ERR;
 }
 
 HAL_STATUS hal_intf_dma_extsrc_send(uint8_t ch, HAL_DMA_SRC_REQ_SEL_T func, void *data, uint32_t len)
 {
-    hal_intf_dma_extsrc_update(ch, func, data, len);
+    hal_intf_dma_extsrc_update(ch, func, data, len, DMA_DATA_SIZE_KEEP);
     hal_intf_dma_extsrc_trigger(ch, func);
     return HAL_NO_ERR;
 }
@@ -361,17 +361,20 @@ HAL_STATUS hal_intf_spi_dma_init(void)
     return HAL_NO_ERR;
 }
 
-HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count)
+/* data_size matches the DMA beat width to the SPI Data Register access width
+ * (DATA_SIZE_32BITS when 8-bit data-merge is on, 8/16/32-bit otherwise). It is
+ * applied directly here so it no longer needs a separate override call. */
+HAL_STATUS hal_intf_spi_dma_update(uint8_t spi_index, void *tx_fifo_ptr, uint32_t tx_count, void *rx_fifo_ptr, uint32_t rx_count, uint8_t data_size)
 {
     uint8_t ch;
     HAL_DMA_SRC_REQ_SEL_T func;
 
     if (tx_count != 0 && tx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_SPI, spi_index, true, &ch, &func)) {
-        hal_intf_dma_extsrc_update(ch, func, tx_fifo_ptr, tx_count);
+        hal_intf_dma_extsrc_update(ch, func, tx_fifo_ptr, tx_count, data_size);
     }
 
     if (rx_count != 0 && rx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_SPI, spi_index, false, &ch, &func)) {
-        hal_intf_dma_extsrc_update(ch, func, rx_fifo_ptr, rx_count);
+        hal_intf_dma_extsrc_update(ch, func, rx_fifo_ptr, rx_count, data_size);
     }
 
     return HAL_NO_ERR;
@@ -445,12 +448,12 @@ HAL_STATUS hal_intf_i2c_dma_update(uint8_t i2c_index, void *tx_fifo_ptr, uint32_
 
     /* TX: memory -> I2C TX FIFO */
     if (tx_count != 0 && tx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_I2C, i2c_index, true, &ch, &f)) {
-        hal_intf_dma_extsrc_update(ch, f, tx_fifo_ptr, tx_count);
+        hal_intf_dma_extsrc_update(ch, f, tx_fifo_ptr, tx_count, DMA_DATA_SIZE_KEEP);
     }
 
     /* RX: I2C RX FIFO -> memory */
     if (rx_count != 0 && rx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_I2C, i2c_index, false, &ch, &f)) {
-        hal_intf_dma_extsrc_update(ch, f, rx_fifo_ptr, rx_count);
+        hal_intf_dma_extsrc_update(ch, f, rx_fifo_ptr, rx_count, DMA_DATA_SIZE_KEEP);
     }
 
     return HAL_NO_ERR;
@@ -512,12 +515,12 @@ HAL_STATUS hal_intf_uart_dma_update(uint8_t uart_index, void *tx_fifo_ptr, uint3
 
     /* TX: memory -> UART TX FIFO */
     if (tx_count != 0 && tx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_UART, uart_index, true, &ch, &f)) {
-        hal_intf_dma_extsrc_update(ch, f, tx_fifo_ptr, tx_count);
+        hal_intf_dma_extsrc_update(ch, f, tx_fifo_ptr, tx_count, DMA_DATA_SIZE_KEEP);
     }
 
     /* RX: UART RX FIFO -> memory */
     if (rx_count != 0 && rx_fifo_ptr != NULL && resolve_bus_dma(DMA_BUS_UART, uart_index, false, &ch, &f)) {
-        hal_intf_dma_extsrc_update(ch, f, rx_fifo_ptr, rx_count);
+        hal_intf_dma_extsrc_update(ch, f, rx_fifo_ptr, rx_count, DMA_DATA_SIZE_KEEP);
     }
 
     return HAL_NO_ERR;
