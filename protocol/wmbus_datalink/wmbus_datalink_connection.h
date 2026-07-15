@@ -9,6 +9,12 @@
 
 #define MAX_WMBUS_CONNECTIONS 5
 
+typedef enum {
+    WMBUS_TX_IN_FLIGHT_NONE = 0,
+    WMBUS_TX_IN_FLIGHT_DATA,
+    WMBUS_TX_IN_FLIGHT_NULL_GENERAL
+} wmbus_tx_in_flight_type_t;
+
 // refer to WMBUS_dll_header_t
 typedef struct {
     uint32_t id;                   // Address, device ID
@@ -22,6 +28,17 @@ typedef struct {
 
     uint16_t tx_in_flight_length;
     uint8_t *tx_in_flight_buffer;
+    wmbus_tx_in_flight_type_t tx_in_flight_type;
+
+    uint16_t tx_next_length;
+    uint8_t *tx_next_buffer;
+    wmbus_tx_in_flight_type_t tx_next_type;
+
+    uint16_t tx_nke_in_flight_length;
+    uint8_t *tx_nke_in_flight_buffer;
+
+    uint32_t connection_sequence;
+    uint8_t acc_mismatch_retry_count;
 } wmbus_connection_t;
 
 // WMBus Connection Table
@@ -37,8 +54,11 @@ typedef struct {
 void wmbus_link_init_connection_table(uint16_t max_connections, uint16_t ring_buffer_max, uint16_t buffer_max_len);
 bool wmbus_link_add_connection(WMBUS_Address *dev_info_p);
 bool wmbus_link_remove_connection(uint32_t device_id);
+void wmbus_link_notify_connection_failure(WMBUS_connection_failure_t reason,
+                                          const wmbus_connection_t *connection);
 wmbus_connection_t* wmbus_link_find_connection(wmbus_connection_t *new_conn);
 wmbus_connection_t* wmbus_link_find_connection_by_id(uint32_t id);
+wmbus_connection_t* wmbus_link_peek_connection_by_id(uint32_t id);
 //only supported for GW
 void wmbus_link_find_tx_queue_by_id(uint32_t id);
 void wmbus_link_use_default_tx_queue(void);
@@ -46,4 +66,3 @@ void wmbus_link_free_connection_table(void);
 void wmbus_link_print_connections(void);
 
 #endif  // WMBUS_CONNECTION_H
-

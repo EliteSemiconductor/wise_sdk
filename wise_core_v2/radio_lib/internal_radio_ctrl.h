@@ -71,6 +71,9 @@ typedef struct {
 
     uint8_t crcWidth; //Notice: in byte unit
     uint8_t crcPolySel;
+    uint8_t crcInReflect;  //resolved input-bit reflection; drives the crc16 calc direction
+    uint8_t crcOutReflect; //resolved output-bit reflection (custom poly only)
+    uint32_t crcXorout;    //final XOR applied to the CRC (custom poly only)
     uint8_t* crcTable;
 
     uint8_t radio_sts;

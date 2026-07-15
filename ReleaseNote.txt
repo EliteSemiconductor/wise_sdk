@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0009
-Git revision: 0x2427626f
+Version: 4.0010
+Git revision: 0x8d9928f2
 Library: 
-        libWISERadioLib_subg_soc_9006 v1.10
+        libWISERadioLib_subg_soc_9006 v1.11
         libWMbusDatalink v1.03
-Release Date: June 25, 2026
+Release Date: July 14, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -16,26 +16,9 @@ Release Date: June 25, 2026
     - ER8130A/ER8131A
 
 3. Major Changes
-    - Updated radio library for 9006 platform to v1.10 and WMBus Data Link library to v1.03.
-    - WMBus: added pre-encryption mechanism and enhanced gateway pre-encryption queue handling.
-    - WMBus: improved gateway/meter context restore flow and refactored scheduled-event protection.
-    - WMBus: added datalink diagnostic module to measure MCU frequency and code-flow timing.
-    - WMBus: added optional early sync mode for low data rate reception.
-    - WMBus: added Python log analysis tool with meter watchdog checks.
-    - SPI: consolidated and rewrote the SPI API and 9006 HAL driver with I2C-style shell commands and lazy-init cache.
-    - I2C: split interrupt handler into master/slave paths with a non-stretch fast path; made ISR-in-RAM a build-time option.
-    - Crypto: unified AES IV handling through data_cfg and removed the duplicate legacy API.
-    - System: added XO_40M main capacitance control and XO tuning shell command.
-    - Shell: migrated verification commands to shell v2 and added SPI verify commands.
-    - Build: added CMake build support for WISEDemoApp and project_template, and Keil MDK projects targeting ER813x.
-    - Tools: updated WISEDownloader to v1.1.0
-    - Tools: added ESMT.ER813x_DFP.1.0.0.pack for KEIL MDK
-    
+    - Radio: refined software packet processing with support for a custom CRC polynomial.
 4. Bug fixing:
-    - Fixed system tick not advancing after CPU idle/sleep by backing up and restoring the tick.
-    - Fixed WMBus sync word being overwritten by the predefined modem configuration and refined the RX sync interrupt handler.
-    - Fixed second meter join failure and added retry handling when the access number is unexpected.
-    - Added signed error handling and Tx/Rx buffer length guards for WMBus packet parsing.
-    - Fixed defects in wise_radio_api.c.
-    - Fixed multiple compilation errors and warnings across Keil MDK and demo project builds.
+    - Fixed XO gain-change crash by setting the DCDC EN_IPN boot default to 3.
+    - Fixed WMBus gateway pre-encryption context restore and added timing control.
+    - Fixed incorrect PHR configuration for fixed frame length without PHR.
 ================================================================================

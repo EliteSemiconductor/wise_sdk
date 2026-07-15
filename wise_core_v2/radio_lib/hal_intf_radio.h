@@ -176,6 +176,18 @@ typedef struct
     int8_t gain_val;
 } TX_PWR_MAPPING;
 
+typedef enum {
+    FPGA_ROLE_RF_FRONT_END = 0,
+    FPGA_ROLE_DIGITAL_HOST = 1,
+} FPGA_ROLE_E;
+
+typedef struct {
+    FPGA_ROLE_E role;
+    uint32_t chip_id;
+    uint8_t phy_mode;
+    uint8_t la_en;
+} FPGA_INFO_T;
+
 /* ==== Function ============================================================ */
 
 void hal_intf_radio_set_adapt(int8_t phy_idx);
@@ -235,8 +247,9 @@ void hal_intf_radio_set_ulpldo(uint8_t enable);
 void hal_intf_radio_set_ulpldo_enmode(uint8_t enable);
 uint8_t hal_intf_radio_is_state_idle(void);
 void hal_intf_radio_chsd_init(void);
-void hal_intf_radio_fpag_init(void);
+void hal_intf_radio_fpag_init(FPGA_INFO_T *fpga_info);
 void hal_intf_radio_set_la_init(uint8_t la_output_fmt);
+void hal_intf_radio_chsd_set_zero_if(void);
 
 
 #endif

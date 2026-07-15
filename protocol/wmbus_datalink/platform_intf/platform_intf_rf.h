@@ -32,4 +32,13 @@ uint32_t platform_rf_get_frequence(void);
 uint8_t isInputPwrVaild(uint8_t _inputpwr);
 
 void radioSetRxLog(uint8_t _val);
+void platform_rf_early_rx_sync_isr(void);
+void platform_rf_early_rx_arm(void);
+void platform_rf_early_rx_prepare_validate(void);
+void platform_rf_early_rx_capture_final(const uint8_t *frame, uint16_t length,
+                                        uint8_t valid);
+void platform_rf_early_rx_dump(void);
+void platform_rf_early_rx_reset(void);
+int8_t platform_rf_early_rx_set_delay(uint32_t delay_us);
+uint32_t platform_rf_early_rx_get_delay(void);
 #endif

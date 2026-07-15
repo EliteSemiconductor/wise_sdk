@@ -85,8 +85,13 @@
 #endif
 
 /* X.509, TLS and non-PSA crypto configuration */
+/* ESMT: this SDK configures mbedTLS via config-esmt.h (on the include path). The
+ * default below was the upstream "mbedtls/mbedtls_config.h" (a desktop config that
+ * enables host-only modules like NET_C/TIMING_C). It is pointed at config-esmt.h so
+ * the bare-metal config is used even when the MBEDTLS_CONFIG_FILE -D is not passed
+ * (e.g. the Keil build, where MDK can't carry a second quoted -D). */
 #if !defined(MBEDTLS_CONFIG_FILE)
-#include "mbedtls/mbedtls_config.h"
+#include "config-esmt.h"
 #else
 #include MBEDTLS_CONFIG_FILE
 #endif

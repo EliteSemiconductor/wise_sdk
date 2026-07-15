@@ -213,7 +213,8 @@ typedef enum {
     CRC_POLYNOMIAL_CCITT_16,    /**< CRC-CCITT (16-bit) polynomial. */
     CRC_POLYNOMIAL_KERMIT,      /**< CRC-KERMIT (16-bit) polynomial. */
     CRC_POLYNOMIAL_DNP16,       /**< DNP 16-bit CRC polynomial. */
-    CRC_POLYNOMIAL_BLE24,       /**< BLE 24-bit CRC polynomial. */
+    CRC_POLYNOMIAL_BLE24,       /**< BLE 24-bit CRC polynomial (not supported in SW frame path). */
+    CRC_POLYNOMIAL_CUSTOM,      /**< User-defined polynomial; see WISE_RADIO_CRC_T::crc_poly/crc_width. */
     CRC_POLYNOMIAL_MAX          /**< Sentinel, not a valid selection. */
 } WISE_CRC_POLY_SEL_T;
 
@@ -244,10 +245,11 @@ typedef enum {
  */
 typedef enum
 {
-    E_FRAME_CODEC_NONE = 0,     /**< No additional line coding. */
-    E_FRAME_CODEC_NRZ,          /**< NRZ (Non-Return-to-Zero) coding. */
-    E_FRAME_CODEC_MANCHESTER,   /**< Manchester line coding. */
-    E_FRAME_CODEC_3OUTOF6,      /**< 3-out-of-6 line coding. */
+    E_FRAME_CODEC_NONE = 0,         /**< No additional line coding. */
+    E_FRAME_CODEC_NRZ,              /**< NRZ (Non-Return-to-Zero) coding. */
+    E_FRAME_CODEC_MANCHESTER,       /**< Manchester line coding, default replacing 0->10 and 1->01 */
+    E_FRAME_CODEC_MANCHESTER_INV,   /**< Manchester line coding, inverted replacing 0->01 and 1->10 */
+    E_FRAME_CODEC_3OUTOF6,          /**< 3-out-of-6 line coding. */
 } WISE_FRAME_CODEC_T;
 
 /**
@@ -332,7 +334,15 @@ typedef struct
 {
     uint8_t crc_config;             /**< CRC configuration flags (see ::CRC_CFG_FLAGS_T). */
     uint8_t crc_poly_sel;           /**< CRC polynomial selection (see ::WISE_CRC_POLY_SEL_T). */
-    uint32_t crc_seed;              /**< CRC initial seed value. */
+    uint32_t crc_seed;              /**< CRC initial seed/init value. */
+    uint8_t crc_width;              /**< CRC width in bytes (1 or 2). Only used when
+                                         crc_poly_sel == ::CRC_POLYNOMIAL_CUSTOM; preset
+                                         polynomials derive their own width. */
+    uint32_t crc_poly;             /**< Custom polynomial (normal form). Used only when
+                                         crc_poly_sel == ::CRC_POLYNOMIAL_CUSTOM. */
+    uint32_t crc_xorout;           /**< Final XOR applied to the CRC (Silabs "Invert"). Used only
+                                         when crc_poly_sel == ::CRC_POLYNOMIAL_CUSTOM. 0 falls back
+                                         to the ::CRC_INVERT_ON flag (all-ones of the CRC width). */
 } WISE_RADIO_CRC_T;
 
 /**
@@ -733,6 +743,23 @@ int8_t wise_radio_get_rssi(int8_t intf_idx);
  * @param[in] intf_idx Radio interface index.
  */
 void wise_radio_rx_stop(int8_t intf_idx);
+
+/**
+ * @brief Get the address of the RX buffer currently being filled.
+ *
+ * Return the frame buffer currently selected for an ongoing RX operation.
+ * The returned address does not imply that any specific number of bytes
+ * has already been received.
+ *
+ * @param[in]  intf_idx       Radio interface index.
+ * @param[out] out_frame_addr Pointer to a variable that receives the active
+ *                            RX frame address.
+ *
+ * @retval 0   Active RX buffer address retrieved successfully.
+ * @retval <0  RX is inactive or the parameters are invalid.
+ */
+int8_t wise_radio_get_active_rx_frame_addr(int8_t intf_idx,
+                                           uint32_t *out_frame_addr);
 
 /**
  * @brief Query the number of received frames pending in the RX queue.

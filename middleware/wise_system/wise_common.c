@@ -342,7 +342,12 @@ static int32_t _ctrl_pkt_handler(uint8_t *buffer, int len)
 static int32_t _ctrl_pkt_output(uint8_t *buffer, int len)
 {
     if (len > 0) {
-        wise_uart_write(CTRL_CMD_UART_PORT, buffer, len);
+        while(len > 0)
+        {
+            wise_uart_write_char(CTRL_CMD_UART_PORT, *buffer);
+            len--;
+            buffer++;
+        }
     }
     return WISE_SUCCESS;
 }
@@ -414,11 +419,31 @@ static void _soft_proc()
     }
 }
 
+extern void _fpga_init_a002(uint8_t role);
+void _fpga_init(void)
+{
+    uint32_t chip_id = wise_sys_get_chip_id();
+    
+    switch (chip_id) {
+    case 0xA002:
+        _fpga_init_a002(FPGA_ROLE_RF_FRONT_END);
+        WISE_LOG_INFO("run fpga initialization on chip 0xA002\n");
+        break;
+    default:
+        WISE_LOG_ERR("FPGA initial fail, chip id is invalid = 0x%08lx\n", chip_id);
+    }
+        
+}
+
 int32_t wise_init()
 {
     _platform_init();
     _peripheral_init();
     _soft_init();
+
+#if FPGA_CFG_ENABLED
+    _fpga_init();
+#endif
 
     return WISE_SUCCESS;
 }

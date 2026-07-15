@@ -14,6 +14,7 @@ WMBUS_RESERVED_EVENT       = 6,
 WMBUS_TRIGGER_INSTALL      = 7,
 WMBUS_RX_ERROR             = 8,  //wise_event ask to be power of 2
 WMBUS_RX_SYNC_WORD         = 16,
+WMBUS_EARLY_RX_PREP        = 32,
 WMBUS_DUMMY_EVENT          = 99
 } t_WMBUS_Event_Definition;
 
@@ -80,4 +81,3 @@ void meter_handle_fsm(uint8_t trigger_event);
 void gw_handle_fsm(uint8_t trigger_event);
 
 #endif 
-

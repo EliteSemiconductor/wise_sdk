@@ -68,6 +68,20 @@ uint16_t util_crc16_calc(uint8_t crcType, uint16_t *crcTable, uint8_t *data, uin
 uint16_t bit_reverse_16(uint16_t value);
 uint16_t util_crc16_get_poly(uint8_t crcType);
 
+/*
+ * Parametric (Rocksoft-model) variants: build a "pure" table directly from a
+ * polynomial (no reflection baked in) and apply input reflection per byte and
+ * output reflection once at the end in the matching _calc. This reproduces
+ * arbitrary CRC configurations (e.g. Silabs EFR32 Radio Configurator output)
+ * that the fixed named-type tables above cannot express -- in particular custom
+ * polynomials, refIn != refOut, and non-palindrome init values. The final
+ * XOR-out is applied by the caller.
+ */
+int8_t util_crc8_gen_table_param(uint8_t poly, uint8_t *table);
+int8_t util_crc16_gen_table_param(uint16_t poly, uint16_t *table);
+uint8_t util_crc8_calc_param(uint8_t inReflect, uint8_t outReflect, uint8_t *crcTable, uint8_t *data, uint32_t length, uint8_t startVal);
+uint16_t util_crc16_calc_param(uint8_t inReflect, uint8_t outReflect, uint16_t *crcTable, uint8_t *data, uint32_t length, uint16_t startVal);
+
 void util_crc_list();
 
 #endif

@@ -102,6 +102,8 @@ int main(void)
 
 #if MIDDLEWARE_WISE_FLASH_FILESYSTEM
     wise_fs_init();
+#else
+    debug_print("Fixed booting mode: APP@%08x\n", APP_BOOT_ADDR);
 #endif
 
     loader_shell_cmd_init();

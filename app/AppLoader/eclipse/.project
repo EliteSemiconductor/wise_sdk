@@ -54,5 +54,15 @@
 			<type>2</type>
 			<locationURI>PARENT-3-PROJECT_LOC/wise_core_v2</locationURI>
 		</link>
+		<link>
+			<name>wise_core_v2/platform/soc_b402</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform_dev/soc_b402</locationURI>
+		</link>
+		<link>
+			<name>wise_core_v2/radio_lib/soc_b402</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/radio_lib_dev/soc_b402</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

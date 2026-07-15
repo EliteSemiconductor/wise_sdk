@@ -19,7 +19,7 @@
 #endif
 
 #ifndef WMBUS_LINK_TIMING_TEST
-#define WMBUS_LINK_TIMING_TEST 1
+#define WMBUS_LINK_TIMING_TEST 0
 #endif
 
 void wmbus_link_mcu_clock_estimate_test(void);
@@ -28,8 +28,6 @@ typedef enum {
     WMBUS_TIMING_RX_ISR_ENTER = 0,
     WMBUS_TIMING_RX_INFO_DONE,
     WMBUS_TIMING_RX_RELEASE_DONE,
-    WMBUS_TIMING_RX_VALID,
-    WMBUS_TIMING_RX_GW_CONTEXT_DONE,
     WMBUS_TIMING_RX_EVENT_POSTED,
     WMBUS_TIMING_EVENT_DISPATCH,
     WMBUS_TIMING_GW_FSM_ENTER,
@@ -62,9 +60,15 @@ typedef enum {
 
 #if WMBUS_LINK_TIMING_TEST || defined(WMBUS_DATALINK_DIAG_IMPL)
 void wmbus_link_timing_mark(uint8_t timing_id);
+void wmbus_link_timing_set_enabled(uint8_t enabled);
+uint8_t wmbus_link_timing_is_enabled(void);
+uint8_t wmbus_link_timing_is_capture_active(void);
 void wmbus_link_dump_timing_check(void);
 #else
 #define wmbus_link_timing_mark(timing_id) ((void)0)
+#define wmbus_link_timing_set_enabled(enabled) ((void)0)
+#define wmbus_link_timing_is_enabled() (0U)
+#define wmbus_link_timing_is_capture_active() (0U)
 #define wmbus_link_dump_timing_check() ((void)0)
 #endif
 

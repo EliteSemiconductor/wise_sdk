@@ -703,6 +703,26 @@ typedef void (*wmbus_link_meter_status_cb_t)(
 
 int32_t wmbus_link_register_meter_status_cb(wmbus_link_meter_status_cb_t cb);
 
+typedef enum
+{
+    WMBUS_CONNECTION_FAILURE_EVICTED = 0,
+    WMBUS_CONNECTION_FAILURE_ACC_RETRY_LIMIT,
+} WMBUS_connection_failure_t;
+
+typedef struct
+{
+    uint32_t device_id;
+    uint16_t queued_packet_count;
+    uint8_t has_in_flight;
+    uint8_t acc_mismatch_retry_count;
+} WMBUS_connection_failure_info_t;
+
+typedef void (*wmbus_link_connection_failure_cb_t)(
+    WMBUS_connection_failure_t reason,
+    const WMBUS_connection_failure_info_t *info);
+
+int32_t wmbus_link_register_connection_failure_cb(wmbus_link_connection_failure_cb_t cb);
+
 void dump_byte(uint8_t* p_dump, int length);
 void dump_raw(const char *tag, uint8_t *p_dump, int length);
 
@@ -817,6 +837,14 @@ void wmbus_link_show_device_info(void);
 void wmbus_link_show_state(void);
 
 bool wmbus_link_gw_find_WL_by_ID(uint32_t dev_id);
+bool wmbus_link_gw_has_pre_encryption(void);
+bool wmbus_link_gw_has_pre_encryption_data(void);
+bool wmbus_link_gw_has_pre_encryption_null_general(void);
+bool wmbus_link_gw_has_pre_encryption_nke(void);
+void wmbus_link_gw_dump_pre_encryption_state(const char *tag);
+void wmbus_link_gw_pre_generate_nke(void);
+void wmbus_link_gw_get_pre_encryption_nke(void);
+bool wmbus_link_gw_promote_next(void);
 
 void wmbus_link_set_meter_only_accept_gw(bool enable);
 bool wmbus_link_get_meter_only_accept_gw(void);

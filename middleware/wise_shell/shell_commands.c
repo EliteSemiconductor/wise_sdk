@@ -7,7 +7,6 @@
 #include "shell_commands.h"
 #include "wise_core.h"
 #include "api/wise_sys_api.h"
-#include "cmsis/include/er8xxx.h"
 #include "es_platform_components.h"
 #include "shell.h"
 
