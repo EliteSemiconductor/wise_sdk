@@ -41,4 +41,9 @@ void platform_rf_early_rx_dump(void);
 void platform_rf_early_rx_reset(void);
 int8_t platform_rf_early_rx_set_delay(uint32_t delay_us);
 uint32_t platform_rf_early_rx_get_delay(void);
+uint8_t platform_rf_early_rx_get_header(uint32_t *generation,
+                                        uint32_t *buffer_addr,
+                                        uint8_t *header,
+                                        uint16_t header_len);
+uint32_t platform_rf_early_rx_get_generation(void);
 #endif

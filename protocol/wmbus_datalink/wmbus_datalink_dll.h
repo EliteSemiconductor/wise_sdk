@@ -845,6 +845,12 @@ void wmbus_link_gw_dump_pre_encryption_state(const char *tag);
 void wmbus_link_gw_pre_generate_nke(void);
 void wmbus_link_gw_get_pre_encryption_nke(void);
 bool wmbus_link_gw_promote_next(void);
+bool wmbus_link_gw_prepare_early_null(uint32_t id,
+                                      WMBUS_function_code_t fallback_tx_func,
+                                      uint8_t *buffer,
+                                      uint16_t buffer_size,
+                                      uint16_t *out_length,
+                                      WMBUS_function_code_t *out_tx_func);
 
 void wmbus_link_set_meter_only_accept_gw(bool enable);
 bool wmbus_link_get_meter_only_accept_gw(void);

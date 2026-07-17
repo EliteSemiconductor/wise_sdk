@@ -36,8 +36,13 @@ static void _wise_sys_apply_board_sys_property(const WISE_SYS_BOARD_PROPERTY_T *
     hal_intf_sys_tcxo_cfg(property->tcxo_output_en);
     hal_intf_sys_set_pa_type(property->pa_type);
     hal_intf_sys_set_board_match_type(property->matching_type);
-    hal_intf_sys_set_40m_gain_ctrl(property->gain_ctrl_40m);
+
     hal_intf_sys_set_xtal_cfg(property->cap_xtal_i, property->cap_xtal_o, property->maincap_xtal_i, property->maincap_xtal_o);
+    //cap values above only update SW state; apply writes them to ANA so the
+    //board cap is in effect before the gain change below (low gain @ POR cap 64/64 is unstable)
+    hal_intf_sys_apply_xtal_cfg();
+    hal_intf_sys_set_40m_gain_ctrl(property->gain_ctrl_40m);
+
     hal_intf_sys_set_lpxtal_cfg(property->cap_lpxtal_i, property->cap_lpxtal_o, property->maincap_lpxtal_i, property->maincap_lpxtal_o,
                                 property->gain_lpxtal);
     hal_intf_sys_set_sram_size(property->sram_retain);

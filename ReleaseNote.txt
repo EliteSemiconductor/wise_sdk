@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0010
-Git revision: 0x8d9928f2
+Version: 4.0011
+Git revision: 0x9fce91d5
 Library: 
         libWISERadioLib_subg_soc_9006 v1.11
         libWMbusDatalink v1.03
-Release Date: July 14, 2026
+Release Date: July 17, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -15,10 +15,6 @@ Release Date: July 14, 2026
 2. Supported Platforms
     - ER8130A/ER8131A
 
-3. Major Changes
-    - Radio: refined software packet processing with support for a custom CRC polynomial.
-4. Bug fixing:
-    - Fixed XO gain-change crash by setting the DCDC EN_IPN boot default to 3.
-    - Fixed WMBus gateway pre-encryption context restore and added timing control.
-    - Fixed incorrect PHR configuration for fixed frame length without PHR.
+3. Bug fixing:
+    - Fixed low-gain boot crash by applying the crystal cap configuration to ANA before setting the 40M gain at boot.
 ================================================================================
