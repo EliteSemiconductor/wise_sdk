@@ -388,7 +388,21 @@ void wise_sys_set_40m_gain_ctrl(uint8_t gain);
  */
 uint8_t wise_sys_get_40m_gain_ctrl(void);
 
-void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable);
+/**
+ * @brief Configure deglitch function of BOD
+ *
+ * @param[in] dg_en         enable/disable deglitch function (0:disable, 1:enable)
+ * @param[in] dg_period     configure deglitch period to (N+2) clock counter, N: 0-7 
+ */
+void wise_sys_config_bod_deglitch(uint8_t dg_en, uint8_t dg_period);
+
+/**
+ * @brief Enable/disable BOD reset function
+ *
+ * @param[in] bod_lv        configure trigger level of BOD threshold
+ * @param[in] bod_en        enable/disable BOD reset function (0:disable, 1:enable)
+ */
+void wise_sys_enable_bod(uint8_t bod_lv, uint8_t bod_en);
 
 /* ------------------------------------------------------------------------- */
 /*                     LFOSC (Low Frequency Oscillator)                      */

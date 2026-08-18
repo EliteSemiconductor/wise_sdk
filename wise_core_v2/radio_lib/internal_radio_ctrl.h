@@ -14,14 +14,21 @@
 #define ENABLE_RADIO_TRACE_LOG                 0
 #endif
 
-enum
+/**
+ * @enum WISE_PHY_MODE_T
+ * @brief High-level PHY operating modes.
+ */
+typedef enum 
 {
-    PHY_INIT_NONE = 0,
-    PHY_INIT_TRANSPARENT = 1,
-    PHY_INIT_802154 = 2,
-    PHY_INIT_BLE = 3,
-    PHY_INIT_WMBUS = 4,
-};
+    E_PHY_TRANSPARENT = 0x0, /**< Transparent (raw) PHY mode. */
+    E_PHY_802154      = 0x1, /**< IEEE 802.15.4-compliant PHY mode. */
+    E_PHY_CCA         = 0x2,
+    E_PHY_BLE         = 0x3,
+    E_PHY_BLE_LR      = 0x4,
+    E_PHY_WMBUS       = 0x5, /**< Wireless M-Bus PHY mode. */
+    E_PHY_NONE        = 0xff, 
+} WISE_PHY_MODE_T;
+
 
 #define RADIO_MAX_RX_BUF_NUM                    8
 

@@ -369,6 +369,11 @@ uint8_t wise_sys_get_40m_gain_ctrl(void)
     return hal_intf_sys_get_40m_gain_ctrl();
 }
 
+void wise_sys_config_bod_deglitch(uint8_t dg_en, uint8_t dg_period)
+{
+    hal_intf_pmu_set_bod_deglitch(dg_en, dg_period);
+}
+
 void wise_sys_enable_bod(uint8_t bod_lv, uint8_t enable)
 {
     if (enable) {

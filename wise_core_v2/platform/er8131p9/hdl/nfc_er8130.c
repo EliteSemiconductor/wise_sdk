@@ -187,7 +187,7 @@ void nfc_clear_int_mask_er8130(void)
 
     //0x3FC[22:21] clear INT by user
     cfg = REG_R32(NFC_DPE_ADDR);
-    cfg = (cfg & ~(NFC_DPE_STATUS_4_MASK+NFC_DPE_STATUS_5_MASK)) |
+    cfg = (cfg & ~(NFC_DPE_STATUS_4_MASK|NFC_DPE_STATUS_5_MASK)) |
           ((0x0 << NFC_DPE_STATUS_4_POS) & NFC_DPE_STATUS_4_MASK)|
           ((0x0 << NFC_DPE_STATUS_5_POS) & NFC_DPE_STATUS_5_MASK);
     REG_W32(NFC_DPE_ADDR, cfg);

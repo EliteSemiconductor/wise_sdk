@@ -73,6 +73,19 @@ typedef enum
     WMBUS_FRAME_TYPE_B,      /**< Frame format B. */
 } wmbus_frame_type_t;
 
+typedef enum
+{
+    WISE_RADIO_WMBUS_TX_TIMING_PACK_START = 0,
+    WISE_RADIO_WMBUS_TX_TIMING_PACK_END,
+    WISE_RADIO_WMBUS_TX_TIMING_CONFIG_START,
+    WISE_RADIO_WMBUS_TX_TIMING_CONFIG_END,
+    WISE_RADIO_WMBUS_TX_TIMING_FRAME_ENTER,
+    WISE_RADIO_WMBUS_TX_TIMING_FRAME_RETURN
+} WISE_RADIO_WMBUS_TX_TIMING_POINT_T;
+
+typedef void (*WISE_RADIO_WMBUS_TX_TIMING_CB)(
+    WISE_RADIO_WMBUS_TX_TIMING_POINT_T timing_point);
+
 /* ------------------------------------------------------------------------- */
 /*                               API Functions                               */
 /* ------------------------------------------------------------------------- */
@@ -148,6 +161,43 @@ void wise_radio_wmbus_rx_stop(int8_t intf_idx);
 int8_t wise_radio_wmbus_tx_frame(int8_t intf_idx, uint8_t *pframe, uint16_t length);
 
 /**
+ * @brief Pack a Wireless M-Bus DLL frame into a caller-owned RF buffer.
+ *
+ * This function inserts Frame A CRC fields, applies the configured PHY codec,
+ * and reverses the encoded bytes for radio transmission. It does not alter the
+ * internal prepared TX state and does not start transmission.
+ */
+int8_t wise_radio_wmbus_pack_frame(int8_t intf_idx,
+                                   const uint8_t *dll_frame,
+                                   uint16_t dll_length,
+                                   uint8_t *packed_frame,
+                                   uint16_t packed_capacity,
+                                   uint16_t *packed_length);
+
+/**
+ * @brief Copy a previously packed RF frame into the internal TX staging buffer.
+ */
+int8_t wise_radio_wmbus_stage_packed_frame(int8_t intf_idx,
+                                           const uint8_t *packed_frame,
+                                           uint16_t packed_length);
+
+/**
+ * @brief Configure TX and transmit the frame in the internal staging buffer.
+ */
+int8_t wise_radio_wmbus_start_staged_tx(int8_t intf_idx);
+
+/**
+ * @brief Register a callback for Wireless M-Bus TX timing points.
+ *
+ * The callback is invoked at predefined stages while preparing and submitting
+ * a frame for transmission. Pass NULL to unregister the current callback.
+ *
+ * @param[in] timing_cb TX timing callback, or NULL to disable notifications.
+ */
+void wise_radio_wmbus_set_tx_timing_callback(
+    WISE_RADIO_WMBUS_TX_TIMING_CB timing_cb);
+
+/**
  * @brief Deinitialize a Wireless M-Bus radio interface instance.
  *
  * Releases resources and returns the interface to an uninitialized state.
@@ -160,4 +210,3 @@ void wise_radio_wmbus_deinit(int8_t intf_idx);
 
 
 #endif  /* __WSIE_RADIO_WMBUS_API_H_ */
-

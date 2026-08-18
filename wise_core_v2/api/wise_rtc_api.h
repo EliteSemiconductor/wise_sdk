@@ -87,9 +87,13 @@ typedef struct {
 
 
 /**
- * @brief Initialize the RTC subsystem.
+ * @brief Initialize the RTC subsystem (enable the RTC module clock).
  *
  * Must be called before using any RTC APIs.
+ *
+ * @note Does not select or calibrate the low-speed clock (LFOSC); that is a
+ *       board-level choice applied at boot by _platform_init(). Use
+ *       wise_sys_lfosc_clk_src_config() to change it.
  *
  * @retval WISE_SUCCESS Initialization successful.
  * @retval WISE_FAIL    Initialization failed.
@@ -105,6 +109,20 @@ WISE_STATUS wise_rtc_init(void);
  * @retval WISE_FAIL    Deinitialization failed.
  */
 WISE_STATUS wise_rtc_deinit(void);
+
+/**
+ * @name RTC counter field ranges
+ * @brief Valid ranges for ::WISE_RTC_CNT_T / ::WISE_RTC_ALM_CFG_T fields.
+ *
+ * Out-of-range values are rejected with ::WISE_FAIL. The day counter counts
+ * days since the RTC was enabled (not a calendar date) and wraps every 32 days.
+ * @{
+ */
+#define WISE_RTC_DAY_MAX  31u /**< Day  range: 0 ~ 31 (ATCRTC100_DAY_BITS = 5). */
+#define WISE_RTC_HOUR_MAX 23u /**< Hour range: 0 ~ 23. */
+#define WISE_RTC_MIN_MAX  59u /**< Min  range: 0 ~ 59. */
+#define WISE_RTC_SEC_MAX  59u /**< Sec  range: 0 ~ 59. */
+/** @} */
 
 /**
  * @brief Get the current RTC time and day count.

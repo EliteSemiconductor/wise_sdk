@@ -40,7 +40,7 @@ void wise_gpio_init(void)
     }
 
     hal_intf_module_clk_enable(GPIO_MODULE);
-
+    
 #ifdef CHIP_GPIO_HAS_PIO
     _set_all_pins_default();
 #endif

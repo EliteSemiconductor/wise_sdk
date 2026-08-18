@@ -303,8 +303,36 @@
 #define MBUS_MODE_FLAG_O2M                      (1 << 31)
 #define MBUS_MODE_INDEX(mode)                   (mode & 0xff)
 
+/*
+ * Maximum packed-frame lengths for a 256-byte DLL frame:
+ *
+ * Frame A:
+ *   - First block:       10 data bytes + 2 CRC bytes
+ *   - Following blocks: up to 16 data bytes + 2 CRC bytes each
+ *   - Remaining bytes:  256 - 10 = 246 = 15 * 16 + 6
+ *   - Length:            12 + 15 * 18 + (6 + 2) = 290 bytes
+ *
+ * 3-of-6:
+ *   - Each 8-bit byte becomes 12 encoded bits
+ *   - Length: ceil(290 * 12 / 8) = ceil(290 * 3 / 2) = 435 bytes
+ *
+ * Manchester:
+ *   - Each input bit becomes two encoded bits
+ *   - Length: 290 * 2 = 580 bytes
+ */
 #define WMBUS_PARAM_NA                          0
-#define WMBUS_MAX_PKT_LEN                       256
+#define WMBUS_MAX_DLL_FRAME_LEN                 256
+#define WMBUS_MAX_FRAME_A_LEN                   290
+#define WMBUS_MAX_3OF6_FRAME_LEN                435
+#define WMBUS_MAX_MANCHESTER_FRAME_LEN          580
+#define WMBUS_MAX_PKT_LEN                       WMBUS_MAX_DLL_FRAME_LEN
+#define WMBUS_MAX_PACKED_FRAME_LEN              WMBUS_MAX_MANCHESTER_FRAME_LEN
+
+/* Customer data is queued before DLL construction and RF packing. */
+#define WMBUS_CONNECTION_DATA_BUFFER_SIZE       WMBUS_MAX_DLL_FRAME_LEN
+
+/* Per-meter GW pre-encryption buffers contain complete packed RF frames. */
+#define WMBUS_GW_PREENC_PACKED_BUFFER_SIZE       WMBUS_MAX_PACKED_FRAME_LEN
 
 typedef enum {
     WMBUS_SUBBAND_A = 0,
@@ -374,4 +402,3 @@ typedef struct {
 extern const wmbus_mode_param_t radioWmbusCfg[];
 
 #endif
-

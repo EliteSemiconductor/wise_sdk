@@ -57,7 +57,7 @@ void aes_wait_tag_finished_er8130(void)
 
 void aes_set_config_er8130(uint8_t cpt_dir, uint8_t mode, uint8_t in_swap, uint8_t out_swap)
 {
-    uint32_t reg = REG_R32(AES_CTL_ADDR) & ~(AES_DIR_MASK + AES_MODE_MASK + AES_IN_SWAP_MASK);
+    uint32_t reg = REG_R32(AES_CTL_ADDR) & ~(AES_DIR_MASK | AES_MODE_MASK | AES_IN_SWAP_MASK);
 
     reg |= (((cpt_dir << AES_DIR_POS) & AES_DIR_MASK) | ((mode << AES_MODE_POS) & AES_MODE_MASK) | ((in_swap << AES_IN_SWAP_POS) & AES_IN_SWAP_MASK) |
             ((out_swap << AES_OUT_SWAP_POS) & AES_OUT_SWAP_MASK));
@@ -93,7 +93,7 @@ int8_t aes_set_key_from_csr(const uint8_t *key_bytes, uint32_t key_byte_count)
 
 int8_t aes_set_key_from_store(uint8_t key_size, uint8_t key_num)
 {
-    uint32_t reg     = REG_R32(AES_CTL_ADDR) & ~(AES_KEY_SOURCE_MASK + AES_KEY_SIZE_MASK);
+    uint32_t reg     = REG_R32(AES_CTL_ADDR) & ~(AES_KEY_SOURCE_MASK | AES_KEY_SIZE_MASK);
     uint8_t key_mask = 1U << key_num;
 
     // For key_size 192 or 256 bits, restrict use of store areas 1, 3, 5 only

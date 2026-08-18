@@ -166,6 +166,11 @@ uint32_t wise_wutmr_ms_to_clk(uint32_t ms)
     return (uint32_t)(((uint64_t)ms * wutmrCalClkRate) / 1000);
 }
 
+uint32_t wise_wutmr_us_to_clk(uint32_t us)
+{
+    return (uint32_t)(((uint64_t)us * wutmrCalClkRate) / 1000000);
+}
+
 uint32_t wise_wutmr_clk_to_ms(uint32_t clk)
 {
     return (uint32_t)((uint64_t)clk * 1000 / wutmrCalClkRate);

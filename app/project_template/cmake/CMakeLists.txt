@@ -1,5 +1,5 @@
 # ============================================================================
-# project_template — CMake build for ER8130 / subg_soc_9006.
+# project_template ??CMake build for ER8130 / er8131p9.
 #
 # Toolchain-agnostic: select the compiler with --toolchain toolchains/arm-gcc.cmake
 # (Arm GNU) or toolchains/armclang.cmake (ARM Compiler 6). The C sources already
@@ -7,7 +7,7 @@
 #
 # All CMake lives in this folder; the SDK source tree is untouched and is
 # referenced by path (WISE_ROOT). Radio comes from the prebuilt library
-# (libWISERadioLib_subg_soc_9006.a); only the weak-stub source is compiled.
+# (libWISERadioLib_er8131p9.a); only the weak-stub source is compiled.
 #
 #   cmake -S . -B build -G Ninja --toolchain toolchains/arm-gcc.cmake
 #   cmake --build build
@@ -26,10 +26,10 @@ project(project_template C)
 # cmake/ -> project_template/ -> app/ -> wise_sdk/
 get_filename_component(WISE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
 set(APP_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/..")
-set(PLATFORM subg_soc_9006)
+set(PLATFORM er8131p9)
 
 # ---------------------------------------------------------------------------
-# Sources (radio = prebuilt lib, so only hal_drv_radio_weak.c is compiled —
+# Sources (radio = prebuilt lib, so only hal_drv_radio_weak.c is compiled ??
 # it's the one radio_lib object NOT inside the .a).
 # ---------------------------------------------------------------------------
 file(GLOB CORE_SRC CONFIGURE_DEPENDS
@@ -123,7 +123,7 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "ARMClang")
     )
 
 else()
-    message(FATAL_ERROR "Unsupported compiler '${CMAKE_C_COMPILER_ID}' — use the arm-gcc or armclang toolchain file.")
+    message(FATAL_ERROR "Unsupported compiler '${CMAKE_C_COMPILER_ID}' ??use the arm-gcc or armclang toolchain file.")
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_DEPENDS "${LINKER_SCRIPT}")

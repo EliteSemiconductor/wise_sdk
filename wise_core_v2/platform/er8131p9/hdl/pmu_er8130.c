@@ -67,8 +67,8 @@ void pmu_set_pwr_mode_er8130(uint8_t mode)
 
     // 0x40009100, PNU_EN_REG
     cfg = REG_R32(PCRMU_PMU_EN_REG_ADDR);
-    cfg = (cfg & ~(PCRMU_PMU_MCU_PD_EN_MASK + PCRMU_PMU_MEM_PD_EN_MASK + PCRMU_PMU_ANA_PD_EN_MASK + 
-                   PCRMU_CACHE_RET1N_EN_MASK + PCRMU_WUTMR_WU_MODEM_EN_MASK)) |
+    cfg = (cfg & ~(PCRMU_PMU_MCU_PD_EN_MASK | PCRMU_PMU_MEM_PD_EN_MASK | PCRMU_PMU_ANA_PD_EN_MASK | 
+                   PCRMU_CACHE_RET1N_EN_MASK | PCRMU_WUTMR_WU_MODEM_EN_MASK)) |
           ((mcu_pd_en << PCRMU_PMU_MCU_PD_EN_POS) & PCRMU_PMU_MCU_PD_EN_MASK) | 
           ((mem_pd_en << PCRMU_PMU_MEM_PD_EN_POS) & PCRMU_PMU_MEM_PD_EN_MASK) |
           ((ana_pd_en << PCRMU_PMU_ANA_PD_EN_POS) & PCRMU_PMU_ANA_PD_EN_MASK) | 
@@ -79,14 +79,14 @@ void pmu_set_pwr_mode_er8130(uint8_t mode)
 
     // 0x40009118, PMU_EN2_REG
     cfg = REG_R32(PCRMU_PMU_EN2_REG_ADDR);
-    cfg = (cfg & ~(PCRMU_MODEM_PD_WI_CPU_MASK + PCRMU_MODEM_WU_WI_CPU_MASK)) |
+    cfg = (cfg & ~(PCRMU_MODEM_PD_WI_CPU_MASK | PCRMU_MODEM_WU_WI_CPU_MASK)) |
           ((modem_pd_wi_cpu << PCRMU_MODEM_PD_WI_CPU_POS) & PCRMU_MODEM_PD_WI_CPU_MASK) |
           ((modem_wu_wi_cpu << PCRMU_MODEM_WU_WI_CPU_POS) & PCRMU_MODEM_WU_WI_CPU_MASK);
 
     REG_W32(PCRMU_PMU_EN2_REG_ADDR, cfg);
     // retention the two memory blocks
     cfg = REG_R32(PCRMU_MEM_MODE_ADDR);
-    cfg = (cfg & ~(PCRMU_MEM_PD_MODE_MASK + PCRMU_MEM2_PD_MODE_MASK)) |
+    cfg = (cfg & ~(PCRMU_MEM_PD_MODE_MASK | PCRMU_MEM2_PD_MODE_MASK)) |
           ((0x1 << PCRMU_MEM_PD_MODE_POS) & PCRMU_MEM_PD_MODE_MASK) |
           ((0x1 << PCRMU_MEM2_PD_MODE_POS) & PCRMU_MEM2_PD_MODE_MASK);
     REG_W32(PCRMU_MEM_MODE_ADDR, cfg);
@@ -289,6 +289,23 @@ void pmu_set_bod_reset_en_er8130(uint8_t enable)
     pmu_lock();
 }
 
+void pmu_set_bod_deglitch_er8130(uint8_t enable, uint8_t dg_period)
+{
+    uint32_t reg;
+
+    pmu_unlock();
+
+    // BOD_CTRL_REG: DG_PERD[10:8] = deglitch period, DG_DIS[15] = deglitch filter disable
+    reg = REG_R32(PCRMU_BOD_CTRL_REG_ADDR) & ~(PCRMU_BOD_DG_PERD_MASK | PCRMU_BOD_DG_DIS_MASK);
+    reg |= ((uint32_t)dg_period << PCRMU_BOD_DG_PERD_POS) & PCRMU_BOD_DG_PERD_MASK;
+    if (!enable) {
+        reg |= PCRMU_BOD_DG_DIS_MASK;   // enable==0 -> disable the deglitch filter
+    }
+    REG_W32(PCRMU_BOD_CTRL_REG_ADDR, reg);
+
+    pmu_lock();
+}
+
 void pmu_set_interrupt_er8130(uint32_t source)
 {
     pmu_unlock();
@@ -404,7 +421,7 @@ void pmu_switch_nfc_pwr_src_er8130(uint8_t src)
         pmu_unlock();
 
         reg = REG_R32(PCRMU_MODULE_SWRST_REG_ADDR);
-        reg = (reg & ~(PCRMU_NFC_SWRST_MASK + PCRMU_EFUCTL_SWRST_MASK)) | 
+        reg = (reg & ~(PCRMU_NFC_SWRST_MASK | PCRMU_EFUCTL_SWRST_MASK)) | 
               ((nfc_swrst << PCRMU_NFC_SWRST_POS) & PCRMU_NFC_SWRST_MASK) |
               ((efu_swrst << PCRMU_EFUCTL_SWRST_POS) & PCRMU_EFUCTL_SWRST_MASK);
         REG_W32(PCRMU_MODULE_SWRST_REG_ADDR, reg);
@@ -423,7 +440,7 @@ void pmu_switch_nfc_pwr_src_er8130(uint8_t src)
         pmu_unlock();
 
         reg = REG_R32(PCRMU_MODULE_SWRST_REG_ADDR);
-        reg = (reg & ~(PCRMU_NFC_SWRST_MASK + PCRMU_EFUCTL_SWRST_MASK)) | 
+        reg = (reg & ~(PCRMU_NFC_SWRST_MASK | PCRMU_EFUCTL_SWRST_MASK)) | 
               ((nfc_swrst << PCRMU_NFC_SWRST_POS) & PCRMU_NFC_SWRST_MASK) |
               ((efu_swrst << PCRMU_EFUCTL_SWRST_POS) & PCRMU_EFUCTL_SWRST_MASK);
         REG_W32(PCRMU_MODULE_SWRST_REG_ADDR, reg);
@@ -446,7 +463,7 @@ void pmu_set_cpu_pd_er8130(void)
     pmu_unlock();
 
     reg = REG_R32(PCRMU_PMU_EN_REG_ADDR);
-    reg = (reg & ~(PCRMU_PMU_MCU_PD_EN_MASK + PCRMU_CACHE_RET1N_EN_MASK)) | ((0x1 << PCRMU_PMU_MCU_PD_EN_POS) & PCRMU_PMU_MCU_PD_EN_MASK) |
+    reg = (reg & ~(PCRMU_PMU_MCU_PD_EN_MASK | PCRMU_CACHE_RET1N_EN_MASK)) | ((0x1 << PCRMU_PMU_MCU_PD_EN_POS) & PCRMU_PMU_MCU_PD_EN_MASK) |
           ((0x1 << PCRMU_CACHE_RET1N_EN_POS) & PCRMU_CACHE_RET1N_EN_MASK);
     REG_W32(PCRMU_PMU_EN_REG_ADDR, reg);
 
@@ -514,9 +531,9 @@ void pmu_set_sram_pd_mode_er8130(uint8_t sram_32_64)
    
     pmu_unlock();
     reg = REG_R32(PCRMU_MEM_MODE_ADDR);
-    reg = (reg & (~(PCRMU_MEM_PD_MODE_MASK + PCRMU_MEM2_PD_MODE_MASK))) |
+    reg = (reg & (~(PCRMU_MEM_PD_MODE_MASK | PCRMU_MEM2_PD_MODE_MASK))) |
             ((mem_pd_mode << PCRMU_MEM_PD_MODE_POS)&PCRMU_MEM_PD_MODE_MASK) |
-            ((mem2_pd_mode << PCRMU_MEM2_PD_MODE_POS)&PCRMU_MEM2_PD_MODE_MASK),
+            ((mem2_pd_mode << PCRMU_MEM2_PD_MODE_POS)&PCRMU_MEM2_PD_MODE_MASK);
     REG_W32(PCRMU_MEM_MODE_ADDR, reg);
     pmu_lock();
 }
@@ -529,7 +546,7 @@ void pmu_set_wakeup_by_nfc_er8130(uint8_t enable)
     //0x118[24]
     reg = REG_R32(PCRMU_PMU_EN2_REG_ADDR);
     reg = (reg & (~(PCRMU_PMU_WUBY_NFC_MASK))) |
-            ((enable << PCRMU_PMU_WUBY_NFC_POS)&PCRMU_PMU_WUBY_NFC_MASK),
+            ((enable << PCRMU_PMU_WUBY_NFC_POS)&PCRMU_PMU_WUBY_NFC_MASK);
     REG_W32(PCRMU_PMU_EN2_REG_ADDR, reg);
     pmu_lock();
 }
@@ -542,7 +559,7 @@ void pmu_enable_bod_reset_er8130(uint8_t enable)
     //0x08C[0]
     reg = REG_R32(PCRMU_BOD_CTRL_REG_ADDR);
     reg = (reg & (~(PCRMU_BOD_RESET_EN_MASK))) |
-            ((enable << PCRMU_BOD_RESET_EN_POS)&PCRMU_BOD_RESET_EN_MASK),
+            ((enable << PCRMU_BOD_RESET_EN_POS)&PCRMU_BOD_RESET_EN_MASK);
     REG_W32(PCRMU_BOD_CTRL_REG_ADDR, reg);
     pmu_lock();
 }

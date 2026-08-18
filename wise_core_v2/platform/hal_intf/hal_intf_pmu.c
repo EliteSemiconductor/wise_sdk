@@ -8,6 +8,10 @@
 #include "drv/hal_drv_pmu.h"
 #include "drv/hal_drv_dma.h"
 
+__attribute__((weak)) void hal_drv_pmu_set_bod_deglitch(uint8_t enable, uint8_t dg_period)
+{
+}
+
 void hal_intf_pmu_set_sw_reset(void)
 {
     hal_drv_pmu_set_sw_reset();
@@ -73,6 +77,12 @@ int32_t hal_intf_pmu_set_csr_clk_gated(uint8_t on_off)
 int32_t hal_intf_pmu_set_bod_reset_en(uint8_t enable)
 {
     hal_drv_pmu_set_bod_reset_en(enable);
+    return HAL_NO_ERR;
+}
+
+int32_t hal_intf_pmu_set_bod_deglitch(uint8_t enable, uint8_t dg_period)
+{
+    hal_drv_pmu_set_bod_deglitch(enable, dg_period);
     return HAL_NO_ERR;
 }
 

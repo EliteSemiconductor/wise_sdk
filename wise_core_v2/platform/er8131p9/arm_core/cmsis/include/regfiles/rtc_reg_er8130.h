@@ -30,7 +30,10 @@ typedef struct {
                                          range: 0 ~ 59 */
             __IO uint32_t HOUR : 5;  /*!< Hour field of current time;
                                          range: 0 ~ 23 */
-            __IO uint32_t DAY  : 15; /*!< Day passed after RTC enabled */
+            __IO uint32_t DAY  : 5;  /*!< Days since RTC enabled; range 0 ~ 31.
+                                         Width is ATCRTC100_DAY_BITS (5 here),
+                                         see ATCRTC100 DS085 V1.2. */
+            __I  uint32_t RESERVED_DAY : 10; /*!< [31:22] not implemented. */
         } CNTR_b;                    /*!< BitSize */
     };
 
@@ -139,8 +142,11 @@ typedef struct {
 #define RTC_CNTR_HOUR_POS (12) /*< bit[16:12]  */
 #define RTC_CNTR_HOUR_MASK (0x1Ful << RTC_CNTR_HOUR_POS)
 #define RTC_CNTR_DAY_ADDR (uint32_t)&(RTC->CNTR)
-#define RTC_CNTR_DAY_POS (17) /*< bit[31:17]  */
-#define RTC_CNTR_DAY_MASK (0x7FFFul << RTC_CNTR_DAY_POS)
+/* Day field width is ATCRTC100_DAY_BITS (5 here) -> bits [21:17]. */
+#define RTC_CNTR_DAY_BITS (5u)
+#define RTC_CNTR_DAY_POS (17) /*< bit[21:17]  */
+#define RTC_CNTR_DAY_MASK (0x1Ful << RTC_CNTR_DAY_POS)
+#define RTC_CNTR_DAY_MAX (0x1Fu)
 
 #define RTC_ALARM_ADDR (uint32_t)&(RTC->ALARM)
 #define RTC_ALARM_SEC_ADDR (uint32_t)&(RTC->ALARM)

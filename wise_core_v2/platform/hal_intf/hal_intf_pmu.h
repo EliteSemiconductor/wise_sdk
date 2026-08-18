@@ -46,6 +46,7 @@ int32_t hal_intf_pmu_set_xip_clk(uint8_t clk_fac);
 int32_t hal_intf_pmu_set_bbp_cic_clk(uint8_t osr, uint8_t dr_idx);
 int32_t hal_intf_pmu_set_csr_clk_gated(uint8_t on_off);
 int32_t hal_intf_pmu_set_bod_reset_en(uint8_t enable);
+int32_t hal_intf_pmu_set_bod_deglitch(uint8_t enable, uint8_t dg_period);
 int32_t hal_intf_pmu_set_interrupt(uint32_t source);
 int32_t hal_intf_pmu_reg_isr_callback(void *cb_proc, void *cb_data);
 void hal_intf_pmu_set_cpu_pd(void);

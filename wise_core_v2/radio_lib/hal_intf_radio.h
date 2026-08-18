@@ -248,6 +248,7 @@ void hal_intf_radio_set_ulpldo_enmode(uint8_t enable);
 uint8_t hal_intf_radio_is_state_idle(void);
 void hal_intf_radio_chsd_init(void);
 void hal_intf_radio_fpag_init(FPGA_INFO_T *fpga_info);
+void hal_intf_radio_fpag_init_step2(FPGA_INFO_T *fpga_info);
 void hal_intf_radio_set_la_init(uint8_t la_output_fmt);
 void hal_intf_radio_chsd_set_zero_if(void);
 

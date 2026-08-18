@@ -1,9 +1,9 @@
 # ============================================================================
-# WISEDemoApp — CMake build for ER8130 / subg_soc_9006.
+# WISEDemoApp ??CMake build for ER8130 / er8131p9.
 #
 # All 25 demos as individual CMake targets (the equivalent of the Eclipse build
 # configs / Keil workspace projects). Select a compiler with a toolchain file:
-#   --toolchain toolchains/arm-gcc.cmake   (Arm GNU)   ← default below
+#   --toolchain toolchains/arm-gcc.cmake   (Arm GNU)   ??default below
 #   --toolchain toolchains/armclang.cmake  (ARM Compiler 6)
 #
 # All CMake lives in this folder; the SDK source tree is untouched (referenced
@@ -26,7 +26,7 @@ project(WISEDemoApp C)
 get_filename_component(WISE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../.." ABSOLUTE)
 set(APP_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/..")
 set(SRC_DIR  "${APP_DIR}/src")
-set(PLATFORM subg_soc_9006)
+set(PLATFORM er8131p9)
 set(RADIO_LIB "${WISE_ROOT}/wise_core_v2/prebuilt_libs/libWISERadioLib_${PLATFORM}.a")
 set(WMBUS_LIB "${WISE_ROOT}/protocol/prebuilt_libs/libWMbusDatalink.a")
 set(LD_GNU    "${APP_DIR}/ldscripts/default_9006.ld")
@@ -75,7 +75,7 @@ foreach(_d ${_demo_dirs})
 endforeach()
 
 # ---------------------------------------------------------------------------
-# mbedTLS — config-independent (uses config-esmt.h via build_info.h), so build
+# mbedTLS ??config-independent (uses config-esmt.h via build_info.h), so build
 # it ONCE as a static lib and link it into the W-MBus demos. EXCLUDE_FROM_ALL =>
 # only compiled when a W-MBus demo is actually built.
 # ---------------------------------------------------------------------------

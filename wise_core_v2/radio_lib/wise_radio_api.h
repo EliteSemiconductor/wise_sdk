@@ -159,20 +159,6 @@ typedef enum
 } WISE_MODULATION_T;
 
 /**
- * @enum WISE_PHY_MODE_T
- * @brief High-level PHY operating modes.
- */
-typedef enum 
-{
-    E_PHY_TRANSPARENT = 0x0, /**< Transparent (raw) PHY mode. */
-    E_PHY_802154      = 0x1, /**< IEEE 802.15.4-compliant PHY mode. */
-    E_PHY_CCA         = 0x2,
-    E_PHY_BLE         = 0x3,
-    E_PHY_BLE_LR      = 0x4,
-    E_PHY_MBUS        = 0x5, /**< Wireless M-Bus PHY mode. */
-} WISE_PHY_MODE_T;
-
-/**
  * @enum WISE_WHITENING_T
  * @brief Data whitening configuration.
  */

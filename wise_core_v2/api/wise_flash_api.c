@@ -171,12 +171,15 @@ int32_t _flash_get_xip_cfg(uint8_t* mode, uint8_t* clk)
 
 void wise_flash_init()
 {
+#ifdef CHIP_HAS_FLASH
     hal_intf_flash_init();
     _flash_probe();
+#endif
 }
 
 int32_t wise_flash_get_info(WISE_FLASH_INFO_T *outInfo)
 {
+#ifdef CHIP_HAS_FLASH
     if (outInfo) {
         outInfo->flashSize    = activeFlash->flashSize;
         outInfo->blockSize    = activeFlash->blockSize;
@@ -184,12 +187,16 @@ int32_t wise_flash_get_info(WISE_FLASH_INFO_T *outInfo)
 
         //WISE_LOG_DBG("FLASH ID: %08x\n", (unsigned int)activeFlash->id);
     }
-
     return WISE_SUCCESS;
+    
+#else
+    return WISE_FAIL;
+#endif
 }
 
 int32_t wise_flash_get_uid(uint8_t *uid, uint8_t* ioLen)
 {
+#ifdef CHIP_HAS_FLASH
     int32_t result = WISE_SUCCESS;
     uint8_t *tmpBuf = NULL;
 
@@ -214,10 +221,14 @@ int32_t wise_flash_get_uid(uint8_t *uid, uint8_t* ioLen)
     }
     */
     return result;
+#else
+    return WISE_FAIL;
+#endif
 }
 
 int32_t wise_flash_sector_erase(uint32_t flashOffset)
 {
+#ifdef CHIP_HAS_FLASH
     int32_t result = WISE_FAIL;
     uint32_t mask = activeFlash->sectorSize - 1;
     
@@ -228,10 +239,14 @@ int32_t wise_flash_sector_erase(uint32_t flashOffset)
     result = hal_intf_flash_sector_erase(flashOffset);
 
     return result;
+#else
+    return WISE_FAIL;
+#endif
 }
 
 int32_t wise_flash_block_erase(uint32_t flashOffset)
 {
+#ifdef CHIP_HAS_FLASH
     int32_t result = WISE_FAIL;
     uint32_t mask;
 
@@ -247,10 +262,15 @@ int32_t wise_flash_block_erase(uint32_t flashOffset)
     result = hal_intf_flash_block_erase(flashOffset);
 
     return result;
+    
+#else
+    return WISE_FAIL;
+#endif
 }
 
 int32_t wise_flash_write(uint32_t flashOffset, uint8_t *pu8Buf, uint32_t u32ByteLen)
 {
+#ifdef CHIP_HAS_FLASH
 #define TEMP_BUF_LEN 16
 
     int32_t result      = WISE_FAIL;
@@ -298,11 +318,20 @@ int32_t wise_flash_write(uint32_t flashOffset, uint8_t *pu8Buf, uint32_t u32Byte
 
 finish:
     return result;
+
+#else
+    return WISE_FAIL;
+#endif
+
 }
 
 int32_t wise_flash_read(uint32_t flashOffset, uint8_t *pu8Buf, uint32_t u32ByteLen)
 {
+#ifdef CHIP_HAS_FLASH
     return hal_intf_flash_read(flashOffset, pu8Buf, u32ByteLen);
+#else
+    return WISE_FAIL;
+#endif
 }
 
 //==================== APIs for shadow region access =====================
@@ -341,6 +370,7 @@ int32_t wise_flash_shadow_get_info(FLASH_SHAD_RGN_INFO_T *outInfo)
 
 int32_t wise_flash_shadow_sector_erase(int32_t sector)
 {
+#ifdef CHIP_HAS_FLASH
 	int32_t result = WISE_FAIL;
 	uint32_t startAddr = _otpSecStart(sector);
 
@@ -353,11 +383,15 @@ int32_t wise_flash_shadow_sector_erase(int32_t sector)
 	result = hal_intf_otp_sector_erase(startAddr);
 
 	return result;
+	
+#else
+    return WISE_FAIL;
+#endif
 }
 
-int32_t wise_flash_shadow_write(int32_t sector, uint32_t otpOffset, uint8_t *pu8Buf,
-                         uint32_t u32ByteLen)
+int32_t wise_flash_shadow_write(int32_t sector, uint32_t otpOffset, uint8_t *pu8Buf, uint32_t u32ByteLen)
 {
+#ifdef CHIP_HAS_FLASH
 	int32_t result = WISE_FAIL;
 	uint32_t segLen = 0;
     uint32_t startAddr = _otpSecStart(sector) + otpOffset;
@@ -394,11 +428,15 @@ int32_t wise_flash_shadow_write(int32_t sector, uint32_t otpOffset, uint8_t *pu8
     }
 
 	return result;
+	
+#else
+    return WISE_FAIL;
+#endif
 }
 
-int32_t wise_flash_shadow_read(int32_t sector, uint32_t otpOffset, uint8_t *pu8Buf,
-                        uint32_t u32ByteLen)
+int32_t wise_flash_shadow_read(int32_t sector, uint32_t otpOffset, uint8_t *pu8Buf, uint32_t u32ByteLen)
 {
+#ifdef CHIP_HAS_FLASH
 	int32_t result = WISE_FAIL;
 	uint32_t startAddr = _otpSecStart(sector) + otpOffset;
 
@@ -414,6 +452,10 @@ int32_t wise_flash_shadow_read(int32_t sector, uint32_t otpOffset, uint8_t *pu8B
     result = hal_intf_otp_read(startAddr, pu8Buf, u32ByteLen);
 
 	return result;
+
+#else
+    return WISE_FAIL;
+#endif
 }
 
 static void _parse_msbi_info(WISE_MSBI_INFO_T *out, const uint8_t *info)
@@ -504,6 +546,7 @@ static bool _find_msbi_file(uint8_t *secIndex, uint16_t *dataStart, uint16_t *da
 
 int32_t wise_flash_shadow_read_msbi_info(WISE_MSBI_INFO_T *outInfo)
 {
+#ifdef CHIP_HAS_FLASH
     if(activeFlash->otpSectorNum == 0 || !outInfo)
     {
     	return WISE_FAIL;
@@ -523,10 +566,14 @@ int32_t wise_flash_shadow_read_msbi_info(WISE_MSBI_INFO_T *outInfo)
     _parse_msbi_info(outInfo, info);
 
     return WISE_SUCCESS;
+#else
+    return WISE_FAIL;
+#endif
 }
 
 int32_t wise_flash_shadow_write_msbi_info(WISE_MSBI_INFO_T *inInfo)
 {
+#ifdef CHIP_HAS_FLASH
     if(activeFlash->otpSectorNum == 0 || !inInfo)
     {
     	return WISE_FAIL;
@@ -573,5 +620,9 @@ int32_t wise_flash_shadow_write_msbi_info(WISE_MSBI_INFO_T *inInfo)
 
     free(data);
     return WISE_SUCCESS;
+
+#else
+    return WISE_FAIL;
+#endif
 }
 

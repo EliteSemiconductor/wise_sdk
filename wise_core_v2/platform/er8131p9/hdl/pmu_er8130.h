@@ -38,6 +38,7 @@ void pmu_set_bbp_rate_er8130(uint8_t phy_mode, uint8_t mod_type, uint32_t data_r
 void pmu_set_csr_clk_gated_er8130(uint8_t on_off);
 void pmu_module_sw_reset_er8130(uint32_t module);
 void pmu_set_bod_reset_en_er8130(uint8_t enable);
+void pmu_set_bod_deglitch_er8130(uint8_t enable, uint8_t dg_period);
 void pmu_set_interrupt_er8130(uint32_t source);
 uint32_t pmu_get_interrupt_status_er8130();
 void pmu_clear_interrupt_status_er8130(uint32_t source);

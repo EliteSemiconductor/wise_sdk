@@ -39,6 +39,7 @@ void hal_drv_pmu_set_bbp_mbus_cic_clk(uint8_t dr_idx);
 void hal_drv_pmu_set_bbp_rate(uint8_t phy_mode, uint8_t mod_type, uint32_t data_rate, uint8_t mod_idx);
 void hal_drv_pmu_set_csr_clk_gated(uint8_t on_off);
 void hal_drv_pmu_set_bod_reset_en(uint8_t enable);
+void hal_drv_pmu_set_bod_deglitch(uint8_t enable, uint8_t dg_period);
 void hal_drv_pmu_set_interrupt(uint32_t source);
 uint32_t hal_drv_pmu_get_interrupt_status(void);
 void hal_drv_pmu_clear_interrupt_status(uint32_t source);

@@ -15,7 +15,7 @@
 #define WISE_SDK_VERSION_MAJOR                          4
 
 // SDK minor version: increased for each official release
-#define WISE_SDK_VERSION_MINOR                          11
+#define WISE_SDK_VERSION_MINOR                          12
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH
@@ -111,7 +111,11 @@ __attribute__((used)) void debugHardfault(uint32_t *sp)
     debug_print("PSR         0x%08lx\n", psr);
 
     debug_print("\n");
-    
+
+#ifdef _HARDFAULT_FORCE_RESET
+    wise_sys_chip_reset();
+#endif
+
     while (1);
 }
 

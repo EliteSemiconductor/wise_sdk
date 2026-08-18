@@ -34,6 +34,7 @@ static void _wutmr_int_handler(void* data);
 static void _wutmr_reschedule_next();
 static void _wutmr_ch_expired(int ch, uint32_t curTick);
 static void _timer_hub_debug_info();
+static int32_t _setup_timer_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodTick);
 
 static inline uint32_t tick_diff(uint32_t from, uint32_t to) 
 {
@@ -167,8 +168,10 @@ void wise_timer_hub_free_ch(int ch)
     CORE_EXIT_CRITICAL();
 }
 
-int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs)
+int32_t _setup_timer_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodTick)
 {
+    uint32_t now = wise_wutmr_get_counter();
+        
     CORE_DECLARE_IRQ_STATE;
 
     if(!tmrHubInited)
@@ -188,9 +191,9 @@ int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs
     }
 
     timerBank[ch].mode = mode;
-    timerBank[ch].periodMs = periodMs;
-    timerBank[ch].periodTick = wise_wutmr_ms_to_clk(periodMs);
-    timerBank[ch].startTick = wise_wutmr_get_counter();
+    timerBank[ch].periodMs = wise_wutmr_clk_to_ms(periodTick);
+    timerBank[ch].periodTick = periodTick;
+    timerBank[ch].startTick = now;
     timerBank[ch].nextExpire = timerBank[ch].startTick + timerBank[ch].periodTick;
 
     timerBank[ch].state = E_TIMER_HUB_STATE_RUNNING;
@@ -200,6 +203,18 @@ int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs
     CORE_EXIT_CRITICAL();
 
     return WISE_SUCCESS;
+}
+
+int32_t wise_timer_hub_start_ch(int ch, TIMER_HUB_MODE_T mode, uint32_t periodMs)
+{
+    uint32_t periodTick = wise_wutmr_ms_to_clk(periodMs);
+    
+    return _setup_timer_ch(ch, mode, periodTick);
+}
+
+int32_t wise_timer_hub_start_tick(int ch, TIMER_HUB_MODE_T mode, uint32_t periodTick)
+{
+    return _setup_timer_ch(ch, mode, periodTick);
 }
 
 uint32_t wise_timer_hub_get_target_counter(int ch)

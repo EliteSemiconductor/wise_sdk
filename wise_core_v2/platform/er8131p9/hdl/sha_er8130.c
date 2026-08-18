@@ -16,7 +16,7 @@ void sha_set_config_er8130(uint8_t mode, uint8_t swap)
 {
     uint32_t reg;
 
-    reg  = REG_R32(SHA_CTL_ADDR) & ~(SHA_SHA_MODE_MASK + SHA_SHA_IN_SWAP_MASK);
+    reg  = REG_R32(SHA_CTL_ADDR) & ~(SHA_SHA_MODE_MASK | SHA_SHA_IN_SWAP_MASK);
     reg |= (((mode << SHA_SHA_MODE_POS) & SHA_SHA_MODE_MASK) | ((swap << SHA_SHA_IN_SWAP_POS) & SHA_SHA_IN_SWAP_MASK));
     REG_W32(SHA_CTL_ADDR, reg);
 }

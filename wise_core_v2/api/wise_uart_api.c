@@ -210,7 +210,7 @@ void wise_uart_enable(uint8_t uartIntf, uint8_t opMode)
     } else if (uartIntf == 2) {
         NVIC_ClearPendingIRQ(UART2_IRQn);
     }
-
+    
     if ((uartCtrl[uartIntf].onFlag & WISE_UART_FLAG_RX) && (uartCtrl[uartIntf].rxFifo != NULL)) {
         hal_intf_uart_enable_irq(uartIntf, HAL_UART_EVT_RX_FIN);
     }

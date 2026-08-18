@@ -8,6 +8,7 @@ void hal_drv_radio_chsd_init(void);
 void hal_drv_radio_fpga_init(FPGA_INFO_T *fpga_info);
 void hal_drv_radio_set_la_init(uint8_t la_output_fmt);
 void hal_drv_radio_chsd_set_zero_if(void);
+void hal_drv_radio_fpga_init_step2(FPGA_INFO_T *fpga_info);
 
 
 #endif /* __HAL_DRV_RADIO_WEAK_H__ */

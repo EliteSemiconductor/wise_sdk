@@ -10,14 +10,10 @@
 
 WISE_STATUS wise_rtc_init(void)
 {
-#ifdef CHIP_HAS_LFOSC
-    const HAL_INTERNAL_SCLK_CFG_T *cfg_to_use = &sclk_src_16k_run_32k;
-
-    if (hal_intf_sys_exec_internal_sclk_calibration(cfg_to_use) == WISE_FAIL) {
-        WISE_LOG_ERR("internal sclk calibration fail!\n");
-        return WISE_FAIL;
-    }
-#endif
+    /* Enable the RTC module clock only. The LFOSC source is a board-level
+     * choice already applied at boot by _platform_init(); this function used to
+     * override it with a fixed internal-16K config, which also powered down the
+     * external 32K XO. Use wise_sys_lfosc_clk_src_config() to change it. */
     return hal_intf_module_clk_enable(RTC_MODULE);
 }
 
@@ -51,6 +47,18 @@ WISE_STATUS wise_rtc_set_time(WISE_RTC_CNT_T *cur_time)
         return WISE_FAIL;
     }
 
+    /* Out-of-range values cause unexpected behavior (ATCRTC100 DS085 V1.2), so
+     * reject them instead of letting the register mask truncate silently. */
+    if ((cur_time->day > WISE_RTC_DAY_MAX) ||
+        (cur_time->time.hour > WISE_RTC_HOUR_MAX) ||
+        (cur_time->time.min > WISE_RTC_MIN_MAX) ||
+        (cur_time->time.sec > WISE_RTC_SEC_MAX)) {
+        WISE_LOG_ERR("rtc set_time out of range (day %u/%u, %u:%u:%u)\n",
+                     cur_time->day, WISE_RTC_DAY_MAX, cur_time->time.hour,
+                     cur_time->time.min, cur_time->time.sec);
+        return WISE_FAIL;
+    }
+
     HAL_RTC_CNT_T hal_time = {.day  = cur_time->day,
                               .time = {
                                   .hour = cur_time->time.hour,
@@ -64,6 +72,15 @@ WISE_STATUS wise_rtc_set_time(WISE_RTC_CNT_T *cur_time)
 WISE_STATUS wise_rtc_set_alarm(WISE_RTC_ALM_CFG_T *alarm_cfg)
 {
     if (!alarm_cfg) {
+        return WISE_FAIL;
+    }
+
+    /* Same range rule as wise_rtc_set_time(); the alarm has no Day field. */
+    if ((alarm_cfg->time.hour > WISE_RTC_HOUR_MAX) ||
+        (alarm_cfg->time.min > WISE_RTC_MIN_MAX) ||
+        (alarm_cfg->time.sec > WISE_RTC_SEC_MAX)) {
+        WISE_LOG_ERR("rtc set_alarm out of range (%u:%u:%u)\n",
+                     alarm_cfg->time.hour, alarm_cfg->time.min, alarm_cfg->time.sec);
         return WISE_FAIL;
     }
 

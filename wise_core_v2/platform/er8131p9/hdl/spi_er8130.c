@@ -26,7 +26,7 @@ void spi_reset_fifo_er8130(uint32_t spi_base)
 {
     uint32_t reg   = 0;
     uint32_t to    = 0;
-    uint32_t mask  = (SPI_SPI_RST_MASK + SPI_RX_FIFO_RST_MASK + SPI_TX_FIFO_RST_MASK);
+    uint32_t mask  = (SPI_SPI_RST_MASK | SPI_RX_FIFO_RST_MASK | SPI_TX_FIFO_RST_MASK);
     SPI_T *SPI     = (SPI_T *)spi_base;
     reg            = REG_R32(SPI_CTRL_ADDR);
     reg           |= mask;

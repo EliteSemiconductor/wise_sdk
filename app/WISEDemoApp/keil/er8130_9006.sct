@@ -1,5 +1,5 @@
 ;*****************************************************************************
-; Scatter file for WISEDemoApp (demo_cli) - ER8130 / subg_soc_9006
+; Scatter file for WISEDemoApp (demo_cli) - ER8130 / er8131p9
 ; ARM Compiler 6 (armclang) / Keil uVision.
 ;
 ; Same memory map as app/project_template/keil/er8130_9006.sct, plus a dedicated

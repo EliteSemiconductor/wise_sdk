@@ -1,5 +1,5 @@
 ;*****************************************************************************
-; Scatter file for ER8130 (subg_soc_9006) - ARM Compiler 5 / Keil uVision
+; Scatter file for ER8130 (er8131p9) - ARM Compiler 5 / Keil uVision
 ;
 ; Translated from ldscripts/default_9006.ld (GNU build). Memory map:
 ;   FLASH : 0x00000000, length 0x0002E000 (184 KB)

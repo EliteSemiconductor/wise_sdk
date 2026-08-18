@@ -340,7 +340,7 @@
               <MiscControls>-std=gnu11</MiscControls>
               <Define>__STACK_SIZE=0x1000, __HEAP_SIZE=0x4000, PLATFORM_COMPONENTS_FILE=\"components_template.h\", TARGET_APP</Define>
               <Undefine></Undefine>
-              <IncludePath>..\config;..\src;..\..\..\boards;..\..\..\middleware\wise_system;..\..\..\middleware\retarget;..\..\..\wise_core_v2;..\..\..\wise_core_v2\api;..\..\..\wise_core_v2\core_utils;..\..\..\wise_core_v2\platform\hal_intf;..\..\..\wise_core_v2\platform\subg_soc_9006;..\..\..\wise_core_v2\platform\subg_soc_9006\arm_core;..\..\..\wise_core_v2\radio_lib;..\..\..\wise_core_v2\radio_lib\subg_soc_9006</IncludePath>
+              <IncludePath>..\config;..\src;..\..\..\boards;..\..\..\middleware\wise_system;..\..\..\middleware\retarget;..\..\..\wise_core_v2;..\..\..\wise_core_v2\api;..\..\..\wise_core_v2\core_utils;..\..\..\wise_core_v2\platform\hal_intf;..\..\..\wise_core_v2\platform\er8131p9;..\..\..\wise_core_v2\platform\er8131p9\arm_core;..\..\..\wise_core_v2\radio_lib;..\..\..\wise_core_v2\radio_lib\er8131p9</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -358,7 +358,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\config;..\src;..\..\..\boards;..\..\..\middleware\wise_system;..\..\..\middleware\retarget;..\..\..\wise_core_v2;..\..\..\wise_core_v2\api;..\..\..\wise_core_v2\core_utils;..\..\..\wise_core_v2\platform\hal_intf;..\..\..\wise_core_v2\platform\subg_soc_9006;..\..\..\wise_core_v2\platform\subg_soc_9006\arm_core;..\..\..\wise_core_v2\radio_lib;..\..\..\wise_core_v2\radio_lib\subg_soc_9006</IncludePath>
+              <IncludePath>..\config;..\src;..\..\..\boards;..\..\..\middleware\wise_system;..\..\..\middleware\retarget;..\..\..\wise_core_v2;..\..\..\wise_core_v2\api;..\..\..\wise_core_v2\core_utils;..\..\..\wise_core_v2\platform\hal_intf;..\..\..\wise_core_v2\platform\er8131p9;..\..\..\wise_core_v2\platform\er8131p9\arm_core;..\..\..\wise_core_v2\radio_lib;..\..\..\wise_core_v2\radio_lib\er8131p9</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -374,7 +374,7 @@
             <ScatterFile>.\er8130_9006.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>..\..\..\wise_core_v2\prebuilt_libs\libWISERadioLib_subg_soc_9006.a --diag_suppress=6314</Misc>
+            <Misc>..\..\..\wise_core_v2\prebuilt_libs\libWISERadioLib_er8131p9.a --diag_suppress=6314</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -652,237 +652,237 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>wise_core_v2/platform/subg_soc_9006/arm_core</GroupName>
+          <GroupName>wise_core_v2/platform/er8131p9/arm_core</GroupName>
           <Files>
             <File>
               <FileName>startup_er81xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\arm_core\cmsis\esmt\Source\startup_er81xx.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\arm_core\cmsis\esmt\Source\startup_er81xx.c</FilePath>
             </File>
             <File>
               <FileName>system_er81xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\arm_core\cmsis\esmt\Source\system_er81xx.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\arm_core\cmsis\esmt\Source\system_er81xx.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>wise_core_v2/platform/subg_soc_9006/drv</GroupName>
+          <GroupName>wise_core_v2/platform/er8131p9/drv</GroupName>
           <Files>
             <File>
               <FileName>hal_drv_aes.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_aes.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_aes.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_dma.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_dma.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_efuse.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_efuse.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_efuse.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_extpmu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_extpmu.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_extpmu.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_flash.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_flash.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_gpio.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_gpio.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_gptmr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_gptmr.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_gptmr.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_i2c.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_i2c.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_nfc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_nfc.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_nfc.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_pio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_pio.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_pio.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_pmu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_pmu.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_pmu.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_pwm.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_pwm.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_pwmslow.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_pwmslow.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_pwmslow.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_rtc.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_rtc.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_sha.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_sha.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_sha.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_spi.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_spi.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_sys.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_sys.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_sys.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_trng.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_trng.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_trng.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_uart.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_wdt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_wdt.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_wdt.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_wutmr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\drv\hal_drv_wutmr.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_wutmr.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>wise_core_v2/platform/subg_soc_9006/hdl</GroupName>
+          <GroupName>wise_core_v2/platform/er8131p9/hdl</GroupName>
           <Files>
             <File>
               <FileName>aes_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\aes_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\aes_er8130.c</FilePath>
             </File>
             <File>
               <FileName>dma_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\dma_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\dma_er8130.c</FilePath>
             </File>
             <File>
               <FileName>efuse_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\efuse_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\efuse_er8130.c</FilePath>
             </File>
             <File>
               <FileName>extpmu_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\extpmu_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\extpmu_er8130.c</FilePath>
             </File>
             <File>
               <FileName>flctl_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\flctl_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\flctl_er8130.c</FilePath>
             </File>
             <File>
               <FileName>gpio_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\gpio_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\gpio_er8130.c</FilePath>
             </File>
             <File>
               <FileName>gptmr_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\gptmr_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\gptmr_er8130.c</FilePath>
             </File>
             <File>
               <FileName>i2c_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\i2c_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\i2c_er8130.c</FilePath>
             </File>
             <File>
               <FileName>nfc_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\nfc_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\nfc_er8130.c</FilePath>
             </File>
             <File>
               <FileName>pio_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\pio_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\pio_er8130.c</FilePath>
             </File>
             <File>
               <FileName>pmu_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\pmu_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\pmu_er8130.c</FilePath>
             </File>
             <File>
               <FileName>pwm_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\pwm_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\pwm_er8130.c</FilePath>
             </File>
             <File>
               <FileName>pwmslow_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\pwmslow_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\pwmslow_er8130.c</FilePath>
             </File>
             <File>
               <FileName>rtc_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\rtc_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\rtc_er8130.c</FilePath>
             </File>
             <File>
               <FileName>sha_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\sha_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\sha_er8130.c</FilePath>
             </File>
             <File>
               <FileName>spi_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\spi_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\spi_er8130.c</FilePath>
             </File>
             <File>
               <FileName>sys_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\sys_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\sys_er8130.c</FilePath>
             </File>
             <File>
               <FileName>trng_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\trng_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\trng_er8130.c</FilePath>
             </File>
             <File>
               <FileName>uart_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\uart_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\uart_er8130.c</FilePath>
             </File>
             <File>
               <FileName>wdt_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\wdt_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\wdt_er8130.c</FilePath>
             </File>
             <File>
               <FileName>wutmr_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\platform\subg_soc_9006\hdl\wutmr_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\wutmr_er8130.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -942,32 +942,32 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>wise_core_v2/radio_lib/subg_soc_9006</GroupName>
+          <GroupName>wise_core_v2/radio_lib/er8131p9</GroupName>
           <Files>
             <File>
               <FileName>ana_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\radio_lib\subg_soc_9006\ana_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\radio_lib\er8131p9\ana_er8130.c</FilePath>
             </File>
             <File>
               <FileName>bbp_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\radio_lib\subg_soc_9006\bbp_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\radio_lib\er8131p9\bbp_er8130.c</FilePath>
             </File>
             <File>
               <FileName>hal_drv_radio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\radio_lib\subg_soc_9006\hal_drv_radio.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\radio_lib\er8131p9\hal_drv_radio.c</FilePath>
             </File>
             <File>
               <FileName>mac_er8130.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\radio_lib\subg_soc_9006\mac_er8130.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\radio_lib\er8131p9\mac_er8130.c</FilePath>
             </File>
             <File>
               <FileName>modem_config.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\wise_core_v2\radio_lib\subg_soc_9006\modem_config.c</FilePath>
+              <FilePath>..\..\..\wise_core_v2\radio_lib\er8131p9\modem_config.c</FilePath>
             </File>
           </Files>
         </Group>

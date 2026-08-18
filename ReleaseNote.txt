@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0011
-Git revision: 0x9fce91d5
+Version: 4.0012
+Git revision: 0x8744dd74
 Library: 
-        libWISERadioLib_subg_soc_9006 v1.11
+        libWISERadioLib_subg_soc_9006 v1.12
         libWMbusDatalink v1.03
-Release Date: July 17, 2026
+Release Date: August 18, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -15,6 +15,20 @@ Release Date: July 17, 2026
 2. Supported Platforms
     - ER8130A/ER8131A
 
-3. Bug fixing:
-    - Fixed low-gain boot crash by applying the crystal cap configuration to ANA before setting the 40M gain at boot.
+3. Major Changes
+    - Updated radio library for 9006 platform to v1.12.
+    - WMBus: refined early-RX and pre-encrypted TX handling with security-mode-specific payload limits and worst-case Manchester buffer sizing (heap expanded to 0x6000).
+    - WMBus: separated DLL frame packing from RF staging/transmission and pre-pack gateway frames during early-RX preparation.
+    - WMBus: extended gateway Rx2Tx timing diagnostics and deferred RX2TX logging to reduce turnaround latency.
+    - Radio: added a patch to improve WMBus T-mode O2M dynamic-range performance.
+    - System: added BOD deglitch configuration support for the 9006 platform.
+    - System: added an optional self-reset in the hard fault handler.
+    - Middleware: support configurable tick-counter unit in the timer hub.
+    - Shell: refined the RF commands (e.g. "rf sg") to align with "rf init" and updated the default channel frequency and data rate.
+4. Bug fixing:
+    - WMBus: fixed data loss when a meter is disconnected.
+    - WMBus: fixed incorrect FCB handling between gateway and meter.
+    - Fixed RTC CNTR_DAY field width and prevented RTC init from changing the LFOSC source.
+    - Fixed a compatibility issue in M2Comm RF configurations.
+    - Fixed typos in the 4-FSK flow.
 ================================================================================

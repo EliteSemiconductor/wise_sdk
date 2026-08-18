@@ -104,6 +104,11 @@ void hal_drv_pmu_set_bod_reset_en(uint8_t enable)
     pmu_set_bod_reset_en_er8130(enable);
 }
 
+void hal_drv_pmu_set_bod_deglitch(uint8_t enable, uint8_t dg_period)
+{
+    pmu_set_bod_deglitch_er8130(enable, dg_period);
+}
+
 void hal_drv_pmu_set_interrupt(uint32_t source)
 {
     pmu_set_interrupt_er8130(source);

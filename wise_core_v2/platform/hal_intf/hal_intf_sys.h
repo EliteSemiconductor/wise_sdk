@@ -10,8 +10,6 @@
 #include "esmt_chip_specific.h"
 #include "types.h"
 
-#ifdef CHIP_HAS_LFOSC
-
 typedef enum {
     SYS_LFOSC_CLK_DISABLE = 0,
     SYS_LFOSC_CLK_SRC_INTERNAL_32K = 1,
@@ -78,7 +76,6 @@ extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_16k_run_default_lowpwr;
 extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_16k_run_default_lowpwr0p6v;
 extern const HAL_INTERNAL_SCLK_CFG_T sclk_src_16k_run_32k;
 
-#endif // __CHIP_HAS_LFOSC
 
 uint32_t hal_intf_sys_get_chip_id(void);
 int32_t hal_intf_sys_set_remap(uint32_t remap_addr);

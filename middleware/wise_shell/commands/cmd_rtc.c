@@ -197,7 +197,7 @@ static int _demoCmd(int argc, char **argv)
         WISE_SUCCESS) {
         printf("RTC callback registered\n");
     }
-    printf("type 'rtc strat' to trigger rtc timer start\n");
+    printf("type 'rtc start' to trigger rtc timer start\n");
     return SHLCMD_HIST | SHLCMD_DONE;
 }
 #endif /* SHELL_RTC */

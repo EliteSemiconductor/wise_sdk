@@ -86,6 +86,7 @@ void hal_intf_sys_switch_sclk_src(uint8_t sclk_idx)
 
 int8_t hal_intf_sys_exec_internal_sclk_calibration(const HAL_INTERNAL_SCLK_CFG_T *cfg)
 {
+#ifdef CHIP_HAS_LFOSC
     switch (cfg->sclk_sel) {
 
         case SYS_LFOSC_CLK_SRC_INTERNAL_16K: {
@@ -131,6 +132,8 @@ int8_t hal_intf_sys_exec_internal_sclk_calibration(const HAL_INTERNAL_SCLK_CFG_T
         default:
         	return HAL_ERR;
     }
+#endif
+
     return HAL_ERR;
 }
 
