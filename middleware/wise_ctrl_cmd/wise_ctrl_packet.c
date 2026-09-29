@@ -252,4 +252,17 @@ void wise_pkt_proc(void)
         }
     }
 }
+
+uint16_t wise_pkt_get_resp_data(uint8_t **respBuf)
+{
+    uint16_t ret = pktSender.pktLen;
+
+    *respBuf = pktSender.pktBuf;
+
+    pktSender.pktLen = 0;
+    pktSender.pktWIndex = 0;
+
+    return ret;
+}
+
 #endif /* MIDDLEWARE_WISE_CTRL_CMD */

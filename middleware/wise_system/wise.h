@@ -46,6 +46,59 @@ typedef enum {
 int32_t wise_init();
 void wise_main_proc();
 
+/* ------------------------------------------------------------------------- */
+/*                          deferred boot fault log                          */
+/* ------------------------------------------------------------------------- */
+
+/** Maximum number of pre-UART faults retained; further ones are counted only. */
+#define WISE_BOOT_FAULT_MAX 8
+
+/**
+ * @struct WISE_BOOT_FAULT_T
+ * @brief One recorded boot-time fault.
+ */
+typedef struct {
+    const char *stage;  /**< Static string naming the step that failed. */
+    int32_t     status; /**< Status the step returned. */
+} WISE_BOOT_FAULT_T;
+
+/**
+ * @brief Record a fault that happened before UART was available.
+ *
+ * Anything running before _peripheral_init() cannot report itself: stdout does
+ * not exist yet, so halting or printing there is invisible. Wrap such a call in
+ * this function instead and let wise_init() surface the result afterwards:
+ * @code
+ *     wise_boot_fault_record("wise_core_init", wise_core_init());
+ * @endcode
+ *
+ * @param[in] stage  Static string naming the step. Not copied, so it must
+ *                   remain valid for the lifetime of the program.
+ * @param[in] status Value the step returned. WISE_SUCCESS is ignored.
+ */
+void wise_boot_fault_record(const char *stage, int32_t status);
+
+/**
+ * @brief Number of boot faults recorded.
+ *
+ * May exceed ::WISE_BOOT_FAULT_MAX, in which case only the first
+ * ::WISE_BOOT_FAULT_MAX are retrievable but the true count is still reported.
+ *
+ * @return Fault count, 0 when the boot was clean.
+ */
+uint32_t wise_boot_fault_count(void);
+
+/**
+ * @brief Retrieve one recorded boot fault.
+ *
+ * @param[in]  idx   Index, 0 .. min(wise_boot_fault_count(), WISE_BOOT_FAULT_MAX) - 1.
+ * @param[out] fault Receives the entry.
+ *
+ * @retval WISE_SUCCESS Entry returned.
+ * @retval WISE_FAIL    Index out of range, or @p fault is NULL.
+ */
+int32_t wise_boot_fault_get(uint32_t idx, WISE_BOOT_FAULT_T *fault);
+
 void wise_system_idle(uint32_t idleMs);
 void wise_system_sleep(uint32_t sleepMs);
 void wise_system_restore();

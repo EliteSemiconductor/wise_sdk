@@ -53,9 +53,9 @@ typedef enum {
  * Represents hours, minutes, and seconds in a day.
  */
 typedef struct {
-    uint8_t hour;
-    uint8_t min;
-    uint8_t sec;
+    uint8_t hour; /**< Hours (0-23). */
+    uint8_t min;  /**< Minutes (0-59). */
+    uint8_t sec;  /**< Seconds (0-59). */
 } RTC_TIME_T;
 
 /**
@@ -65,8 +65,8 @@ typedef struct {
  * Combines a day counter with time-of-day information.
  */
 typedef struct {
-    uint8_t day;
-    RTC_TIME_T time;
+    uint8_t    day;  /**< Day counter value. */
+    RTC_TIME_T time; /**< Time of day. */
 } WISE_RTC_CNT_T;
 
 /**

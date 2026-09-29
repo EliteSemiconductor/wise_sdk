@@ -114,8 +114,6 @@ uint8_t nfc_get_dpe_ctrl_info_er8130(void)
     return rst;
 }
 
-#define NFC_INT_ID_0 0x4
-#define NFC_INT_ID_1 0x5
 uint8_t nfc_get_interrupt_idx_er8130(void)
 {
     uint8_t int_idx = 0x0;
@@ -123,14 +121,9 @@ uint8_t nfc_get_interrupt_idx_er8130(void)
     
     //0x3FC[26:24]
     cfg = REG_R32(NFC_DPE_ADDR);
-    cfg = ((cfg & 0x07000000) >> NFC_DPE_IRQ_SRC_POS);
+    int_idx = ((cfg & 0x07000000) >> NFC_DPE_IRQ_SRC_POS);
 
     //WISE_LOG_DBG("cfg = 0x%08x\n", cfg);
-
-    if (cfg == NFC_INT_ID_0)
-        int_idx = 0;
-    if (cfg == NFC_INT_ID_1)
-        int_idx = 1;
 
     return int_idx;
 }
@@ -138,16 +131,8 @@ uint8_t nfc_get_interrupt_idx_er8130(void)
 void nfc_set_interrupt_er8130(uint8_t int_idx, uint8_t enable)
 {
     uint32_t cfg;
-   
-    uint8_t int_id;
+
     uint8_t int_en = 0x1;
-
-    //int_idx = 1; //POR int
-    if (int_idx == 0)
-        int_id = NFC_INT_ID_0;
-
-    if (int_idx == 1)
-        int_id = NFC_INT_ID_1;
 
     //0x3FC[26:24] clean old int idx
     cfg = REG_R32(NFC_DPE_ADDR);
@@ -157,7 +142,7 @@ void nfc_set_interrupt_er8130(uint8_t int_idx, uint8_t enable)
     //0x3FC[26:24]
     cfg = REG_R32(NFC_DPE_ADDR);
     cfg = (cfg & ~(0xFF000000)) |
-          ((int_id << NFC_DPE_IRQ_SRC_POS) & 0x07000000);
+          ((int_idx << NFC_DPE_IRQ_SRC_POS) & 0x07000000);
     REG_W32(NFC_DPE_ADDR, cfg);
     
     //0x504[0]
@@ -175,8 +160,6 @@ uint8_t nfc_get_dpe_status_int_mask_er8130(void)
     uint8_t dpe_status;
 
     dpe_status = nfc_get_dpe_status_info_er8130();
-
-    dpe_status = ((dpe_status>>4)&0x00000003);
 
     return dpe_status;
 }

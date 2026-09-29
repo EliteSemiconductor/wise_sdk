@@ -1,9 +1,9 @@
 var struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t =
 [
-    [ "platform_id", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a2301ba1a775ad9048d4f754444df95ad", null ],
-    [ "platform_name", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a963b335a2b61881debfe658f923e34b3", null ],
-    [ "sha_1", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a51a2755d1bc635dcc5ed1711215acb1b", null ],
-    [ "ver_build", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a04ce02a3b92d3d20c5845476a33bb37a", null ],
-    [ "ver_major", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a66e462ea8340d6a40a6858c018c41fb5", null ],
-    [ "ver_minor", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a9f863422bcc720d3712869e0450161c3", null ]
+    [ "platform_id", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#add4f8dec816e1b6bef6bf429203f4ff0", null ],
+    [ "platform_name", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a608f1a7a3b4190c2a5f66c4036d71a98", null ],
+    [ "sha_1", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#aa2fff4fdff229f1e15eeadafb20f7287", null ],
+    [ "ver_build", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a29553b57828715e1435f4fdfde5d8ad0", null ],
+    [ "ver_major", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a85e431f635cbbdf70a6bd6fb98f862fc", null ],
+    [ "ver_minor", "struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#aa80d6143fd2a501b98b20b56ffc0ce43", null ]
 ];

@@ -1,7 +1,10 @@
 var group___w_i_s_e___w_d_t =
 [
     [ "wise_wdt_api.h", "wise__wdt__api_8h.html", null ],
-    [ "WISE_WDT_CB_EVENT_T", "group___w_i_s_e___w_d_t.html#gac04a18e7c4e6c9e5629b318edfd009c2", null ],
+    [ "WISE_WDT_CB_EVENT_T", "group___w_i_s_e___w_d_t.html#gac04a18e7c4e6c9e5629b318edfd009c2", [
+      [ "WISE_WDT_EVENT_TIMEOUT", "group___w_i_s_e___w_d_t.html#ggac04a18e7c4e6c9e5629b318edfd009c2ae49b915641658f0ffd8d3f17154e6ff9", null ],
+      [ "WISE_WDT_MAX_EVENTS", "group___w_i_s_e___w_d_t.html#ggac04a18e7c4e6c9e5629b318edfd009c2a2be610dacb70f20f4a8a583de887d6a0", null ]
+    ] ],
     [ "wise_wdt_config", "group___w_i_s_e___w_d_t.html#gacd6d915162d43d13e9ae27b9e4fb1c6a", null ],
     [ "wise_wdt_deinit", "group___w_i_s_e___w_d_t.html#ga7164e87d92a53ec0e21082f0d49568a2", null ],
     [ "wise_wdt_get_period", "group___w_i_s_e___w_d_t.html#ga5bf09f775951133b9cf96d08749727e9", null ],

@@ -8,9 +8,11 @@
 #include "hdl/pmu_er8130.h"
 #include "hal_intf_pmu.h"
 
+static void pmu_isr_body(void);
+
 typedef void (*pmu_dispatch_fn_t)(void);
 
-static pmu_dispatch_fn_t s_pmu_dispatch;
+static pmu_dispatch_fn_t volatile s_pmu_dispatch = pmu_isr_body;
 static PMU_EVT_CALLBACK_T pmuCallback = NULL;
 static void* callbackContext = NULL;
 

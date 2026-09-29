@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Parse WMBus datalink UART logs.
 
-This tool is intentionally conservative: it parses the fixed tag format used by
-WMBUS_DBG_MSG_FLOW / WMBUS_DBG_MSG_ERROR and reports the first obvious problem
-with nearby context.
+This tool parses the fixed tag format used by WMBUS_DBG_MSG_FLOW /
+WMBUS_DBG_MSG_ERROR, monitors each source, and correlates meter triggers with
+the gateway log.
 """
 
 from __future__ import annotations
 
 import argparse
+import bisect
 import contextlib
 import glob
 import io
@@ -34,10 +35,6 @@ KV_RE = re.compile(r"([A-Za-z0-9_]+)=([^,\s]+)")
 TIMESTAMP_RE = re.compile(r"^\[([A-Za-z]{3} [A-Za-z]{3} +\d+ \d\d:\d\d:\d\d\.\d+ \d{4})\]")
 BOOT_MARKER_RE = re.compile(r"\bWISE_CORE_V2\b|Built@")
 MANUAL_BOUNDARY_RE = re.compile(r"\bwm\s+(?:stop|fsm)\b")
-RAW_GW_RX_RE = re.compile(r"\bGW receives data\b.*\bfrom ID:(0x[0-9A-Fa-f]+)")
-RAW_MTR_RX_RE = re.compile(r"\bMTR receives raw data\b")
-RAW_MTR_TX_DONE_RE = re.compile(r"\bTx done\b")
-RAW_MTR_SESSION_END_RE = re.compile(r"\bReceived NKE so finish this session\b")
 SOURCE_DEV_RE = re.compile(r"(?:0x)?([0-9A-Fa-f]{8})")
 
 
@@ -107,7 +104,8 @@ class ParserDiagnostic:
 class MeterWatchdogState:
     last_trigger: Event | None = None
     last_liveness: Event | None = None
-    liveness_seen_since_trigger: bool = False
+    failure_streak: int = 0
+    failure_streak_reported: bool = False
     session_stuck_reported: bool = False
 
 
@@ -249,59 +247,18 @@ def check_source(report: SourceReport, events: Iterable[Event]) -> None:
             else:
                 conn_active.remove(event.dev)
 
-    for dev in sorted(conn_active):
-        report.warnings.append(f"active connection remains dev={dev}")
-
-
-def is_meter_trigger_activity(event: Event) -> bool:
-    if event.role == "MTR" and event.kind == "SESSION_START":
-        return True
-    if event.role == "MTR" and event.kind == "TX" and event.fields.get("phase") == "FIRST_REQ":
-        return True
-    if event.role == "GW" and event.kind == "SESSION_START" and event.fields.get("reason") == "RX_FIRST_PACKET":
-        return True
-    return False
-
-
 def is_meter_liveness_activity(event: Event) -> bool:
-    if event.role == "MTR" and event.kind not in ("ERR", "WARN"):
-        return True
-    if event.role == "GW" and event.kind == "RX":
-        return True
-    if event.role == "GW" and event.kind == "SESSION_START" and event.fields.get("reason") == "RX_FIRST_PACKET":
+    if event.role == "MTR":
         return True
     return False
 
 
 def is_meter_session_start(event: Event) -> bool:
-    if event.role == "MTR" and event.kind == "SESSION_START":
-        return True
-    if event.role == "MTR" and event.kind == "TX" and event.fields.get("phase") == "FIRST_REQ":
-        return True
-    if event.role == "GW" and event.kind == "SESSION_START" and event.fields.get("reason") == "RX_FIRST_PACKET":
-        return True
-    return False
+    return event.role == "MTR" and event.kind == "SESSION_START"
 
 
 def is_meter_session_end(event: Event) -> bool:
-    return event.role in ("GW", "MTR") and event.kind == "SESSION_END"
-
-
-def is_raw_wmbus_activity_line(line: str) -> bool:
-    return any(
-        pattern.search(line)
-        for pattern in (
-            RAW_GW_RX_RE,
-            RAW_MTR_RX_RE,
-            RAW_MTR_TX_DONE_RE,
-            RAW_MTR_SESSION_END_RE,
-        )
-    )
-
-
-def add_boundary_warning(report: SourceReport, line_no: int, boundary: str, message: str) -> None:
-    report.counters[f"WATCHDOG.WARN.{boundary}"] += 1
-    report.warnings.append(f"{report.name}:{line_no}: watchdog reset by {boundary} boundary {message}")
+    return event.role == "MTR" and event.kind == "SESSION_END"
 
 
 def add_meter_trigger_error(report: SourceReport, line_no: int, message: str) -> None:
@@ -318,20 +275,6 @@ def add_meter_trigger_error(report: SourceReport, line_no: int, message: str) ->
     )
 
 
-def add_meter_trigger_warning(report: SourceReport, line_no: int, message: str) -> None:
-    report.counters["MTR.WARN.TRIGGER_DELAYED_BY_ACTIVE_SESSION"] += 1
-    report.parser_diagnostics.append(
-        ParserDiagnostic(
-            source=report.name,
-            line_no=line_no,
-            level="WARN",
-            code="TRIGGER_DELAYED_BY_ACTIVE_SESSION",
-            message=message,
-            raw_line=report.lines[line_no - 1] if 1 <= line_no <= report.total_lines else None,
-        )
-    )
-
-
 def add_meter_session_stuck_error(report: SourceReport, line_no: int, message: str) -> None:
     report.counters["MTR.ERR.SESSION_STUCK"] += 1
     report.parser_diagnostics.append(
@@ -340,20 +283,6 @@ def add_meter_session_stuck_error(report: SourceReport, line_no: int, message: s
             line_no=line_no,
             level="ERR",
             code="SESSION_STUCK",
-            message=message,
-            raw_line=report.lines[line_no - 1] if 1 <= line_no <= report.total_lines else None,
-        )
-    )
-
-
-def add_active_session_eof_warning(report: SourceReport, line_no: int, message: str) -> None:
-    report.counters["MTR.WARN.ACTIVE_SESSION_AT_EOF"] += 1
-    report.parser_diagnostics.append(
-        ParserDiagnostic(
-            source=report.name,
-            line_no=line_no,
-            level="WARN",
-            code="ACTIVE_SESSION_AT_EOF",
             message=message,
             raw_line=report.lines[line_no - 1] if 1 <= line_no <= report.total_lines else None,
         )
@@ -393,8 +322,13 @@ def check_meter_trigger_watchdog(
     period_ms: int,
     tolerance_ms: int,
     session_idle_ms: int,
+    failure_streak_limit: int,
 ) -> None:
     deadline_ms = period_ms + tolerance_ms
+    events = list(events)
+    if not any(is_meter_session_start(event) for event in events):
+        return
+
     events_by_line: dict[int, list[Event]] = {}
     for event in events:
         events_by_line.setdefault(event.line_no, []).append(event)
@@ -411,78 +345,8 @@ def check_meter_trigger_watchdog(
             states[dev] = state
         return state
 
-    def format_last_liveness(state: MeterWatchdogState) -> str:
-        if state.last_liveness is None:
-            return "last_liveness=none last_liveness_line=none"
-        return f"last_liveness={state.last_liveness.kind} last_liveness_line={state.last_liveness.line_no}"
-
-    def infer_current_dev() -> str | None:
-        if source_dev is not None:
-            return source_dev
-        if len(active_meter_sessions) == 1:
-            return next(iter(active_meter_sessions))
-        if len(states) == 1:
-            return next(iter(states))
-        return None
-
-    def synthetic_event(line_no: int, raw: str, role: str, kind: str, dev: str, timestamp_ms: int | None) -> Event:
-        return Event(
-            source=report.name,
-            line_no=line_no,
-            raw=raw,
-            tags=[role, kind],
-            fields={"dev": dev},
-            timestamp_ms=timestamp_ms,
-        )
-
-    def report_trigger_gap(dev: str, state: MeterWatchdogState, event: Event, elapsed_ms: int) -> None:
-        if state.last_trigger is None:
-            return
-
-        if dev not in active_meter_sessions:
-            return
-
-        active = 1 if dev in active_meter_sessions else 0
-        liveness = format_last_liveness(state)
-        previous = state.last_trigger
-        if not state.liveness_seen_since_trigger:
-            add_meter_trigger_error(
-                report,
-                event.line_no,
-                (
-                    f"dev={dev} elapsed_ms={elapsed_ms} limit_ms={deadline_ms} "
-                    f"previous_trigger={previous.kind} previous_trigger_line={previous.line_no} "
-                    f"{liveness} active_session={active}"
-                ),
-            )
-            return
-
-        if dev in active_meter_sessions and state.last_liveness is not None and state.last_liveness.timestamp_ms is not None:
-            idle_ms = event.timestamp_ms - state.last_liveness.timestamp_ms if event.timestamp_ms is not None else 0
-            if idle_ms > session_idle_ms:
-                if not state.session_stuck_reported:
-                    add_meter_session_stuck_error(
-                        report,
-                        event.line_no,
-                        (
-                            f"dev={dev} idle_ms={idle_ms} limit_ms={session_idle_ms} "
-                            f"trigger_elapsed_ms={elapsed_ms} trigger_limit_ms={deadline_ms} "
-                            f"last_liveness={state.last_liveness.kind} last_liveness_line={state.last_liveness.line_no} "
-                            f"previous_trigger={previous.kind} previous_trigger_line={previous.line_no}"
-                        ),
-                    )
-                    state.session_stuck_reported = True
-                return
-
-        add_meter_trigger_warning(
-            report,
-            event.line_no,
-            (
-                f"dev={dev} elapsed_ms={elapsed_ms} limit_ms={deadline_ms} "
-                f"previous_trigger={previous.kind} previous_trigger_line={previous.line_no} "
-                f"{liveness} active_session={active}"
-            ),
-        )
+    def event_dev(event: Event) -> str:
+        return event.dev.lower() if event.dev != "unknown" else (source_dev or "unknown")
 
     def check_session_idle(line_no: int, timestamp_ms: int) -> None:
         for dev in sorted(active_meter_sessions):
@@ -505,44 +369,6 @@ def check_meter_trigger_watchdog(
                 )
                 state.session_stuck_reported = True
 
-    def update_trigger(event: Event) -> None:
-        state = state_for(event.dev)
-        if event.timestamp_ms is not None and state.last_trigger is not None and state.last_trigger.timestamp_ms is not None:
-            elapsed_ms = event.timestamp_ms - state.last_trigger.timestamp_ms
-            if elapsed_ms > deadline_ms:
-                report_trigger_gap(event.dev, state, event, elapsed_ms)
-
-        state.last_trigger = event
-        state.last_liveness = event
-        state.liveness_seen_since_trigger = False
-        state.session_stuck_reported = False
-
-    def update_liveness(event: Event) -> None:
-        state = state_for(event.dev)
-        state.last_liveness = event
-        if state.last_trigger is not None and event is not state.last_trigger:
-            state.liveness_seen_since_trigger = True
-
-    def update_raw_line_activity(line_no: int, line: str, timestamp_ms: int | None) -> None:
-        gw_rx_match = RAW_GW_RX_RE.search(line)
-        if gw_rx_match:
-            dev = gw_rx_match.group(1).lower()
-            update_liveness(synthetic_event(line_no, line, "GW", "RX", dev, timestamp_ms))
-            return
-
-        dev = infer_current_dev()
-        if dev is None:
-            return
-
-        if RAW_MTR_RX_RE.search(line):
-            update_liveness(synthetic_event(line_no, line, "MTR", "RX", dev, timestamp_ms))
-        elif RAW_MTR_TX_DONE_RE.search(line):
-            update_liveness(synthetic_event(line_no, line, "MTR", "TX_DONE", dev, timestamp_ms))
-
-        if RAW_MTR_SESSION_END_RE.search(line):
-            update_liveness(synthetic_event(line_no, line, "MTR", "SESSION_END", dev, timestamp_ms))
-            active_meter_sessions.discard(dev)
-
     for line_no, line in enumerate(report.lines, start=1):
         timestamp_ms = parse_timestamp_ms(line)
         if timestamp_ms is not None:
@@ -551,78 +377,200 @@ def check_meter_trigger_watchdog(
         manual_boundary = MANUAL_BOUNDARY_RE.search(line)
         boot_boundary = BOOT_MARKER_RE.search(line)
         if manual_boundary or boot_boundary:
-            if active_meter_sessions:
-                boundary = "BOOT" if boot_boundary else "MANUAL"
-                devs = ",".join(sorted(active_meter_sessions))
-                last_lines = ",".join(
-                    f"{dev}:{state.last_trigger.line_no}"
-                    for dev, state in sorted(states.items())
-                    if state.last_trigger is not None
-                )
-                add_boundary_warning(report, line_no, boundary, f"active_devs={devs} last_trigger_lines={last_lines or 'none'}")
             active_meter_sessions.clear()
             states.clear()
             continue
 
         line_events = events_by_line.get(line_no, [])
-        line_is_terminal = any(is_meter_session_end(event) for event in line_events) or RAW_MTR_SESSION_END_RE.search(line)
-        line_is_checkpoint = bool(line_events) or is_raw_wmbus_activity_line(line)
-        if timestamp_ms is not None and line_is_checkpoint and not line_is_terminal:
+        if timestamp_ms is not None and line_events:
             check_session_idle(line_no, timestamp_ms)
 
         for event in line_events:
-            trigger_activity = is_meter_trigger_activity(event)
-            if trigger_activity:
-                update_trigger(event)
-                if is_meter_session_start(event):
-                    active_meter_sessions.add(event.dev)
-            elif is_meter_session_start(event):
-                active_meter_sessions.add(event.dev)
-            elif is_meter_session_end(event):
-                active_meter_sessions.discard(event.dev)
+            if event.role != "MTR":
+                continue
 
-            if is_meter_liveness_activity(event) and not trigger_activity:
-                update_liveness(event)
+            dev = event_dev(event)
+            state = state_for(dev)
+            if is_meter_session_start(event):
+                if (state.last_trigger is not None and
+                    state.last_trigger.timestamp_ms is not None and
+                    event.timestamp_ms is not None):
+                    elapsed_ms = event.timestamp_ms - state.last_trigger.timestamp_ms
+                    if elapsed_ms > deadline_ms:
+                        if dev in active_meter_sessions:
+                            if not state.session_stuck_reported:
+                                add_meter_session_stuck_error(
+                                    report,
+                                    event.line_no,
+                                    f"dev={dev} trigger_elapsed_ms={elapsed_ms} limit_ms={deadline_ms} "
+                                    f"previous_trigger_line={state.last_trigger.line_no} active_session=1",
+                                )
+                        else:
+                            add_meter_trigger_error(
+                                report,
+                                event.line_no,
+                                f"dev={dev} elapsed_ms={elapsed_ms} limit_ms={deadline_ms} "
+                                f"previous_trigger_line={state.last_trigger.line_no} active_session=0",
+                            )
 
-        update_raw_line_activity(line_no, line, timestamp_ms)
+                state.last_trigger = event
+                state.last_liveness = event
+                state.session_stuck_reported = False
+                active_meter_sessions.add(dev)
+                continue
+
+            if is_meter_session_end(event):
+                state.last_liveness = event
+                active_meter_sessions.discard(dev)
+                reason = event.fields.get("reason", "UNKNOWN")
+                if reason in ("RX_NKE", "NO_REQUEST"):
+                    state.failure_streak = 0
+                    state.failure_streak_reported = False
+                elif reason in ("FAC_TIMEOUT", "REQUEST_TIMEOUT", "RETRY_LIMIT", "DEC_STOP"):
+                    state.failure_streak += 1
+                    if (state.failure_streak >= failure_streak_limit and
+                        not state.failure_streak_reported):
+                        report.counters["MTR.ERR.SESSION_FAILURE_STREAK"] += 1
+                        report.parser_diagnostics.append(
+                            ParserDiagnostic(
+                                source=report.name,
+                                line_no=event.line_no,
+                                level="ERR",
+                                code="SESSION_FAILURE_STREAK",
+                                message=f"dev={dev} failures={state.failure_streak} limit={failure_streak_limit} last_reason={reason}",
+                                raw_line=report.lines[event.line_no - 1],
+                            )
+                        )
+                        state.failure_streak_reported = True
+                continue
+
+            if is_meter_liveness_activity(event):
+                state.last_liveness = event
 
     if last_timestamp_ms is None:
         return
 
     check_session_idle(report.total_lines, last_timestamp_ms)
-    for dev, state in sorted(states.items()):
-        if state.last_trigger is None or state.last_trigger.timestamp_ms is None:
-            continue
-        elapsed_ms = last_timestamp_ms - state.last_trigger.timestamp_ms
-        if elapsed_ms > deadline_ms:
-            eof_event = Event(source=report.name, line_no=state.last_trigger.line_no, raw="", tags=["MTR", "SESSION_START"], fields={"dev": dev}, timestamp_ms=last_timestamp_ms)
-            report_trigger_gap(dev, state, eof_event, elapsed_ms)
 
-    for dev in sorted(active_meter_sessions):
-        state = states.get(dev)
-        if state is None:
-            add_active_session_eof_warning(report, report.total_lines, f"dev={dev} last_liveness=none last_liveness_line=none")
-            continue
-        if state.session_stuck_reported:
-            continue
-        last_liveness = format_last_liveness(state)
-        if state.last_trigger is not None and state.last_trigger.timestamp_ms is not None:
-            elapsed_ms = last_timestamp_ms - state.last_trigger.timestamp_ms
-            add_active_session_eof_warning(
-                report,
-                report.total_lines,
-                f"dev={dev} elapsed_ms={elapsed_ms} last_trigger={state.last_trigger.kind} "
-                f"last_trigger_line={state.last_trigger.line_no} {last_liveness}",
+
+def check_cross_source_health(
+    reports: list[SourceReport],
+    events_by_source: dict[str, list[Event]],
+    match_window_ms: int,
+    missed_trigger_limit: int,
+    source_silence_ms: int,
+) -> None:
+    latest_timestamp_ms: int | None = None
+    gw_starts_by_dev: dict[str, list[int]] = {}
+    gw_timestamps: list[int] = []
+    for events in events_by_source.values():
+        for event in events:
+            if event.timestamp_ms is None:
+                continue
+            latest_timestamp_ms = (
+                event.timestamp_ms if latest_timestamp_ms is None
+                else max(latest_timestamp_ms, event.timestamp_ms)
             )
+            if event.role == "GW":
+                gw_timestamps.append(event.timestamp_ms)
+                if (event.kind == "SESSION_START" and
+                    event.fields.get("reason") == "RX_FIRST_PACKET"):
+                    gw_starts_by_dev.setdefault(event.dev.lower(), []).append(event.timestamp_ms)
+
+    if latest_timestamp_ms is None:
+        return
+
+    for timestamps in gw_starts_by_dev.values():
+        timestamps.sort()
+
+    if gw_timestamps:
+        gw_first_ms = min(gw_timestamps)
+        gw_last_ms = max(gw_timestamps)
+        for report in reports:
+            meter_starts = [
+                event for event in events_by_source[report.name]
+                if is_meter_session_start(event) and event.timestamp_ms is not None
+            ]
+            if not meter_starts:
+                continue
+
+            missed_streak = 0
+            reported = False
+            previous_line_no = 0
+            for event in meter_starts:
+                if any(
+                    MANUAL_BOUNDARY_RE.search(line) or BOOT_MARKER_RE.search(line)
+                    for line in report.lines[previous_line_no:event.line_no - 1]
+                ):
+                    missed_streak = 0
+                    reported = False
+                previous_line_no = event.line_no
+                if event.timestamp_ms is None or not (gw_first_ms <= event.timestamp_ms <= gw_last_ms):
+                    continue
+                dev = event.dev.lower()
+                timestamps = gw_starts_by_dev.get(dev, [])
+                index = bisect.bisect_left(timestamps, event.timestamp_ms)
+                candidates = timestamps[max(0, index - 1):index + 1]
+                matched = any(abs(timestamp - event.timestamp_ms) <= match_window_ms for timestamp in candidates)
+                if matched:
+                    missed_streak = 0
+                    reported = False
+                    continue
+
+                missed_streak += 1
+                if missed_streak >= missed_trigger_limit and not reported:
+                    report.counters["SYSTEM.ERR.GW_MISSED_TRIGGER_STREAK"] += 1
+                    report.parser_diagnostics.append(
+                        ParserDiagnostic(
+                            source=report.name,
+                            line_no=event.line_no,
+                            level="ERR",
+                            code="GW_MISSED_TRIGGER_STREAK",
+                            message=f"dev={dev} misses={missed_streak} limit={missed_trigger_limit} match_window_ms={match_window_ms}",
+                            raw_line=report.lines[event.line_no - 1],
+                        )
+                    )
+                    reported = True
+
+    for report in reports:
+        source_events = [event for event in events_by_source[report.name] if event.timestamp_ms is not None]
+        if source_events:
+            last_event = max(source_events, key=lambda event: event.timestamp_ms or 0)
+            last_line_no = last_event.line_no
+            last_source_timestamp_ms = last_event.timestamp_ms or latest_timestamp_ms
+            last_event_name = last_event.kind
         else:
-            add_active_session_eof_warning(report, report.total_lines, f"dev={dev} {last_liveness}")
+            timestamped_lines = [
+                (line_no, parse_timestamp_ms(line))
+                for line_no, line in enumerate(report.lines, start=1)
+                if parse_timestamp_ms(line) is not None
+            ]
+            if not timestamped_lines:
+                continue
+            last_line_no, parsed_timestamp_ms = timestamped_lines[-1]
+            last_source_timestamp_ms = parsed_timestamp_ms or latest_timestamp_ms
+            last_event_name = "NO_TAGGED_EVENT"
 
+        silent_ms = latest_timestamp_ms - last_source_timestamp_ms
+        if silent_ms <= source_silence_ms:
+            continue
+        if any(
+            MANUAL_BOUNDARY_RE.search(line) or BOOT_MARKER_RE.search(line)
+            for line in report.lines[last_line_no:]
+        ):
+            continue
 
-def first_error(reports: Iterable[SourceReport]) -> Event | None:
-    errors = [error for report in reports for error in report.errors]
-    if not errors:
-        return None
-    return min(errors, key=lambda event: (event.source, event.line_no))
+        report.counters["SYSTEM.ERR.SOURCE_SILENT"] += 1
+        report.parser_diagnostics.append(
+            ParserDiagnostic(
+                source=report.name,
+                line_no=last_line_no,
+                level="ERR",
+                code="SOURCE_SILENT",
+                message=f"silent_ms={silent_ms} limit_ms={source_silence_ms} last_event={last_event_name}",
+                raw_line=report.lines[last_line_no - 1],
+            )
+        )
 
 
 def error_context_failures(reports: Iterable[SourceReport]) -> list[tuple[str, int, str]]:
@@ -777,7 +725,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=[],
         help="Input log as PREFIX=LOG_FILE, can be repeated",
     )
-    parser.add_argument("--context", type=int, default=8, help="Lines printed around the first error")
+    parser.add_argument("--context", type=int, default=8, help="Lines printed around each reported error")
     parser.add_argument(
         "--meter-trigger-period-ms",
         type=int,
@@ -794,6 +742,29 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "--meter-session-idle-timeout-ms",
         type=int,
         help="Maximum allowed silence during an active meter session in milliseconds, default is 2x meter trigger period",
+    )
+    parser.add_argument(
+        "--session-failure-streak-limit",
+        type=int,
+        default=3,
+        help="Consecutive failed meter sessions reported as an error",
+    )
+    parser.add_argument(
+        "--gw-rx-match-window-ms",
+        type=int,
+        default=1000,
+        help="Timestamp window used to match a meter trigger to GW SESSION_START",
+    )
+    parser.add_argument(
+        "--gw-missed-trigger-limit",
+        type=int,
+        default=3,
+        help="Consecutive meter triggers absent from the GW log reported as an error",
+    )
+    parser.add_argument(
+        "--source-silence-timeout-ms",
+        type=int,
+        help="Maximum source timestamp lag, default is 3x meter trigger period",
     )
     parser.add_argument("--json", type=Path, help="Write machine-readable report")
     return parser.parse_args(argv)
@@ -814,6 +785,20 @@ def main(argv: list[str]) -> int:
     elif args.meter_session_idle_timeout_ms <= 0:
         print("error: --meter-session-idle-timeout-ms must be greater than 0", file=sys.stderr)
         return 2
+    if args.session_failure_streak_limit <= 0:
+        print("error: --session-failure-streak-limit must be greater than 0", file=sys.stderr)
+        return 2
+    if args.gw_rx_match_window_ms < 0:
+        print("error: --gw-rx-match-window-ms must not be negative", file=sys.stderr)
+        return 2
+    if args.gw_missed_trigger_limit <= 0:
+        print("error: --gw-missed-trigger-limit must be greater than 0", file=sys.stderr)
+        return 2
+    if args.source_silence_timeout_ms is None:
+        args.source_silence_timeout_ms = args.meter_trigger_period_ms * 3
+    elif args.source_silence_timeout_ms <= 0:
+        print("error: --source-silence-timeout-ms must be greater than 0", file=sys.stderr)
+        return 2
 
     for prefix, pattern in args.input:
         for path in expand_paths([pattern]):
@@ -824,6 +809,7 @@ def main(argv: list[str]) -> int:
         return 2
 
     reports: list[SourceReport] = []
+    events_by_source: dict[str, list[Event]] = {}
     for name, path in inputs:
         if not path.is_file():
             print(f"error: log file not found: {path}", file=sys.stderr)
@@ -838,8 +824,18 @@ def main(argv: list[str]) -> int:
             args.meter_trigger_period_ms,
             args.meter_trigger_tolerance_ms,
             args.meter_session_idle_timeout_ms,
+            args.session_failure_streak_limit,
         )
         reports.append(report)
+        events_by_source[name] = events
+
+    check_cross_source_health(
+        reports,
+        events_by_source,
+        args.gw_rx_match_window_ms,
+        args.gw_missed_trigger_limit,
+        args.source_silence_timeout_ms,
+    )
 
     if args.json:
         write_json(args.json, reports)

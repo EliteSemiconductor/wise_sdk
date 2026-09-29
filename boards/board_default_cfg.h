@@ -24,4 +24,10 @@
 #define ES_DEVICE_LFOSC_SELECT                      SYS_LFOSC_CLK_SRC_INTERNAL_16K
 #define ES_DEVICE_LFOSC_OPTION                      LFOSC_16K_MODE_TEMP_COMP
 
+#define BOARD_BOD_ENALBE                            0
+#if (defined BOARD_BOD_ENALBE) && (BOARD_BOD_ENALBE == 1)
+#define BOARD_BOD_LEVEL                             4
+#define BOARD_BOD_DG_PERIOD                         7
+#endif
+
 #endif

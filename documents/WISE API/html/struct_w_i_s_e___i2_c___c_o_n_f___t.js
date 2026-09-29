@@ -1,11 +1,13 @@
 var struct_w_i_s_e___i2_c___c_o_n_f___t =
 [
-    [ "addressing", "group___w_i_s_e___i2_c.html#ga7b2f7c20bee2232ce5977bd5f31e4dc4", null ],
-    [ "dir", "group___w_i_s_e___i2_c.html#ga92abda0bec7c1c978fe96f87aad18067", null ],
-    [ "dmaEn", "group___w_i_s_e___i2_c.html#ga8836741aa67c088d00e19d3060feb5e9", null ],
-    [ "i2c_idx", "group___w_i_s_e___i2_c.html#gab5c71eac8fe852243104406407c54f7e", null ],
-    [ "i2cEn", "group___w_i_s_e___i2_c.html#gab478c8b90a15c671c45e1d49c8436d20", null ],
-    [ "role", "group___w_i_s_e___i2_c.html#ga5b9aeb2bb7989ef331f452dd9626f139", null ],
-    [ "speedMode", "group___w_i_s_e___i2_c.html#ga834966601b21d1a2919d37ab9c26da58", null ],
-    [ "target_address", "group___w_i_s_e___i2_c.html#gaaf0157ff97cce6b8ba8f142f65ef36e9", null ]
+    [ "actual_bus_hz", "group___w_i_s_e___i2_c.html#gaa206b9c2d89a46834d30bed556b26a11", null ],
+    [ "addressing", "group___w_i_s_e___i2_c.html#gac4ec30d1f5bdbe9af9bbf0238eb137dd", null ],
+    [ "bus_hz", "group___w_i_s_e___i2_c.html#ga20dbb051223b669d0545defc9c16e47d", null ],
+    [ "dir", "group___w_i_s_e___i2_c.html#ga4eb1996495d6aa241633fffc7a41594e", null ],
+    [ "dmaEn", "group___w_i_s_e___i2_c.html#ga2fb84021dbd7de7d7676e14ce436c213", null ],
+    [ "i2c_idx", "group___w_i_s_e___i2_c.html#ga93ef49950806677b50f4bffac4a57274", null ],
+    [ "i2cEn", "group___w_i_s_e___i2_c.html#gaf63ba86d3d280866dfd928469a1178f0", null ],
+    [ "role", "group___w_i_s_e___i2_c.html#gac0f3b2d9ea07a191aacf746459715e74", null ],
+    [ "speedMode", "group___w_i_s_e___i2_c.html#gad079676c2af7d5d07b4bfab07a14d149", null ],
+    [ "target_address", "group___w_i_s_e___i2_c.html#ga1b5064cbb6e75ee95fb3dabf9244d69b", null ]
 ];

@@ -39,8 +39,8 @@
  * @brief Watchdog timer events.
  */
 typedef enum {
-    WISE_WDT_EVENT_TIMEOUT,
-    WISE_WDT_MAX_EVENTS = WDT_MAX_EVENTS,
+    WISE_WDT_EVENT_TIMEOUT,               /**< Watchdog timeout event. */
+    WISE_WDT_MAX_EVENTS = WDT_MAX_EVENTS, /**< Total number of WDT events (sentinel). */
 } WISE_WDT_CB_EVENT_T;
 
 /**

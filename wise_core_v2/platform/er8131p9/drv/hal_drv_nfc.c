@@ -25,9 +25,9 @@ static void nfc_isr_body(void)
 
     NFC_CLEAR_INT_MASK();
 
-    for (i = 0; i < NFC_INT_NUM; i++) {
-        if (int_mask & (1UL << i) && nfc_callbacks[i].callback) {
-            nfc_callbacks[i].callback(nfc_callbacks[i].context, i);
+    for (i = 1; i <= NFC_INT_NUM; i++) {
+        if ((int_mask & (1UL << i)) && nfc_callbacks[i - 1].callback) {
+            nfc_callbacks[i - 1].callback(nfc_callbacks[i - 1].context, i);
         }
     }
 }
@@ -94,28 +94,28 @@ uint8_t hal_drv_nfc_get_dpe_ctrl_info(void)
     return NFC_GET_DPE_CTRL_INFO();
 }
 
-void hal_drv_nfc_register_int_callback(uint8_t int_idx, CALLBACK_T cb,              void *context)
+void hal_drv_nfc_register_int_callback(uint8_t int_idx, CALLBACK_T cb, void *context)
 {
-    if (int_idx >= NFC_INT_NUM) {
+    if (int_idx == 0 || int_idx > NFC_INT_NUM) {
         WISE_LOG_ERR("NFC IRQ register: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
         return;
     }
 
     hal_drv_nfc_init_dispatch();
 
-    nfc_callbacks[int_idx].callback = cb;
-    nfc_callbacks[int_idx].context  = context;
+    nfc_callbacks[int_idx - 1].callback = cb;
+    nfc_callbacks[int_idx - 1].context  = context;
 }
 
 void hal_drv_nfc_unregister_int_callback(uint8_t int_idx)
 {
-    if (int_idx >= NFC_INT_NUM) {
+	if (int_idx == 0 || int_idx > NFC_INT_NUM) {
         WISE_LOG_ERR("NFC IRQ unregister: index %u exceeds limit (%u)\n", int_idx, NFC_INT_NUM);
         return;
     }
 
-    nfc_callbacks[int_idx].callback = NULL;
-    nfc_callbacks[int_idx].context  = NULL;
+    nfc_callbacks[int_idx - 1].callback = NULL;
+    nfc_callbacks[int_idx - 1].context  = NULL;
 }
 
 void hal_drv_nfc_set_host_locked(uint8_t enable)

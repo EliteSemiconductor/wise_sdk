@@ -174,6 +174,13 @@ uint32_t wise_wutmr_clk_per_ms(void);
  */
 uint32_t wise_wutmr_ms_to_clk(uint32_t ms);
 
+/**
+ * @brief Convert microseconds to WUTMR ticks.
+ *
+ * @param[in] us Microseconds.
+ *
+ * @return Equivalent tick count.
+ */
 uint32_t wise_wutmr_us_to_clk(uint32_t us);
 
 

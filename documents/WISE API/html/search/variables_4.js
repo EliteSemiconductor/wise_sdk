@@ -1,8 +1,22 @@
 var searchData=
 [
-  ['en_5faddr_0',['en_addr',['../group___w_i_s_e___i2_c.html#ga5e6dd07fde3806323159eee353f0e262',1,'WISE_I2C_MSG_T']]],
-  ['en_5fdata_1',['en_data',['../group___w_i_s_e___i2_c.html#ga45f6e876797411194bb5150d57e8c7bb',1,'WISE_I2C_MSG_T']]],
-  ['en_5fstart_2',['en_start',['../group___w_i_s_e___i2_c.html#gafd7c411f35cd74ec8d0c6778c2a00371',1,'WISE_I2C_MSG_T']]],
-  ['en_5fstop_3',['en_stop',['../group___w_i_s_e___i2_c.html#ga51ee6b256826c6af4b18c74f8438f96a',1,'WISE_I2C_MSG_T']]],
-  ['enable_4',['enable',['../struct_w_i_s_e___r_t_c___a_l_m___c_f_g___t.html#a324d63698d720716b386efb308337af8',1,'WISE_RTC_ALM_CFG_T']]]
+  ['data_0',['data',['../struct_w_i_s_e___u_a_r_t___c_f_g___t.html#a92b007963a7dfdfc73b2cc7402fe1194',1,'WISE_UART_CFG_T']]],
+  ['data_5f12bit_1',['data_12bit',['../struct_w_i_s_e___a_s_a_r_a_d_c___d_a_t_a___t.html#ac44c774880a9bd1970538850294dcb90',1,'WISE_ASARADC_DATA_T']]],
+  ['data_5f27bit_2',['data_27bit',['../struct_w_i_s_e___a_s_a_r_a_d_c___d_a_t_a___t.html#ab0617d418449e1a96a6d547e8a3b4215',1,'WISE_ASARADC_DATA_T']]],
+  ['data_5fbit_5fwidth_3',['data_bit_width',['../struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a68a7c776ae172f58c749a835e4e7cded',1,'WISE_SPI_CONF_T']]],
+  ['data_5fcfg_4',['data_cfg',['../struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#a026b1c63eeafefbb922193191f37264a',1,'WISE_AES_CONFIG_CTX_T']]],
+  ['data_5fcount_5',['data_count',['../group___w_i_s_e___i2_c.html#ga848268e390d4cbc339eafecc295e4905',1,'WISE_I2C_MSG_T']]],
+  ['data_5flen_6',['data_len',['../struct_w_i_s_e___r_x___m_e_t_a___t.html#a7b4ca685f666e4c7932812bf47910e36',1,'WISE_RX_META_T']]],
+  ['data_5fmerge_7',['data_merge',['../struct_w_i_s_e___s_p_i___c_o_n_f___t.html#aa7d0b6fd92d8ddd618ad54be8bd0ae23',1,'WISE_SPI_CONF_T']]],
+  ['data_5frate_8',['data_rate',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#a402ec9b14fde23055a7ba2a6cedb4268',1,'WISE_RADIO_CFG_T']]],
+  ['datalen_9',['dataLen',['../struct_p_a_r___i_n_f_o___t.html#a636bb9185682a368bcb6ee666344e7bf',1,'PAR_INFO_T']]],
+  ['day_10',['day',['../struct_w_i_s_e___r_t_c___c_n_t___t.html#a225b33543b1d0f32d1807ad47bd3d32f',1,'WISE_RTC_CNT_T']]],
+  ['deviation_11',['deviation',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#ae81a106304eb9679e2e641ff717b77ad',1,'WISE_RADIO_CFG_T']]],
+  ['dir_12',['dir',['../group___w_i_s_e___i2_c.html#ga4eb1996495d6aa241633fffc7a41594e',1,'WISE_I2C_CONF_T::dir'],['../group___w_i_s_e___i2_c.html#gae5fd75cc425fceac68526c30897d1381',1,'WISE_I2C_MSG_T::dir']]],
+  ['direction_13',['direction',['../struct_w_i_s_e___g_p_i_o___c_f_g___t.html#adb4d494ddccc6fc42bc90eae4ef4fde8',1,'WISE_GPIO_CFG_T']]],
+  ['dma_5fenable_14',['dma_enable',['../struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a9c1753ad37de432741fa6d12372d89c8',1,'WISE_SPI_CONF_T::dma_enable'],['../struct_s_t___w_i_s_e___u_a_r_t___c_t_r_l___t.html#a3e31718593df3587291d97cee0f345dc',1,'ST_WISE_UART_CTRL_T::dma_enable']]],
+  ['dmaen_15',['dmaEn',['../group___w_i_s_e___i2_c.html#ga2fb84021dbd7de7d7676e14ce436c213',1,'WISE_I2C_CONF_T']]],
+  ['dummy_5flen_16',['dummy_len',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aa36ec6f50ad013db59ca25486dc07c11',1,'WISE_SPI_XFER_MSG_T']]],
+  ['duration_17',['duration',['../struct_w_i_s_e___r_a_d_i_o___c_c_a___t.html#a5350f59d870787b6c39eeb38ebde109c',1,'WISE_RADIO_CCA_T']]],
+  ['duty_5fpercent_18',['duty_percent',['../struct_w_i_s_e___p_w_m___f_r_e_q___c_o_n_f___t.html#aff0a61b86478c0610ba0319c1cd14ea3',1,'WISE_PWM_FREQ_CONF_T::duty_percent'],['../struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html#ad79bbf59637e4f4903104189a7687856',1,'WISE_PWMSLOW_FREQ_CONF_T::duty_percent']]]
 ];

@@ -25,6 +25,7 @@ var wise__gpio__api_8h =
       [ "MODE_PWM", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a92f5e7d1d51e3eb7d6a82253287c6b0b", null ],
       [ "MODE_PERI_2", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a1e1cda546a7179f306efc2cbee078e43", null ],
       [ "MODE_PIO", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51ac7d0bb7ec804aa48571a72faa2a5fb77", null ],
+      [ "MODE_TEST_CHIP", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a504e97a60a6450ed15ffdc92fae37ef5", null ],
       [ "MODE_DEBUG", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a7df3c4f345b3e16d5d09e718286e69ad", null ]
     ] ],
     [ "GPIO_PIN_FUNC_T", "group___w_i_s_e___g_p_i_o.html#ga85b9650469e65fc6955731fb25a0056f", [
@@ -82,6 +83,7 @@ var wise__gpio__api_8h =
       [ "GPIO_HIGH", "group___w_i_s_e___g_p_i_o.html#gga2ba8e9e4a55c117bba6a7155683ecf71ab05c5a854da4602143b6bd6096d86c4d", null ]
     ] ],
     [ "wise_gpio_cfg", "group___w_i_s_e___g_p_i_o.html#ga999f0834b096d716db92bce3271794e4", null ],
+    [ "wise_gpio_clear_int_status", "group___w_i_s_e___g_p_i_o.html#ga6c85e66ddb3b0737ca5201b6c5b7798e", null ],
     [ "wise_gpio_deinit", "group___w_i_s_e___g_p_i_o.html#ga34c65c1e18d1818b52738f45143a3fcb", null ],
     [ "wise_gpio_func_cfg", "group___w_i_s_e___g_p_i_o.html#gaf5836e12d2020efeff048169300250bd", null ],
     [ "wise_gpio_get_direction", "group___w_i_s_e___g_p_i_o.html#ga807689eda0aba2d8f04c0c21b0b3a566", null ],
@@ -89,7 +91,6 @@ var wise__gpio__api_8h =
     [ "wise_gpio_read", "group___w_i_s_e___g_p_i_o.html#ga86aff9a03cd3d64a75598e6f00667a2f", null ],
     [ "wise_gpio_register_callback", "group___w_i_s_e___g_p_i_o.html#gaa5fa99a6dcaa87718d4f92705a71302d", null ],
     [ "wise_gpio_set_debs_time", "group___w_i_s_e___g_p_i_o.html#gabcb8d61f032c71f0778a1ed036c4dea5", null ],
-    [ "wise_gpio_set_debug_bus", "group___w_i_s_e___g_p_i_o.html#ga553a9836fcce4eac078cf1713c08f630", null ],
     [ "wise_gpio_set_direction", "group___w_i_s_e___g_p_i_o.html#ga141afe7fe5e3d32f7bffd366530ad75b", null ],
     [ "wise_gpio_set_driv_str", "group___w_i_s_e___g_p_i_o.html#gae3dba37d3087d5030f8f02b43300a117", null ],
     [ "wise_gpio_set_interrupt", "group___w_i_s_e___g_p_i_o.html#ga2e583a3d9448df95312bbb4a977ad94f", null ],

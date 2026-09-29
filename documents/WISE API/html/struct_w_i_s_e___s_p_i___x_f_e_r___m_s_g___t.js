@@ -1,12 +1,14 @@
 var struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t =
 [
-    [ "address", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a643d30df67a67c5915fde941c934f9f8", null ],
-    [ "cmd", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a4d43e8212bdc9dbee866506f04effcea", null ],
-    [ "dummy_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a89a65e5ebb39cc2c70a7ff07f1a4d6f7", null ],
-    [ "msg_fmt", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a4bfc31c872107c14a7f34b0b61843bbe", null ],
-    [ "rx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aeadaa3f25a20921af22c6b4bc60c513e", null ],
-    [ "rx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ade96074d531d2bdab18235ef1de927cc", null ],
-    [ "trans_mode", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#afdf8a77d64844e943eb51aa2770392fe", null ],
-    [ "tx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ac1c08959f35fffcdf9430dc8ca7ca002", null ],
-    [ "tx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ac7f16a6a9f598ceec28f828f9a592c1c", null ]
+    [ "addr_fmt", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a01d3435f9c837c10dd7fcbb7cd8641e8", null ],
+    [ "addr_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#afa132ade61ba078d1a42b8b151ac6570", null ],
+    [ "address", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ad47321cc7b92b1d1b1cf109ed4b32bbb", null ],
+    [ "cmd", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a0fa26d784073fed872a07fc9d8dfb33f", null ],
+    [ "cmd_en", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a85920528ddcdb474b59bad8170463369", null ],
+    [ "dummy_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aa36ec6f50ad013db59ca25486dc07c11", null ],
+    [ "rx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a9d8f0da680a019e6229d703e013b290f", null ],
+    [ "rx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aac751b8da29cba7fdffc8296d8e66ef4", null ],
+    [ "trans_mode", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a332f8b54436b1b755865ce6406d0b4f1", null ],
+    [ "tx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a66925171b7fe431a2c365ea388d57614", null ],
+    [ "tx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a49b27690f35058e407a2e0594e57166b", null ]
 ];

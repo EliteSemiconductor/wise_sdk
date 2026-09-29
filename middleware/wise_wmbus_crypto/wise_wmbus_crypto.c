@@ -2,6 +2,7 @@
 #include "wise.h"
 #include "wise_core.h"
 #include "wise_wmbus_crypto.h"
+#include "mbedtls/cmac.h"
 
 #ifdef WMBUS_SW_CRYPTO
 #undef WMBUS_SW_CRYPTO
@@ -121,10 +122,12 @@ int wise_wmbus_crypto_cmac_gen(const uint8_t key[16], const uint8_t *buf, size_t
 int wise_wmbus_aes128_cbc_encrypt(const uint8_t key[16], const uint8_t iv[16], const uint8_t *pt, size_t len, uint8_t *ct)
 {
     int rc;
+    uint8_t iv_copy[16];
     
+    memcpy(iv_copy, iv, sizeof(iv_copy));
     mbedtls_aes_init(&aesCBCCtx);
     mbedtls_aes_setkey_enc(&aesCBCCtx, key, 128);
-    rc = mbedtls_aes_crypt_cbc(&aesCBCCtx, MBEDTLS_AES_ENCRYPT, len, iv, pt, ct);
+    rc = mbedtls_aes_crypt_cbc(&aesCBCCtx, MBEDTLS_AES_ENCRYPT, len, iv_copy, pt, ct);
     mbedtls_aes_free(&aesCBCCtx);
 
     return rc;
@@ -133,13 +136,15 @@ int wise_wmbus_aes128_cbc_encrypt(const uint8_t key[16], const uint8_t iv[16], c
 int wise_wmbus_aes128_cbc_decrypt(const uint8_t key[16], const uint8_t iv[16], const uint8_t *ct, size_t len, uint8_t *pt)
 {
     int rc;
+    uint8_t iv_copy[16];
     
     if(len & 0xF) 
         return -1;
     
+    memcpy(iv_copy, iv, sizeof(iv_copy));
     mbedtls_aes_init(&aesCBCCtx);
     mbedtls_aes_setkey_dec(&aesCBCCtx, key, 128);
-    rc = mbedtls_aes_crypt_cbc(&aesCBCCtx, MBEDTLS_AES_DECRYPT, len, (unsigned char*)iv, ct, pt);
+    rc = mbedtls_aes_crypt_cbc(&aesCBCCtx, MBEDTLS_AES_DECRYPT, len, iv_copy, ct, pt);
     mbedtls_aes_free(&aesCBCCtx);
     
     return rc;

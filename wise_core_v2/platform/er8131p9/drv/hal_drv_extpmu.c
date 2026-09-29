@@ -10,9 +10,11 @@
 
 #include "util.h"
 
+static void extpmu_isr_body(void);
+
 typedef void (*extpmu_dispatch_fn_t)(void);
 
-static extpmu_dispatch_fn_t s_extpmu_dispatch;
+static extpmu_dispatch_fn_t volatile s_extpmu_dispatch = extpmu_isr_body;
 static EXTPMU_EVT_CALLBACK_T extpmuCallback = NULL;
 static void* callbackContext = NULL;
 

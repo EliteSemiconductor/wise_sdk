@@ -2,25 +2,25 @@ var group___w_i_s_e___g_p_i_o =
 [
     [ "wise_gpio_api.h", "wise__gpio__api_8h.html", null ],
     [ "WISE_GPIO_CFG_T", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html", [
-      [ "direction", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#ac6116d5235e13e059e591879c46d7174", null ],
-      [ "int_en", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#afabd1883499030ed1484195763c771dc", null ],
-      [ "int_type", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a25c0335aef75b6010b2d1cb276ef76c1", null ],
-      [ "mode", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a37e90f5e3bd99fac2021fb3a326607d4", null ],
-      [ "pin_idx", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a1c448818006cf5a97e8f66880a4f31be", null ]
+      [ "direction", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#adb4d494ddccc6fc42bc90eae4ef4fde8", null ],
+      [ "int_en", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a90a346c5d3bdbbe27f55750f196584dc", null ],
+      [ "int_type", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#aec6050657e268fe25e821117df49d356", null ],
+      [ "mode", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a2648824ef70c9a0cf4c88d64ff21667e", null ],
+      [ "pin_idx", "struct_w_i_s_e___g_p_i_o___c_f_g___t.html#a0515476ab5c15b6424dcb07aa71d2091", null ]
     ] ],
     [ "WISE_GPIO_INT_CFG_T", "struct_w_i_s_e___g_p_i_o___i_n_t___c_f_g___t.html", [
-      [ "int_en", "struct_w_i_s_e___g_p_i_o___i_n_t___c_f_g___t.html#afabd1883499030ed1484195763c771dc", null ],
-      [ "int_type", "struct_w_i_s_e___g_p_i_o___i_n_t___c_f_g___t.html#a25c0335aef75b6010b2d1cb276ef76c1", null ]
+      [ "int_en", "struct_w_i_s_e___g_p_i_o___i_n_t___c_f_g___t.html#a787c57addef25490940f8232392eed3c", null ],
+      [ "int_type", "struct_w_i_s_e___g_p_i_o___i_n_t___c_f_g___t.html#a41dfef02991fe50970c5c8bc95cae5cc", null ]
     ] ],
     [ "GPIO_USER_ISR_CB", "group___w_i_s_e___g_p_i_o.html#gae467385ffb380d8d124fe6fa021a4e24", [
-      [ "GPIO_INT_DISABLE", "group___w_i_s_e___g_p_i_o.html#ggae6387d5b05c32628a544184bdb48512aaed81bf1b50a332515d6276d638fff6a7", null ],
-      [ "GPIO_INT_ENABLE", "group___w_i_s_e___g_p_i_o.html#ggae6387d5b05c32628a544184bdb48512aa59a0f0dfe6f2f859c3fea428aadaa7c3", null ],
-      [ "GPIO_INT_TYPE_LEVEL_LOW", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aafe6f68a970c1a1590f026130c42285eb", null ],
-      [ "GPIO_INT_TYPE_LEVEL_HIGH", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aaed71f970c44a29578c920b9ba99e98e1", null ],
-      [ "GPIO_INT_TYPE_EDGE_FALLING", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aab23e1526f280802f11e6ef4eff5cc3f2", null ],
-      [ "GPIO_INT_TYPE_EDGE_RISING", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aa8043b2178bbd033faaf27b137b59e3cd", null ],
-      [ "GPIO_INT_TYPE_EDGE_BOTH", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aacf8d0b33c8c75e68445c324a79b1bc16", null ],
-      [ "GPIO_INT_TYPE_NONE", "group___w_i_s_e___g_p_i_o.html#ggad175636bfdade6035bc082f99547739aa66310ebe50a978626e1dc70a651544f3", null ]
+      [ "GPIO_INT_DISABLE", "group___w_i_s_e___g_p_i_o.html#ggafaea6bb0217674fd734ec4a393dc61d8aed81bf1b50a332515d6276d638fff6a7", null ],
+      [ "GPIO_INT_ENABLE", "group___w_i_s_e___g_p_i_o.html#ggafaea6bb0217674fd734ec4a393dc61d8a59a0f0dfe6f2f859c3fea428aadaa7c3", null ],
+      [ "GPIO_INT_TYPE_LEVEL_LOW", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cdafe6f68a970c1a1590f026130c42285eb", null ],
+      [ "GPIO_INT_TYPE_LEVEL_HIGH", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cdaed71f970c44a29578c920b9ba99e98e1", null ],
+      [ "GPIO_INT_TYPE_EDGE_FALLING", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cdab23e1526f280802f11e6ef4eff5cc3f2", null ],
+      [ "GPIO_INT_TYPE_EDGE_RISING", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cda8043b2178bbd033faaf27b137b59e3cd", null ],
+      [ "GPIO_INT_TYPE_EDGE_BOTH", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cdacf8d0b33c8c75e68445c324a79b1bc16", null ],
+      [ "GPIO_INT_TYPE_NONE", "group___w_i_s_e___g_p_i_o.html#gga5c8b7850301c74d170c19978ac0413cda66310ebe50a978626e1dc70a651544f3", null ]
     ] ],
     [ "GPIO_DEBS_TIME", "group___w_i_s_e___g_p_i_o.html#gaf3691fabbf0e9fa6060a3da5890d728b", [
       [ "DEBS_TIME_31_2MS", "group___w_i_s_e___g_p_i_o.html#ggaf3691fabbf0e9fa6060a3da5890d728baaef8ca7f428f68d27722307127c80938", null ],
@@ -46,6 +46,7 @@ var group___w_i_s_e___g_p_i_o =
       [ "MODE_PWM", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a92f5e7d1d51e3eb7d6a82253287c6b0b", null ],
       [ "MODE_PERI_2", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a1e1cda546a7179f306efc2cbee078e43", null ],
       [ "MODE_PIO", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51ac7d0bb7ec804aa48571a72faa2a5fb77", null ],
+      [ "MODE_TEST_CHIP", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a504e97a60a6450ed15ffdc92fae37ef5", null ],
       [ "MODE_DEBUG", "group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a7df3c4f345b3e16d5d09e718286e69ad", null ]
     ] ],
     [ "GPIO_PIN_FUNC_T", "group___w_i_s_e___g_p_i_o.html#ga85b9650469e65fc6955731fb25a0056f", [
@@ -103,6 +104,7 @@ var group___w_i_s_e___g_p_i_o =
       [ "GPIO_HIGH", "group___w_i_s_e___g_p_i_o.html#gga2ba8e9e4a55c117bba6a7155683ecf71ab05c5a854da4602143b6bd6096d86c4d", null ]
     ] ],
     [ "wise_gpio_cfg", "group___w_i_s_e___g_p_i_o.html#ga999f0834b096d716db92bce3271794e4", null ],
+    [ "wise_gpio_clear_int_status", "group___w_i_s_e___g_p_i_o.html#ga6c85e66ddb3b0737ca5201b6c5b7798e", null ],
     [ "wise_gpio_deinit", "group___w_i_s_e___g_p_i_o.html#ga34c65c1e18d1818b52738f45143a3fcb", null ],
     [ "wise_gpio_func_cfg", "group___w_i_s_e___g_p_i_o.html#gaf5836e12d2020efeff048169300250bd", null ],
     [ "wise_gpio_get_direction", "group___w_i_s_e___g_p_i_o.html#ga807689eda0aba2d8f04c0c21b0b3a566", null ],
@@ -110,7 +112,6 @@ var group___w_i_s_e___g_p_i_o =
     [ "wise_gpio_read", "group___w_i_s_e___g_p_i_o.html#ga86aff9a03cd3d64a75598e6f00667a2f", null ],
     [ "wise_gpio_register_callback", "group___w_i_s_e___g_p_i_o.html#gaa5fa99a6dcaa87718d4f92705a71302d", null ],
     [ "wise_gpio_set_debs_time", "group___w_i_s_e___g_p_i_o.html#gabcb8d61f032c71f0778a1ed036c4dea5", null ],
-    [ "wise_gpio_set_debug_bus", "group___w_i_s_e___g_p_i_o.html#ga553a9836fcce4eac078cf1713c08f630", null ],
     [ "wise_gpio_set_direction", "group___w_i_s_e___g_p_i_o.html#ga141afe7fe5e3d32f7bffd366530ad75b", null ],
     [ "wise_gpio_set_driv_str", "group___w_i_s_e___g_p_i_o.html#gae3dba37d3087d5030f8f02b43300a117", null ],
     [ "wise_gpio_set_interrupt", "group___w_i_s_e___g_p_i_o.html#ga2e583a3d9448df95312bbb4a977ad94f", null ],

@@ -61,27 +61,27 @@
  * These enumerations map a DMA channel to a specific peripheral direction.
  */
 enum {
-    SYS_DMA_FUNC_UNSED  = 0,
-    SYS_DMA_FUNC_AES_IN = 3,
-    SYS_DMA_FUNC_AES_OUT,
-    SYS_DMA_FUNC_AES_AUTH_IN,
-    SYS_DMA_FUNC_SHA,
-    SYS_DMA_FUNC_SPI0_TX,
-    SYS_DMA_FUNC_SPI0_RX,
-    SYS_DMA_FUNC_SPI1_TX,
-    SYS_DMA_FUNC_SPI1_RX,
-    SYS_DMA_FUNC_UART0_TX,
-    SYS_DMA_FUNC_UART0_RX,
-    SYS_DMA_FUNC_UART1_TX,
-    SYS_DMA_FUNC_UART1_RX,
-    SYS_DMA_FUNC_UART2_TX,
-    SYS_DMA_FUNC_UART2_RX,
-    SYS_DMA_FUNC_I2C0_TX,
-    SYS_DMA_FUNC_I2C0_RX,
-    SYS_DMA_FUNC_I2C1_TX,
-    SYS_DMA_FUNC_I2C1_RX,
-    SYS_DMA_FUNC_USER,
-    SYS_DMA_FUNC_MAX
+    SYS_DMA_FUNC_UNSED  = 0, /**< Unused DMA channel mapping. */
+    SYS_DMA_FUNC_AES_IN = 3, /**< AES input channel. */
+    SYS_DMA_FUNC_AES_OUT,    /**< AES output channel. */
+    SYS_DMA_FUNC_AES_AUTH_IN,/**< AES authentication input channel. */
+    SYS_DMA_FUNC_SHA,        /**< SHA hash engine input channel. */
+    SYS_DMA_FUNC_SPI0_TX,    /**< SPI0 transmit channel. */
+    SYS_DMA_FUNC_SPI0_RX,    /**< SPI0 receive channel. */
+    SYS_DMA_FUNC_SPI1_TX,    /**< SPI1 transmit channel. */
+    SYS_DMA_FUNC_SPI1_RX,    /**< SPI1 receive channel. */
+    SYS_DMA_FUNC_UART0_TX,   /**< UART0 transmit channel. */
+    SYS_DMA_FUNC_UART0_RX,   /**< UART0 receive channel. */
+    SYS_DMA_FUNC_UART1_TX,   /**< UART1 transmit channel. */
+    SYS_DMA_FUNC_UART1_RX,   /**< UART1 receive channel. */
+    SYS_DMA_FUNC_UART2_TX,   /**< UART2 transmit channel. */
+    SYS_DMA_FUNC_UART2_RX,   /**< UART2 receive channel. */
+    SYS_DMA_FUNC_I2C0_TX,    /**< I2C0 transmit channel. */
+    SYS_DMA_FUNC_I2C0_RX,    /**< I2C0 receive channel. */
+    SYS_DMA_FUNC_I2C1_TX,    /**< I2C1 transmit channel. */
+    SYS_DMA_FUNC_I2C1_RX,    /**< I2C1 receive channel. */
+    SYS_DMA_FUNC_USER,       /**< User-defined DMA channel function. */
+    SYS_DMA_FUNC_MAX         /**< Maximum number of DMA functions. */
 };
 
 /**
@@ -89,9 +89,9 @@ enum {
  * @brief 32K LFOSC operational modes.
  */
 typedef enum {
-    LFOSC_32K_MODE_32K = 0,
-    LFOSC_32K_MODE_16K,
-    LFOSC_32K_MODE_8K,
+    LFOSC_32K_MODE_32K = 0, /**< Standard 32 kHz mode. */
+    LFOSC_32K_MODE_16K,     /**< 16 kHz derived mode. */
+    LFOSC_32K_MODE_8K,      /**< 8 kHz derived mode. */
 } LFOSC_32K_MODE_T;
 
 /**
@@ -104,6 +104,18 @@ typedef enum {
     LFOSC_16K_MODE_LOW_POWER,     /**< Low-power mode. */
     LFOSC_16K_MODE_LP_VOLT_0P6,   /**< 0.6 V low-power variant. */
 } LFOSC_16K_MODE_T;
+
+/**
+ * @enum CACHE_SIZE_CFG_T
+ * @brief Selectable XIP flash cache sizes.
+ *
+ * The cache is 2-way set associative with a 32-byte line. Each way is 4 KB, so
+ * the size selection is really a way-enable selection.
+ */
+typedef enum {
+    CACHE_SIZE_4K_BYTE = 0, /**< WAY0 only. */
+    CACHE_SIZE_8K_BYTE = 1, /**< WAY0 and WAY1, the full cache. */
+} CACHE_SIZE_CFG_T;
 
 /**
  * @struct WISE_ASARADC_DATA_T
@@ -130,7 +142,7 @@ typedef enum {
 typedef enum {
     WISE_SYS_ULPLDO_VREF_NORMAL = 0, /**< Default reference voltage. */
     WISE_SYS_ULPLDO_VREF_ULTRA_LOW,  /**< Ultra-low reference voltage. */
-    WISE_SYS_ULPLDO_VREF_MAX,
+    WISE_SYS_ULPLDO_VREF_MAX,        /**< Maximum reference voltage selector (sentinel). */
 } WISE_SYS_ULPLDO_VREF_T;
 
 /**
@@ -140,13 +152,17 @@ typedef enum {
 typedef enum {
     WISE_SYS_ULPLDO_ENMODE_DISABLE = 0, /**< Disable ULPLDO enable mode override. */
     WISE_SYS_ULPLDO_ENMODE_ENABLE,      /**< Enable ULPLDO enable mode override. */
-    WISE_SYS_ULPLDO_ENMODE_MAX,
+    WISE_SYS_ULPLDO_ENMODE_MAX,         /**< Maximum enable mode selector (sentinel). */
 } WISE_SYS_ULPLDO_ENMODE_T;
 
+/**
+ * @enum SHUTDOWN_WAKE_SRC_T
+ * @brief Wake-up source bitmask for shutdown mode.
+ */
 typedef enum {
-    SHUTDOWN_WAKE_SRC_WUTMR = 0x01,
-    SHUTDOWN_WAKE_SRC_NFC   = 0x02,
-    SHUTDOWN_WAKE_SRC_GPIO  = 0x04,
+    SHUTDOWN_WAKE_SRC_WUTMR = 0x01, /**< Wake up from wake-up timer (WUTMR). */
+    SHUTDOWN_WAKE_SRC_NFC   = 0x02, /**< Wake up from NFC field detect. */
+    SHUTDOWN_WAKE_SRC_GPIO  = 0x04, /**< Wake up from external GPIO pin. */
 } SHUTDOWN_WAKE_SRC_T;
 
 /**
@@ -185,10 +201,14 @@ typedef struct {
     WISE_SYS_ULPLDO_ENMODE_T ulpldo_enmode; /**< ULPLDO enable mode selection. */
 } WISE_SYS_BOARD_PROPERTY_T;
 
+/**
+ * @struct SYS_SHUTDOWN_CFT_T
+ * @brief Shutdown mode configuration parameters.
+ */
 typedef struct {
-    SHUTDOWN_WAKE_SRC_T wake_src;
-    uint32_t shutdown_ms; //period in ms to exit shutdown if SHUTDOWN_WAKE_SRC_WUTMR is set
-    uint8_t wake_io_idx;  //gpio pin to exit shutdown if SHUTDOWN_WAKE_SRC_GPIO is set
+    SHUTDOWN_WAKE_SRC_T wake_src;    /**< Wake-up source bitmask (see @ref SHUTDOWN_WAKE_SRC_T). */
+    uint32_t            shutdown_ms; /**< Timeout in milliseconds to exit shutdown if SHUTDOWN_WAKE_SRC_WUTMR is set. */
+    uint8_t             wake_io_idx; /**< GPIO pin index to exit shutdown if SHUTDOWN_WAKE_SRC_GPIO is set. */
 } SYS_SHUTDOWN_CFT_T;
 
 /**
@@ -198,9 +218,9 @@ typedef struct {
 typedef struct {
     uint8_t clk_src; /**< Clock source selector (device-specific). */
     union {
-        uint8_t mode_select;
-        LFOSC_32K_MODE_T mode_32k;
-        LFOSC_16K_MODE_T mode_16k;
+        uint8_t          mode_select; /**< Raw mode selector byte. */
+        LFOSC_32K_MODE_T mode_32k;    /**< 32K LFOSC mode options. */
+        LFOSC_16K_MODE_T mode_16k;    /**< 16K LFOSC mode options. */
     } mode;            /**< Mode selection depends on @ref clk_src. */
     uint8_t calFinish; /**< Calibration status flag. */
 } WISE_LFOSC_SRC_T;
@@ -261,8 +281,9 @@ void wise_sys_enter_sleep_mode(void);
 /**
  * @brief Enter MCU shutdown mode.
  *
- * @param[in] wu_src      Wake-up source index.
- * @param[in] wu_time_ms  Wake-up time in milliseconds.
+ * Configures wake-up sources and puts the system into deep shutdown mode.
+ *
+ * @param[in] shutdownCfg Shutdown mode configuration parameters.
  */
 void wise_sys_enter_shutdown_mode(SYS_SHUTDOWN_CFT_T shutdownCfg);
 
@@ -349,6 +370,8 @@ void wise_sys_set_board_match_type(uint8_t mat_type);
 
 /**
  * @brief Get RF matching network type.
+ *
+ * @return Board RF matching type (0 = 915 MHz, 1 = 868 MHz, 2 = 490 MHz).
  */
 uint8_t wise_sys_get_board_match_type(void);
 
@@ -493,6 +516,40 @@ uint32_t wise_sys_get_warm_reset_info(void);
  */
 void wise_sys_clear_warm_reset_info(void);
 
+/* ------------------------------------------------------------------------- */
+/*                           system cache                                    */
+/* ------------------------------------------------------------------------- */
+
+/**
+ * @brief Configure and enable the XIP flash cache.
+ *
+ * Selects how many ways are active (see ::CACHE_SIZE_CFG_T), enables the
+ * hit/miss counters, and leaves the cache enabled on success.
+ *
+ * @note The cache contents are invalidated as part of this call, so the first
+ *       accesses afterwards run cold.
+ * @note Intended for the system initialisation phase. It is called once from
+ *       wise_core_init(); calling it at run time discards a warm cache.
+ *
+ * @param[in] cache_size Cache size to apply.
+ *
+ * @retval WISE_SUCCESS Configuration applied.
+ * @retval WISE_FAIL    Invalid size, or the invalidate handshake timed out.
+ *                      The cache is left enabled either way.
+ */
+WISE_STATUS wise_sys_cache_config(CACHE_SIZE_CFG_T cache_size);
+
+/**
+ * @brief Discard the entire cache contents.
+ *
+ * The enable state in force before the call is restored afterwards.
+ *
+ * @retval WISE_SUCCESS Cache invalidated.
+ * @retval WISE_FAIL    The invalidate handshake timed out.
+ */
+WISE_STATUS wise_sys_cache_invalidate(void);
+
 /** @} */ /* end of WISE_SYS group */
+
 
 #endif /* __WISE_SYS_API_H */

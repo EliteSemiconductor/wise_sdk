@@ -1,5 +1,6 @@
-/*
- * Doxygen group definitions for WISE SDK documentation.
+/**
+ * @file wise_doxygen_groups.h
+ * @brief Doxygen group definitions for WISE SDK documentation.
  *
  * This file defines top-level documentation groups and is intended to be
  * included in the Doxygen INPUT list.

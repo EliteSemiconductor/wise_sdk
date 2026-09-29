@@ -2,38 +2,37 @@ var group___w_i_s_e___c_r_y_p_t_o =
 [
     [ "wise_crypto_api.h", "wise__crypto__api_8h.html", null ],
     [ "WISE_AES_KEY_CONFIG_T", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html", [
-      [ "iv_or_cnt", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a2da5a4313b71801345051b8259b5aedf", null ],
-      [ "key_bytes", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a442a4e66eb0e4f18cff85cad0712cc75", null ],
-      [ "key_num", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a6d596469ebe09e9aff28467c753e6d1e", null ],
-      [ "key_size", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a4d50453603876a364ca7577e2d7fe9e6", null ],
-      [ "key_src", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a693b38932dfd7e5997fff3920e37e0f9", null ],
-      [ "swap_mode", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#ae1d1a91f58a1fecd9d4b3bf1bee6e722", null ]
+      [ "key_bytes", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#ad00f919858fa5c14d02d2d6f0290dc64", null ],
+      [ "key_num", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a4b054683ef2a1023921bf4b164963f6c", null ],
+      [ "key_size", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a9e00fc31740743df8200af5f8bc0cea8", null ],
+      [ "key_src", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a16e366a9ecfca3703a7f87abedf16e7a", null ],
+      [ "swap_mode", "struct_w_i_s_e___a_e_s___k_e_y___c_o_n_f_i_g___t.html#a17dabcd5214198fa11d725862a18f38c", null ]
     ] ],
     [ "WISE_AES_DATA_T", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html", [
-      [ "input", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#afd7485496f1c3997a98267bb58ddd6a4", null ],
-      [ "iv_or_cnt", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#a2da5a4313b71801345051b8259b5aedf", null ],
-      [ "length", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#aebb70c2aab3407a9f05334c47131a43b", null ],
-      [ "output", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#a2131eb2a7ea9e3757ec89fd68f098771", null ]
+      [ "input", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#aaa8a2863c2196ffa2587e10aa73331eb", null ],
+      [ "iv_or_cnt", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#a552ef25c7c7e43c4d3277810cbe06de3", null ],
+      [ "length", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#a0ef770802f21ad1cac2dea4e8487f78e", null ],
+      [ "output", "struct_w_i_s_e___a_e_s___d_a_t_a___t.html#ad1528db81bbe446a334f6d4610fcab3a", null ]
     ] ],
     [ "WISE_AES_CCM_EXTRA_T", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html", [
-      [ "auth_data", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#af26581effd5552bdfae38ebd7094ccb4", null ],
-      [ "auth_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a8008a57b8b57b4ec22cb626a3bf742ea", null ],
-      [ "nonce", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a5f4c0610152eaf42b14599df680df84e", null ],
-      [ "nonce_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a42efc189a003f99d2bea39c2aaf462b8", null ],
-      [ "tag_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a12f242e0dad7892bbdea57006480001f", null ]
+      [ "auth_data", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a4d00441a23ce15c4ad798ea94e3d738b", null ],
+      [ "auth_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a53829ced75162a8e592ec8b76341d559", null ],
+      [ "nonce", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a3b57d3a77a5544dfa2e24e5054d139eb", null ],
+      [ "nonce_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a0bf5fa4f7da40f9bbb4c89c947da269e", null ],
+      [ "tag_len", "struct_w_i_s_e___a_e_s___c_c_m___e_x_t_r_a___t.html#a7e7744233827b89aaa8355c654602901", null ]
     ] ],
     [ "WISE_AES_CONFIG_CTX_T", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html", [
-      [ "aes_direction", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#a4725b4e2e71b5ad91cc58721f6083a8a", null ],
-      [ "aes_mode", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#a3703311b826257755ef1ba53f64a83ea", null ],
-      [ "data_cfg", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#aa30aaa03fdd9055dd455cf2edf51d713", null ]
+      [ "aes_direction", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#ab5fe125d550a4fad0cc8b28d94dbfdfb", null ],
+      [ "aes_mode", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#a0ea863581369b284807851fe76f533cb", null ],
+      [ "data_cfg", "struct_w_i_s_e___a_e_s___c_o_n_f_i_g___c_t_x___t.html#a026b1c63eeafefbb922193191f37264a", null ]
     ] ],
     [ "WISE_AES_CCM_CTX_T", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html", [
-      [ "auth_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#ade2beab35c01a2bd6d982d0969c9d730", null ],
-      [ "ccm_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a7347de89a1e8e5ffae33e00db7dc3265", null ],
-      [ "has_auth", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#aa146490512e942a89d1a716b93690d8d", null ],
-      [ "is_encrypt", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#aa1a181ba25e9aa52ce1f932430c9cb71", null ],
-      [ "key_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a6a8fb89c06183588cecc271827366178", null ],
-      [ "total_payload_len", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a9d10745000644efc0b13f052ff8b0e1f", null ]
+      [ "auth_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#afba6284405832dcf3b193ce70fc653c1", null ],
+      [ "ccm_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#ac4798b8d89efaed605b483438c137345", null ],
+      [ "has_auth", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#ad6dea2b40f74ada7c57164473e2e3c7e", null ],
+      [ "is_encrypt", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#ae51386b752eae42479460fd923560901", null ],
+      [ "key_cfg", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a1a44cb421cf9359d1c488ee9178b33d8", null ],
+      [ "total_payload_len", "struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a686874c1993c93cfa5f9a6aeefe05f4c", null ]
     ] ],
     [ "SHA_224_OUTPUT_LEN", "group___w_i_s_e___c_r_y_p_t_o.html#ga4084187f4b05680924787c190f203305", null ],
     [ "SHA_256_OUTPUT_LEN", "group___w_i_s_e___c_r_y_p_t_o.html#ga91ac6f41b711fe734b696d4c0b6cec82", null ],
@@ -73,21 +72,12 @@ var group___w_i_s_e___c_r_y_p_t_o =
       [ "E_SHA_MODE_224", "group___w_i_s_e___c_r_y_p_t_o.html#gga244f40d4ce60124d3771c66f88df2b7eafc5eb4cc6f1c43b752801b235370324f", null ],
       [ "E_SHA_MODE_256", "group___w_i_s_e___c_r_y_p_t_o.html#gga244f40d4ce60124d3771c66f88df2b7ead7d9202ee0ceece728cec8ed88333ae1", null ]
     ] ],
-    [ "wise_aes_cbc_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga2b87e5cd8949d69455843c9b1552dad3", null ],
-    [ "wise_aes_cbc_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga4c1d577481ed143b50b61fe04fe608ee", null ],
-    [ "wise_aes_cbcmac_generate", "group___w_i_s_e___c_r_y_p_t_o.html#ga73e3a77ee366309987a1cbf74c62ae3c", null ],
     [ "wise_aes_ccm_configure", "group___w_i_s_e___c_r_y_p_t_o.html#ga632c3dc69f7fe6775ddbe278a20bc5e0", null ],
-    [ "wise_aes_ccm_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gab38a3ed6044e32def53f048e4c9e4e6b", null ],
-    [ "wise_aes_ccm_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga21cd7bc9ca85d3a8d8edf2884ecda8e1", null ],
     [ "wise_aes_ccm_exec", "group___w_i_s_e___c_r_y_p_t_o.html#ga56b3cb6b57f1182350e4f36e475f8821", null ],
-    [ "wise_aes_ctr_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga92b7e076b1c4f7e03f7c95079358a8b3", null ],
-    [ "wise_aes_ctr_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gaed6979607a6a3ccff178535cdab27c0f", null ],
-    [ "wise_aes_ecb_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga6acbf5e7080c144dff9e1d272dd96150", null ],
-    [ "wise_aes_ecb_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gaaaf4eee6b5d58ac45546303617ac2b6e", null ],
     [ "wise_aes_exec", "group___w_i_s_e___c_r_y_p_t_o.html#ga188c2fe06ce2b3d2191a5e8a62764090", null ],
     [ "wise_aes_key_config", "group___w_i_s_e___c_r_y_p_t_o.html#gae619e3e9860514922d5acfbee473e3e9", null ],
     [ "wise_aes_read_tags", "group___w_i_s_e___c_r_y_p_t_o.html#gae06c3eb96f51fd98e794f1aff1652d60", null ],
     [ "wise_crypto_deinit", "group___w_i_s_e___c_r_y_p_t_o.html#gaf89d8eee6869a7ba76034a22b9839b50", null ],
-    [ "wise_crypto_init", "group___w_i_s_e___c_r_y_p_t_o.html#gac47616b39983252694ef927ede28eb82", null ],
+    [ "wise_crypto_init", "group___w_i_s_e___c_r_y_p_t_o.html#ga7380314ceb6957b71e876b5e2d9edd5c", null ],
     [ "wise_sha_generate", "group___w_i_s_e___c_r_y_p_t_o.html#gad47bf69292d4e674d4d1401a24d9dba2", null ]
 ];

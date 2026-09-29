@@ -1,7 +1,25 @@
 var shell_8h =
 [
-    [ "shell_command", "structshell__command.html", null ],
-    [ "shell_config_t", "structshell__config__t.html", null ],
-    [ "shell_is_break_requested", "shell_8h.html#a0a48980a5cf425a94d970220c30ef452", null ],
-    [ "shell_poll_break", "shell_8h.html#a748a43ab60e6e6d3b211767c35460c46", null ]
+    [ "BACH_CONSOLE_PROMPT", "shell_8h.html#a9a23d366c588b2e1ea8a1d0bb7cd043f", null ],
+    [ "BACKSPACE", "shell_8h.html#a629568514359445d2fbda71d70eeb1ce", null ],
+    [ "CARRIAGE_RETURN", "shell_8h.html#a3b81478c7058ceb6ed610ce8e2ca3822", null ],
+    [ "INVALID_PARAM_MESSAGE", "shell_8h.html#abcda5da60972985b41aaa2d3222f1e38", null ],
+    [ "KEY_BACKSPACE", "shell_8h.html#a1e9a449dee19c686a2af4edcdc1a1042", null ],
+    [ "KEY_CTRL_C", "shell_8h.html#adf078051b482b1a21e0ab63c8ad19be5", null ],
+    [ "KEY_CTRL_D", "shell_8h.html#a1bd5b5c2203d45730070d6d618f4293c", null ],
+    [ "KEY_CTRL_G", "shell_8h.html#aa734cf0f244178042f7a45c39a57555e", null ],
+    [ "KEY_DEL", "shell_8h.html#ad06e66a899b065c65c2363233d8ebce2", null ],
+    [ "KEY_DOWN", "shell_8h.html#a203163bc0189184a1de6ca8d1e53c6bf", null ],
+    [ "KEY_SPACE", "shell_8h.html#a8a5ff83d21dfa704c1c3eff56d5b3a4b", null ],
+    [ "KEY_TILDE", "shell_8h.html#a75cadf6d2d16efb60682715dd7ff9f3f", null ],
+    [ "KEY_UP", "shell_8h.html#afa086fc916a81e7fd348ec00cf786916", null ],
+    [ "NEW_LINE", "shell_8h.html#a7b99dc1e1c86b4897498c2d436ead1b5", null ],
+    [ "SHELL_DEFAULT_BUFSIZE", "shell_8h.html#ac6ce9a12c394d101eb934286106ed2ee", null ],
+    [ "SPACE", "shell_8h.html#a5ff6e798033f03e74730e99f01936f84", null ],
+    [ "eshell_char_input", "shell_8h.html#aa9d68e45d2aae2409c1bedd344765968", null ],
+    [ "eshell_init", "shell_8h.html#aac4bc8ee11231cf61356a6ef19836f96", null ],
+    [ "eshell_proc", "shell_8h.html#a846ab1199e8ff0e89d0c1d5124cc60d2", null ],
+    [ "shell_init", "shell_8h.html#a69b075ef7e4d7bcf5a903d3d75baac02", null ],
+    [ "shell_print_prompt", "shell_8h.html#a8fbb6c5535b186dea5dfc739b81f7f78", null ],
+    [ "shell_task", "shell_8h.html#aec604bc654a39905bd64137b9bfdfe98", null ]
 ];

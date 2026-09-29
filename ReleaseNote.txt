@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0012
-Git revision: 0x8744dd74
+Version: 4.0013
+Git revision: 0x8bc834f9
 Library: 
-        libWISERadioLib_subg_soc_9006 v1.12
-        libWMbusDatalink v1.03
-Release Date: August 18, 2026
+        libWISERadioLib_subg_soc_9006 v1.13
+        libWMbusDatalink v2.00
+Release Date: September 28, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -16,19 +16,26 @@ Release Date: August 18, 2026
     - ER8130A/ER8131A
 
 3. Major Changes
-    - Updated radio library for 9006 platform to v1.12.
-    - WMBus: refined early-RX and pre-encrypted TX handling with security-mode-specific payload limits and worst-case Manchester buffer sizing (heap expanded to 0x6000).
-    - WMBus: separated DLL frame packing from RF staging/transmission and pre-pack gateway frames during early-RX preparation.
-    - WMBus: extended gateway Rx2Tx timing diagnostics and deferred RX2TX logging to reduce turnaround latency.
-    - Radio: added a patch to improve WMBus T-mode O2M dynamic-range performance.
-    - System: added BOD deglitch configuration support for the 9006 platform.
-    - System: added an optional self-reset in the hard fault handler.
-    - Middleware: support configurable tick-counter unit in the timer hub.
-    - Shell: refined the RF commands (e.g. "rf sg") to align with "rf init" and updated the default channel frequency and data rate.
+    - Updated radio library for 9006 platform to v1.13, synced with W-MBus APIs (Frame-A first-block finalization and FCB variant generation).
+    - Updated WMBus Data Link library to v2.00.
+    - WMBus: added DTM mechanism supporting Security Mode 0/5/7, with per-entry Security Mode configuration for gateway fixed/dynamic whitelist management.
+    - WMBus: unified the gateway payload API (keeping the pre-encryption / pre-pack enqueue path) and exposed gateway admission and connection-failure callbacks.
+    - WMBus: gateway added GPIO signalling for RX sync ISR / RX done ISR and TX API return.
+    - WMBus demo: added "per" shell command to measure PHY packet error rate (S2/T2/C2/R2) and "demo start/stop" shell command in the WMBus PHY demo.
+    - System: added Cache Control APIs for the 9006 platform (cache enabled during core init).
+    - NFC: added firmware update over NFC - the ESMT NFC Tool host application (Android and PC) drives the update through the NFC control channel (demo_nfc_ctrl example).
+    - NFC: added NFC control APIs (read/write data, tag configuration, interrupt callback).
+    - System: added a boot fault record to report failures occurring before UART initialization.
+    - Middleware: support BOD configuration via the board config file.
+    - Radio: removed the fixed ANA RX gain setting during the initialization phase.
+    - Docs: added WMBus datalink user and integration guides; refreshed API Doxygen comments and regenerated the WISE API HTML documentation.
+    - Build: released Eclipse projects now include only the official ER8131P9 build configuration.
 4. Bug fixing:
-    - WMBus: fixed data loss when a meter is disconnected.
-    - WMBus: fixed incorrect FCB handling between gateway and meter.
-    - Fixed RTC CNTR_DAY field width and prevented RTC init from changing the LFOSC source.
-    - Fixed a compatibility issue in M2Comm RF configurations.
-    - Fixed typos in the 4-FSK flow.
+    - WMBus: fixed abnormal gateway/meter retry by finalizing the Frame-A first block with the latest FCB/FCV and CRC before RF TX.
+    - WMBus: fixed meter rejecting pre-encrypted frames whose target does not match the selected connection.
+    - WMBus: fixed meter receive failure caused by a timing issue.
+    - NFC: fixed array-size calculation for NFC block-write data; updated NFC interrupt handling and sleep configuration.
+    - Fixed compiler errors and warnings related to the new Cache Control API files.
+    - Fixed Keil MDK projects failing to link because the new cache sources were missing from the project file lists.
+    - WMBus demo: fixed collector ACK delay underflow that could delay the ACK response by a very long time.
 ================================================================================

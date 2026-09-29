@@ -1,6 +1,10 @@
 var wise__radio__api_8h =
 [
+    [ "CRC_CFG_OFFSET_INCLUDE_HDR", "group___w_i_s_e___radio___a_p_is.html#gaead467f0061bd8c3c19ff025ab9dd9fb", null ],
     [ "CRC_CFG_OFFSET_INPUT_BIT_ENDIAN", "group___w_i_s_e___radio___a_p_is.html#gaaccf6c349d29c9f6a5e1768bc8af7150", null ],
+    [ "CRC_CFG_OFFSET_INVERT", "group___w_i_s_e___radio___a_p_is.html#gad549ba7e04e3b95da64d526ef12979e6", null ],
+    [ "CRC_CFG_OFFSET_OUTPUT_BIT_ENDIAN", "group___w_i_s_e___radio___a_p_is.html#gaef12cd5896ccf804ad3570e8f65c2ed1", null ],
+    [ "CRC_CFG_OFFSET_OUTPUT_BYTE_ENDIAN", "group___w_i_s_e___radio___a_p_is.html#ga43342e032ca9593fe2b832e4d24f5782", null ],
     [ "FRAME_FMT_CRC_EN", "group___w_i_s_e___radio___a_p_is.html#ga4ea9346451461f5d8c8a2bc5168f89fa", null ],
     [ "FRAME_FMT_FEC_EN", "group___w_i_s_e___radio___a_p_is.html#ga3a5a6d8697d6e7a1b4c059c51f53501c", null ],
     [ "FRAME_FMT_HEADER_EN", "group___w_i_s_e___radio___a_p_is.html#ga64ecc57944788e426ee83a0692dad8a5", null ],
@@ -52,15 +56,28 @@ var wise__radio__api_8h =
       [ "CRC_POLYNOMIAL_KERMIT", "group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcabfcad6eea85cd1543c39ff0c87f7c98e", null ],
       [ "CRC_POLYNOMIAL_DNP16", "group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcab5b9120568f4b98166a65dfb2c22f755", null ],
       [ "CRC_POLYNOMIAL_BLE24", "group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcabbb4ac0c55234ffa55940b67361ec473", null ],
+      [ "CRC_POLYNOMIAL_CUSTOM", "group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcad5c6f58c076cfe92dbac89e57d379c2a", null ],
       [ "CRC_POLYNOMIAL_MAX", "group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcae3ca170960fd43b4463acfb2c6a3f0a4", null ]
     ] ],
     [ "WISE_DATA_RATE_T", "group___w_i_s_e___radio___a_p_is.html#gac846347be4f59a9f4d8c94ac7634a829", [
+      [ "E_DATA_RATE_4P8K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a276c52dc9859a960c66e76550dda94d6", null ],
+      [ "E_DATA_RATE_12P5K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a456d975b93c87586789a9b20eaaf2428", null ],
+      [ "E_DATA_RATE_32P768K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a40d87a1589c7804be0a40aa5f0fb222a", null ],
+      [ "E_DATA_RATE_50K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829af52746cba5d04232675af926685fad7b", null ],
+      [ "E_DATA_RATE_100K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a25b80864b4f42e10705a702a02a4a5fc", null ],
+      [ "E_DATA_RATE_125K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829ab06c460078efef4f4b80d02b5f93296e", null ],
+      [ "E_DATA_RATE_200K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a1fd1869ea43f1f397895a16a13537878", null ],
+      [ "E_DATA_RATE_250K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a2e5a8c4e844f13edd226febfe135f105", null ],
+      [ "E_DATA_RATE_500K", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a5f0137b150ea3cda709d620b92483a2f", null ],
+      [ "E_DATA_RATE_1M", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a1ca1e11672ddecb0e1f357d52f7b88f7", null ],
+      [ "E_DATA_RATE_2M", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a63552cc2d1e5372991e2f859304605fb", null ],
       [ "E_DATA_RATE_MAX", "group___w_i_s_e___radio___a_p_is.html#ggac846347be4f59a9f4d8c94ac7634a829a348cf0dc9fd8971b3ddcd07e75db5f38", null ]
     ] ],
     [ "WISE_FRAME_CODEC_T", "group___w_i_s_e___radio___a_p_is.html#ga0276e02acb7ff49d90bd7d002b324433", [
       [ "E_FRAME_CODEC_NONE", "group___w_i_s_e___radio___a_p_is.html#gga0276e02acb7ff49d90bd7d002b324433ad63482686898b5fda16b837b5f6f812f", null ],
       [ "E_FRAME_CODEC_NRZ", "group___w_i_s_e___radio___a_p_is.html#gga0276e02acb7ff49d90bd7d002b324433a9f82985a2a1e318386ba1eea090699ed", null ],
       [ "E_FRAME_CODEC_MANCHESTER", "group___w_i_s_e___radio___a_p_is.html#gga0276e02acb7ff49d90bd7d002b324433a76f826d4268da01ba37098b6e8048ad7", null ],
+      [ "E_FRAME_CODEC_MANCHESTER_INV", "group___w_i_s_e___radio___a_p_is.html#gga0276e02acb7ff49d90bd7d002b324433afba49511650366cb5ee69442545519b6", null ],
       [ "E_FRAME_CODEC_3OUTOF6", "group___w_i_s_e___radio___a_p_is.html#gga0276e02acb7ff49d90bd7d002b324433a7c643f44020e8ac93ccb791de98ab49a", null ]
     ] ],
     [ "WISE_MODULATION_T", "group___w_i_s_e___radio___a_p_is.html#gae56e2574e89c86e1eac71df6db012175", [
@@ -72,11 +89,6 @@ var wise__radio__api_8h =
       [ "E_MOD_TYPE_4FSK", "group___w_i_s_e___radio___a_p_is.html#ggae56e2574e89c86e1eac71df6db012175ad4773dcc0f7a998fd8d9f8c1202eb66e", null ],
       [ "E_MOD_TYPE_BPSK_RAMP", "group___w_i_s_e___radio___a_p_is.html#ggae56e2574e89c86e1eac71df6db012175af3b0eb06fa159894835a9a94561532e8", null ],
       [ "E_MOD_TYPE_OOK", "group___w_i_s_e___radio___a_p_is.html#ggae56e2574e89c86e1eac71df6db012175a7ee2680e5f1822145f33bbcb8cd3e9b9", null ]
-    ] ],
-    [ "WISE_PHY_MODE_T", "group___w_i_s_e___radio___a_p_is.html#ga15e269f1afba4f7ff880b74437b5fdc1", [
-      [ "E_PHY_TRANSPARENT", "group___w_i_s_e___radio___a_p_is.html#gga15e269f1afba4f7ff880b74437b5fdc1a7921042740166fc89572212741ee3a2f", null ],
-      [ "E_PHY_802154", "group___w_i_s_e___radio___a_p_is.html#gga15e269f1afba4f7ff880b74437b5fdc1a1849cfdd430f4cd3763c19f3a7aa8a0b", null ],
-      [ "E_PHY_MBUS", "group___w_i_s_e___radio___a_p_is.html#gga15e269f1afba4f7ff880b74437b5fdc1a1cd7a26ce9abc4b375eaf05f09410f48", null ]
     ] ],
     [ "WISE_RADIO_PKT_TYPE_T", "group___w_i_s_e___radio___a_p_is.html#gacb8f5883667fca624fcf0e6ffb460ae5", [
       [ "PKT_FIXED_LENGTH", "group___w_i_s_e___radio___a_p_is.html#ggacb8f5883667fca624fcf0e6ffb460ae5a95144afc31c672f32747a60875bfec86", null ],
@@ -94,9 +106,14 @@ var wise__radio__api_8h =
       [ "E_WHITENING_DISABLE", "group___w_i_s_e___radio___a_p_is.html#ggaec15a92bc0ae38f4269e1bb3293adda4a93d40cb4e0b03119c5d0269b854473f9", null ],
       [ "E_WHITENING_PN9", "group___w_i_s_e___radio___a_p_is.html#ggaec15a92bc0ae38f4269e1bb3293adda4a2be94bf6d461e8962f828a6121c7ce02", null ]
     ] ],
+    [ "wise_radio_chsd_init", "group___w_i_s_e___radio___a_p_is.html#gac7673811661e90c138029b84e069be27", null ],
     [ "wise_radio_config", "group___w_i_s_e___radio___a_p_is.html#ga19f85295424a60776a203916fa62fd45", null ],
     [ "wise_radio_deinit", "group___w_i_s_e___radio___a_p_is.html#ga0457c771fdf65f41de8d040b7f621bd4", null ],
+    [ "wise_radio_enable_modem_clk", "group___w_i_s_e___radio___a_p_is.html#ga4ef31e6ca8e1aa6ddc1be8fd05037b60", null ],
+    [ "wise_radio_enable_prbs9", "group___w_i_s_e___radio___a_p_is.html#gadc95a15ed1e24707629cacab633ccfa8", null ],
+    [ "wise_radio_enable_repeat_mode", "group___w_i_s_e___radio___a_p_is.html#ga5fddf40f1c57f8cdcd98744ff2ae9295", null ],
     [ "wise_radio_enable_singletone", "group___w_i_s_e___radio___a_p_is.html#ga5c1d4bd6ae01c77d3fc4215141bf0bc4", null ],
+    [ "wise_radio_get_active_rx_frame_addr", "group___w_i_s_e___radio___a_p_is.html#ga33cf05d1e7a93d9c6dd6aa8321c13dd5", null ],
     [ "wise_radio_get_channel_freq", "group___w_i_s_e___radio___a_p_is.html#ga26350a2749d1dcb1cedc1caf14f7cf19", null ],
     [ "wise_radio_get_channel_num", "group___w_i_s_e___radio___a_p_is.html#gaf9915a39f3e96048e0f7c8f745b835f7", null ],
     [ "wise_radio_get_raw_rssi", "group___w_i_s_e___radio___a_p_is.html#ga43e8395280b62a8504a9591d1c267e65", null ],

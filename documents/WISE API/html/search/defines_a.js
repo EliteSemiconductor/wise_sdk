@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['opcode_5fchange_5fmode_0',['OPCODE_CHANGE_MODE',['../wise__xcvr__api_8c.html#aafb06397e44dd6e35c37efbb9a164dfc',1,'wise_xcvr_api.c']]],
+  ['opcode_5fclearstatus_1',['OPCODE_CLEARSTATUS',['../wise__xcvr__api_8c.html#af76c5cd214cf854fb3e16878f27b9ce3',1,'wise_xcvr_api.c']]],
+  ['opcode_5fconfig_5frx_2',['OPCODE_CONFIG_RX',['../wise__xcvr__api_8c.html#a4eaa46fd88117e44ee04483a0f8e83fc',1,'wise_xcvr_api.c']]],
+  ['opcode_5fconfig_5ftx_3',['OPCODE_CONFIG_TX',['../wise__xcvr__api_8c.html#a60d488a1a7cdd6da067858754b6dfda5',1,'wise_xcvr_api.c']]],
+  ['opcode_5fget_5fint_5fsts_4',['OPCODE_GET_INT_STS',['../wise__xcvr__api_8c.html#ae5b7c2354a19ed79f1475d3fe054b6ad',1,'wise_xcvr_api.c']]],
+  ['opcode_5fget_5fmasked_5fint_5fsts_5',['OPCODE_GET_MASKED_INT_STS',['../wise__xcvr__api_8c.html#a25e5e26b92ebd466c5b42714588e8c28',1,'wise_xcvr_api.c']]],
+  ['opcode_5fnop_6',['OPCODE_NOP',['../wise__xcvr__api_8c.html#a7b724c03f13d92614bee235be0d1bac6',1,'wise_xcvr_api.c']]],
+  ['opcode_5frd_5fcsr_7',['OPCODE_RD_CSR',['../wise__xcvr__api_8c.html#a7242bba8d26727e6c1ffb210f1c41cd2',1,'wise_xcvr_api.c']]],
+  ['opcode_5frd_5fpwr_8',['OPCODE_RD_PWR',['../wise__xcvr__api_8c.html#aa30ef111d91eee22bf2a9d7015e3de3b',1,'wise_xcvr_api.c']]],
+  ['opcode_5frd_5frx_5ffifo_9',['OPCODE_RD_RX_FIFO',['../wise__xcvr__api_8c.html#a39e787aa0be8d3811b3e92c12b2342c4',1,'wise_xcvr_api.c']]],
+  ['opcode_5frd_5frx_5ffifo2_10',['OPCODE_RD_RX_FIFO2',['../wise__xcvr__api_8c.html#ac6664e16ed12fdba8932aa77b3a11198',1,'wise_xcvr_api.c']]],
+  ['opcode_5frst_5ffifo_11',['OPCODE_RST_FIFO',['../wise__xcvr__api_8c.html#a027e62295a9ca460770cef27918f6adf',1,'wise_xcvr_api.c']]],
+  ['opcode_5fset_5fint_5fen_12',['OPCODE_SET_INT_EN',['../wise__xcvr__api_8c.html#af6f87a579581636a10cae9dd8bd44a24',1,'wise_xcvr_api.c']]],
+  ['opcode_5fstart_5frx_13',['OPCODE_START_RX',['../wise__xcvr__api_8c.html#adaa5dc2635123223d7c1d241cb608abe',1,'wise_xcvr_api.c']]],
+  ['opcode_5fstart_5ftx_14',['OPCODE_START_TX',['../wise__xcvr__api_8c.html#a368704620a4a1ac3c7bb16d7a9657998',1,'wise_xcvr_api.c']]],
+  ['opcode_5fwr_5fcsr_15',['OPCODE_WR_CSR',['../wise__xcvr__api_8c.html#a6d8562b7985bf7bde1352b2a382e1cff',1,'wise_xcvr_api.c']]],
+  ['opcode_5fwr_5ftx_5ffifo_16',['OPCODE_WR_TX_FIFO',['../wise__xcvr__api_8c.html#a9da27844e212eadd2cc4f4fc2883dadf',1,'wise_xcvr_api.c']]],
+  ['opcode_5fwr_5ftx_5ffifo2_17',['OPCODE_WR_TX_FIFO2',['../wise__xcvr__api_8c.html#a48cd89449ffae23966466b541393f845',1,'wise_xcvr_api.c']]],
+  ['otp_5ffile_5fheader_5flen_18',['OTP_FILE_HEADER_LEN',['../wise__flash__api_8c.html#a9ace82351f3d660161b03864a68f76c2',1,'wise_flash_api.c']]],
+  ['otp_5fmax_5ffile_5fnum_19',['OTP_MAX_FILE_NUM',['../wise__flash__api_8c.html#a68d137ea79cb2733f61b326188512567',1,'wise_flash_api.c']]],
+  ['otp_5fsec_5ffdb_5flen_20',['OTP_SEC_FDB_LEN',['../wise__flash__api_8c.html#aef49013d61ad847683d7f34fd36bdf63',1,'wise_flash_api.c']]],
+  ['otp_5fsec_5fheader_5flen_21',['OTP_SEC_HEADER_LEN',['../wise__flash__api_8c.html#a0d85465879c7aec680fed70957c9f898',1,'wise_flash_api.c']]],
+  ['otp_5fsec_5fid_22',['OTP_SEC_ID',['../wise__flash__api_8c.html#ae93df18a4e71f9b8db03196f44c1bd30',1,'wise_flash_api.c']]],
+  ['otp_5fsec_5fsts_5factive_23',['OTP_SEC_STS_ACTIVE',['../wise__flash__api_8c.html#a3c2e18018a930265514e9de6e134da87',1,'wise_flash_api.c']]]
+];

@@ -5,8 +5,8 @@
 #include <stdint.h>
 #include "wmbus_datalink_diag.h"
 
-#define WMBUS_LINK_VER_MAJOR 1
-#define WMBUS_LINK_VER_MINOR 3
+#define WMBUS_LINK_VER_MAJOR 2
+#define WMBUS_LINK_VER_MINOR 0
 #define WMBUS_WHITELIST_MAX_NUM 200
 #define WMBUS_LINK_GW_WHITELIST_STATE_BYTES ((uint32_t)sizeof(WMBUS_whitelist_state_t))
 #define WMBUS_LINK_GW_WHITELIST_ALIGN4_SIZE(size) (((uint32_t)(size) + 3U) & ~3U)
@@ -360,6 +360,7 @@ typedef struct {
 
     WMBUS_Address address;
 } WMBUS_dll_header_t;
+#define WMBUS_EARLY_RX_DLL_HEADER_LEN (sizeof(WMBUS_dll_header_t))
 #pragma pack(pop)
 
 /* Communication Control Field (CC-field) */
@@ -657,7 +658,7 @@ typedef enum {
 typedef struct
 {
     uint8_t sub_state;
-    uint8_t tx_security_mode;
+    uint8_t configured_security_mode;
     uint8_t gw2meter_function_code;
     uint8_t reserved;
     uint8_t gw2meter_access_number;
@@ -684,44 +685,16 @@ typedef struct
     uint32_t gw2meter_message_counter;
 } WMBUS_whitelist_state_t;
 
+typedef enum {
+    WMBUS_PARSE_OK = 0,
+    WMBUS_PARSE_INVALID = -1,
+    WMBUS_PARSE_SECURITY_MISMATCH = -2
+} WMBUS_parse_result_t;
+
 typedef struct {
     const WMBUS_LINK_device_info_t *info;
     WMBUS_whitelist_state_t *state;
 } WMBUS_whitelist_entry_t;
-
-typedef enum
-{
-    WMBUS_METER_STATUS_ACCEPTED_ADDED = 0,
-    WMBUS_METER_STATUS_REJECTED_UNKNOWN,
-    WMBUS_METER_STATUS_REJECTED_TABLE_FULL,
-    WMBUS_METER_STATUS_REJECTED_NO_DYNAMIC_BUFFER,
-} WMBUS_meter_status_t;
-
-typedef void (*wmbus_link_meter_status_cb_t)(
-    WMBUS_meter_status_t status,
-    const WMBUS_LINK_device_info_t *meter_info);
-
-int32_t wmbus_link_register_meter_status_cb(wmbus_link_meter_status_cb_t cb);
-
-typedef enum
-{
-    WMBUS_CONNECTION_FAILURE_EVICTED = 0,
-    WMBUS_CONNECTION_FAILURE_ACC_RETRY_LIMIT,
-} WMBUS_connection_failure_t;
-
-typedef struct
-{
-    uint32_t device_id;
-    uint16_t queued_packet_count;
-    uint8_t has_in_flight;
-    uint8_t acc_mismatch_retry_count;
-} WMBUS_connection_failure_info_t;
-
-typedef void (*wmbus_link_connection_failure_cb_t)(
-    WMBUS_connection_failure_t reason,
-    const WMBUS_connection_failure_info_t *info);
-
-int32_t wmbus_link_register_connection_failure_cb(wmbus_link_connection_failure_cb_t cb);
 
 void dump_byte(uint8_t* p_dump, int length);
 void dump_raw(const char *tag, uint8_t *p_dump, int length);
@@ -791,9 +764,11 @@ void wmbus_link_set_flag_GW_request(uint8_t _data);
 
 #ifdef WMBUS_GW_PREENCRYPTION
 void wmbus_link_GW_pre_encryption_clean(void);
-void wmbus_link_GW_pre_encryption(uint32_t id, uint8_t *data, uint16_t len);
 void wmbus_link_GW_next_pre_encryption(uint32_t id);
 #endif
+
+void wmbus_link_gw_apply_data_semantic(void);
+void wmbus_link_gw_apply_no_data_semantic(void);
 
 void wmbus_link_clear_flow_control_setting(void);
 void wmbus_link_clear_flow_control_setting_by_id(uint32_t dev_id);
@@ -802,6 +777,12 @@ void wmbus_link_flow_control(void);
 int32_t wmbus_link_api_parsing_packet(void);
 void wmbus_link_api_gen_packet(uint8_t *data_ptr, uint16_t data_len);
 void wmbus_link_api_notify_data2APP(void);
+void wmbus_link_create_packet(uint8_t *data_ptr, uint16_t data_len);
+void wmbus_link_create_packet_next(uint8_t *data_ptr, uint16_t data_len);
+void wmbus_link_clear_debug_message(void);
+void wmbus_link_set_conn_max(uint16_t max_conn, uint16_t max_tx_queue);
+void wmbus_link_show_conn_max(void);
+void wmbus_link_gw_connection_add_device(WMBUS_LINK_device_info_t *devInfo_p);
 
 bool wmbus_link_gw_load_context_by_id(uint32_t dev_id);
 bool wmbus_link_gw_save_context_by_id(uint32_t dev_id);
@@ -811,18 +792,15 @@ bool wmbus_link_gw_whitelist_init_temporary(WMBUS_whitelist_mode_t mode,
                                             uint16_t capacity);
 void wmbus_link_gw_whitelist_clear(void);
 bool wmbus_link_gw_whitelist_free_temporary(void);
-bool wmbus_link_gw_whitelist_add_device(const WMBUS_LINK_device_info_t *info_p);
+bool wmbus_link_gw_whitelist_add_device(const WMBUS_LINK_device_info_t *info_p,
+                                        WMBUS_LINK_security_mode_t security_mode);
 bool wmbus_link_gw_whitelist_del_device(uint32_t dev_id);
 WMBUS_whitelist_mode_t wmbus_link_gw_whitelist_get_mode(void);
 uint16_t wmbus_link_gw_whitelist_get_count(void);
 uint16_t wmbus_link_gw_whitelist_get_capacity(void);
 
-
 bool wmbus_link_gw_is_admission_ctrl_enabled(void);
 //void wmbus_link_gw_set_admission_ctrl_enabled(bool enable);
-
-uint8_t wmbus_link_is_from_MTR_primary(WMBUS_function_code_t func_code);
-
 
 uint16_t wmbus_link_add_idle_filler(uint8_t *buffer, uint16_t fillerLength);
 
@@ -839,14 +817,25 @@ void wmbus_link_show_state(void);
 bool wmbus_link_gw_find_WL_by_ID(uint32_t dev_id);
 bool wmbus_link_gw_has_pre_encryption(void);
 bool wmbus_link_gw_has_pre_encryption_data(void);
+bool wmbus_link_gw_has_in_flight_data(void);
+bool wmbus_link_gw_finalize_in_flight_tx_frame(void);
+void wmbus_link_gw_mark_in_flight_tx_fcb_sent(void);
+void wmbus_link_gw_complete_in_flight_data(void);
 bool wmbus_link_gw_has_pre_encryption_null_general(void);
 bool wmbus_link_gw_has_pre_encryption_nke(void);
 void wmbus_link_gw_dump_pre_encryption_state(const char *tag);
 void wmbus_link_gw_pre_generate_nke(void);
+void wmbus_link_gw_get_pre_encryption(void);
 void wmbus_link_gw_get_pre_encryption_nke(void);
+typedef enum {
+    GW_TX_SOURCE_GENERATED_DLL = 0,
+    GW_TX_SOURCE_PREENC_IN_FLIGHT,
+    GW_TX_SOURCE_PREENC_NKE
+} GW_TX_SOURCE_T;
+GW_TX_SOURCE_T wmbus_link_gw_get_tx_source(void);
+void wmbus_link_gw_set_tx_source(GW_TX_SOURCE_T source);
 bool wmbus_link_gw_promote_next(void);
 bool wmbus_link_gw_prepare_early_null(uint32_t id,
-                                      WMBUS_function_code_t fallback_tx_func,
                                       uint8_t *buffer,
                                       uint16_t buffer_size,
                                       uint16_t *out_length,
@@ -858,7 +847,10 @@ void wmbus_link_set_verify_gw_id(uint32_t gw_id);
 uint32_t wmbus_link_get_verify_gw_id(void);
 bool wmbus_link_meter_check_packet_from_gw(uint8_t *rx_buffer);
 
-#define DEBUG_BY_GPIO 0
+#if WMBUS_LINK_LA_MEASUREMENT
 void wmbus_link_gpio_toggle(uint8_t pin_idx);
+#else
+#define wmbus_link_gpio_toggle(pin_idx) ((void)(pin_idx))
+#endif
 
 #endif 

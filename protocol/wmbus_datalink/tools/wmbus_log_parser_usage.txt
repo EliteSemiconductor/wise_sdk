@@ -6,8 +6,9 @@ Tool:
 
 Purpose:
   Parse WMBus UART logs generated with WMBUS_DBG_MSG_FLOW and
-  WMBUS_DBG_MSG_ERROR. The parser summarizes tagged events, reports errors,
-  and prints context around the first error.
+  WMBUS_DBG_MSG_ERROR. The parser summarizes tagged events, monitors each log
+  source, correlates meter triggers with GW reception, and prints context around
+  errors.
 
 
 1. Run From The tools Directory
@@ -46,7 +47,7 @@ Wildcard:
 
   --input meter="meter_*.log"
 
-Context lines around the first error:
+Context lines around each reported error:
 
   --context 20
 
@@ -55,10 +56,13 @@ Meter trigger watchdog:
   --meter-trigger-period-ms 10000
   --meter-trigger-tolerance-ms 3000
   --meter-session-idle-timeout-ms 20000
+  --session-failure-streak-limit 3
+  --gw-rx-match-window-ms 1000
+  --gw-missed-trigger-limit 3
+  --source-silence-timeout-ms 30000
 
-  The parser treats tagged [MTR] events as meter activity. If the next meter
-  trigger activity does not appear within period + tolerance, the parser reports
-  an ERR diagnostic:
+  If consecutive meter SESSION_START events exceed period + tolerance, the
+  parser reports:
 
     TRIGGER_STOPPED
 
@@ -71,21 +75,18 @@ Meter trigger watchdog:
 
     SESSION_STUCK
 
+  Consecutive failed sessions are reported as SESSION_FAILURE_STREAK. Meter
+  SESSION_START timestamps absent from the GW log are counted per device and
+  reported as GW_MISSED_TRIGGER_STREAK. A log source that stops while other
+  sources continue is reported as SOURCE_SILENT.
+
   Manual control boundaries such as "wm stop", "wm fsm", and boot banners reset
-  the watchdog, so manually stopped or restarted logs are not compared across
-  that gap.
+  watchdog and cross-log streak state. These normal boundaries do not generate
+  warnings by themselves.
 
   The watchdog needs timestamp prefixes to calculate elapsed time. Without
   timestamps, the parser can still count events and firmware errors, but timing
   diagnostics are limited.
-
-  For older logs without full tags, several raw WMBus messages are also treated
-  as liveness activity:
-
-    GW receives data ... from ID:0x...
-    MTR receives raw data
-    Tx done
-    Received NKE so finish this session
 
 Meter reset detector:
 
@@ -124,20 +125,20 @@ Example:
 
 The parser recognizes tagged lines such as:
 
-  [GW][RX] state=... dev=... func=... len=... ell=... stl=... ci=...
-  [GW][SESSION_START] state=... dev=... reason=RX_FIRST_PACKET func=...
-  [GW][TX_DONE] state=... dev=... tx_func=... tx_ell=... tx_stl=...
-  [GW][PREENC_NEXT] dev=... result=DATA
+  [GW][SESSION_START] state=... dev=... reason=RX_FIRST_PACKET rx=... rx_ell=... rx_stl=... rx_fcv=... rx_fcb=...
+  [GW][EXCHANGE] state=... dev=... rx=... rx_ell=... rx_stl=... rx_fcb=... tx=... tx_ell=... tx_ltl=... tx_fcb=...
   [GW][SESSION_END] state=... dev=... reason=SND_NKE result=OK
   [GW][SESSION_END] state=... dev=... reason=FAC_TIMEOUT timer=FAC action=standby
-  [MTR][SESSION_START] state=... dev=... reason=FIRST_REQ_TX func=...
-  [MTR][TX] state=... phase=FIRST_REQ dev=... func=...
-  [MTR][RX] state=... dev=... func=...
-  [MTR][TX_DONE] state=... phase=RSP_ACK dev=...
+  [MTR][SESSION_START] state=... dev=... reason=FIRST_REQ_TX tx=... tx_ell=... tx_stl=... tx_fcb=...
+  [MTR][EXCHANGE] state=... dev=... rx=... rx_ell=... rx_ltl=... rx_fcb=... tx=... tx_ell=... tx_stl=...
   [MTR][SESSION_END] state=... dev=... reason=RX_NKE result=OK
   [MTR][SESSION_END] state=... dev=... reason=FAC_TIMEOUT timer=FAC action=standby
-  [CONN][ADD] dev=... index=... count=...
-  [CONN][REMOVE] dev=... index=... count=...
+
+Recoverable anomaly examples:
+
+  [GW][WARN][ACC_MISMATCH] state=... dev=... retry=... acc=... rx_ell=... action=retry
+  [MTR][WARN][FCB_DUPLICATE] state=... dev=... rx_fcb=... expected_new=... action=resend_last
+  [MTR][WARN][REQUEST_TIMEOUT] state=... dev=... phase=NEXT_REQUEST action=resend_last
 
 Any tag line that contains [ERR] is treated as an error, for example:
 
@@ -147,7 +148,7 @@ Any tag line that contains [ERR] is treated as an error, for example:
 
 Timestamp prefixes are supported by Tera Term:
 
-  [Wed May 27 15:42:21.512 2026] i=1, [GW][RX] state=...
+  [Wed May 27 15:42:21.512 2026] i=1, [GW][SESSION_START] state=...
 
 
 4. Output Meaning
@@ -159,9 +160,7 @@ Result PASS:
 
 Result WARN:
   No error was found, but the log contains firmware [WARN] events or the parser
-  detected a possible issue such as duplicate connection add/remove, active
-  connection left at EOF, boot during active session, or delayed trigger during
-  an active session.
+  detected a recoverable condition or boot during an active session.
 
 Result FAIL:
   At least one firmware [ERR] line was found, or the parser generated an ERR
@@ -180,8 +179,9 @@ Parser diagnostics:
 
     ERR  TRIGGER_STOPPED
     ERR  SESSION_STUCK
-    WARN TRIGGER_DELAYED_BY_ACTIVE_SESSION
-    WARN ACTIVE_SESSION_AT_EOF
+    ERR  SESSION_FAILURE_STREAK
+    ERR  GW_MISSED_TRIGGER_STREAK
+    ERR  SOURCE_SILENT
 
 WARN event:
   WARN means the link layer detected a recoverable condition. For example, an
@@ -191,16 +191,6 @@ WARN event:
 
   WARN does not make the parser result FAIL. The link layer should emit [ERR]
   if retry exceeds the protocol threshold or the session cannot recover.
-
-Connection balance warning:
-  The parser tracks connection add/remove events:
-
-    [CONN][ADD] ...
-    [CONN][REMOVE] ...
-
-  Duplicate ADD for the same dev is reported as a warning.
-  REMOVE without an active connection is reported as a warning.
-  A connection that remains active at EOF is also reported as a warning.
 
 Parser diagnostic examples:
 
@@ -212,13 +202,13 @@ Parser diagnostic examples:
 
     meter_80000001:220: ERR SESSION_STUCK dev=0x80000001 idle_ms=25000 limit_ms=20000 ...
 
-  Trigger delayed by active session:
+  Consecutive session failures:
 
-    meter_80000001:300: WARN TRIGGER_DELAYED_BY_ACTIVE_SESSION dev=0x80000001 ...
+    meter_80000001:300: ERR SESSION_FAILURE_STREAK dev=0x80000001 failures=3 ...
 
-  Active session at EOF:
+  Meter triggers missing from GW:
 
-    meter_80000001:340: WARN ACTIVE_SESSION_AT_EOF dev=0x80000001 ...
+    meter_80000001:340: ERR GW_MISSED_TRIGGER_STREAK dev=0x80000001 misses=3 ...
 
 Error contexts:
   Context lines are printed around firmware [ERR] lines and parser ERR

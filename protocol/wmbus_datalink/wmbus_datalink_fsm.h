@@ -79,5 +79,6 @@ void meter_handle_install_fsm(uint8_t trigger_event);
 void meter_handle_fsm(uint8_t trigger_event);
 
 void gw_handle_fsm(uint8_t trigger_event);
+void wmbus_link_gw_tx_packet_directly(void);
 
 #endif 

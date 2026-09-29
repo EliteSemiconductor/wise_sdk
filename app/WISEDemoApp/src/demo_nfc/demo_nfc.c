@@ -59,6 +59,61 @@
 static void _demo_NFC_config(void);
 static void _nfc_isr_callback(void *context, uint8_t idx);
 
+static int _sleepCmd(int argc, char **argv)
+{
+	uint8_t sleep_mode = 0;
+	uint8_t pwr_mode = PWR_MODE_SLEEP;
+
+    if (argc == 2) {
+        uint32_t sleepMs = WISE_TIME_FOREVER;
+
+        sleep_mode = strtoul(argv[1], NULL, 10);
+
+        if (sleep_mode == 0 || sleep_mode > 2) {
+            debug_print("sleep mode is bad = %d\n", sleep_mode);
+            return 0;
+        }
+
+        switch (sleep_mode) {
+            case 1:
+            	debug_print("SOC entering sleep mode...\n");
+                pwr_mode = PWR_MODE_SLEEP;
+                wise_nfc_set_wakeup_config(pwr_mode);
+                wise_system_sleep(sleepMs);
+                debug_print("SOC wakeup from sleep mode\n");
+                break;
+            case 2:
+                SYS_SHUTDOWN_CFT_T shutdownCfg = {
+                    .wake_src = SHUTDOWN_WAKE_SRC_NFC,
+                };
+
+                debug_print("SOC entering shutdown mode...\n");
+                pwr_mode = PWR_MODE_SHUTDOWN;
+                wise_nfc_set_wakeup_config(pwr_mode);
+                wise_sys_enter_shutdown_mode(shutdownCfg);
+                break;
+            default:
+                break;
+        }
+
+    }
+    else {
+        goto invalid_param;
+    }
+
+    return 0;
+
+invalid_param:
+    debug_print("input error!\n");
+    debug_print("Usage: sleep [mode]\n");
+    debug_print("   [mode]  1: SoC sleep mode\n");
+    debug_print("           2: SoC shutdown mode\n");
+    return 0;
+}
+
+/** Register shell command "sleep". */
+SHELL_CMD_AUTO(sleep, _sleepCmd, "Enter sleep mode(NFC wakeup)");
+
 /* ========================================================================== */
 /* NFC Configuration                                                          */
 /* ========================================================================== */
@@ -101,10 +156,10 @@ static void _demo_NFC_config(void)
     };
 
     wise_nfc_init();
+    wise_nfc_config(&nfc_cfg);
+    wise_nfc_block_write_data(0, sizeof(tag_cnt) / sizeof(tag_cnt[0]), tag_cnt);
     wise_nfc_register_int_callback(NFC_INT_IDX_0, _nfc_isr_callback, NULL);
     wise_nfc_register_int_callback(NFC_INT_IDX_1, _nfc_isr_callback, NULL);
-    wise_nfc_config(&nfc_cfg);
-    wise_nfc_block_write_data(0, 14, tag_cnt);
 
     printf("NFC config done\r\n");
 }

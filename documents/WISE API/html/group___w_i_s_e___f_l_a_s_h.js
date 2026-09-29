@@ -2,22 +2,22 @@ var group___w_i_s_e___f_l_a_s_h =
 [
     [ "wise_flash_api.h", "wise__flash__api_8h.html", null ],
     [ "WISE_FLASH_INFO_T", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html", [
-      [ "blockSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#ab6558f40a619c2502fbc24c880fd4fb0", null ],
-      [ "flashSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#a4cc0610458b972b4a75b7507413ca78c", null ],
-      [ "minEraseSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#ac949b448f864604185d93db7a5493491", null ]
+      [ "blockSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#a9d151280f3bfb7c7206ea54eb0d336d0", null ],
+      [ "flashSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#a85e5a368f6c585f63ceeb78d12feaf39", null ],
+      [ "minEraseSize", "struct_w_i_s_e___f_l_a_s_h___i_n_f_o___t.html#ac378accf2953712aa33e4428023d3ede", null ]
     ] ],
     [ "FLASH_SHAD_RGN_INFO_T", "struct_f_l_a_s_h___s_h_a_d___r_g_n___i_n_f_o___t.html", [
-      [ "sectorNum", "struct_f_l_a_s_h___s_h_a_d___r_g_n___i_n_f_o___t.html#ab4acfe23fb13cd6dd706a2d3f83c87f2", null ],
-      [ "sectorSize", "struct_f_l_a_s_h___s_h_a_d___r_g_n___i_n_f_o___t.html#a0531bf8e2d0ac7dbf0d6af9b74a6ae0f", null ]
+      [ "sectorNum", "struct_f_l_a_s_h___s_h_a_d___r_g_n___i_n_f_o___t.html#afa596c05c163c27088e4376c26a8974e", null ],
+      [ "sectorSize", "struct_f_l_a_s_h___s_h_a_d___r_g_n___i_n_f_o___t.html#a29c9a2cf4f2f61e112911c0dc81793e3", null ]
     ] ],
     [ "WISE_MSBI_INFO_T", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html", [
-      [ "bootCrcEnable", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a7cf59a8fad339dcbb5e4ea8052ba09fc", null ],
-      [ "consoleBaudrate", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a2e47965e1770c2c9a72692b4362435b0", null ],
-      [ "consoleEnable", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a4f1ce9cebaa4257e4cb9576998ee72ac", null ],
-      [ "xipCache", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a4a07cc1e12a58d19ba3e1a04194c1d36", null ],
-      [ "xipClock", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a3446b21cfea70ee6efb0c36d292a5a66", null ],
-      [ "xipSpiMode", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#afb847541f2b5866bcdbba8475a9e2a5f", null ],
-      [ "xipSpiSpeed", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a371b81b0d16a6dbf731e20046c5daf06", null ]
+      [ "bootCrcEnable", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a1e5eeefbb828d14cd8d3526af7886ee8", null ],
+      [ "consoleBaudrate", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a879244c742ab45bae46d9bf3da4dd30c", null ],
+      [ "consoleEnable", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a9ec70f3ef516cb45952d23d3262ff119", null ],
+      [ "xipCache", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a67bed685677bc9ecdfabb8a867bedd18", null ],
+      [ "xipClock", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#ae24cf3fe6797e6a30a46c889ca4836d5", null ],
+      [ "xipSpiMode", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a6b0e78da66014267cec5253d38fc230f", null ],
+      [ "xipSpiSpeed", "struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a7f7897b81c2427d0150ed8e49500036e", null ]
     ] ],
     [ "WISE_FLASH_MAP_ADDR", "group___w_i_s_e___f_l_a_s_h.html#ga936ef859f72c238d67735f95ffa09411", null ],
     [ "CONSOLE_BAUDRATE_T", "group___w_i_s_e___f_l_a_s_h.html#gafa511a8286d081b0c6c411eef0a0f5ff", [

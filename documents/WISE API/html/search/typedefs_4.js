@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['uart_5frx_5fhandler_0',['UART_RX_HANDLER',['../group___w_i_s_e___u_a_r_t.html#ga3db711c2bf7f70d66d59f200b7de9a7d',1,'wise_uart_api.h']]]
+  ['timer_5fhub_5fcb_5ft_0',['TIMER_HUB_CB_T',['../wise__timer__hub_8h.html#ad25e98f4bec9eba91443da80403c9249',1,'wise_timer_hub.h']]],
+  ['timer_5fhub_5fmode_5ft_1',['TIMER_HUB_MODE_T',['../wise__timer__hub_8h.html#affb9ab6597745ff84274b4f470fa6bbb',1,'wise_timer_hub.h']]]
 ];

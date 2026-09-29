@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['clock_5fmode0_0',['CLOCK_MODE0',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50ada3da598389c19fec92c251dd84a9123',1,'wise_spi_api.h']]],
-  ['clock_5fmode1_1',['CLOCK_MODE1',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50a7c175054b385f1fb0683fec639edb0a1',1,'wise_spi_api.h']]],
-  ['clock_5fmode2_2',['CLOCK_MODE2',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50acc4e07765ce1ce0efe61117dc14f6344',1,'wise_spi_api.h']]],
-  ['clock_5fmode3_3',['CLOCK_MODE3',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50ad1e974024a95967cfba0762baa4d3a37',1,'wise_spi_api.h']]],
-  ['cmd_5ftype_5fping_4',['CMD_TYPE_PING',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___f_r_e_e_r_t_o_s___c_l_i.html#gga0a1b23389fd01fb66217d05625366172aba87c90cd182b6aa3d10291ebd59467c',1,'demo_freeRTOS_main.c']]],
-  ['cmd_5ftype_5fsys_5finfo_5',['CMD_TYPE_SYS_INFO',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___f_r_e_e_r_t_o_s___c_l_i.html#gga0a1b23389fd01fb66217d05625366172ac6ad235f1309c28861994771a4c2a45f',1,'demo_freeRTOS_main.c']]],
+  ['cache_5fsize_5f4k_5fbyte_0',['CACHE_SIZE_4K_BYTE',['../group___w_i_s_e___s_y_s.html#ggad3c7b758c00cc4def04fb573533ccc5ba260b7c538872bf406cae0d7264f76966',1,'wise_sys_api.h']]],
+  ['cache_5fsize_5f8k_5fbyte_1',['CACHE_SIZE_8K_BYTE',['../group___w_i_s_e___s_y_s.html#ggad3c7b758c00cc4def04fb573533ccc5bab4e866611a76fa065019857a64b634d9',1,'wise_sys_api.h']]],
+  ['clock_5fmode0_2',['CLOCK_MODE0',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50ada3da598389c19fec92c251dd84a9123',1,'wise_spi_api.h']]],
+  ['clock_5fmode1_3',['CLOCK_MODE1',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50a7c175054b385f1fb0683fec639edb0a1',1,'wise_spi_api.h']]],
+  ['clock_5fmode2_4',['CLOCK_MODE2',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50acc4e07765ce1ce0efe61117dc14f6344',1,'wise_spi_api.h']]],
+  ['clock_5fmode3_5',['CLOCK_MODE3',['../group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50ad1e974024a95967cfba0762baa4d3a37',1,'wise_spi_api.h']]],
   ['core_5fio_5fblocking_6',['CORE_IO_BLOCKING',['../group___w_i_s_e___c_o_r_e.html#gga74b2736623c1fe899a3c7454c9345fcca8cbc0dcdcfe3841589c154c6921cc249',1,'wise_core.h']]],
   ['core_5fio_5fnonblocking_7',['CORE_IO_NONBLOCKING',['../group___w_i_s_e___c_o_r_e.html#gga74b2736623c1fe899a3c7454c9345fcca61218c6eea0a6c86e18cf2e34bd3b7f7',1,'wise_core.h']]],
   ['crc_5finclude_5fheader_5foff_8',['CRC_INCLUDE_HEADER_OFF',['../group___w_i_s_e___radio___a_p_is.html#gga124df189f0290c3314f6040f312d2238a7442c25afaa887e6dd3884e0875b0a50',1,'wise_radio_api.h']]],
@@ -22,8 +22,9 @@ var searchData=
   ['crc_5fpolynomial_5fccitt_5f16_19',['CRC_POLYNOMIAL_CCITT_16',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bca76efcf2614d34200a67c339da80fc038',1,'wise_radio_api.h']]],
   ['crc_5fpolynomial_5fcrc16_20',['CRC_POLYNOMIAL_CRC16',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcaf28b508ccb257579a21baa9f4c67d382',1,'wise_radio_api.h']]],
   ['crc_5fpolynomial_5fcrc8_21',['CRC_POLYNOMIAL_CRC8',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bca40ace220f12a2cf89990a2e839d8746a',1,'wise_radio_api.h']]],
-  ['crc_5fpolynomial_5fdnp16_22',['CRC_POLYNOMIAL_DNP16',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcab5b9120568f4b98166a65dfb2c22f755',1,'wise_radio_api.h']]],
-  ['crc_5fpolynomial_5fkermit_23',['CRC_POLYNOMIAL_KERMIT',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcabfcad6eea85cd1543c39ff0c87f7c98e',1,'wise_radio_api.h']]],
-  ['crc_5fpolynomial_5fmax_24',['CRC_POLYNOMIAL_MAX',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcae3ca170960fd43b4463acfb2c6a3f0a4',1,'wise_radio_api.h']]],
-  ['crc_5fpolynomial_5fnone_25',['CRC_POLYNOMIAL_NONE',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bca40fa8fafb18e17208aa5d80748e4caa1',1,'wise_radio_api.h']]]
+  ['crc_5fpolynomial_5fcustom_22',['CRC_POLYNOMIAL_CUSTOM',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcad5c6f58c076cfe92dbac89e57d379c2a',1,'wise_radio_api.h']]],
+  ['crc_5fpolynomial_5fdnp16_23',['CRC_POLYNOMIAL_DNP16',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcab5b9120568f4b98166a65dfb2c22f755',1,'wise_radio_api.h']]],
+  ['crc_5fpolynomial_5fkermit_24',['CRC_POLYNOMIAL_KERMIT',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcabfcad6eea85cd1543c39ff0c87f7c98e',1,'wise_radio_api.h']]],
+  ['crc_5fpolynomial_5fmax_25',['CRC_POLYNOMIAL_MAX',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bcae3ca170960fd43b4463acfb2c6a3f0a4',1,'wise_radio_api.h']]],
+  ['crc_5fpolynomial_5fnone_26',['CRC_POLYNOMIAL_NONE',['../group___w_i_s_e___radio___a_p_is.html#ggaef0f8c3ff27b77ca54a245cde12562bca40fa8fafb18e17208aa5d80748e4caa1',1,'wise_radio_api.h']]]
 ];

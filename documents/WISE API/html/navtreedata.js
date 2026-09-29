@@ -28,9 +28,10 @@ var NAVTREE =
     [ "Topics", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
+      [ "Data Structure Index", "classes.html", null ],
       [ "Data Fields", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -38,10 +39,11 @@ var NAVTREE =
       [ "Globals", "globals.html", [
         [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", "globals_func" ],
+        [ "Variables", "globals_vars.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", "globals_eval" ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -50,13 +52,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___w_m_b_u_s.html#gabdeaff89141fe0277c2fd9d4131e13b7",
-"group___w_i_s_e___i2_c.html#gga8b18bbc0f006c7a004dc9275995e6e96a7ad6f950b4b0a87dbb4f779b46e8b2eb",
-"group___w_i_s_e___radio___a_p_is.html#ggae56e2574e89c86e1eac71df6db012175ad4773dcc0f7a998fd8d9f8c1202eb66e",
-"struct_s_t___w_i_s_e___u_a_r_t___c_t_r_l___t.html",
-"wise__wdt__api_8h.html"
+"group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___i2_c.html#ga8345102ab98b0ef385f51d218440822d",
+"group___w_i_s_e___i2_c.html#ga0f6e6e264a01acbbae97c7989991b8ca",
+"group___w_i_s_e___r_t_c.html#gga1109441c9cb829b4299431666dbc5639a1e30b940bc6d14fb6ebf3077b2a3f601",
+"group___w_i_s_e___s_y_s.html#ga43723c67bd8713adc39c8d3f92daa666",
+"struct_s_t___f_l_a_s_h___i_n_f_o___t.html#a2b16e28ea0f5a3e70290137dcee09cac",
+"struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aac751b8da29cba7fdffc8296d8e66ef4",
+"wise__xcvr__api_8c.html#a2ff3081f1a757a1e015264a32d943c9d"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronization';
-var SYNCOFFMSG = 'click to enable panel synchronization';
-var LISTOFALLMEMBERS = 'List of all members';
+const SYNCONMSG = 'click to disable panel synchronization';
+const SYNCOFFMSG = 'click to enable panel synchronization';
+const LISTOFALLMEMBERS = 'List of all members';

@@ -62,8 +62,11 @@ typedef enum {
  * Used to select a specific NFC interrupt source/index.
  */
 typedef enum {
-    NFC_INT_IDX_0,          /**< NFC interrupt index 0. */
-    NFC_INT_IDX_1,          /**< NFC interrupt index 1. */
+    NFC_INT_IDX_POR = 1,	/**< NFC interrupt index 1. */
+    NFC_INT_IDX_RX,    	    /**< NFC interrupt index 2. */
+	NFC_INT_IDX_TX,			/**< NFC interrupt index 3. */
+	NFC_INT_IDX_0,			/**< NFC interrupt index 4. */
+	NFC_INT_IDX_1,			/**< NFC interrupt index 5. */
 } NFC_INT_IDX_E;
 
 /**
@@ -90,6 +93,13 @@ typedef struct {
     NFC_MEM_LOCK_MODE_E lock_mode;  /**< NFC memory lock mode. */
     NFC_INT_IDX_E int_idx;          /**< NFC interrupt index. */
 } WISE_NFC_CFG_T;
+
+#define NFC_DATA_BLOCK_IDX          20
+#define NFC_DATA_BLOCK_LEN          64
+#define NFC_ACK_BLOCK_IDX           (NFC_DATA_BLOCK_IDX + NFC_DATA_BLOCK_LEN)
+#define NFC_ACK_BLOCK_LEN           64
+#define NFC_TRIG_BLOCK_IDX          255
+#define NFC_TRIG_BLOCK_VAL          0x85200000
 
 /* ==== API functions ====================================================== */
 
@@ -255,8 +265,56 @@ void wise_nfc_switch_pwr_src(NFC_PWR_MODE_T src);
  */
 NFC_PWR_MODE_T wise_nfc_get_pwr_src(void);
 
+/**
+ * @brief Set NFC wake-up configuration.
+ *
+ * Configures the wake-up behavior and power mode for the NFC module.
+ *
+ * @param[in] pwr_mode Power mode index for wake-up configuration.
+ */
 void wise_nfc_set_wakeup_config(uint8_t pwr_mode);
 
+/**
+ * @brief Initialize NDEF tag configuration data buffer.
+ *
+ * Configures the NDEF tag content, including text records and custom payloads,
+ * and writes the generated data blocks into the NFC memory.
+ *
+ * @param[in] str Pointer to the text string to be included in the NDEF record.
+ */
+void wise_nfc_crtl_tag_config(uint8_t *str);
+
+/**
+ * @brief Read control data from the NFC memory blocks.
+ *
+ * Reads incoming control data from the NFC module, parses the header and payload length,
+ * and stores the resulting data stream into the provided buffer.
+ *
+ * @param[out] buf Pointer to the destination buffer where the read control data will be stored.
+ * @return Returns the length of the read data in bytes.
+ */
+int wise_nfc_ctrl_read_data(uint8_t *buf);
+
+/**
+ * @brief Write control response data to the NFC memory.
+ *
+ * Transmits the response payload back through the NFC module, formatting and writing
+ * the specified data blocks so the host device can read them.
+ *
+ * @param[in] buf Pointer to the source buffer containing the response data to be written.
+ * @param[in] len The length of the response data in bytes.
+ */
+void wise_nfc_ctrl_write_data(uint8_t *buf, uint8_t len);
+
+/**
+ * @brief Register an interrupt callback function for NFC control events.
+ *
+ * Sets up a user-defined callback handler that will be invoked automatically
+ * whenever an NFC control interrupt event occurs.
+ *
+ * @param[in] cb_ptr Pointer to the callback function to be registered.
+ */
+void wise_nfc_ctrl_register_int_cb(void (*cb_ptr)(void));
 
 /** @} */ /* end of WISE_NFC group */
 

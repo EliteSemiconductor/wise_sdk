@@ -1,11 +1,13 @@
 ESMT WMBus Data Link Library Release Notes
 
 ================================================================================
-Version: libWMbusDatalink v1.03
-Git revision: 0x00000000
+Version: libWMbusDatalink v2.00
+Previous Release: 20260623_WMBUS_V1.03
+Baseline Revision: 20a397c76932d02949c376dba176b05901e633e5
+Release Tag: 20260901_WMBUS_V2.00
 Library:
         libWMbusDatalink.a
-Release Date: June 23, 2026
+Release Date: September 1, 2026
 
 1. Overview
     libWMbusDatalink is the Wireless M-Bus data link layer static library for
@@ -13,35 +15,99 @@ Release Date: June 23, 2026
     gateway/meter role handling, packet creation/parsing, whitelist management,
     connection handling, and RF platform interface integration.
 
-    This maintenance update focuses on Gateway multi-meter session stability,
-    RX parsing safety, Rx-to-Tx flow improvement, scheduled event protection,
-    and WMBus log parser refinement after the v1.03 release.
+    Version 2.00 is a major update focused on reducing Gateway Rx-to-Tx
+    turnaround time, improving multi-meter connection reliability, supporting
+    per-meter Security Mode 0/5/7 configuration, and exposing clearer Gateway
+    admission and connection-failure reporting.
 
-2. Supported Platforms
+2. Supported Platforms and Build Configurations
     - ESMT ER8130 series
     - subg_soc_9006 platform
-    - SOC_9006/SOC_9006_GW/SOC_9006_MTR build configurations
+    - Release static-library configuration
+    - SOC_9006, SOC_9006_GW, and SOC_9006_MTR test configurations
+    - SOC_9006_FRAME_TRX frame-transceiver test configuration
 
-3. Major Changes
-    - Refactored Gateway context restore flow before RX packet parsing.
-    - Improved Gateway pre-encryption queue handling.
-    - Removed state snapshot usage to reduce RAM usage and improve Rx2Tx flow.
-    - Added retry handling when access number is unexpected.
-    - Added shared Tx packet helper logic while keeping public APIs unchanged.
-    - Created WMBus log analysis tool.
-    - Added Meter watchdog checks to the WMBus log parser.
+3. Major Changes Since v1.03
 
-4. Bug Fixing
-    - Fixed second Meter join failure.
-    - Fixed Gateway loading the correct Meter context for RX parsing.
-    - Fixed WMBus log parser misjudgment.
-    - Added signed error handling for packet parsing.
-    - Added Tx/Rx buffer length guards.
-    - Protected scheduled event handling.
-    - Enhanced command argument parsing.
+    3.1 Gateway Rx-to-Tx Acceleration
+        - Added early-RX processing initiated from the RF SYNC ISR so the DLL
+          header and target connection can be identified before RX completion.
+        - Added early preparation of Gateway response candidates.
+        - Added pre-encryption for DATA, NULL, and NKE responses.
+        - Moved DLL frame packing out of the time-critical transmit path and
+          separated frame packing, RF staging, and transmission start.
+        - Added prebuilt Frame A first-block variants for FCB=0 and FCB=1.
+        - Finalized the latest FCV/FCB fields and Frame A first-block CRC before
+          RF transmission without rebuilding the complete packed frame.
+        - Deferred diagnostic output outside the critical Rx-to-Tx path.
 
-5. Compatibility Notes
-    - Public version macros remain:
-        WMBUS_LINK_VER_MAJOR = 1
-        WMBUS_LINK_VER_MINOR = 3
+    3.2 Gateway Multi-Meter Session and Connection Handling
+        - Refined per-meter context selection and restoration before RX parsing
+          and response generation.
+        - Improved queued, next, and in-flight payload ownership handling.
+        - Preserved queued meter data across temporary disconnection scenarios.
+        - Added bounded retry handling for access-number mismatches.
+        - Improved connection-table-full handling and oldest-connection
+          eviction reporting.
+        - Added explicit admission-result and established-connection-failure
+          callbacks for application diagnostics.
+
+    3.3 Security Mode and Whitelist Support
+        - Added per-entry Security Mode 0, 5, or 7 configuration for fixed
+          Gateway whitelist entries.
+        - Added wmbus_link_gw_whitelist_load_fixed_with_security().
+        - Retained the existing fixed-whitelist API with Mode 7 as its default.
+        - Dynamic whitelist learning continues to use Security Mode 7.
+        - Added security-mode-specific application payload-length validation.
+
+    3.4 API and Test Support
+        - Unified Gateway payload submission through
+          wmbus_link_gw_write_payload(); accepted payloads may be encrypted and
+          packed immediately, while RF transmission occurs in the meter session.
+        - Added Gateway admission and connection-failure callback registration.
+        - Added RF link-loss test control.
+        - Expanded DTM/frame-transceiver test control, state reporting,
+          statistics, frame length, and test-pattern support.
+        - Renamed the SOC_9006_DTM configuration to SOC_9006_FRAME_TRX.
+
+    3.5 Diagnostics
+        - Added configurable Gateway Rx-to-Tx timing capture points from SYNC
+          ISR through TX API return and TX-done ISR.
+        - Added optional logic-analyzer GPIO measurement support.
+        - Extended the WMBus log parser for long-duration, multi-meter session,
+          trigger, watchdog, and connection-failure analysis.
+        - Reduced and deferred runtime logging to limit timing interference.
+
+4. Reliability and Protocol Fixes
+    - Fixed incorrect FCV/FCB handling during Gateway and Meter retries.
+    - Fixed Frame A first-block CRC after late FCV/FCB updates.
+    - Fixed Meter acceptance of a pre-encrypted frame prepared for a different
+      target connection.
+    - Fixed Gateway pre-encryption context restoration and frame selection.
+    - Fixed multi-meter connection setup and correct context loading for RX.
+    - Fixed queued data loss when a Meter connection is removed temporarily.
+    - Added RX/TX buffer-length and packed-frame capacity validation.
+    - Added signed parse-result handling, including security-mode mismatch.
+    - Protected scheduled-event handling and improved command argument checks.
+    - Disabled unused postamble processing that could read beyond valid data.
+
+5. Compatibility and Integration Notes
+    - Public library version macros are now:
+        WMBUS_LINK_VER_MAJOR = 2
+        WMBUS_LINK_VER_MINOR = 0
+
+    - WMBUS_LINK_MODE_S1M was removed. Numeric values of subsequent
+      WMBUS_LINK_mode_t entries changed; applications must rebuild and must not
+      depend on the previous numeric values.
+    - Applications using Gateway admission reporting should migrate from the
+      previous meter-status callback to the admission-result callback.
+    - Applications may register the new connection-failure callback to detect
+      eviction and access-number retry exhaustion.
+    - Gateway pre-encryption and pre-packing use expanded packed-frame buffers.
+      Verify that application heap/RAM settings follow the reference project.
+    - This library requires a matching libWISERadioLib_subg_soc_9006.a that
+      provides WMBus frame packing, Frame A first-block finalization/variants,
+      packed-frame staging, and staged transmission APIs.
+    - Rebuild applications against the v2.00 headers and both updated prebuilt
+      libraries; do not combine the v2.00 datalink library with v1.03 headers.
 ================================================================================

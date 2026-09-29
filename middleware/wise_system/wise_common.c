@@ -127,6 +127,49 @@ extern uint8_t _wise_get_evt_num();
 extern void _wise_schlr_proc();
 extern void retarget_set_port(int uartPort);
 
+/* ------------------------------------------------------------------------- */
+/*                          deferred boot fault log                          */
+/*                                                                           */
+/* Anything running before _peripheral_init() brings UART up cannot report    */
+/* itself - stdout does not exist yet, so both halting and printing there are */
+/* invisible. Such faults are recorded here and surfaced once stdout is alive.*/
+/* Zero-initialised by bssInit() before main().                               */
+/* ------------------------------------------------------------------------- */
+
+static WISE_BOOT_FAULT_T bootFault[WISE_BOOT_FAULT_MAX];
+static uint32_t          bootFaultNum;
+
+void wise_boot_fault_record(const char *stage, int32_t status)
+{
+    if (WISE_SUCCESS == status) {
+        return;
+    }
+
+    if (bootFaultNum < WISE_BOOT_FAULT_MAX) {
+        bootFault[bootFaultNum].stage  = stage;
+        bootFault[bootFaultNum].status = status;
+    }
+
+    /* keep counting past the array so an overflow stays visible */
+    bootFaultNum++;
+}
+
+uint32_t wise_boot_fault_count(void)
+{
+    return bootFaultNum;
+}
+
+int32_t wise_boot_fault_get(uint32_t idx, WISE_BOOT_FAULT_T *fault)
+{
+    if ((NULL == fault) || (idx >= bootFaultNum) || (idx >= WISE_BOOT_FAULT_MAX)) {
+        return WISE_FAIL;
+    }
+
+    *fault = bootFault[idx];
+
+    return WISE_SUCCESS;
+}
+
 static ST_UART_PRE_CONF_T uartCfg[] = {
 #if (defined(ES_COMP_ENABLE_UART_0) && (ES_COMP_ENABLE_UART_0 == ENABLE))
     {
@@ -219,29 +262,36 @@ static void _platform_init()
         .calFinish        = 0,
     };
 
-    if (WISE_SUCCESS != wise_core_init()) {
-        while (1)
-            ;
-    }
+    /* Deliberately no halt here: UART is not up until _peripheral_init(), so
+       stopping at this point would produce no output at all. Record the fault
+       and keep going - bringing UART up is what makes it reportable. */
+    wise_boot_fault_record("wise_core_init", wise_core_init());
 
     wise_sys_set_board_property(&boardProperty);
 
-#ifndef TARGET_SBL
-    wise_sys_lfosc_clk_src_config(oscCfg);
-    wise_sys_lfosc_clk_calibration();
-
-    wise_wutmr_init();
+#ifdef TARGET_APP
+    wise_boot_fault_record("lfosc_clk_src_config",  wise_sys_lfosc_clk_src_config(oscCfg));
+    wise_boot_fault_record("lfosc_clk_calibration", wise_sys_lfosc_clk_calibration());
+    wise_boot_fault_record("wutmr_init", wise_wutmr_init());
+    
     wise_wutmr_enable();
+
+    wise_sys_init_dma_channel(dma_channel_map);
+
+    wise_sys_dma_channel_export();
 #endif
 
     wise_gpio_init();
-    wise_tick_init();
+    wise_boot_fault_record("tick_init", wise_tick_init());
     wise_flash_init();
     wise_efuse_init();
 
-#ifndef TARGET_SBL
-    wise_sys_init_dma_channel(dma_channel_map);
-    wise_sys_dma_channel_export();
+
+#if (defined BOARD_BOD_ENALBE) && (BOARD_BOD_ENALBE == 1)
+#ifdef BOARD_BOD_DG_PERIOD
+    wise_sys_config_bod_deglitch(1, BOARD_BOD_DG_PERIOD);
+#endif
+    wise_sys_enable_bod(BOARD_BOD_LEVEL, 1);
 #endif
 
     wise_nfc_switch_pwr_src(NFC_PWR_MODE_PASSIVE); //for power consumption, initially set NFC power source to passive mode
@@ -425,7 +475,7 @@ int32_t wise_init()
     _peripheral_init();
     _soft_init();
 
-    return WISE_SUCCESS;
+    return (0U == wise_boot_fault_count()) ? WISE_SUCCESS : WISE_FAIL;
 }
 
 void wise_main_proc()

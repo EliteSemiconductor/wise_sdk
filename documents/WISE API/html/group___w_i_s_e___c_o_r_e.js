@@ -2,18 +2,22 @@ var group___w_i_s_e___c_o_r_e =
 [
     [ "wise_core.h", "wise__core_8h.html", null ],
     [ "WISE_SDK_VERSION_T", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html", [
-      [ "signature", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#acd2a6284879dded65f0b8daa7c68485a", null ],
-      [ "verMajor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#ae1da888c3029212ba7e6d610b9939a1f", null ],
-      [ "verMinor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a9c1b554e96c9544175eac3dfba50e470", null ]
+      [ "signature", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a61464f00edf5e53691d0bce867292cdf", null ],
+      [ "verMajor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a66b7e48711e6f08e8d66fb8eec5fbacd", null ],
+      [ "verMinor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a7876f86ad3cd64660004c437f7bb7e2b", null ]
     ] ],
     [ "WISE_BUFFER_T", "struct_w_i_s_e___b_u_f_f_e_r___t.html", [
-      [ "addr", "struct_w_i_s_e___b_u_f_f_e_r___t.html#ab439e3a90339e2e8ca8f82d4557a34e5", null ],
-      [ "length", "struct_w_i_s_e___b_u_f_f_e_r___t.html#aebb70c2aab3407a9f05334c47131a43b", null ]
+      [ "addr", "struct_w_i_s_e___b_u_f_f_e_r___t.html#a6e23e96b827c5bf8addc7e8c57331c9b", null ],
+      [ "length", "struct_w_i_s_e___b_u_f_f_e_r___t.html#adfe8599ea8258a3d07ec75bd6be409e0", null ]
     ] ],
     [ "CORE_DECLARE_IRQ_STATE", "group___w_i_s_e___c_o_r_e.html#ga770acbc9bf18f2204fd1d81c65bcad07", null ],
     [ "CORE_ENTER_CRITICAL", "group___w_i_s_e___c_o_r_e.html#gabb488bf5398a45fb21d1388da085dead", null ],
     [ "CORE_EXIT_CRITICAL", "group___w_i_s_e___c_o_r_e.html#gaae5e49de8ff7edcc91752b613b64442e", null ],
     [ "CORE_IS_IN_ISR", "group___w_i_s_e___c_o_r_e.html#ga7b31c84c9eccf9aa410f8e3780c50f33", null ],
+    [ "DMA_ATTR", "group___w_i_s_e___c_o_r_e.html#ga85ffb9017c76a27a0dcbefb617ef92fc", null ],
+    [ "DMA_DATA_ATTR", "group___w_i_s_e___c_o_r_e.html#ga7c3613ab60f432a6dee08dccaae1fece", null ],
+    [ "STATIC_DMA", "group___w_i_s_e___c_o_r_e.html#ga03503b761c8142639f02add5182a6a35", null ],
+    [ "STATIC_DMA_DATA", "group___w_i_s_e___c_o_r_e.html#gae51882ca422863fcc10c02ac192e6b39", null ],
     [ "WISE_FAIL", "group___w_i_s_e___c_o_r_e.html#ga25e5ffe7bb8fc877874cde1c15aefc06", null ],
     [ "WISE_INVALID_INDEX", "group___w_i_s_e___c_o_r_e.html#ga1e53d7c94ae9d47904a28315bd5dfea0", null ],
     [ "WISE_SUCCESS", "group___w_i_s_e___c_o_r_e.html#gab2c6b18caf0c7cd1ca9baa2bc6a3e835", null ],

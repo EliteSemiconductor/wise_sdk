@@ -8,12 +8,24 @@
 #include "wmbus_datalink_dll.h"
 
 #define MAX_WMBUS_CONNECTIONS 5
+#define WMBUS_GW_FCB_VARIANT_COUNT 2U
+#define WMBUS_GW_FIRST_BLOCK_ENCODED_MAX_LEN 24U
 
 typedef enum {
     WMBUS_TX_IN_FLIGHT_NONE = 0,
     WMBUS_TX_IN_FLIGHT_DATA,
     WMBUS_TX_IN_FLIGHT_NULL_GENERAL
 } wmbus_tx_in_flight_type_t;
+
+typedef struct {
+    uint8_t valid;
+    uint8_t fcb_sent;
+    uint8_t first_block_encoded_len;
+    uint8_t first_block_variant_valid_mask;
+    WMBUS_dll_header_t dll_hdr_template;
+    uint8_t first_block_variant[WMBUS_GW_FCB_VARIANT_COUNT]
+                               [WMBUS_GW_FIRST_BLOCK_ENCODED_MAX_LEN];
+} wmbus_gw_tx_frame_snapshot_t;
 
 // refer to WMBUS_dll_header_t
 typedef struct {
@@ -26,16 +38,18 @@ typedef struct {
     uint8_t *rx_buffer;
     uint16_t rx_length;
 
-    uint16_t tx_in_flight_length;
-    uint8_t *tx_in_flight_buffer;
+    uint16_t tx_in_flight_packed_length;
+    uint8_t *tx_in_flight_packed_buffer;
     wmbus_tx_in_flight_type_t tx_in_flight_type;
+    wmbus_gw_tx_frame_snapshot_t tx_in_flight_snapshot;
 
-    uint16_t tx_next_length;
-    uint8_t *tx_next_buffer;
+    uint16_t tx_next_packed_length;
+    uint8_t *tx_next_packed_buffer;
     wmbus_tx_in_flight_type_t tx_next_type;
+    wmbus_gw_tx_frame_snapshot_t tx_next_snapshot;
 
-    uint16_t tx_nke_in_flight_length;
-    uint8_t *tx_nke_in_flight_buffer;
+    uint16_t tx_nke_packed_length;
+    uint8_t *tx_nke_packed_buffer;
 
     uint32_t connection_sequence;
     uint8_t acc_mismatch_retry_count;
@@ -47,22 +61,24 @@ typedef struct {
     uint16_t count;	//used number
     uint16_t max_connections;
     uint16_t ring_buffer_max;
-    uint16_t buffer_max_len;
 } wmbus_connection_table_t;
 
 
-void wmbus_link_init_connection_table(uint16_t max_connections, uint16_t ring_buffer_max, uint16_t buffer_max_len);
+void wmbus_link_init_connection_table(uint16_t max_connections, uint16_t ring_buffer_max);
 bool wmbus_link_add_connection(WMBUS_Address *dev_info_p);
 bool wmbus_link_remove_connection(uint32_t device_id);
-void wmbus_link_notify_connection_failure(WMBUS_connection_failure_t reason,
-                                          const wmbus_connection_t *connection);
+void wmbus_link_notify_gw_connection_failure(
+    WMBUS_LINK_gw_connection_failure_t reason,
+    const wmbus_connection_t *connection);
 wmbus_connection_t* wmbus_link_find_connection(wmbus_connection_t *new_conn);
 wmbus_connection_t* wmbus_link_find_connection_by_id(uint32_t id);
 wmbus_connection_t* wmbus_link_peek_connection_by_id(uint32_t id);
 //only supported for GW
 void wmbus_link_find_tx_queue_by_id(uint32_t id);
 void wmbus_link_use_default_tx_queue(void);
+void wmbus_link_clear_connection_table(void);
 void wmbus_link_free_connection_table(void);
 void wmbus_link_print_connections(void);
+void wmbus_link_dump_all_connection_ring_buffers(void);
 
 #endif  // WMBUS_CONNECTION_H

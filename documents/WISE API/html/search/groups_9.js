@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['management_20example_20app_0',['Power Management Example App',['../group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_o_w_e_r___m_g_m_t.html',1,'']]],
-  ['message_20format_20flags_1',['SPI Message Format Flags',['../group___w_i_s_e___s_p_i___m_s_g___f_m_t.html',1,'']]],
-  ['middleware_2',['Middleware',['../group___w_i_s_e___m_i_d_d_l_e_w_a_r_e.html',1,'']]]
+  ['radio_20apis_0',['WISE Radio APIs',['../group___w_i_s_e___radio___a_p_is.html',1,'']]],
+  ['radio_20wmbus_20apis_1',['WISE Radio WMbus APIs',['../group___w_i_s_e___r_a_d_i_o___w_m_b_u_s___a_p_is.html',1,'']]],
+  ['rtc_20apis_2',['WISE RTC APIs',['../group___w_i_s_e___r_t_c.html',1,'']]]
 ];

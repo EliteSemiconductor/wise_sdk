@@ -187,11 +187,8 @@ typedef struct {
     bool has_auth;                  /**< Indicates if authentication data is present. */
 } WISE_AES_CCM_CTX_T;
 
-// ===== Common API =====
-WISE_STATUS wise_crypto_init();
-void wise_crypto_deinit();
+/* ===== Common API ===== */
 
-// ===== AES =====
 /**
  * @brief Initialize the crypto subsystem.
  *
@@ -202,7 +199,7 @@ void wise_crypto_deinit();
  *
  * @ingroup WISE_CRYPTO
  */
-WISE_STATUS wise_crypto_init();
+WISE_STATUS wise_crypto_init(void);
 
 /**
  * @brief Deinitialize the crypto subsystem.

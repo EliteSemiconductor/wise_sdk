@@ -59,4 +59,5 @@ int32_t wise_pkt_start_output(uint16_t length, uint8_t noWait);
 void wise_pkt_proc(void);         // called from super loop
 int8_t wise_pkt_input(uint8_t c); // called from uart input
 int32_t wise_pkt_rx_state();
+uint16_t wise_pkt_get_resp_data(uint8_t **respBuf);
 #endif

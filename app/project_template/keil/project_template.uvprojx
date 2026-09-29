@@ -550,6 +550,11 @@
           <GroupName>wise_core_v2/platform/hal_intf</GroupName>
           <Files>
             <File>
+              <FileName>hal_intf_cache.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\wise_core_v2\platform\hal_intf\hal_intf_cache.c</FilePath>
+            </File>
+            <File>
               <FileName>hal_intf_crypto.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\wise_core_v2\platform\hal_intf\hal_intf_crypto.c</FilePath>
@@ -675,6 +680,11 @@
               <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_aes.c</FilePath>
             </File>
             <File>
+              <FileName>hal_drv_cache.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_cache.c</FilePath>
+            </File>
+            <File>
               <FileName>hal_drv_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\wise_core_v2\platform\er8131p9\drv\hal_drv_dma.c</FilePath>
@@ -783,6 +793,11 @@
               <FileName>aes_er8130.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\aes_er8130.c</FilePath>
+            </File>
+            <File>
+              <FileName>cache_er8130.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\wise_core_v2\platform\er8131p9\hdl\cache_er8130.c</FilePath>
             </File>
             <File>
               <FileName>dma_er8130.c</FileName>

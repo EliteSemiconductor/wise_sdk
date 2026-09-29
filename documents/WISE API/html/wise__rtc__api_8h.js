@@ -1,5 +1,9 @@
 var wise__rtc__api_8h =
 [
+    [ "WISE_RTC_DAY_MAX", "group___w_i_s_e___r_t_c.html#ga294abea21acd15a10b50c2e18ed50de5", null ],
+    [ "WISE_RTC_HOUR_MAX", "group___w_i_s_e___r_t_c.html#ga3d042a84f513f76fc82f61cc14890133", null ],
+    [ "WISE_RTC_MIN_MAX", "group___w_i_s_e___r_t_c.html#ga2a919e9a9dd2b149e87b29523ac2ca43", null ],
+    [ "WISE_RTC_SEC_MAX", "group___w_i_s_e___r_t_c.html#ga8c0e30baaf75a8086a2456c7befb635e", null ],
     [ "WISE_RTC_CB_EVENT_T", "group___w_i_s_e___r_t_c.html#ga1109441c9cb829b4299431666dbc5639", [
       [ "WISE_RTC_EVENT_ALARM", "group___w_i_s_e___r_t_c.html#gga1109441c9cb829b4299431666dbc5639a1e30b940bc6d14fb6ebf3077b2a3f601", null ],
       [ "WISE_RTC_EVENT_SECOND", "group___w_i_s_e___r_t_c.html#gga1109441c9cb829b4299431666dbc5639a685b0125976445f16bb511ea41e1fb6c", null ],

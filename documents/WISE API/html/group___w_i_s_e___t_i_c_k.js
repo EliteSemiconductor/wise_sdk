@@ -1,6 +1,7 @@
 var group___w_i_s_e___t_i_c_k =
 [
     [ "wise_tick_api.h", "wise__tick__api_8h.html", null ],
+    [ "_TICK_SRC_HZ", "group___w_i_s_e___t_i_c_k.html#gaa512e5ad4d021621bd002f77ee514021", null ],
     [ "CLK_PER_MS", "group___w_i_s_e___t_i_c_k.html#ga4313b57dba4d2ac576e5932115cf373c", null ],
     [ "CLK_PER_US", "group___w_i_s_e___t_i_c_k.html#ga4c0e685d3c6acbe9c8391c18e5a8d0e6", null ],
     [ "CLK_TO_MS", "group___w_i_s_e___t_i_c_k.html#gae19d71b1c921dee1fb18d7086e8805b9", null ],

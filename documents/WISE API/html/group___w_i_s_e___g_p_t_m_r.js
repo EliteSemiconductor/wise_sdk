@@ -2,10 +2,10 @@ var group___w_i_s_e___g_p_t_m_r =
 [
     [ "wise_gptmr_api.h", "wise__gptmr__api_8h.html", null ],
     [ "WISE_TIMER_CTRL_T", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html", [
-      [ "interrupt_enable", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a7113aa23ef0353170caacf588599f62b", null ],
-      [ "interval", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#acd9ed1ccc44de55e1d3eff5569663695", null ],
-      [ "start_offset", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#af9e2fd33e0a4ff7a6617a6386c3d391e", null ],
-      [ "type", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a15bb123ad15d564a2d66605f13e3787a", null ]
+      [ "interrupt_enable", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a233429fe841e14f27dc73c8231956636", null ],
+      [ "interval", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a335648106bb56c973912cbc645bc7ab3", null ],
+      [ "start_offset", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a3cebcb774f370e1599ee10385bc55d75", null ],
+      [ "type", "struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a7b72382c105492dc7667e88edc73f4e3", null ]
     ] ],
     [ "WISE_TIMER_COUNTER_MAX", "group___w_i_s_e___g_p_t_m_r.html#ga3a8a79d47df1e6d6f734061584a3afc1", null ],
     [ "WISE_TIMER_MAX_INTERVAL", "group___w_i_s_e___g_p_t_m_r.html#gaabcc850f907bed44e3895389d164aa33", null ],

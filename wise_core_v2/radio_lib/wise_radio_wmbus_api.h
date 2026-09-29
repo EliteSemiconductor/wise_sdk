@@ -175,6 +175,33 @@ int8_t wise_radio_wmbus_pack_frame(int8_t intf_idx,
                                    uint16_t *packed_length);
 
 /**
+ * @brief Finalize the fixed first Frame A block of a previously packed frame.
+ *
+ * Rewrites the 10-byte DLL header and its following 2-byte Frame A CRC only.
+ * Payload data and the remaining encoded frame are left unchanged.
+ */
+int8_t wise_radio_wmbus_finalize_frame_a_first_block(
+    int8_t intf_idx,
+    uint8_t *packed_frame,
+    uint16_t packed_length,
+    const uint8_t *dll_header);
+
+/**
+ * @brief Build encoded Frame A first-block variants for FCB values zero and one.
+ *
+ * The caller supplies two DLL headers that differ only in the FCB bit. Each
+ * output includes the Frame A CRC, codec transformation, and bit reversal.
+ */
+int8_t wise_radio_wmbus_build_frame_a_first_block_variants(
+    int8_t intf_idx,
+    const uint8_t *dll_header_fcb0,
+    const uint8_t *dll_header_fcb1,
+    uint8_t *variant_fcb0,
+    uint8_t *variant_fcb1,
+    uint16_t variant_capacity,
+    uint16_t *variant_length);
+
+/**
  * @brief Copy a previously packed RF frame into the internal TX staging buffer.
  */
 int8_t wise_radio_wmbus_stage_packed_frame(int8_t intf_idx,

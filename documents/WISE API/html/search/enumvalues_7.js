@@ -35,5 +35,6 @@ var searchData=
   ['mode_5fpio_5ffunc_5fuart2_5frx_32',['MODE_PIO_FUNC_UART2_RX',['../group___w_i_s_e___g_p_i_o.html#gga85b9650469e65fc6955731fb25a0056fab5199cb04d5bb412d4e2ef7f9dd81b6d',1,'wise_gpio_api.h']]],
   ['mode_5fpio_5ffunc_5fuart2_5ftx_33',['MODE_PIO_FUNC_UART2_TX',['../group___w_i_s_e___g_p_i_o.html#gga85b9650469e65fc6955731fb25a0056fa916c097bf7d109560f7e12c0d1d43a8e',1,'wise_gpio_api.h']]],
   ['mode_5fpio_5ffunc_5funkown_34',['MODE_PIO_FUNC_UNKOWN',['../group___w_i_s_e___g_p_i_o.html#gga85b9650469e65fc6955731fb25a0056fa8a9880827399f69c8e4c93fc45ced754',1,'wise_gpio_api.h']]],
-  ['mode_5fpwm_35',['MODE_PWM',['../group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a92f5e7d1d51e3eb7d6a82253287c6b0b',1,'wise_gpio_api.h']]]
+  ['mode_5fpwm_35',['MODE_PWM',['../group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a92f5e7d1d51e3eb7d6a82253287c6b0b',1,'wise_gpio_api.h']]],
+  ['mode_5ftest_5fchip_36',['MODE_TEST_CHIP',['../group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a504e97a60a6450ed15ffdc92fae37ef5',1,'wise_gpio_api.h']]]
 ];

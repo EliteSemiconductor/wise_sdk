@@ -2,26 +2,26 @@ var group___w_i_s_e___p_w_m_s_l_o_w =
 [
     [ "wise_pwmslow_api.h", "wise__pwmslow__api_8h.html", null ],
     [ "WISE_PWMSLOW_COMMON_CONF_T", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html", [
-      [ "center_align_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#af104252b4aef0dab5497f6e1746e1770", null ],
-      [ "idle_status", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#a84d2c64463fbae84e3a480253d51b114", null ],
-      [ "low_active_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#ad6f750bbfa2252a492bc425e22a2aa46", null ],
-      [ "mode", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#a263185da681338280836c6872a359653", null ],
-      [ "oneshot_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#ac68fed89dab22640983007d386455ee5", null ],
-      [ "oneshot_num", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#ae54130c22d212c665a84284be4f85518", null ]
+      [ "center_align_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#aae7867c96dbbab0f3bd193db950d857e", null ],
+      [ "idle_status", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#a5630aa969cb67dea9dfdc83aff682b47", null ],
+      [ "low_active_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#aa810dda1b4363b11b39652a425990796", null ],
+      [ "mode", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#af0ca658f14d11afd106111ea824efcd7", null ],
+      [ "oneshot_en", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#a81bc1c0ff798103651679b0ade55050c", null ],
+      [ "oneshot_num", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_m_m_o_n___c_o_n_f___t.html#a3938e1c9d346c48ec68d97830301de9d", null ]
     ] ],
     [ "WISE_PWMSLOW_PERIOD_CONF_T", "struct_w_i_s_e___p_w_m_s_l_o_w___p_e_r_i_o_d___c_o_n_f___t.html", [
-      [ "active_period", "struct_w_i_s_e___p_w_m_s_l_o_w___p_e_r_i_o_d___c_o_n_f___t.html#a3249795cd2e5cfabc98134af882ae729", null ],
-      [ "period", "struct_w_i_s_e___p_w_m_s_l_o_w___p_e_r_i_o_d___c_o_n_f___t.html#a81b43df06332b4fef558297592bb7ff1", null ]
+      [ "active_period", "struct_w_i_s_e___p_w_m_s_l_o_w___p_e_r_i_o_d___c_o_n_f___t.html#ab06639fc44b267a834e64e48eb6f6506", null ],
+      [ "period", "struct_w_i_s_e___p_w_m_s_l_o_w___p_e_r_i_o_d___c_o_n_f___t.html#a7a8af46e74858c3660ae743a06e56f68", null ]
     ] ],
     [ "WISE_PWMSLOW_FREQ_CONF_T", "struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html", [
-      [ "duty_percent", "struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html#abe2bb8afce2433becf5198b48a52140b", null ],
-      [ "frequency_Hz", "struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html#ae4f68426ae8140188a296529081a63c1", null ]
+      [ "duty_percent", "struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html#ad79bbf59637e4f4903104189a7687856", null ],
+      [ "frequency_Hz", "struct_w_i_s_e___p_w_m_s_l_o_w___f_r_e_q___c_o_n_f___t.html#a957963796de9370c0160f296f07bae90", null ]
     ] ],
     [ "WISE_PWMSLOW_CONF_T", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html", [
-      [ "common", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#a526a1f200898a599f5c776c5fd772f60", null ],
-      [ "freq", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#a05d2353b66e2f5ecff2a3c51e89c7362", null ],
-      [ "period", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#afc370645ba4d0a0db76b2fd9afe231af", null ],
-      [ "u", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#aeaef8e96ad663c9791fe319a0a049cb1", null ]
+      [ "common", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#aca4a93843ec71755890964781b879078", null ],
+      [ "freq", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#a82a8e297fc6de12579919da5a15dc8e5", null ],
+      [ "period", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#a5d0325df210236de5100f1e395950d21", null ],
+      [ "u", "struct_w_i_s_e___p_w_m_s_l_o_w___c_o_n_f___t.html#a7dfcd3b58cd4f52f34a8424fd35c8cfd", null ]
     ] ],
     [ "PWMSLOW_MODE_T", "group___w_i_s_e___p_w_m_s_l_o_w.html#ga57cb313795642ad3033c5c46eed85711", [
       [ "PWMSLOW_MODE_PERIOD", "group___w_i_s_e___p_w_m_s_l_o_w.html#gga57cb313795642ad3033c5c46eed85711a3cb40eeac8774af05204d1c667beb730", null ],

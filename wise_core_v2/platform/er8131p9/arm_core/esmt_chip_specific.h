@@ -185,7 +185,7 @@ typedef enum {
 
 // features for NFC
 #define CHIP_NFC_SUPPORT_WAKEUP
-#define NFC_INT_NUM                             2
+#define NFC_INT_NUM                             5
 #define MAX_NFC_BLOCK_IDX                       256
 
 // features for PMU

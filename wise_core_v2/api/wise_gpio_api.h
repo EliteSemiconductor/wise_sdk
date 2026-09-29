@@ -52,7 +52,7 @@ typedef enum {
     MODE_PWM    = 2, /**< PWM function. */
     MODE_PERI_2 = 3, /**< Peripheral function 2. */
     MODE_PIO    = 4, /**< PIO function (remapped I/O). */
-    MODE_TEST_CHIP = 5,
+    MODE_TEST_CHIP = 5, /**< Test chip function mode. */
     MODE_DEBUG  = 7, /**< Debug function. */
 } GPIO_MODE_T;
 
@@ -299,6 +299,13 @@ uint8_t wise_gpio_get_direction(uint8_t pin_idx);
  */
 void wise_gpio_set_interrupt(uint8_t pin_idx, WISE_GPIO_INT_CFG_T *int_cfg);
 
+/**
+ * @brief Clear the interrupt status for a GPIO pin.
+ *
+ * Clears the pending interrupt status flag for the specified pin.
+ *
+ * @param[in] pin_idx GPIO pin index.
+ */
 void wise_gpio_clear_int_status(uint8_t pin_idx);
 
 /**

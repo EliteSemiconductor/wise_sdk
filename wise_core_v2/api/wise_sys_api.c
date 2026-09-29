@@ -11,13 +11,12 @@
 #include "hal_intf_wutmr.h"
 #include "hal_intf_radio.h"
 #include "wise_radio_api.h"
+#include "hal_intf_cache.h"
 
 static uint8_t inited = 0;
 static WISE_LFOSC_SRC_T lfoscConfig;
 static uint8_t _gain_ctrl_40m   = 8;
 static uint8_t _gain_ctrl_40m_s = 8;
-
-void _wise_sys_init(void);
 
 extern void _systick_backup();
 extern void _systick_restore();
@@ -415,6 +414,40 @@ void wise_sys_clear_warm_reset_info(void)
     hal_intf_pmu_clear_warm_reset_info();
 }
 
+/* ================== CACHE API ================== */
+WISE_STATUS wise_sys_cache_config(CACHE_SIZE_CFG_T cache_size)
+{
+    WISE_STATUS status;
+    CACHE_CFG_T cache_cfg;
+
+    switch (cache_size) {
+    case CACHE_SIZE_4K_BYTE:
+        cache_cfg.way_mask = CACHE_WAY0_MASK;
+        break;
+    case CACHE_SIZE_8K_BYTE:
+        cache_cfg.way_mask = (CACHE_WAY0_MASK | CACHE_WAY1_MASK);
+        break;
+    default:
+        WISE_LOG_ERR("%s: cache size is invalid: %d \n", __func__, cache_size);
+        return WISE_FAIL;
+    }
+
+    cache_cfg.cache_en      = ENABLE;
+    cache_cfg.cache_cnt_en  = ENABLE;
+
+    if(hal_intf_cache_config(&cache_cfg) == HAL_NO_ERR)
+        status = WISE_SUCCESS;
+    else
+        status = WISE_FAIL;
+
+    return status;
+}
+
+WISE_STATUS wise_sys_cache_invalidate(void)
+{
+    return (hal_intf_cache_invalidate() == HAL_NO_ERR)? WISE_SUCCESS:WISE_FAIL;
+}
+
 /* ================== ASARADC =============== */
 #define ASARADC_CFG_DEF_FETCH_MODE 0
 #define ASARADC_CFG_DEF_TIMER_MODE1 3
@@ -737,3 +770,4 @@ int32_t wise_asaradc_code_to_mV(uint16_t code)
 {
     return asaradc_code_to_mV(&g_calib_ctx, code);
 }
+

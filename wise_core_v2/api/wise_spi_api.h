@@ -51,8 +51,8 @@ typedef void (*SPI_EVT_CALLBACK_T)(uint8_t spi_channel, uint32_t spi_event, void
  * @brief Generic 0/1 toggle for SPI struct fields.
  */
 typedef enum {
-    WISE_SPI_DISABLE = 0,
-    WISE_SPI_ENABLE  = 1,
+    WISE_SPI_DISABLE = 0, /**< Disable setting. */
+    WISE_SPI_ENABLE  = 1, /**< Enable setting. */
 } WISE_SPI_ENABLE_T;
 
 /**
@@ -245,7 +245,7 @@ typedef enum {
     WISE_SPI_RESET_CORE = (1 << 0),         /**< Reset SPI core logic. */
     WISE_SPI_RESET_RX   = (1 << 1),         /**< Reset RX path/FIFO. */
     WISE_SPI_RESET_TX   = (1 << 2),         /**< Reset TX path/FIFO. */
-    WISE_SPI_RESET_ALL  = WISE_SPI_RESET_CORE | WISE_SPI_RESET_RX | WISE_SPI_RESET_TX,
+    WISE_SPI_RESET_ALL  = WISE_SPI_RESET_CORE | WISE_SPI_RESET_RX | WISE_SPI_RESET_TX, /**< Reset core, RX, and TX. */
 } WISE_SPI_RESET_TYPE;
 
 /**

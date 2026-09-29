@@ -1,5 +1,6 @@
 var wise__pwm__api_8h =
 [
+    [ "PWM_CH_BIT", "group___w_i_s_e___p_w_m.html#ga0b45416a85d99515409672a67d98751c", null ],
     [ "PWM_MODE_T", "group___w_i_s_e___p_w_m.html#ga8f0f91f7088619404ec97c1b92b8f937", [
       [ "PWM_MODE_PERIOD", "group___w_i_s_e___p_w_m.html#gga8f0f91f7088619404ec97c1b92b8f937a177febee01947763f2d1c6a36d07982a", null ],
       [ "PWM_MODE_FREQUENCY", "group___w_i_s_e___p_w_m.html#gga8f0f91f7088619404ec97c1b92b8f937a8c008638ec1ed62d3f7d542eabcedf53", null ]

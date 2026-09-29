@@ -17,7 +17,7 @@ static const uint8_t version = 0x02;
 static uint32_t devId = 0xb0000001; //BCD
 #elif defined WMBUS_DEMO_PHY_METER_PD
 static uint32_t devId = 0xc0000001; //BCD
-#else defined WMBUS_DEMO_PHY_OTHER
+#elif defined WMBUS_DEMO_PHY_OTHER
 static uint32_t devId = 0xa0000001; //BCD
 #endif
 

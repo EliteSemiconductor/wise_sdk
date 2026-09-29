@@ -1,0 +1,28 @@
+var wise__gpio__api_8c =
+[
+    [ "_set_all_pins_default", "wise__gpio__api_8c.html#a61b504522216eed204923ab01b323a6a", null ],
+    [ "wise_gpio_cfg", "group___w_i_s_e___g_p_i_o.html#ga999f0834b096d716db92bce3271794e4", null ],
+    [ "wise_gpio_clear_int_status", "group___w_i_s_e___g_p_i_o.html#ga6c85e66ddb3b0737ca5201b6c5b7798e", null ],
+    [ "wise_gpio_deinit", "group___w_i_s_e___g_p_i_o.html#ga34c65c1e18d1818b52738f45143a3fcb", null ],
+    [ "wise_gpio_func_cfg", "group___w_i_s_e___g_p_i_o.html#gaf5836e12d2020efeff048169300250bd", null ],
+    [ "wise_gpio_get_direction", "group___w_i_s_e___g_p_i_o.html#ga807689eda0aba2d8f04c0c21b0b3a566", null ],
+    [ "wise_gpio_init", "group___w_i_s_e___g_p_i_o.html#ga1b5c73ddbad01352bf119fc9fcebbb4b", null ],
+    [ "wise_gpio_read", "group___w_i_s_e___g_p_i_o.html#ga86aff9a03cd3d64a75598e6f00667a2f", null ],
+    [ "wise_gpio_register_callback", "group___w_i_s_e___g_p_i_o.html#gaa5fa99a6dcaa87718d4f92705a71302d", null ],
+    [ "wise_gpio_set_debs_time", "group___w_i_s_e___g_p_i_o.html#gabcb8d61f032c71f0778a1ed036c4dea5", null ],
+    [ "wise_gpio_set_direction", "group___w_i_s_e___g_p_i_o.html#ga141afe7fe5e3d32f7bffd366530ad75b", null ],
+    [ "wise_gpio_set_driv_str", "group___w_i_s_e___g_p_i_o.html#gae3dba37d3087d5030f8f02b43300a117", null ],
+    [ "wise_gpio_set_interrupt", "group___w_i_s_e___g_p_i_o.html#ga2e583a3d9448df95312bbb4a977ad94f", null ],
+    [ "wise_gpio_set_intrpt", "wise__gpio__api_8c.html#a9b96ece51f71dc013db3dc6d78ae4600", null ],
+    [ "wise_gpio_set_mode", "group___w_i_s_e___g_p_i_o.html#ga09a67f38e666947f7f43c9f591656b25", null ],
+    [ "wise_gpio_set_pull_sel", "group___w_i_s_e___g_p_i_o.html#ga514477e1f22ca67522a941a254f09376", null ],
+    [ "wise_gpio_set_pwm", "group___w_i_s_e___g_p_i_o.html#ga640f1ab06450d4a0ae4ce15df74aaf8f", null ],
+    [ "wise_gpio_set_pwmslow", "group___w_i_s_e___g_p_i_o.html#gab6801694ce89f4f664398ca04074d7eb", null ],
+    [ "wise_gpio_set_schmitt_trig", "group___w_i_s_e___g_p_i_o.html#ga082bd3cb2212b60a019b7ddf2296032f", null ],
+    [ "wise_gpio_toggle", "group___w_i_s_e___g_p_i_o.html#ga18438d72126d2563f5c8ce1e06198bf3", null ],
+    [ "wise_gpio_unregister_callback", "group___w_i_s_e___g_p_i_o.html#ga7cca06187022499a9a75d02df7c6c573", null ],
+    [ "wise_gpio_write", "group___w_i_s_e___g_p_i_o.html#ga43b94dfef56f2fb70d204fbcf2de681e", null ],
+    [ "wise_pwm_io_disable_pin", "group___w_i_s_e___g_p_i_o.html#ga201dd3933e0097cd57365426a1e75601", null ],
+    [ "_gpio_inited", "wise__gpio__api_8c.html#a740d205455b677fac129adab95756b86", null ],
+    [ "pinFuncBackup", "wise__gpio__api_8c.html#a66874dd9495372dfbc9ab6ab51f4ac12", null ]
+];

@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['x1_0',['x1',['../struct_w_i_s_e___a_s_a_r_a_d_c___s_e_g___t.html#a38cb9b5fea316274fed4db7fc81cff04',1,'WISE_ASARADC_SEG_T']]],
+  ['x2_1',['x2',['../struct_w_i_s_e___a_s_a_r_a_d_c___s_e_g___t.html#a6297644dcad33e18dd863c15cfa4043b',1,'WISE_ASARADC_SEG_T']]],
+  ['xip_5fcache_5f1w_2',['XIP_CACHE_1W',['../group___w_i_s_e___f_l_a_s_h.html#gga28e2a261a1ee147765f569ad3883c2d9a30d5a45320fda2e47735e9675c7094ad',1,'wise_flash_api.h']]],
+  ['xip_5fcache_5f2w_3',['XIP_CACHE_2W',['../group___w_i_s_e___f_l_a_s_h.html#gga28e2a261a1ee147765f569ad3883c2d9adf285b889f96a1d96813fdcea0434440',1,'wise_flash_api.h']]],
+  ['xip_5fcache_5ft_4',['XIP_CACHE_T',['../group___w_i_s_e___f_l_a_s_h.html#ga28e2a261a1ee147765f569ad3883c2d9',1,'wise_flash_api.h']]],
+  ['xip_5fcfg_5fclk_5',['XIP_CFG_CLK',['../wise__flash__api_8c.html#a866afdb2bf8af7bd8164d5a79dc9d80b',1,'wise_flash_api.c']]],
+  ['xip_5fcfg_5fmode_6',['XIP_CFG_MODE',['../wise__flash__api_8c.html#a05271174a3180630c3c3ada170d5b557',1,'wise_flash_api.c']]],
+  ['xip_5fclk_5f1t_7',['XIP_CLK_1T',['../group___w_i_s_e___f_l_a_s_h.html#ggaf895c4d744d77ec51fa1c72e9b60be26a8f92c68f56ebb3b2c494cbd1e71d1835',1,'wise_flash_api.h']]],
+  ['xip_5fclk_5fhalf_5ft_8',['XIP_CLK_HALF_T',['../group___w_i_s_e___f_l_a_s_h.html#ggaf895c4d744d77ec51fa1c72e9b60be26a94b75590eb840ca2205db6cfb42d6400',1,'wise_flash_api.h']]],
+  ['xip_5fclock_5ft_9',['XIP_CLOCK_T',['../group___w_i_s_e___f_l_a_s_h.html#gaf895c4d744d77ec51fa1c72e9b60be26',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5f20m_10',['XIP_SPI_20M',['../group___w_i_s_e___f_l_a_s_h.html#ggabdff2c0db66a27a36091c81d9d03a31da7203376dcef232068f5e8e5fd2fad6f3',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5f40m_11',['XIP_SPI_40M',['../group___w_i_s_e___f_l_a_s_h.html#ggabdff2c0db66a27a36091c81d9d03a31da2a3d9d35c2d369d5ca5d28a3f608dde3',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fdual_12',['XIP_SPI_DUAL',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a4173b838aedea0832918281ab7fcd7e9',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fmode_5ft_13',['XIP_SPI_MODE_T',['../group___w_i_s_e___f_l_a_s_h.html#ga4ba90f61d6d819987f0611cdecdd9328',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fquad_14',['XIP_SPI_QUAD',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a5584eecf60b323e2e7d6e86b7dab35d8',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fsingle_15',['XIP_SPI_SINGLE',['../group___w_i_s_e___f_l_a_s_h.html#gga4ba90f61d6d819987f0611cdecdd9328a7d55198951b8fa440406b4bf9af83e52',1,'wise_flash_api.h']]],
+  ['xip_5fspi_5fspeed_5ft_16',['XIP_SPI_SPEED_T',['../group___w_i_s_e___f_l_a_s_h.html#gabdff2c0db66a27a36091c81d9d03a31d',1,'wise_flash_api.h']]],
+  ['xipcache_17',['xipCache',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a67bed685677bc9ecdfabb8a867bedd18',1,'WISE_MSBI_INFO_T']]],
+  ['xipcfg_18',['xipCfg',['../struct_s_t___f_l_a_s_h___i_n_f_o___t.html#afc70b6df90b6708185ffe8be7d18290e',1,'ST_FLASH_INFO_T']]],
+  ['xipclock_19',['xipClock',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#ae24cf3fe6797e6a30a46c889ca4836d5',1,'WISE_MSBI_INFO_T']]],
+  ['xipspimode_20',['xipSpiMode',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a6b0e78da66014267cec5253d38fc230f',1,'WISE_MSBI_INFO_T']]],
+  ['xipspispeed_21',['xipSpiSpeed',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a7f7897b81c2427d0150ed8e49500036e',1,'WISE_MSBI_INFO_T']]]
+];

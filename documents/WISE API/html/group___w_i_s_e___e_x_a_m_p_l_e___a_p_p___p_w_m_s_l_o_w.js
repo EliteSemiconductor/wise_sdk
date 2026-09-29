@@ -8,5 +8,8 @@ var group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w =
     [ "PWMSLOW_FREQUENCY_HZ", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#gaef9aa91d079e3ecb827b46e05d2e8b39", null ],
     [ "PWMSLOW_GPIO_PIN", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#gacfab666b723424f93e17c73f650b341d", null ],
     [ "PWMSLOW_ONESHOT_COUNT", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#ga8f6f605160e8cec86cd9393ffd83e264", null ],
-    [ "main", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#ga840291bc02cba5474a4cb46a9b9566fe", null ]
+    [ "demo_lfosc_config", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#gaf50f5145b9038824d1a43663edf5e490", null ],
+    [ "demo_pwmslow_callback", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#ga2f640dc86ad2ac8177a14fefdeefe6ac", null ],
+    [ "main", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#ga840291bc02cba5474a4cb46a9b9566fe", null ],
+    [ "g_pwmslow_complete", "group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___p_w_m_s_l_o_w.html#ga8ad5aac44c1552bdd1a1596feea89c60", null ]
 ];

@@ -1,11 +1,11 @@
 var struct_w_i_s_e___i2_c___m_s_g___t =
 [
-    [ "buf_ptr", "group___w_i_s_e___i2_c.html#ga2952cd57ce059d1d9c727e355d62c3b9", null ],
-    [ "data_count", "group___w_i_s_e___i2_c.html#ga721ba7ef0a3147f8ab7dab8360568822", null ],
-    [ "dir", "group___w_i_s_e___i2_c.html#gab0cd58f1893c4ecb03edcb74c0212c52", null ],
-    [ "en_addr", "group___w_i_s_e___i2_c.html#ga5e6dd07fde3806323159eee353f0e262", null ],
-    [ "en_data", "group___w_i_s_e___i2_c.html#ga45f6e876797411194bb5150d57e8c7bb", null ],
-    [ "en_start", "group___w_i_s_e___i2_c.html#gafd7c411f35cd74ec8d0c6778c2a00371", null ],
-    [ "en_stop", "group___w_i_s_e___i2_c.html#ga51ee6b256826c6af4b18c74f8438f96a", null ],
-    [ "target_address", "group___w_i_s_e___i2_c.html#gaaf0157ff97cce6b8ba8f142f65ef36e9", null ]
+    [ "buf_ptr", "group___w_i_s_e___i2_c.html#gac7e18f7be02ea28fe06af85fdba3f68a", null ],
+    [ "data_count", "group___w_i_s_e___i2_c.html#ga848268e390d4cbc339eafecc295e4905", null ],
+    [ "dir", "group___w_i_s_e___i2_c.html#gae5fd75cc425fceac68526c30897d1381", null ],
+    [ "en_addr", "group___w_i_s_e___i2_c.html#gae8a71810f604192141b301489abbe389", null ],
+    [ "en_data", "group___w_i_s_e___i2_c.html#ga06418a6c14e04174a008a601f21f9967", null ],
+    [ "en_start", "group___w_i_s_e___i2_c.html#gaca22fc5496778080c0a6f0a87c02fd33", null ],
+    [ "en_stop", "group___w_i_s_e___i2_c.html#ga0452ac00ac9e265626f836619bf84083", null ],
+    [ "target_address", "group___w_i_s_e___i2_c.html#ga9988750b127c6abcf21b5cf0a1a66395", null ]
 ];

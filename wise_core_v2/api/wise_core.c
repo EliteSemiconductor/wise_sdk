@@ -15,7 +15,7 @@
 #define WISE_SDK_VERSION_MAJOR                          4
 
 // SDK minor version: increased for each official release
-#define WISE_SDK_VERSION_MINOR                          12
+#define WISE_SDK_VERSION_MINOR                          13
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH
@@ -64,15 +64,25 @@ WISE_STATUS wise_core_init(void)
 {
     WISE_STATUS status = WISE_SUCCESS;
 
-    if(ESMT_SOC_CHIP_ID != wise_sys_get_chip_id())
+    /* Wrong chip: the register map cannot be trusted, so touch neither PMU nor
+       XIP/cache - reprogramming XIP while executing from flash can fault before
+       UART exists. The caller records the failure and still brings UART up. */
+    if(ESMT_SOC_CHIP_ID != wise_sys_get_chip_id()) {
         return WISE_FAIL;
-    
+    }
+
     _wise_sys_init();
     wise_sys_lock(); // for soc remapping
 
 #ifdef CHIP_XIP_SUPPORT_RUNTIME_CONFIG
     _core_xip_mode_config();
 #endif
+
+    /* Kept here, not in wise_init(): callers that use wise_core_init() alone
+       (radio_ctrl, boot loaders) must also get the cache. */
+    if(WISE_SUCCESS != wise_sys_cache_config(CACHE_SIZE_8K_BYTE)) {
+        status = WISE_FAIL;
+    }
 
     return status;
 }
@@ -153,7 +163,12 @@ void _core_xip_mode_config()
 {
     WISE_MSBI_INFO_T msbi;
     uint8_t xipMode, xipClk;
-    
+#ifdef CHIP_XIP_FORCE_SPI_QUAD_40M   
+    const bool force_spi_quad_40m = true;
+#else
+    const bool force_spi_quad_40m = false;
+#endif
+
     _flash_probe();
     
     if(WISE_SUCCESS == wise_flash_shadow_read_msbi_info(&msbi))
@@ -164,6 +179,11 @@ void _core_xip_mode_config()
     
     if(WISE_SUCCESS == _flash_get_xip_cfg(&xipMode, &xipClk))
     {
+        if (force_spi_quad_40m) {
+            xipMode = XIP_SPI_MODE_QUAD;
+            xipClk  = XIP_SPI_CLK_40M;
+        }
+
         hal_intf_pmu_set_xip_clk(xipClk);
         hal_intf_xip_set_spi_mode(xipMode);
     }

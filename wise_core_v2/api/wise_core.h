@@ -121,8 +121,15 @@ void wise_core_get_version(WISE_SDK_VERSION_T *sdkVerInfo);
  * system resources. This function should be called before using other
  * core-related APIs.
  *
+ * Checks the chip ID first. On a mismatch it returns immediately without
+ * touching PMU, XIP or cache registers. Otherwise it initialises the system,
+ * configures XIP mode (where supported) and enables the 8K flash cache.
+ * Once the chip ID matches, every step runs even if an earlier one fails;
+ * the failure is reported through the return value only.
+ *
  * @return ::WISE_SUCCESS on success, or ::WISE_FAIL (or a negative value)
- *         on failure.
+ *         when the chip ID does not match, XIP configuration fails, or the
+ *         cache cannot be configured.
  */
 WISE_STATUS wise_core_init(void);
 

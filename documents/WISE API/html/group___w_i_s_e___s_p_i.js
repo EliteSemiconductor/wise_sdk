@@ -1,30 +1,28 @@
 var group___w_i_s_e___s_p_i =
 [
-    [ "SPI Message Format Flags", "group___w_i_s_e___s_p_i___m_s_g___f_m_t.html", "group___w_i_s_e___s_p_i___m_s_g___f_m_t" ],
     [ "wise_spi_api.h", "wise__spi__api_8h.html", null ],
     [ "WISE_SPI_CONF_T", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html", [
-      [ "addr_fmt", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#ad6291b694eadbe414ae02765608ea2cf", null ],
-      [ "addr_len", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a7f4775c092f592d53a9faa7979cefd03", null ],
-      [ "bit_order", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a66fa54bb19cc9bdc5d792f5dd3753d65", null ],
-      [ "block_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a1b175016704b416d6c35dc1eec8dcdb7", null ],
-      [ "clock_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a643c202f8249713e236401bcda030bf7", null ],
-      [ "clock_sel", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#aba20fed81d523c9b96e6c0310a11f9aa", null ],
-      [ "data_bit_width", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a5e069ee16a768f2c40d2f4d21613071a", null ],
-      [ "data_merge", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#aace6b64596e43f50bf36d1a04ddd330f", null ],
-      [ "dma_enable", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a95c90a53b4d4cea35c2009f6f3351d44", null ],
-      [ "role", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a5b9aeb2bb7989ef331f452dd9626f139", null ],
-      [ "spi_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a07afebc6a1da9cfc78c801ce69161119", null ]
+      [ "bit_order", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#af2aedc141b4f1c6fcc2702f1cb22cc78", null ],
+      [ "block_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#ab5be9c00448f2e3d0fdadea6acc87ab5", null ],
+      [ "clock_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a8be8150bdc69bee6bb5eb4c8a69090ad", null ],
+      [ "clock_sel", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#ad411e264eeb497a300f79abd31598639", null ],
+      [ "data_bit_width", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a68a7c776ae172f58c749a835e4e7cded", null ],
+      [ "data_merge", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#aa7d0b6fd92d8ddd618ad54be8bd0ae23", null ],
+      [ "dma_enable", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a9c1753ad37de432741fa6d12372d89c8", null ],
+      [ "io_mode", "struct_w_i_s_e___s_p_i___c_o_n_f___t.html#a1f4602a1d3d7791299f61a95d6040435", null ]
     ] ],
     [ "WISE_SPI_XFER_MSG_T", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html", [
-      [ "address", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a643d30df67a67c5915fde941c934f9f8", null ],
-      [ "cmd", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a4d43e8212bdc9dbee866506f04effcea", null ],
-      [ "dummy_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a89a65e5ebb39cc2c70a7ff07f1a4d6f7", null ],
-      [ "msg_fmt", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a4bfc31c872107c14a7f34b0b61843bbe", null ],
-      [ "rx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aeadaa3f25a20921af22c6b4bc60c513e", null ],
-      [ "rx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ade96074d531d2bdab18235ef1de927cc", null ],
-      [ "trans_mode", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#afdf8a77d64844e943eb51aa2770392fe", null ],
-      [ "tx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ac1c08959f35fffcdf9430dc8ca7ca002", null ],
-      [ "tx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ac7f16a6a9f598ceec28f828f9a592c1c", null ]
+      [ "addr_fmt", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a01d3435f9c837c10dd7fcbb7cd8641e8", null ],
+      [ "addr_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#afa132ade61ba078d1a42b8b151ac6570", null ],
+      [ "address", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#ad47321cc7b92b1d1b1cf109ed4b32bbb", null ],
+      [ "cmd", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a0fa26d784073fed872a07fc9d8dfb33f", null ],
+      [ "cmd_en", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a85920528ddcdb474b59bad8170463369", null ],
+      [ "dummy_len", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aa36ec6f50ad013db59ca25486dc07c11", null ],
+      [ "rx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a9d8f0da680a019e6229d703e013b290f", null ],
+      [ "rx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aac751b8da29cba7fdffc8296d8e66ef4", null ],
+      [ "trans_mode", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a332f8b54436b1b755865ce6406d0b4f1", null ],
+      [ "tx_data_buff", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a66925171b7fe431a2c365ea388d57614", null ],
+      [ "tx_unit_count", "struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a49b27690f35058e407a2e0594e57166b", null ]
     ] ],
     [ "SPI_EVT_CALLBACK_T", "group___w_i_s_e___s_p_i.html#gaf2a63f5faffafd12d657f338485c03d1", null ],
     [ "SPI_STATE", "group___w_i_s_e___s_p_i.html#ga5c94794b59ef8fd0fd786422d4c07f12", [
@@ -42,6 +40,16 @@ var group___w_i_s_e___s_p_i =
       [ "WRITE_DATA_DUAL_IO", "group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655a2b276991ec2419cf4cdbceef1b728c24", null ],
       [ "WRITE_DATA_QUAD_IO", "group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655a58f096e6e96161f405b6b83d2e432385", null ],
       [ "USER_CMD", "group___w_i_s_e___s_p_i.html#gga4dcd4f86f78c29fc820fe9c74a7fc655a61b0d7599cedc91cde13d364ccbe86dd", null ]
+    ] ],
+    [ "WISE_SPI_ADDR_FMT_T", "group___w_i_s_e___s_p_i.html#gacdda08ea4d2f360fcd98b6f1ceb89825", [
+      [ "WISE_SPI_ADDR_FMT_SINGLE", "group___w_i_s_e___s_p_i.html#ggacdda08ea4d2f360fcd98b6f1ceb89825a29f030992eee324a4b202a1e766c7588", null ],
+      [ "WISE_SPI_ADDR_FMT_AS_DATA", "group___w_i_s_e___s_p_i.html#ggacdda08ea4d2f360fcd98b6f1ceb89825a68080ed22040c66092897852142cdb39", null ]
+    ] ],
+    [ "WISE_SPI_ADDR_LEN_T", "group___w_i_s_e___s_p_i.html#ga1a5cd9aa8aaf39aaf5acdabbb712f732", [
+      [ "WISE_SPI_ADDR_NONE", "group___w_i_s_e___s_p_i.html#gga1a5cd9aa8aaf39aaf5acdabbb712f732a0d2f3d2feebb1d02a8f3f499a71c5da1", null ],
+      [ "WISE_SPI_ADDR_1B", "group___w_i_s_e___s_p_i.html#gga1a5cd9aa8aaf39aaf5acdabbb712f732ae26d9e7dc777476ccb02687cb2d17997", null ],
+      [ "WISE_SPI_ADDR_2B", "group___w_i_s_e___s_p_i.html#gga1a5cd9aa8aaf39aaf5acdabbb712f732a47d44dabc7847e0b766ad54235075efe", null ],
+      [ "WISE_SPI_ADDR_3B", "group___w_i_s_e___s_p_i.html#gga1a5cd9aa8aaf39aaf5acdabbb712f732a8c702111f100d4723f096a1541c734dc", null ]
     ] ],
     [ "WISE_SPI_BIT_ORDER_T", "group___w_i_s_e___s_p_i.html#gaba155f31c446529580ef67878f795597", [
       [ "SPI_MSB_FIRST", "group___w_i_s_e___s_p_i.html#ggaba155f31c446529580ef67878f795597a8912f763c0e7854e08dfbe61b7a57cc6", null ],
@@ -62,6 +70,16 @@ var group___w_i_s_e___s_p_i =
       [ "CLOCK_MODE2", "group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50acc4e07765ce1ce0efe61117dc14f6344", null ],
       [ "CLOCK_MODE3", "group___w_i_s_e___s_p_i.html#ggadcd25fadb736693562952cb3f0671d50ad1e974024a95967cfba0762baa4d3a37", null ]
     ] ],
+    [ "WISE_SPI_ENABLE_T", "group___w_i_s_e___s_p_i.html#ga8ef4892b880494ddf77608f1c8fdce7d", [
+      [ "WISE_SPI_DISABLE", "group___w_i_s_e___s_p_i.html#gga8ef4892b880494ddf77608f1c8fdce7da6d7eb74eed5fe728e2b0b98184da5395", null ],
+      [ "WISE_SPI_ENABLE", "group___w_i_s_e___s_p_i.html#gga8ef4892b880494ddf77608f1c8fdce7da5e6fd0cab491048238411ab6ae840365", null ]
+    ] ],
+    [ "WISE_SPI_IO_MODE_T", "group___w_i_s_e___s_p_i.html#gaf8f499545938d3fcab3b97e57b6c2609", [
+      [ "WISE_SPI_IO_SINGLE", "group___w_i_s_e___s_p_i.html#ggaf8f499545938d3fcab3b97e57b6c2609a52b1566969495e15caa78140395a4cc3", null ],
+      [ "WISE_SPI_IO_3WIRE", "group___w_i_s_e___s_p_i.html#ggaf8f499545938d3fcab3b97e57b6c2609a97cb88945e973db6c2f9affb95e94403", null ],
+      [ "WISE_SPI_IO_DUAL", "group___w_i_s_e___s_p_i.html#ggaf8f499545938d3fcab3b97e57b6c2609a729befd3e4927d94298dbe9ef56cc6a0", null ],
+      [ "WISE_SPI_IO_QUAD", "group___w_i_s_e___s_p_i.html#ggaf8f499545938d3fcab3b97e57b6c2609a7fae0e694fe07528512b4b4b44bfd637", null ]
+    ] ],
     [ "WISE_SPI_MASTER_CLOCK_SEL_T", "group___w_i_s_e___s_p_i.html#gab46e5c28fea15dfd4aefc7ac81e01f0e", [
       [ "E_SPI_CLOCK_SEL_100K", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea20fc307048840bc65c5411f7a5b3fa13", null ],
       [ "E_SPI_CLOCK_SEL_200K", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea53ee9d3dcfe72158f12bea723e91597f", null ],
@@ -73,13 +91,8 @@ var group___w_i_s_e___s_p_i =
       [ "E_SPI_CLOCK_SEL_4M", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0eae3b141225743bf216a58fd0fefe83b70", null ],
       [ "E_SPI_CLOCK_SEL_5M", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea4de68f38671a4f70980623109410037b", null ],
       [ "E_SPI_CLOCK_SEL_10M", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea6a984fec95bb4815b6e9b4c2bcd20f6a", null ],
+      [ "E_SPI_CLOCK_SEL_20M", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea8fe248acda8b3a585077a88db5ed8896", null ],
       [ "E_SPI_CLOCK_SEL_MAX", "group___w_i_s_e___s_p_i.html#ggab46e5c28fea15dfd4aefc7ac81e01f0ea5a3ab67d678aec6dd161aa65d95b8f95", null ]
-    ] ],
-    [ "WISE_SPI_MODE_T", "group___w_i_s_e___s_p_i.html#ga6f0db7eec7798cdce0f3b31b4dd3bad7", [
-      [ "SPI_MODE_REGULAR", "group___w_i_s_e___s_p_i.html#gga6f0db7eec7798cdce0f3b31b4dd3bad7a96f8f721973d0650468066e402c8b760", null ],
-      [ "SPI_MODE_DUAL", "group___w_i_s_e___s_p_i.html#gga6f0db7eec7798cdce0f3b31b4dd3bad7aee56ffd08d3ca6831304b233446f05fa", null ],
-      [ "SPI_MODE_QUAD", "group___w_i_s_e___s_p_i.html#gga6f0db7eec7798cdce0f3b31b4dd3bad7a2f34584e4a35701aef582fec76a26904", null ],
-      [ "SPI_MODE_3WIRE", "group___w_i_s_e___s_p_i.html#gga6f0db7eec7798cdce0f3b31b4dd3bad7a9942aa91f87f61712c6602ea4c63f925", null ]
     ] ],
     [ "WISE_SPI_RESET_TYPE", "group___w_i_s_e___s_p_i.html#ga758712b10e240e136ad6bd119abbe25a", [
       [ "WISE_SPI_RESET_CORE", "group___w_i_s_e___s_p_i.html#gga758712b10e240e136ad6bd119abbe25aa4b5ad3d3a7b0182151f53621ff8a2c0c", null ],
@@ -91,21 +104,33 @@ var group___w_i_s_e___s_p_i =
       [ "E_SPI_ROLE_MASTER", "group___w_i_s_e___s_p_i.html#gga2f4dcef4272d94f42d39bd3831179ac6a05ea648a896a5ac6ec73f37a48a8b212", null ],
       [ "E_SPI_ROLE_SLAVE", "group___w_i_s_e___s_p_i.html#gga2f4dcef4272d94f42d39bd3831179ac6aed189529722ff729b7cfd92546d62534", null ]
     ] ],
+    [ "WISE_SPI_TRANS_MODE_T", "group___w_i_s_e___s_p_i.html#gaeeb85038be38d59fc719bc5869228446", [
+      [ "WISE_SPI_TM_WRITE_AND_READ", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a183487e902c2e336597bb63da1de28e0", null ],
+      [ "WISE_SPI_TM_WRITE_ONLY", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a0bb589f081f029a16b2d53a5ab5ef397", null ],
+      [ "WISE_SPI_TM_READ_ONLY", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a992b111976935dd3f5fc7f7eddcd3efb", null ],
+      [ "WISE_SPI_TM_WRITE_THEN_READ", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a0ae8bb114f4c8c2e8861097c480de1c3", null ],
+      [ "WISE_SPI_TM_READ_THEN_WRITE", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a1888d030270a172cd40fb1704aa9e426", null ],
+      [ "WISE_SPI_TM_WRITE_DMY_READ", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a8b0ce047679ac152ebfcc252d22cb619", null ],
+      [ "WISE_SPI_TM_READ_DMY_WRITE", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a48f7165f110ecab33be9b1bc98aabc40", null ],
+      [ "WISE_SPI_TM_NONE_DATA", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446a0061245c15016369c2be17594bdfade8", null ],
+      [ "WISE_SPI_TM_DMY_WRITE", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446ac28ba404dbcb6305bb7bc9ff4134c7b3", null ],
+      [ "WISE_SPI_TM_DMY_READ", "group___w_i_s_e___s_p_i.html#ggaeeb85038be38d59fc719bc5869228446ad8bd9ad57c3abab9a3bf2abaf161557f", null ]
+    ] ],
     [ "wise_spi_close", "group___w_i_s_e___s_p_i.html#gaad0d91d8aa9b7e0760b383a972854db9", null ],
-    [ "wise_spi_data_prepare", "group___w_i_s_e___s_p_i.html#ga3704659011c3d2d045f1bd9f17a3e557", null ],
     [ "wise_spi_deinit", "group___w_i_s_e___s_p_i.html#gabb614c9dc6d08a38014b179742869328", null ],
-    [ "wise_spi_get_cmd", "group___w_i_s_e___s_p_i.html#gac11ca8985f38d30e14c68a127bd2bd05", null ],
     [ "wise_spi_init", "group___w_i_s_e___s_p_i.html#gaf0e2e6ca984091d2416c6fc342bc51db", null ],
-    [ "wise_spi_master_open", "group___w_i_s_e___s_p_i.html#ga54c1e6bbfc55866284c784ddd2068954", null ],
-    [ "wise_spi_master_read", "group___w_i_s_e___s_p_i.html#gae8a94c28b6d03ccae59882bff70c2a21", null ],
-    [ "wise_spi_master_read_byte", "group___w_i_s_e___s_p_i.html#ga69e55899c10cffb30eea77fe93694c2c", null ],
-    [ "wise_spi_master_write", "group___w_i_s_e___s_p_i.html#ga9e0ad55f51651cd428047cc1abef5168", null ],
-    [ "wise_spi_master_write_byte", "group___w_i_s_e___s_p_i.html#ga911437181d360e1c2ab308b3deaf9213", null ],
+    [ "wise_spi_master_open", "group___w_i_s_e___s_p_i.html#ga7f525645d1eda129f38842550119efa1", null ],
     [ "wise_spi_msg_xfer", "group___w_i_s_e___s_p_i.html#ga834102054fc65b087e7bbad62096d7a8", null ],
+    [ "wise_spi_read", "group___w_i_s_e___s_p_i.html#gaf39889de8dcd281e7e78ce7f53e9213e", null ],
+    [ "wise_spi_read_byte", "group___w_i_s_e___s_p_i.html#gaa3492f14762ae11c7acd13569fdb8cef", null ],
     [ "wise_spi_register_event_callback", "group___w_i_s_e___s_p_i.html#ga7fa3742d9fb82a9e3af9477e36c4fa18", null ],
     [ "wise_spi_reset", "group___w_i_s_e___s_p_i.html#ga5ee3c4e2181b8dfbd48a5e05f63d3e54", null ],
+    [ "wise_spi_slave_get_cmd", "group___w_i_s_e___s_p_i.html#ga9220eebf2fef3caf3e31942122d991b8", null ],
     [ "wise_spi_slave_get_recv_count", "group___w_i_s_e___s_p_i.html#gad95f054c0aa68d05713038384ab845c3", null ],
-    [ "wise_spi_slave_open", "group___w_i_s_e___s_p_i.html#ga40e0183cb9b038517b62273311ee3f9e", null ],
+    [ "wise_spi_slave_open", "group___w_i_s_e___s_p_i.html#gaf78241f00b5b5570ddefd42cda48f463", null ],
+    [ "wise_spi_slave_prepare", "group___w_i_s_e___s_p_i.html#gab54c95f98d58a83c5d6bed4288d0b04e", null ],
     [ "wise_spi_slave_set_ready", "group___w_i_s_e___s_p_i.html#ga0d39d035b567a6c8a4c8e2a137d2c13c", null ],
-    [ "wise_spi_unregister_event_callback", "group___w_i_s_e___s_p_i.html#gaf6c9108ea87fe1ca6d74083679bd8aae", null ]
+    [ "wise_spi_unregister_event_callback", "group___w_i_s_e___s_p_i.html#gaf6c9108ea87fe1ca6d74083679bd8aae", null ],
+    [ "wise_spi_write", "group___w_i_s_e___s_p_i.html#gaf6277327914090f058e16b4d95fc309e", null ],
+    [ "wise_spi_write_byte", "group___w_i_s_e___s_p_i.html#gad3fc6b443998a698854c981ad2f4d026", null ]
 ];

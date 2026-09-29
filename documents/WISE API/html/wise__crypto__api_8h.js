@@ -38,21 +38,12 @@ var wise__crypto__api_8h =
       [ "E_SHA_MODE_224", "group___w_i_s_e___c_r_y_p_t_o.html#gga244f40d4ce60124d3771c66f88df2b7eafc5eb4cc6f1c43b752801b235370324f", null ],
       [ "E_SHA_MODE_256", "group___w_i_s_e___c_r_y_p_t_o.html#gga244f40d4ce60124d3771c66f88df2b7ead7d9202ee0ceece728cec8ed88333ae1", null ]
     ] ],
-    [ "wise_aes_cbc_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga2b87e5cd8949d69455843c9b1552dad3", null ],
-    [ "wise_aes_cbc_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga4c1d577481ed143b50b61fe04fe608ee", null ],
-    [ "wise_aes_cbcmac_generate", "group___w_i_s_e___c_r_y_p_t_o.html#ga73e3a77ee366309987a1cbf74c62ae3c", null ],
     [ "wise_aes_ccm_configure", "group___w_i_s_e___c_r_y_p_t_o.html#ga632c3dc69f7fe6775ddbe278a20bc5e0", null ],
-    [ "wise_aes_ccm_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gab38a3ed6044e32def53f048e4c9e4e6b", null ],
-    [ "wise_aes_ccm_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga21cd7bc9ca85d3a8d8edf2884ecda8e1", null ],
     [ "wise_aes_ccm_exec", "group___w_i_s_e___c_r_y_p_t_o.html#ga56b3cb6b57f1182350e4f36e475f8821", null ],
-    [ "wise_aes_ctr_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga92b7e076b1c4f7e03f7c95079358a8b3", null ],
-    [ "wise_aes_ctr_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gaed6979607a6a3ccff178535cdab27c0f", null ],
-    [ "wise_aes_ecb_decrypt", "group___w_i_s_e___c_r_y_p_t_o.html#ga6acbf5e7080c144dff9e1d272dd96150", null ],
-    [ "wise_aes_ecb_encrypt", "group___w_i_s_e___c_r_y_p_t_o.html#gaaaf4eee6b5d58ac45546303617ac2b6e", null ],
     [ "wise_aes_exec", "group___w_i_s_e___c_r_y_p_t_o.html#ga188c2fe06ce2b3d2191a5e8a62764090", null ],
     [ "wise_aes_key_config", "group___w_i_s_e___c_r_y_p_t_o.html#gae619e3e9860514922d5acfbee473e3e9", null ],
     [ "wise_aes_read_tags", "group___w_i_s_e___c_r_y_p_t_o.html#gae06c3eb96f51fd98e794f1aff1652d60", null ],
     [ "wise_crypto_deinit", "group___w_i_s_e___c_r_y_p_t_o.html#gaf89d8eee6869a7ba76034a22b9839b50", null ],
-    [ "wise_crypto_init", "group___w_i_s_e___c_r_y_p_t_o.html#gac47616b39983252694ef927ede28eb82", null ],
+    [ "wise_crypto_init", "group___w_i_s_e___c_r_y_p_t_o.html#ga7380314ceb6957b71e876b5e2d9edd5c", null ],
     [ "wise_sha_generate", "group___w_i_s_e___c_r_y_p_t_o.html#gad47bf69292d4e674d4d1401a24d9dba2", null ]
 ];

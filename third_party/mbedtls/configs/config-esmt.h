@@ -103,8 +103,6 @@
 #define MBEDTLS_OID_C
 #define MBEDTLS_PKCS1_V15           1
 #define MBEDTLS_PKCS1_V21           1
-#define MBEDTLS_RSA_PKCS_V15        1
-#define MBEDTLS_RSA_PKCS_V21        1
 
 #define MBEDTLS_ENTROPY_C
 #define MBEDTLS_NO_PLATFORM_ENTROPY
