@@ -12,5 +12,7 @@ var searchData=
   ['bootcrcenable_9',['bootCrcEnable',['../struct_w_i_s_e___m_s_b_i___i_n_f_o___t.html#a1e5eeefbb828d14cd8d3526af7886ee8',1,'WISE_MSBI_INFO_T']]],
   ['buf_10',['buf',['../group___w_i_s_e___i2_c.html#ga6c3f7a251517459c3142d8638f272167',1,'WISE_I2C_XFER_MSG_T']]],
   ['buf_5fptr_11',['buf_ptr',['../group___w_i_s_e___i2_c.html#gac7e18f7be02ea28fe06af85fdba3f68a',1,'WISE_I2C_MSG_T']]],
-  ['bus_5fhz_12',['bus_hz',['../group___w_i_s_e___i2_c.html#ga20dbb051223b669d0545defc9c16e47d',1,'WISE_I2C_CONF_T']]]
+  ['bus_5fhz_12',['bus_hz',['../group___w_i_s_e___i2_c.html#ga20dbb051223b669d0545defc9c16e47d',1,'WISE_I2C_CONF_T']]],
+  ['busy_5flevel_13',['busy_level',['../struct_w_i_s_e___e_p_d___d_r_v___s.html#a5b1329fb9a002b37742685c831a01095',1,'WISE_EPD_DRV_S']]],
+  ['busy_5fpin_14',['busy_pin',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#ad1d4a3c9d2a2a0815f0b583247ac6717',1,'WISE_EPD_CFG_T']]]
 ];

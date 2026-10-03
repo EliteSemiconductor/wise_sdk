@@ -1,329 +1,199 @@
 # WISE SDK V2
 
-This SDK is used to developing FW to run on ESMT Radio SoC family.
+Firmware SDK for the ESMT ER8130A/ER8131A Sub-1GHz radio SoC. C, bare-metal or
+FreeRTOS.
+
+The current version and change list are in [ReleaseNote.txt](ReleaseNote.txt).
+
+## Supported platform
+
+| Platform        | Platform name in the SDK |
+|-----------------|--------------------------|
+| ER8130A/ER8131A | `er8131p9`               |
 
 ## Features
 
- - Provide driver APIs for all functions of ESMT SoC for application development.
- - Various software middleware are implemented based on driver APIs to reduce developing effort.
- - Simplify process for application porting on ESMT Radio SoCs.
- - Full set of function demonstration are implemented in shell command.
- - Supported platforms
-    ESMT Sub 1GHz SoC ER8130 series
+- Driver APIs for every SoC function: GPIO, UART, SPI, I2C, PWM, PWM slow,
+  timers (GPTMR, WUTMR, RTC, tick), WDT, flash, eFuse, crypto, TRNG, PMU and
+  power modes, NFC, and cache control.
+- Radio API for Sub-1GHz TX/RX, with W-MBus PHY support.
+- W-MBus data link layer (`libWMbusDatalink`) with Security Mode 0/5/7.
+- Middleware: shell (CLI), flash file system, NVM, Kermit download, timer hub,
+  W-MBus crypto, control commands, EPD (e-paper display) panel drivers.
+- Firmware update over UART (AppLoader + Kermit) and over NFC.
+- FreeRTOS support.
+- Eclipse projects for every project; `project_template` and `WISEDemoApp` also
+  build with Keil MDK and CMake + Ninja.
 
+## Directory structure
 
-## Dirctory structures
+| Path                                | Description                                                 |
+|-------------------------------------|-------------------------------------------------------------|
+| `app/`                              | Projects (see [Projects](#projects))                        |
+| `boards/`                           | Board configuration; `board_default_cfg.h` is the default board |
+| `documents/`                        | User guide, programming guide, demo guide, API reference    |
+| `middleware/`                       | Software components built on the core APIs                  |
+| `├── retarget/`                     | stdio wrapper                                               |
+| `├── wise_ctrl_cmd/`                | ESMT control commands                                       |
+| `├── wise_epd/`                     | E-paper display panel drivers                               |
+| `├── wise_flash_filesystem/`        | Flash partition management                                  |
+| `├── wise_kermit/`                  | Kermit file transfer                                        |
+| `├── wise_nvm/`                     | Non-volatile storage                                        |
+| `├── wise_shell/`, `wise_shell_v2/` | Console command line interface                              |
+| `├── wise_system/`                  | System init and RTOS-like services for bare-metal           |
+| `├── wise_timer_hub/`               | Multi-channel software timers                               |
+| `└── wise_wmbus_crypto/`            | W-MBus encryption                                           |
+| `protocol/`                         | Protocol stacks                                             |
+| `├── wmbus_datalink/`               | W-MBus data link layer API                                  |
+| `└── prebuilt_libs/`                | Prebuilt W-MBus data link library                           |
+| `third_party/`                      | Upstream code (mbedtls, FreeRTOS-Kernel); do not modify     |
+| `wise_core_v2/`                     | Core layer                                                  |
+| `├── api/`                          | Public WISE driver APIs                                     |
+| `├── core_utils/`                   | Common utilities                                            |
+| `├── platform/`                     | HAL interface and platform drivers                          |
+| `├── radio_lib/`                    | Radio API                                                   |
+| `└── prebuilt_libs/`                | Prebuilt radio library (`libWISERadioLib_er8131p9.a`)       |
 
-| Path                                  | Description                                         |
-|---------------------------------------|-----------------------------------------------------|
-| wise_sdk/                             | (top-level directory)                               |
-| ├── app/                              | Projects                                            |
-| │   ├── AppLoader/                    | Application loader                                  |
-| │   ├── m2c_beacon                    | Sample code of syncing with M2C AP beacon          |
-| │   ├── project_template              | Simple Hello World project with UART enabled       |
-| │   └── WISEDemoApp/                  | Integrated demo application                         |
-| ├── boards/                           | Configurations for various dev boards              |
-| ├── docs/                             | Documents                                          |
-| ├── middleware/                       | Software functions                                  |
-| │   ├── wise_ctrl_cmd/                | ESMT control commands                              |
-| │   ├── wise_flash_filesystem/        | Flash partition management                          |
-| │   ├── wise_shell/                   | Console command line interface                      |
-| │   │   ├── commands/                 | Shell command table                                |
-| │   │   └── functions/                | Command implementation, API demonstration          |
-| │   ├── wise_system/                  | RTOS-like APIs for bare-metal implementation        |
-| │   ├── wise_kermit/                  | Kermit implementation                              |
-| │   └── retarget/                     | Wrapper of stdio                                    |
-| └── wise_core/                        | Core layer for ESMT SoC ER family                  |
-|     ├── api/                          | Common WISE APIs for application development       |
-|     └── platform/                     | Platform HAL driver for ESMT SoCs                  |
+## Projects
 
+| Project            | Description                                                         |
+|--------------------|---------------------------------------------------------------------|
+| `AppLoader`        | Boot loader: boots the application partition, UART console, Kermit firmware download |
+| `project_template` | Minimal "Hello World" project with UART enabled; start a new application from here |
+| `WISEDemoApp`      | Demo application; each demo is a separate build configuration (see below) |
 
-## Getting Started
+### WISEDemoApp demos
 
-	1. Import both projects, AppLoader and WISEDemoApp, into Eclipse workspace, and build
+| Build configuration          | Demonstrates                                                |
+|------------------------------|-------------------------------------------------------------|
+| `demo_cli`                   | UART shell integration                                      |
+| `demo_gpio`                  | GPIO                                                        |
+| `demo_spi`                   | SPI master/slave transfer                                   |
+| `demo_i2c`                   | I2C master/slave communication                              |
+| `demo_pwm`                   | Continuous and one-shot PWM output                          |
+| `demo_pwmslow`               | Low-frequency PWM output                                    |
+| `demo_rtc`                   | RTC time read/set and alarm                                 |
+| `demo_wutmr`                 | Wake-up timer and idle/sleep power modes                    |
+| `demo_gptmr`                 | General-purpose timer configuration and callbacks           |
+| `demo_wdt`                   | Watchdog configuration and refresh                          |
+| `demo_crypto`                | Crypto engine                                               |
+| `demo_trng`                  | True random number generator                                |
+| `demo_flash`                 | Flash operations                                            |
+| `demo_power_mode`            | Idle/sleep/shutdown power modes and wake-up sources         |
+| `demo_timer_hub`             | Timer hub multi-channel scheduling                          |
+| `demo_freeRTOS`              | FreeRTOS: UART CLI, inter-task message queue, LED heartbeat |
+| `demo_radio_trx`             | Basic radio TX/RX control                                   |
+| `demo_nfc`                   | NFC configuration and interrupt callbacks                   |
+| `demo_nfc_ctrl`              | Firmware update and data exchange over the NFC control channel |
+| `demo_boot_loader`           | Loader with UART shell, Kermit update and boot-to-app       |
+| `demo_wmbus_phy_meter`       | W-MBus PHY TX/RX and PER test, meter side                   |
+| `demo_wmbus_phy_meter_sleep` | W-MBus PHY meter that sleeps between periodic reports       |
+| `demo_wmbus_phy_other`       | W-MBus PHY TX/RX and PER test, other (collector) side       |
+| `demo_wmbus_link_meter`      | W-MBus data link, meter side                                |
+| `demo_wmbus_link_other`      | W-MBus data link, other (gateway) side                      |
+| `_demo_template`             | Template for a new demo                                     |
 
-	2. Once the firmwares are successfully built, the output binaries will be created in the following path of project folder
-		<project_name>/eclipse/ER8130_TC04/<project_name>.bin
-		
-	3. Download Apploader, AppLoader.bin, to TC04 EVB by esmt_flash_programmer. 
-	   Before downloading, please make sure JLink or DAPLink is well connected.
+The W-MBus PHY demos are described in
+[documents/WMBus_PHY_Demo_Guide.pdf](documents/WMBus_PHY_Demo_Guide.pdf).
 
+## Building
 
-## Using CLI in AppLoader
+A project has up to three build systems (`AppLoader` has Eclipse only); keep
+them in sync when you change project settings.
 
-	1. Connect to PC through UART and launch your terminal application on PC
-		UART Rx --> IO 0
-		UART Tx --> IO 1
-		Configuration: 115200 8N1
-		
-	2. Press reset button on EVB to trigger board reset. If everything is setup well, text messages should be displayed on terminal
+| Build system  | Location               | Notes                                                    |
+|---------------|------------------------|----------------------------------------------------------|
+| Eclipse       | `<project>/eclipse/`   | Main development environment                             |
+| Keil MDK      | `<project>/keil/`      | `WISEDemoApp/keil/WISEDemoApp.uvmpw` holds all demos     |
+| CMake + Ninja | `<project>/cmake/`     | Commands in `<project>/cmake/setup_powershell.txt`       |
 
-		ESMT SBL v2.00 running @00000701
-		Press c or to start console mode
-		..c
+The GCC toolchain is expected in
+`C:\esmt\Development_Suite\v1.0\tools\toolchain\gcc\bin`.
 
-	3. To interrupt the boot sequence, press 'c' in 3 seconds after powered-on to enter console mode
+Eclipse:
 
-	4. CLI commands in AppLoader
-		help						# list all supported commands
-		reset						# trigger software reset to CPU
-		fs							# file system related commands
-			fs info					# list partition info if file system is valid
-			fs format				# create default partition table
-		kermit						# download application to flash through kermit file transfer
-			kermit [fs/flash/ram] [partition/flashAddr/ramAddr]
+1. Import the project from `app/<project>/eclipse` into an Eclipse workspace.
+2. Select the build configuration: `er8131p9` for `AppLoader` and
+   `project_template`, or one of the demo configurations for `WISEDemoApp`.
+3. Build. The binary is written to `app/<project>/eclipse/<configuration>/`
+   (`<project>.bin`, or `WISEDemoApp_<demo>.bin` for the demos).
 
-	5. Download APP firmware
-		For demo set, AppLoader supports only boot to application at offset 0 of partition 1. Please make sure to create file system
-		using the following command before downloading.
-			ESMT> fs format 
-		
-		To do firmware downloading, start kermit receiver first.
-			ESMT> kermit fs 1
-		
-		And then, start kermit file transfer from your terminal softare. For example, if you are using teraterm:
-		File ->Transfer ->Kermit ->Send
-		Choose WISEDemoApp.bin which is built from WISEDemoApp project.
+CMake (PowerShell, from `app/<project>/cmake`):
 
-		After downloading is finished, reset the system to start normal boot.
-		
-		
-## Start function demostration
+```powershell
+$env:Path += ";C:\esmt\Development_Suite\v1.0\tools\toolchain\gcc\bin\"
+cmake -S . -B build -G Ninja --toolchain toolchains/arm-gcc.cmake
+cmake --build build --target <target_name>
+```
 
-	1. If demo application is luanched properly, the following text messages should be displayed on terminal.
-		========================================
-		   ESMT WISE Demo Application V2.00
-		   Built@ Jan 23 2025 16:02:24
-		========================================
+## Getting started with AppLoader and WISEDemoApp
 
-	2. Command: <help> - list all commands supported in demo application
-		ESMT> help
+1. Build `AppLoader` and a `WISEDemoApp` demo, for example `demo_cli`.
+2. Program `AppLoader.bin` to the EVB with the ESMT flash programmer through
+   J-Link or DAPLink.
+3. Connect the EVB UART to the PC and open a terminal. With the default board
+   configuration (`boards/board_default_cfg.h`):
 
-    	Usage: help [subcommand]
-           help         help
-           reset        reboot system
-           rf           <rf help> to see all rf commands
-           rtc          <rtc help>
-           wdt          <wdt help>
-           timer        <timer help>
-           spi          <spi help>
-           i2c          <i2c help>
-           pwm          <pwm help>
-           pwmslow      <pwmslow help>
-           kermit       start kermit receiver
-           <C-g>        abort timer
+   | Setting  | Value       |
+   |----------|-------------|
+   | UART TX  | IO 0        |
+   | UART RX  | IO 1        |
+   | Format   | 115200 8N1  |
 
-	3. Command: <rf help> - List commands for rf operations
-		ESMT> rf help
+4. Reset the EVB. AppLoader prints its banner and waits 3 seconds; type `c`
+   three times within that time to enter the console:
 
-        Usage: rf [subcommand]
-           help         radio function
-           init         init radio system
-           conf         radio configure
-           recv         radio rx on/off
-           send         radio tx pkt number
-           ch           radio channel number
-           txpwr        radio tx power
-           rxlog        show rx data
-           cca          enable rx cca mode
-           sing         enable tx single-tone
-           filt         radio rx filter enable
-           per          radio PER test
+   ```text
+   ESMT Sphynx APP Loader V2.02
+   Press 'cccc' to enter console...
+   ..ccc
+   ESMT>
+   ```
 
-## Simply Tx/Rx test
-	Prepare 2 demo sets with WISEDemoApp running.
-	
-	for Rx side:
-	1. Command: <rf init 0> - initialize radio interface 0
-		ESMT> rf init 0
+   Without input, AppLoader boots the application partition.
 
-		PA type : high
-		Radio config:
-		   modulation: GFSK
-		   base freq: 915500000
-		   channel number: 37
-		   ch spacing: 200000
-		   deviation: 100000
-		   data rate: 500K
-		   sync length: 4
-		   sync1: 667df05a
-		   sync2: 00000000
-		   preamble len: 4
-		   preamble: aaaaaaaa
-		   max frame len: 256
-		   hw preamble: on
-		   hw syncword: on
-		   hw crc: on
-		   hw whitning: off
-		   current ch: 0 915500000hz
-		   recv off
+5. AppLoader commands:
 
-	2. Command: <rf ch 10> - select a predefined RF channel, example: channel 10
-		ESMT> rf ch 10
+   | Command                    | Description                                      |
+   |----------------------------|--------------------------------------------------|
+   | `help`                     | List commands                                    |
+   | `fs format`                | Create the default partition table               |
+   | `fs info`                  | Show partition information                       |
+   | `fs dump`                  | Dump flash contents                              |
+   | `kermit fs <partition>`    | Receive a firmware image into a partition (not 0, which holds AppLoader) |
+   | `kermit flash`             | Receive a firmware image to the fixed application address |
+   | `reset`                    | Reset the chip                                   |
+   | `dump`                     | Dump a buffer                                    |
 
-		Set channel 10 freq=917500000
+6. Download the application. On a new board, create the partition table first:
 
-	3. Command: <rf recv on> - Start Rx
-		ESMT> rf recv on
+   ```text
+   ESMT> fs format
+   ESMT> kermit fs 1
+   ```
 
-		radio rx on
-	
+   Then send `WISEDemoApp_<demo>.bin` with Kermit from the terminal (Tera Term:
+   *File > Transfer > Kermit > Send*). When the transfer finishes, reset the
+   board; AppLoader boots the application. The demo prints a banner with the
+   demo name, build time, SDK version and radio library version, then shows the
+   `ESMT>` prompt. Type `help` to list the demo's commands.
 
-	for Tx side:
-	1. Command: <rf init 0> - initialize radio interface 0
-		ESMT> rf init 0
+## Documentation
 
-		PA type : high
-		Radio config:
-		   modulation: GFSK
-		   base freq: 915500000
-		   channel number: 37
-		   ch spacing: 200000
-		   deviation: 100000
-		   data rate: 500K
-		   sync length: 4
-		   sync1: 667df05a
-		   sync2: 00000000
-		   preamble len: 4
-		   preamble: aaaaaaaa
-		   max frame len: 256
-		   hw preamble: on
-		   hw syncword: on
-		   hw crc: on
-		   hw whitning: off
-		   current ch: 0 915500000hz
-		   recv off
+| Document                                                       | Content                                   |
+|----------------------------------------------------------------|-------------------------------------------|
+| `documents/ESAP-ER8130-001-SC WISE SDK User Guide_*.pdf`       | SDK user guide                            |
+| `documents/ESAP_ER813X-002-SC Programming Guide_*.pdf`         | Programming guide                         |
+| `documents/WMBus_PHY_Demo_Guide.pdf`                           | W-MBus PHY demo and PER test              |
+| [`documents/WISE API/index.html`](documents/WISE%20API/index.html) | API reference (Doxygen HTML)          |
 
-	2. Command: <rf ch 10> - select a predefined RF channel, should be the same as Tx side
-		ESMT> rf ch 10
+## Version numbering
 
-		Set channel 10 freq=917500000
+The SDK version is `major.minor.release`, for example `4.13.00`. Read it at run
+time with `wise_core_get_version()`:
 
-	3. Command: <rf send 5> - Start tx 5 packets.
-		ESMT> rf send 5
-
-		test cnt=0
-		ch=10 Tx len = 25
-		0000: 41 c8 00 cd ab ff ff 02    00 00 ab aa 00 00 00 01
-		0010: 02 03 04 05 06 07 08 09    0a
-
-		test cnt=1
-		ch=10 Tx len = 25
-		0000: 41 c8 00 cd ab ff ff 02    00 00 ab aa 00 00 00 01
-		0010: 02 03 04 05 06 07 08 09    0a
-
-		test cnt=2
-		ch=10 Tx len = 25
-		0000: 41 c8 00 cd ab ff ff 02    00 00 ab aa 00 00 00 01
-		0010: 02 03 04 05 06 07 08 09    0a
-
-		test cnt=3
-		ch=10 Tx len = 25
-		0000: 41 c8 00 cd ab ff ff 02    00 00 ab aa 00 00 00 01
-		0010: 02 03 04 05 06 07 08 09    0a
-
-		test cnt=4
-		ch=10 Tx len = 25
-		0000: 41 c8 00 cd ab ff ff 02    00 00 ab aa 00 00 00 01
-		0010: 02 03 04 05 06 07 08 09    0a
-
-		tx pkt 5 end
-
-	4. Radio packets should be received in Rx side
-		Good/Err CNT = 1/0
-		recv len 27 buf=20001651 rssi=-71
-		Good/Err CNT = 2/0
-		recv len 27 buf=20001771 rssi=-71
-		Good/Err CNT = 3/0
-		recv len 27 buf=20001891 rssi=-71
-		Good/Err CNT = 4/0
-		recv len 27 buf=200019b1 rssi=-71
-		Good/Err CNT = 5/0
-		recv len 27 buf=20001ad1 rssi=-72
-
-	5. for more information about radio configuration, please refer to func_rf.c
-
-## Radio Packet Error Rate (PER) test
-    Prepare 2 demo sets with WISEDemoApp running.
-	
-	for Rx side:
-	1. Command: <rf init 0> - initialize radio interface 0
-		ESMT> rf init 0
-
-		PA type : high
-		Radio config:
-		   modulation: GFSK
-		   base freq: 915500000
-		   channel number: 37
-		   ch spacing: 200000
-		   deviation: 100000
-		   data rate: 500K
-		   sync length: 4
-		   sync1: 667df05a
-		   sync2: 00000000
-		   preamble len: 4
-		   preamble: aaaaaaaa
-		   max frame len: 256
-		   hw preamble: on
-		   hw syncword: on
-		   hw crc: on
-		   hw whitning: off
-		   current ch: 0 915500000hz
-		   recv off
-    
-    2. Command: <rf per rx 1000> - start PER test receiver for 1000 packets
-        ESMT> rf per rx 1000
-
-        Start PER test receiver testCount=1000
-        Press any key to terminate
-    
-    for Tx side:
-	1. Command: <rf init 0> - initialize radio interface 0
-		ESMT> rf init 0
-
-		PA type : high
-		Radio config:
-		   modulation: GFSK
-		   base freq: 915500000
-		   channel number: 37
-		   ch spacing: 200000
-		   deviation: 100000
-		   data rate: 500K
-		   sync length: 4
-		   sync1: 667df05a
-		   sync2: 00000000
-		   preamble len: 4
-		   preamble: aaaaaaaa
-		   max frame len: 256
-		   hw preamble: on
-		   hw syncword: on    
-		   hw crc: on
-		   hw whitning: off
-		   current ch: 0 915500000hz
-		   recv off
-    
-    2. Command: <rf per tx 1000> - start PER test sender for 1000 packets
-        ESMT> rf per tx 1000
-
-        Start PER test sender testCount=1000
-        
-    test result:
-        Once the test is finished, the result should be printed in terminal of 
-        receiver side.
-        
-        PER test result:
-        1000/1000 packets received
-        Average rssi: -71
-        PER: 0.00%
-        
-## Autobuild script in DOS command line
-    1. To use auto_build.bat in DOS command line, copy the file auto_build.bat 
-        from wise_sdk to your working folder first.
-    2. Modify the following variables to the corresponding path in your working
-        environment.
-        ESMT_TOOL_PATH - root directory of eclipse-embedcpp-esmt
-        ECLIPSE_PATH - root directory of Eclipse
-        TOOL_CHAIN_PATH - path of bin in ARM toolchain
-        BUILD_TOOL_PATH - path of bin in build tools
-    3. Run auto_build.bat in DOS command line.
-    
+```c
+WISE_SDK_VERSION_T v;
+wise_core_get_version(&v);
+printf("WISE SDK Version %d.%02d.%02d\n", v.verMajor, v.verMinor, v.verRelease);
+```

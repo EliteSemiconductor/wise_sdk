@@ -58,6 +58,7 @@ var searchData=
   ['mode_5fselect_55',['mode_select',['../struct_w_i_s_e___l_f_o_s_c___s_r_c___t.html#ad2ce10e60fee1a02c376959cd9a5b7d8',1,'WISE_LFOSC_SRC_T']]],
   ['mode_5ftest_5fchip_56',['MODE_TEST_CHIP',['../group___w_i_s_e___g_p_i_o.html#ggaf97490a51b32e4da0a3d166eeed85a51a504e97a60a6450ed15ffdc92fae37ef5',1,'wise_gpio_api.h']]],
   ['modulation_57',['modulation',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#aee4cc6eebdc4e3f5fc6f85711e227062',1,'WISE_RADIO_CFG_T']]],
-  ['ms_5fto_5fclk_58',['MS_TO_CLK',['../group___w_i_s_e___t_i_c_k.html#gaddd7542f660b77ef44eb4a598dcc242a',1,'wise_tick_api.h']]],
-  ['mv_59',['mv',['../struct_w_i_s_e___a_s_a_r_a_d_c___p_t___t.html#ad60925b3e5add09e4d315b9165d5b10d',1,'WISE_ASARADC_PT_T']]]
+  ['mosi_5fpin_58',['mosi_pin',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#aeed8207593d782b9289000b14c80aab2',1,'WISE_EPD_CFG_T']]],
+  ['ms_5fto_5fclk_59',['MS_TO_CLK',['../group___w_i_s_e___t_i_c_k.html#gaddd7542f660b77ef44eb4a598dcc242a',1,'wise_tick_api.h']]],
+  ['mv_60',['mv',['../struct_w_i_s_e___a_s_a_r_a_d_c___p_t___t.html#ad60925b3e5add09e4d315b9165d5b10d',1,'WISE_ASARADC_PT_T']]]
 ];

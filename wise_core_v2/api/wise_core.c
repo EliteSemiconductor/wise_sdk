@@ -14,8 +14,16 @@
 // SDK major version: increased when major architecture modification
 #define WISE_SDK_VERSION_MAJOR                          4
 
-// SDK minor version: increased for each official release
+// SDK minor version (2 digits, 0-99): increased for each phase 2 (official) release,
+// and WISE_SDK_VERSION_RELEASE is reset to 0 at the same time
 #define WISE_SDK_VERSION_MINOR                          13
+
+// SDK internal release number (2 digits, 0-99): increased for each phase 1 release to AE team
+#define WISE_SDK_VERSION_RELEASE                        0
+
+#if (WISE_SDK_VERSION_MINOR > 99) || (WISE_SDK_VERSION_RELEASE > 99)
+#error "WISE_SDK_VERSION_MINOR and WISE_SDK_VERSION_RELEASE must be within 0-99"
+#endif
 
 // SDK short SHA of git revision
 #define WISE_SDK_VERSION_BUILD                          GIT_COMMIT_HASH
@@ -32,6 +40,8 @@ void wise_core_get_version(WISE_SDK_VERSION_T *sdkVerInfo)
     if (sdkVerInfo) {
         sdkVerInfo->verMajor = WISE_SDK_VERSION_MAJOR;
         sdkVerInfo->verMinor = WISE_SDK_VERSION_MINOR;
+        sdkVerInfo->verRelease = WISE_SDK_VERSION_RELEASE;
+        sdkVerInfo->reserved = 0;
         sdkVerInfo->signature = WISE_SDK_VERSION_BUILD;
     }
 }

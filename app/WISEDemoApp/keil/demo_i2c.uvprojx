@@ -385,49 +385,9 @@
           <GroupName>boards</GroupName>
           <Files>
             <File>
-              <FileName>board_b402_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_b402_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_ble_soc_a002_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_ble_soc_a002_cfg.h</FilePath>
-            </File>
-            <File>
               <FileName>board_default_cfg.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\boards\board_default_cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_er8130tc01_arduino.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_er8130tc01_arduino.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_er8130tc01_dbg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_er8130tc01_dbg.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_er8130tc01_dbg_cfg_460800.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_er8130tc01_dbg_cfg_460800.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_m2c_es22.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_m2c_es22.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_m2c_es22_115200.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_m2c_es22_115200.h</FilePath>
-            </File>
-            <File>
-              <FileName>board_soc_tc04_cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\boards\board_soc_tc04_cfg.h</FilePath>
             </File>
           </Files>
         </Group>

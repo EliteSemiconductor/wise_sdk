@@ -1,12 +1,12 @@
 ESMT WISE SDK Release Notes
 
 ================================================================================
-Version: 4.0013
-Git revision: 0x8bc834f9
+Version: 4.13.00
+Git revision: 0x5b8289ed
 Library: 
         libWISERadioLib_subg_soc_9006 v1.13
         libWMbusDatalink v2.00
-Release Date: September 28, 2026
+Release Date: October 3, 2026
 
 1. Overview
     WISE SDK is a software package which supports to application development on
@@ -28,8 +28,15 @@ Release Date: September 28, 2026
     - System: added a boot fault record to report failures occurring before UART initialization.
     - Middleware: support BOD configuration via the board config file.
     - Radio: removed the fixed ANA RX gain setting during the initialization phase.
-    - Docs: added WMBus datalink user and integration guides; refreshed API Doxygen comments and regenerated the WISE API HTML documentation.
+    - Docs: added WMBus datalink user and integration guides; refreshed API Doxygen comments and regenerated the WISE API HTML documentation (now including the EPD middleware).
+    - Docs: added WMBus PHY Demo Guide (documents/WMBus_PHY_Demo_Guide.pdf), including the PER test frame as raw, frame-format-A and 3-of-6 encoded byte arrays.
     - Build: released Eclipse projects now include only the official ER8131P9 build configuration.
+    - Build: the release package includes only the default board configuration (boards/board_default_cfg.h); configuration files for unsupported development and test-chip boards were removed.
+    - Version: the SDK version is now major.minor.release (this release is 4.13.00). WISE_SDK_VERSION_T fields are now uint8_t verMajor/verMinor/verRelease/reserved (struct size unchanged); applications should print it with "%d.%02d.%02d".
+    - EPD: added middleware/wise_epd for e-paper display panels (JD 122x250 BWRY and JD79651 152x296 BWR drivers); the panel is selected with EPD_PANEL in the board config file.
+    - WMBus: updated RX modem parameters to tolerate +/-12% data-rate deviation for O2M and M2O frames.
+    - WMBus demo: PER test now sends short frames (DLL + STL header) and reports in-order, repeated and gap counts of the access number.
+    - Tools: updated WISEDownloader to v1.2.0
 4. Bug fixing:
     - WMBus: fixed abnormal gateway/meter retry by finalizing the Frame-A first block with the latest FCB/FCV and CRC before RF TX.
     - WMBus: fixed meter rejecting pre-encrypted frames whose target does not match the selected connection.
@@ -38,4 +45,7 @@ Release Date: September 28, 2026
     - Fixed compiler errors and warnings related to the new Cache Control API files.
     - Fixed Keil MDK projects failing to link because the new cache sources were missing from the project file lists.
     - WMBus demo: fixed collector ACK delay underflow that could delay the ACK response by a very long time.
+    - Radio: fixed TPM calibration being skipped in WMBus mode because the WMBus TX/RX configuration was assigned after wise_radio_config().
+    - Radio: TPM calibration in WMBus mode now uses the WMBus TX configuration (frequency, modulation, deviation, data rate) instead of the active channel settings, which could be the RX configuration.
+    - Radio: TPM DMI sampling parameter now follows data-rate changes and is no longer altered by TPM calibration.
 ================================================================================

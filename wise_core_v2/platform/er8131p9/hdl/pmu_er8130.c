@@ -247,7 +247,7 @@ void pmu_set_bbp_rate_er8130(uint8_t phy_mode, uint8_t mod_type, uint32_t data_r
                 bbp_rate = 0x32010A0A;
                 break;
             case DATA_RATE_32P768K:
-                bbp_rate = 0x08010404;
+                bbp_rate = 0x07010207;
                 break;
             case DATA_RATE_100K:
             default:

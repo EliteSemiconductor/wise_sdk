@@ -352,7 +352,7 @@ struct ana_filt_t {
 };
 
 struct ana_para_t {
-    uint32_t tx_fs_parm;
+//    uint32_t tx_fs_parm;
     uint8_t ctrl_mode;
 };
 

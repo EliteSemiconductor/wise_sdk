@@ -39,6 +39,7 @@ void ana_set_basic_cfg_er81xx(void);
 void ana_set_adc_cfg_er81xx(uint8_t phy_mode, uint32_t data_rate);
 void ana_set_dcdc_cfg_er81xx(uint8_t pa_type, uint8_t mat_type);
 void ana_set_module_pd_rst_er81xx(void);
+void ana_set_tpm_dmi_sampling_freq(uint32_t mod_type, uint32_t data_rate);
 void ana_set_tpm_dmi_er81xx(uint8_t phy_mode, uint32_t mod_type, uint32_t data_rate);
 void ana_set_pa_pwr_tbl_er81xx(uint32_t mod_type);
 void ana_set_rx_atop_cfg_er81xx(void);

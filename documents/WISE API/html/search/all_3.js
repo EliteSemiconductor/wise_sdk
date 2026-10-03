@@ -116,5 +116,6 @@ var searchData=
   ['crc_5fwidth_113',['crc_width',['../struct_w_i_s_e___r_a_d_i_o___c_r_c___t.html#ad25d8d12814f21415dd5662755d7febf',1,'WISE_RADIO_CRC_T']]],
   ['crc_5fxorout_114',['crc_xorout',['../struct_w_i_s_e___r_a_d_i_o___c_r_c___t.html#af770122167020f4efb5b9aafef54de57',1,'WISE_RADIO_CRC_T']]],
   ['crypto_20apis_115',['WISE Crypto APIs',['../group___w_i_s_e___c_r_y_p_t_o.html',1,'']]],
-  ['cryptoinited_116',['cryptoInited',['../wise__crypto__api_8c.html#a58eb2b77e8231688f27998d395911e96',1,'wise_crypto_api.c']]]
+  ['cryptoinited_116',['cryptoInited',['../wise__crypto__api_8c.html#a58eb2b77e8231688f27998d395911e96',1,'wise_crypto_api.c']]],
+  ['cs_5fpin_117',['cs_pin',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#a63e27bfca7090fbd17e3102acf6d7e43',1,'WISE_EPD_CFG_T']]]
 ];

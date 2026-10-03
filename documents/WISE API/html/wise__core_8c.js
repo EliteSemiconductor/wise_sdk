@@ -3,6 +3,7 @@ var wise__core_8c =
     [ "WISE_SDK_VERSION_BUILD", "wise__core_8c.html#acf3c77ceaacb735621de13e91bbd3cb5", null ],
     [ "WISE_SDK_VERSION_MAJOR", "wise__core_8c.html#a8b34c7cc63e8e68c0b61e7d4d8ecb7c3", null ],
     [ "WISE_SDK_VERSION_MINOR", "wise__core_8c.html#a63df6df61581c6803f6a5efa6ad65bca", null ],
+    [ "WISE_SDK_VERSION_RELEASE", "wise__core_8c.html#a8c6360057d9eaee880348007d6aa1bb2", null ],
     [ "__attribute__", "wise__core_8c.html#a08a5bd6c9e05dcc56233cebc470c63e9", null ],
     [ "_core_xip_mode_config", "wise__core_8c.html#ae96080a04e97c0478af1f6288f01fa7c", null ],
     [ "_flash_get_xip_cfg", "wise__core_8c.html#aeda6267751629d9225c087b6abcacbb6", null ],

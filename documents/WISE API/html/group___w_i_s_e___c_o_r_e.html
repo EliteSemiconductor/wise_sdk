@@ -205,7 +205,7 @@ Core status codes</h2></td></tr>
 <p>Declare and initialize a local IRQ state variable. </p>
 <p>Declares a variable named <code>irqState</code> of type <a class="el" href="#ga00269a5979292e0d7fc08b8d84206af1" title="Type used to store IRQ state for critical sections.">core_irq_state_t</a> and initializes it to 0. This macro is intended to be used together with <a class="el" href="#gabb488bf5398a45fb21d1388da085dead" title="Enter a critical section (macro form).">CORE_ENTER_CRITICAL</a> and <a class="el" href="#gaae5e49de8ff7edcc91752b613b64442e" title="Exit a critical section (macro form).">CORE_EXIT_CRITICAL</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00144">144</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00149">149</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -224,13 +224,13 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">irqState = <a class="code hl_function" href="#ga0f20754df952552f548c9cd49efae07a">wise_core_enter_critical</a>()</div>
-<div class="ttc" id="agroup___w_i_s_e___c_o_r_e_html_ga0f20754df952552f548c9cd49efae07a"><div class="ttname"><a href="#ga0f20754df952552f548c9cd49efae07a">wise_core_enter_critical</a></div><div class="ttdeci">core_irq_state_t wise_core_enter_critical(void)</div><div class="ttdoc">Enter a critical section and save IRQ state.</div><div class="ttdef"><b>Definition</b> <a href="wise__core_8c_source.html#l00049">wise_core.c:49</a></div></div>
+<div class="ttc" id="agroup___w_i_s_e___c_o_r_e_html_ga0f20754df952552f548c9cd49efae07a"><div class="ttname"><a href="#ga0f20754df952552f548c9cd49efae07a">wise_core_enter_critical</a></div><div class="ttdeci">core_irq_state_t wise_core_enter_critical(void)</div><div class="ttdoc">Enter a critical section and save IRQ state.</div><div class="ttdef"><b>Definition</b> <a href="wise__core_8c_source.html#l00059">wise_core.c:59</a></div></div>
 </div><!-- fragment -->
 <p>Enter a critical section (macro form). </p>
 <p>Saves the current IRQ state into the local variable <code>irqState</code> and disables interrupts by calling <a class="el" href="#ga0f20754df952552f548c9cd49efae07a" title="Enter a critical section and save IRQ state.">wise_core_enter_critical()</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>The macro assumes that <a class="el" href="#ga770acbc9bf18f2204fd1d81c65bcad07" title="Declare and initialize a local IRQ state variable.">CORE_DECLARE_IRQ_STATE</a> was used earlier in the same scope to declare <code>irqState</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00196">196</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00201">201</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -249,13 +249,13 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="#ga8eca834bff389fc5c457e74d4143caab">wise_core_exit_critical</a>(irqState)</div>
-<div class="ttc" id="agroup___w_i_s_e___c_o_r_e_html_ga8eca834bff389fc5c457e74d4143caab"><div class="ttname"><a href="#ga8eca834bff389fc5c457e74d4143caab">wise_core_exit_critical</a></div><div class="ttdeci">void wise_core_exit_critical(core_irq_state_t irqState)</div><div class="ttdoc">Exit a critical section and restore IRQ state.</div><div class="ttdef"><b>Definition</b> <a href="wise__core_8c_source.html#l00056">wise_core.c:56</a></div></div>
+<div class="ttc" id="agroup___w_i_s_e___c_o_r_e_html_ga8eca834bff389fc5c457e74d4143caab"><div class="ttname"><a href="#ga8eca834bff389fc5c457e74d4143caab">wise_core_exit_critical</a></div><div class="ttdeci">void wise_core_exit_critical(core_irq_state_t irqState)</div><div class="ttdoc">Exit a critical section and restore IRQ state.</div><div class="ttdef"><b>Definition</b> <a href="wise__core_8c_source.html#l00066">wise_core.c:66</a></div></div>
 </div><!-- fragment -->
 <p>Exit a critical section (macro form). </p>
 <p>Restores the previously saved IRQ state by calling <a class="el" href="#ga8eca834bff389fc5c457e74d4143caab" title="Exit a critical section and restore IRQ state.">wise_core_exit_critical()</a> with <code>irqState</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>The macro assumes that <a class="el" href="#ga770acbc9bf18f2204fd1d81c65bcad07" title="Declare and initialize a local IRQ state variable.">CORE_DECLARE_IRQ_STATE</a> was used earlier in the same scope to declare <code>irqState</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00208">208</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00213">213</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -279,7 +279,7 @@ Core status codes</h2></td></tr>
 <p>Evaluates to non-zero if the current context is inside an interrupt service routine. Otherwise, it evaluates to zero.</p>
 <dl class="section return"><dt>Returns</dt><dd>Non-zero if running in an ISR, zero otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00219">219</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00224">224</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -295,7 +295,7 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00277">277</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00282">282</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -311,7 +311,7 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00278">278</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00283">283</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -327,7 +327,7 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00279">279</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00284">284</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -343,7 +343,7 @@ Core status codes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00280">280</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00285">285</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
@@ -487,7 +487,7 @@ Core status codes</h2></td></tr>
 <p>Disable all interrupts. </p>
 <p>Disables global interrupts to prevent any interrupt service routines (ISRs) from being executed. This is typically used for very short critical sections where nesting is not required. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00039">39</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00049">49</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>
@@ -509,7 +509,7 @@ Core status codes</h2></td></tr>
 <p>Enable all interrupts. </p>
 <p>Restores global interrupt enable state so that interrupt service routines (ISRs) can be executed. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00044">44</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00054">54</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>
@@ -532,7 +532,7 @@ Core status codes</h2></td></tr>
 <p>Disables interrupts and returns the previous interrupt state. The saved state must later be passed to <a class="el" href="#ga8eca834bff389fc5c457e74d4143caab" title="Exit a critical section and restore IRQ state.">wise_core_exit_critical</a> to restore the original interrupt configuration.</p>
 <dl class="section return"><dt>Returns</dt><dd>The saved interrupt state to be used with <a class="el" href="#ga8eca834bff389fc5c457e74d4143caab" title="Exit a critical section and restore IRQ state.">wise_core_exit_critical</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00049">49</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00059">59</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>
@@ -560,7 +560,7 @@ Core status codes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00056">56</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00066">66</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>
@@ -588,7 +588,7 @@ Core status codes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00030">30</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00038">38</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>
@@ -612,7 +612,7 @@ Core status codes</h2></td></tr>
 <p>Checks the chip ID first. On a mismatch it returns immediately without touching PMU, XIP or cache registers. Otherwise it initialises the system, configures XIP mode (where supported) and enables the 8K flash cache. Once the chip ID matches, every step runs even if an earlier one fails; the failure is reported through the return value only.</p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="#gab2c6b18caf0c7cd1ca9baa2bc6a3e835">WISE_SUCCESS</a> on success, or <a class="el" href="#ga25e5ffe7bb8fc877874cde1c15aefc06">WISE_FAIL</a> (or a negative value) when the chip ID does not match, XIP configuration fails, or the cache cannot be configured. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00063">63</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8c_source.html#l00073">73</a> of file <a class="el" href="wise__core_8c_source.html">wise_core.c</a>.</p>
 
 </div>
 </div>

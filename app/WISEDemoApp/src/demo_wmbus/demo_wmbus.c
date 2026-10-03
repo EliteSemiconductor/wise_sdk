@@ -735,8 +735,14 @@ static volatile uint32_t perRxGoodCount = 0;
 /** @brief Number of RX_ERR / invalid frames seen by the PER receiver. */
 static volatile uint32_t perRxErrCount = 0;
 
-/** @brief Number of valid frames whose access number was not the expected one. */
-static volatile uint32_t perSeqErrCount = 0;
+/** @brief Valid frames whose access number was the expected (previous + 1) one. */
+static volatile uint32_t perSeqOkCount = 0;
+
+/** @brief Valid frames whose access number repeated the previous frame's (fixed-pattern source). */
+static volatile uint32_t perSeqDupCount = 0;
+
+/** @brief Valid frames whose access number skipped ahead or went elsewhere (frames lost). */
+static volatile uint32_t perSeqGapCount = 0;
 
 /** @brief Sum of RSSI over valid frames, for the average in the report. */
 static volatile int32_t perRssiSum = 0;
@@ -791,8 +797,11 @@ static int8_t _wmbus_radio_setup(wmbus_mode_t mode, CORE_IO_MODE_T txIoMode, WIS
 /**
  * @brief Radio event callback used while the PER receiver is running.
  *
- * Counts valid frames, RSSI, and access-number gaps. The frame is released
- * and @ref perRxRestart is raised so the command loop re-arms one-shot RX.
+ * Every valid frame counts as received. The STL access number is additionally
+ * classified against the previous frame as in-order (+1), repeated (same
+ * value, e.g. a signal generator replaying one fixed pattern) or gap
+ * (anything else). The frame is released and @ref perRxRestart is raised so
+ * the command loop re-arms one-shot RX.
  *
  * @param[in] evt Bitmask of radio events.
  */
@@ -813,11 +822,17 @@ static void radioPEREventCb(WISE_RADIO_EVT_T evt)
             perRxGoodCount++;
             perRssiSum += meta.rssi;
 
-            if (perRxExpectValid && (stl->accessNumber != perRxExpect)) {
-                perSeqErrCount++;
-                debug_print("X");
-            } else {
+            if (!perRxExpectValid) {
+                debug_print("<");                               /* first frame: nothing to compare against */
+            } else if (stl->accessNumber == perRxExpect) {
+                perSeqOkCount++;
                 debug_print("<");
+            } else if (stl->accessNumber == (uint8_t)(perRxExpect - 1)) {
+                perSeqDupCount++;
+                debug_print("=");
+            } else {
+                perSeqGapCount++;
+                debug_print("X");
             }
 
             perRxExpect      = (uint8_t)(stl->accessNumber + 1);
@@ -834,10 +849,11 @@ static void radioPEREventCb(WISE_RADIO_EVT_T evt)
 }
 
 /**
- * @brief PER sender: transmit @p count unencrypted SND_NR frames.
+ * @brief PER sender: transmit @p count short unencrypted SND_NR frames.
  *
- * The STL access number carries the sequence (0, 1, 2, ...) so the receiver
- * can detect gaps. Ctrl+C aborts early.
+ * Each frame is DLL header + STL header only (10 + 5 = 15 bytes, L-field 14, no payload), built by
+ * ::wmbus_setup_null_frame(). The STL access number carries the sequence
+ * (0, 1, 2, ...) so the receiver can detect gaps. Ctrl+C aborts early.
  *
  * @param[in] count      Number of frames to send.
  * @param[in] intervalMs Delay between frames in milliseconds.
@@ -858,7 +874,7 @@ static void _per_run_tx(uint32_t count, uint32_t intervalMs)
         }
 
         memset(mbusTxBuffer, 0, WMBUS_TX_BUF_LEN);
-        frameLen = wmbus_setup_tx_frame(mbusTxBuffer, (uint8_t)sent, wmbusAccessbility, true, false);
+        frameLen = wmbus_setup_null_frame(mbusTxBuffer, (uint8_t)sent, wmbusAccessbility, true, false);
 
         if (WISE_SUCCESS != wise_radio_wmbus_tx_frame(WMBUS_RADIO_INTF, mbusTxBuffer, frameLen)) {
             debug_print("!");
@@ -876,8 +892,10 @@ static void _per_run_tx(uint32_t count, uint32_t intervalMs)
  * @brief PER receiver: listen until @p expected frames arrive, then report.
  *
  * Stops on: expected count reached, @ref PER_RX_IDLE_TIMEOUT_MS without a
- * frame after the first one, or Ctrl+C. Prints received/expected, average
- * RSSI, sequence gaps and PER.
+ * frame after the first one, or Ctrl+C. Prints received/expected, RX errors,
+ * the access-number classification (in order / repeated / gaps), average
+ * RSSI and PER. Repeated access numbers still count as received so that a
+ * signal generator replaying one fixed frame can be used as the source.
  *
  * @param[in] expected Number of frames the sender is expected to transmit.
  */
@@ -890,7 +908,9 @@ static void _per_run_rx(uint32_t expected)
 
     perRxGoodCount   = 0;
     perRxErrCount    = 0;
-    perSeqErrCount   = 0;
+    perSeqOkCount    = 0;
+    perSeqDupCount   = 0;
+    perSeqGapCount   = 0;
     perRssiSum       = 0;
     perRxExpect      = 0;
     perRxExpectValid = 0;
@@ -932,8 +952,12 @@ static void _per_run_rx(uint32_t expected)
 
     printf("\r\nPER test result:\r\n");
     printf("    %lu/%lu frames received\r\n", (unsigned long)perRxGoodCount, (unsigned long)expected);
-    printf("    rx error frames: %lu, sequence gaps: %lu\r\n",
-           (unsigned long)perRxErrCount, (unsigned long)perSeqErrCount);
+    printf("    rx error frames: %lu\r\n", (unsigned long)perRxErrCount);
+    printf("    access number: %lu in order, %lu repeated, %lu gaps\r\n",
+           (unsigned long)perSeqOkCount, (unsigned long)perSeqDupCount, (unsigned long)perSeqGapCount);
+    if ((perRxGoodCount > 1) && (perSeqOkCount == 0) && (perSeqGapCount == 0)) {
+        printf("    (access number never changed: fixed-pattern transmitter, gap count not meaningful)\r\n");
+    }
     if (perRxGoodCount > 0) {
         printf("    average rssi: %d\r\n", (int)(perRssiSum / (int32_t)perRxGoodCount));
     }

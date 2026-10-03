@@ -6,5 +6,8 @@ var group___w_i_s_e___m_i_d_d_l_e_w_a_r_e =
     [ "wise_kermit.h", "wise__kermit_8h.html", null ],
     [ "wise_nvm_api.h", "wise__nvm__api_8h.html", null ],
     [ "wise_timer_hub.h", "wise__timer__hub_8h.html", null ],
-    [ "wise_wmbus_crypto.h", "wise__wmbus__crypto_8h.html", null ]
+    [ "wise_wmbus_crypto.h", "wise__wmbus__crypto_8h.html", null ],
+    [ "wise_epd_api.h", "wise__epd__api_8h.html", null ],
+    [ "wise_epd_drivers.h", "wise__epd__drivers_8h.html", null ],
+    [ "wise_epd_drv.h", "wise__epd__drv_8h.html", null ]
 ];

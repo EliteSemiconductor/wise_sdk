@@ -84,10 +84,15 @@ typedef uint32_t core_irq_state_t;
  * @brief SDK version information.
  *
  * Contains SDK version numbers and a signature for build identification.
+ * The version is displayed as `major.minor.release` with minor and release
+ * zero-padded to 2 digits, e.g. 4.13.02 is major 4, minor 13, release 2:
+ * `printf("WISE SDK Version %d.%02d.%02d", v.verMajor, v.verMinor, v.verRelease);`
  */
 typedef struct {
-    uint16_t verMajor;      /**< Major version number. */
-    uint16_t verMinor;      /**< Minor version number. */
+    uint8_t  verMajor;      /**< Major version number. */
+    uint8_t  verMinor;      /**< Minor version number (0-99), increased for each phase 2 release. */
+    uint8_t  verRelease;    /**< Internal release number (0-99), increased for each phase 1 release to AE. */
+    uint8_t  reserved;      /**< Reserved, always 0. */
     uint32_t signature;     /**< Build signature or identification code. */
 } WISE_SDK_VERSION_T;
 

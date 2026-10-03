@@ -10,11 +10,12 @@ var searchData=
   ['timercallbacks_7',['timerCallbacks',['../wise__gptmr__api_8c.html#aa0783c6867c0821d4e564a65a40eed1a',1,'wise_gptmr_api.c']]],
   ['timerinited_8',['timerInited',['../wise__gptmr__api_8c.html#ae1cee111712b852f0e71a79d4ec4fb45',1,'wise_gptmr_api.c']]],
   ['timestamp_9',['timestamp',['../struct_w_i_s_e___r_x___m_e_t_a___t.html#ac8e31b8b5f43ee97b79853e7392453ee',1,'WISE_RX_META_T']]],
-  ['total_5fpayload_5flen_10',['total_payload_len',['../struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a686874c1993c93cfa5f9a6aeefe05f4c',1,'WISE_AES_CCM_CTX_T']]],
-  ['trans_5fmode_11',['trans_mode',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a332f8b54436b1b755865ce6406d0b4f1',1,'WISE_SPI_XFER_MSG_T']]],
-  ['trngbuffer_12',['trngBuffer',['../wise__trng__api_8c.html#ac328ca023951a3ee4f8c6d2ce5721aa9',1,'wise_trng_api.c']]],
-  ['tx_5fdata_5fbuff_13',['tx_data_buff',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a66925171b7fe431a2c365ea388d57614',1,'WISE_SPI_XFER_MSG_T']]],
-  ['tx_5funit_5fcount_14',['tx_unit_count',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a49b27690f35058e407a2e0594e57166b',1,'WISE_SPI_XFER_MSG_T']]],
-  ['txfifo_15',['txFifo',['../struct_s_t___w_i_s_e___u_a_r_t___c_t_r_l___t.html#a8e592644427ad26ed997ce195c8cbb10',1,'ST_WISE_UART_CTRL_T']]],
-  ['type_16',['type',['../struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a7b72382c105492dc7667e88edc73f4e3',1,'WISE_TIMER_CTRL_T']]]
+  ['timing_10',['timing',['../struct_w_i_s_e___e_p_d___d_r_v___s.html#a9c6a3901f8682e5186b02e9a26f11178',1,'WISE_EPD_DRV_S']]],
+  ['total_5fpayload_5flen_11',['total_payload_len',['../struct_w_i_s_e___a_e_s___c_c_m___c_t_x___t.html#a686874c1993c93cfa5f9a6aeefe05f4c',1,'WISE_AES_CCM_CTX_T']]],
+  ['trans_5fmode_12',['trans_mode',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a332f8b54436b1b755865ce6406d0b4f1',1,'WISE_SPI_XFER_MSG_T']]],
+  ['trngbuffer_13',['trngBuffer',['../wise__trng__api_8c.html#ac328ca023951a3ee4f8c6d2ce5721aa9',1,'wise_trng_api.c']]],
+  ['tx_5fdata_5fbuff_14',['tx_data_buff',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a66925171b7fe431a2c365ea388d57614',1,'WISE_SPI_XFER_MSG_T']]],
+  ['tx_5funit_5fcount_15',['tx_unit_count',['../struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#a49b27690f35058e407a2e0594e57166b',1,'WISE_SPI_XFER_MSG_T']]],
+  ['txfifo_16',['txFifo',['../struct_s_t___w_i_s_e___u_a_r_t___c_t_r_l___t.html#a8e592644427ad26ed997ce195c8cbb10',1,'ST_WISE_UART_CTRL_T']]],
+  ['type_17',['type',['../struct_w_i_s_e___t_i_m_e_r___c_t_r_l___t.html#a7b72382c105492dc7667e88edc73f4e3',1,'WISE_TIMER_CTRL_T']]]
 ];

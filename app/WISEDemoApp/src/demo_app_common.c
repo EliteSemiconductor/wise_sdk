@@ -28,7 +28,7 @@ void print_banner(char* appName)
     printf("============================================\n");
     printf("   ESMT WISE Demo Application: %s\n", appName);
     printf("   Built@ %s %s\n", __DATE__, __TIME__);
-    printf("   WISE SDK Version %d.%04d %08x\n", sdkVer.verMajor, sdkVer.verMinor, sdkVer.signature);
+    printf("   WISE SDK Version %d.%02d %08x\n", sdkVer.verMajor, sdkVer.verMinor, sdkVer.signature);
     printf("   Radio Platform: %s V%d.%02d.%02d\n", radioVer.platform_name, radioVer.ver_major, radioVer.ver_minor, radioVer.ver_build);
     printf("   Chip Unique: ");
     print_bytes(chipUnique, 8);

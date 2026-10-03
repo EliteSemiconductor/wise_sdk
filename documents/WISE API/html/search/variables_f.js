@@ -13,7 +13,10 @@ var searchData=
   ['pkt_5ftype_10',['pkt_type',['../struct_w_i_s_e___r_a_d_i_o___p_k_t___f_m_t___t.html#a3c38dc0f97155720fa8fd3ba72311bd8',1,'WISE_RADIO_PKT_FMT_T']]],
   ['platform_5fid_11',['platform_id',['../struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#add4f8dec816e1b6bef6bf429203f4ff0',1,'WISE_RADIO_VERSION_INFO_T']]],
   ['platform_5fname_12',['platform_name',['../struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a608f1a7a3b4190c2a5f66c4036d71a98',1,'WISE_RADIO_VERSION_INFO_T']]],
-  ['preamble_13',['preamble',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#ac70673ddefc7a9d87a1ef9548ad24dcc',1,'WISE_RADIO_CFG_T']]],
-  ['preamble_5flen_14',['preamble_len',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#a97e502a869de4351dc1fc8f491e45a2e',1,'WISE_RADIO_CFG_T']]],
-  ['pts_15',['pts',['../struct_w_i_s_e___a_s_a_r_a_d_c___c_a_l_i_b___t.html#aaaabe3e8ce44fd407e28e147b85744f8',1,'WISE_ASARADC_CALIB_T']]]
+  ['power_5fon_5fms_13',['power_on_ms',['../struct_w_i_s_e___e_p_d___t_i_m_i_n_g___t.html#af321cb0c14702db8681eafad76b6ae79',1,'WISE_EPD_TIMING_T']]],
+  ['preamble_14',['preamble',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#ac70673ddefc7a9d87a1ef9548ad24dcc',1,'WISE_RADIO_CFG_T']]],
+  ['preamble_5flen_15',['preamble_len',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#a97e502a869de4351dc1fc8f491e45a2e',1,'WISE_RADIO_CFG_T']]],
+  ['pts_16',['pts',['../struct_w_i_s_e___a_s_a_r_a_d_c___c_a_l_i_b___t.html#aaaabe3e8ce44fd407e28e147b85744f8',1,'WISE_ASARADC_CALIB_T']]],
+  ['pwr_5factive_5flevel_17',['pwr_active_level',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#af732193e0b75b1379fc8e47a9fa8144f',1,'WISE_EPD_CFG_T']]],
+  ['pwr_5fpin_18',['pwr_pin',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#ae014cb84ddd37a29f4b93b1de631eb58',1,'WISE_EPD_CFG_T']]]
 ];

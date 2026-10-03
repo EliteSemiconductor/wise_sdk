@@ -2,9 +2,11 @@ var group___w_i_s_e___c_o_r_e =
 [
     [ "wise_core.h", "wise__core_8h.html", null ],
     [ "WISE_SDK_VERSION_T", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html", [
+      [ "reserved", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a38bca2cf8d7896cba5aeb5f1469ba302", null ],
       [ "signature", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a61464f00edf5e53691d0bce867292cdf", null ],
-      [ "verMajor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a66b7e48711e6f08e8d66fb8eec5fbacd", null ],
-      [ "verMinor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a7876f86ad3cd64660004c437f7bb7e2b", null ]
+      [ "verMajor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a70ab0de257851ca43c329e8976763d04", null ],
+      [ "verMinor", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#abbde167b1f7d7bcf15180ee61d547b61", null ],
+      [ "verRelease", "struct_w_i_s_e___s_d_k___v_e_r_s_i_o_n___t.html#a14053ec48d3042a11cc312ec192bb6f3", null ]
     ] ],
     [ "WISE_BUFFER_T", "struct_w_i_s_e___b_u_f_f_e_r___t.html", [
       [ "addr", "struct_w_i_s_e___b_u_f_f_e_r___t.html#a6e23e96b827c5bf8addc7e8c57331c9b", null ],

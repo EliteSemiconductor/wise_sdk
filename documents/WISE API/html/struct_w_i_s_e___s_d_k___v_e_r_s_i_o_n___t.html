@@ -126,16 +126,35 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_w_i_s_e
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a66b7e48711e6f08e8d66fb8eec5fbacd" id="r_a66b7e48711e6f08e8d66fb8eec5fbacd"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a66b7e48711e6f08e8d66fb8eec5fbacd">verMajor</a></td></tr>
-<tr class="memitem:a7876f86ad3cd64660004c437f7bb7e2b" id="r_a7876f86ad3cd64660004c437f7bb7e2b"><td class="memItemLeft">uint16_t&#160;</td><td class="memItemRight"><a class="el" href="#a7876f86ad3cd64660004c437f7bb7e2b">verMinor</a></td></tr>
+<tr class="memitem:a70ab0de257851ca43c329e8976763d04" id="r_a70ab0de257851ca43c329e8976763d04"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a70ab0de257851ca43c329e8976763d04">verMajor</a></td></tr>
+<tr class="memitem:abbde167b1f7d7bcf15180ee61d547b61" id="r_abbde167b1f7d7bcf15180ee61d547b61"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#abbde167b1f7d7bcf15180ee61d547b61">verMinor</a></td></tr>
+<tr class="memitem:a14053ec48d3042a11cc312ec192bb6f3" id="r_a14053ec48d3042a11cc312ec192bb6f3"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a14053ec48d3042a11cc312ec192bb6f3">verRelease</a></td></tr>
+<tr class="memitem:a38bca2cf8d7896cba5aeb5f1469ba302" id="r_a38bca2cf8d7896cba5aeb5f1469ba302"><td class="memItemLeft">uint8_t&#160;</td><td class="memItemRight"><a class="el" href="#a38bca2cf8d7896cba5aeb5f1469ba302">reserved</a></td></tr>
 <tr class="memitem:a61464f00edf5e53691d0bce867292cdf" id="r_a61464f00edf5e53691d0bce867292cdf"><td class="memItemLeft">uint32_t&#160;</td><td class="memItemRight"><a class="el" href="#a61464f00edf5e53691d0bce867292cdf">signature</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>SDK version information. </p>
-<p>Contains SDK version numbers and a signature for build identification. </p>
+<p>Contains SDK version numbers and a signature for build identification. The version is displayed as <span class="tt">major.minor.release</span> with minor and release zero-padded to 2 digits, e.g. 4.13.02 is major 4, minor 13, release 2: <span class="tt">printf("WISE SDK Version d.%02d.%02d", v.verMajor, v.verMinor, v.verRelease);</span> </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00088">88</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00091">91</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
+<a id="a38bca2cf8d7896cba5aeb5f1469ba302" name="a38bca2cf8d7896cba5aeb5f1469ba302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38bca2cf8d7896cba5aeb5f1469ba302">&#9670;&#160;</a></span>reserved</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WISE_SDK_VERSION_T::reserved</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reserved, always 0. </p>
+
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00095">95</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+
+</div>
+</div>
 <a id="a61464f00edf5e53691d0bce867292cdf" name="a61464f00edf5e53691d0bce867292cdf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a61464f00edf5e53691d0bce867292cdf">&#9670;&#160;</a></span>signature</h2>
 
@@ -149,41 +168,58 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Build signature or identification code. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00091">91</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00096">96</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
-<a id="a66b7e48711e6f08e8d66fb8eec5fbacd" name="a66b7e48711e6f08e8d66fb8eec5fbacd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66b7e48711e6f08e8d66fb8eec5fbacd">&#9670;&#160;</a></span>verMajor</h2>
+<a id="a70ab0de257851ca43c329e8976763d04" name="a70ab0de257851ca43c329e8976763d04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70ab0de257851ca43c329e8976763d04">&#9670;&#160;</a></span>verMajor</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t WISE_SDK_VERSION_T::verMajor</td>
+          <td class="memname">uint8_t WISE_SDK_VERSION_T::verMajor</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Major version number. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00089">89</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00092">92</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>
-<a id="a7876f86ad3cd64660004c437f7bb7e2b" name="a7876f86ad3cd64660004c437f7bb7e2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7876f86ad3cd64660004c437f7bb7e2b">&#9670;&#160;</a></span>verMinor</h2>
+<a id="abbde167b1f7d7bcf15180ee61d547b61" name="abbde167b1f7d7bcf15180ee61d547b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbde167b1f7d7bcf15180ee61d547b61">&#9670;&#160;</a></span>verMinor</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t WISE_SDK_VERSION_T::verMinor</td>
+          <td class="memname">uint8_t WISE_SDK_VERSION_T::verMinor</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Minor version number. </p>
+<p>Minor version number (0-99), increased for each phase 2 release. </p>
 
-<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00090">90</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00093">93</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
+
+</div>
+</div>
+<a id="a14053ec48d3042a11cc312ec192bb6f3" name="a14053ec48d3042a11cc312ec192bb6f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14053ec48d3042a11cc312ec192bb6f3">&#9670;&#160;</a></span>verRelease</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t WISE_SDK_VERSION_T::verRelease</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Internal release number (0-99), increased for each phase 1 release to AE. </p>
+
+<p class="definition">Definition at line <a class="el" href="wise__core_8h_source.html#l00094">94</a> of file <a class="el" href="wise__core_8h_source.html">wise_core.h</a>.</p>
 
 </div>
 </div>

@@ -52,13 +52,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___i2_c.html#ga8345102ab98b0ef385f51d218440822d",
-"group___w_i_s_e___i2_c.html#ga0f6e6e264a01acbbae97c7989991b8ca",
-"group___w_i_s_e___r_t_c.html#gga1109441c9cb829b4299431666dbc5639a1e30b940bc6d14fb6ebf3077b2a3f601",
-"group___w_i_s_e___s_y_s.html#ga43723c67bd8713adc39c8d3f92daa666",
-"struct_s_t___f_l_a_s_h___i_n_f_o___t.html#a2b16e28ea0f5a3e70290137dcee09cac",
-"struct_w_i_s_e___s_p_i___x_f_e_r___m_s_g___t.html#aac751b8da29cba7fdffc8296d8e66ef4",
-"wise__xcvr__api_8c.html#a2ff3081f1a757a1e015264a32d943c9d"
+"group___w_i_s_e___e_x_a_m_p_l_e___a_p_p___i2_c.html#ga79de6159bcfe58ef822b45491dd3cb0e",
+"group___w_i_s_e___i2_c.html#ga06418a6c14e04174a008a601f21f9967",
+"group___w_i_s_e___r_t_c.html#gga1109441c9cb829b4299431666dbc5639a1127b85be805979d675e9da6e3adfd8d",
+"group___w_i_s_e___s_y_s.html#ga3ba6b95307853c5358eefe5d47a3617b",
+"struct_s_t___f_l_a_s_h___i_n_f_o___t.html#a0183578a4e6af136bd56958fe0817fa5",
+"struct_w_i_s_e___r_a_d_i_o___v_e_r_s_i_o_n___i_n_f_o___t.html#a85e431f635cbbdf70a6bd6fb98f862fc",
+"wise__sys__api_8c.html#a96bd38964540ce7aa784390af1c660ee"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

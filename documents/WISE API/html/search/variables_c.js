@@ -13,5 +13,6 @@ var searchData=
   ['mode_5f32k_10',['mode_32k',['../struct_w_i_s_e___l_f_o_s_c___s_r_c___t.html#ad228b88b5e1c8f1f0f4debf485bc425e',1,'WISE_LFOSC_SRC_T']]],
   ['mode_5fselect_11',['mode_select',['../struct_w_i_s_e___l_f_o_s_c___s_r_c___t.html#ad2ce10e60fee1a02c376959cd9a5b7d8',1,'WISE_LFOSC_SRC_T']]],
   ['modulation_12',['modulation',['../struct_w_i_s_e___r_a_d_i_o___c_f_g___t.html#aee4cc6eebdc4e3f5fc6f85711e227062',1,'WISE_RADIO_CFG_T']]],
-  ['mv_13',['mv',['../struct_w_i_s_e___a_s_a_r_a_d_c___p_t___t.html#ad60925b3e5add09e4d315b9165d5b10d',1,'WISE_ASARADC_PT_T']]]
+  ['mosi_5fpin_13',['mosi_pin',['../struct_w_i_s_e___e_p_d___c_f_g___t.html#aeed8207593d782b9289000b14c80aab2',1,'WISE_EPD_CFG_T']]],
+  ['mv_14',['mv',['../struct_w_i_s_e___a_s_a_r_a_d_c___p_t___t.html#ad60925b3e5add09e4d315b9165d5b10d',1,'WISE_ASARADC_PT_T']]]
 ];
